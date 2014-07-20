@@ -4,7 +4,9 @@ import java.io.*;
 public class DefaultGateway {
  
     public static void main(String args[]) {
-        String cmdOutput = ping("google.com");
+
+        System.out.println("wriiten on windows");
+	String cmdOutput = ping("google.com");
         System.out.println("Output: " + cmdOutput);
     }
 
