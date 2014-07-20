@@ -1,4 +1,7 @@
-
+//to send to linux, commit, and push to remote.
+//then go to /home/slack/hostmon and fetch.
+//to send to windows, commit, and push to remote.
+//go to team, fetch from remote
 import java.io.*;
  
 public class DefaultGateway {
