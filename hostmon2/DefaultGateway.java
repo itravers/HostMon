@@ -1,11 +1,14 @@
-
+//to send to linux, commit, and push to remote.
+//then go to /home/slack/hostmon and fetch.
+//to send to windows, commit, and push to remote.
+//go to team, fetch from remote
 import java.io.*;
  
 public class DefaultGateway {
  
     public static void main(String args[]) {
 
-        System.out.println("wriiten on wlinux");
+        System.out.println("writen on linux");
 	String cmdOutput = ping("google.com");
         System.out.println("Output: " + cmdOutput);
     }
