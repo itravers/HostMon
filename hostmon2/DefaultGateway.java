@@ -8,7 +8,7 @@ public class DefaultGateway {
  
     public static void main(String args[]) {
 
-        System.out.println("writen on windows ");
+        System.out.println("writen on linux1 ");
 	String cmdOutput = ping("google.com");
         System.out.println("Output: " + cmdOutput);
     }
