@@ -1,5 +1,5 @@
 //to send to linux, commit, and push to remote.
-//then go to /home/slack/hostmon and fetch.
+//then go to /home/slack/hostmon and fetch. then git merge --no-ff origin/master master
 //to send to windows, commit, and push to remote.
 //go to team, fetch from remote
 import java.io.*;
@@ -8,7 +8,7 @@ public class DefaultGateway {
  
     public static void main(String args[]) {
 
-        System.out.println("writen on linux");
+        System.out.println("writen on windows ");
 	String cmdOutput = ping("google.com");
         System.out.println("Output: " + cmdOutput);
     }
