@@ -1,5 +1,5 @@
 //to send to linux, commit, and push to remote.
-//then go to /home/slack/hostmon and fetch. then git merge --no-ff origin/master master
+//then go to /home/slack/hostmon and git pull origin
 //to send to windows, commit, and push to remote.
 //go to team, fetch from remote
 import java.io.*;
