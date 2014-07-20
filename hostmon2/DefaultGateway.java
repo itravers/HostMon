@@ -5,7 +5,7 @@ public class DefaultGateway {
  
     public static void main(String args[]) {
 
-        System.out.println("wriiten on windows");
+        System.out.println("wriiten on wlinux");
 	String cmdOutput = ping("google.com");
         System.out.println("Output: " + cmdOutput);
     }
