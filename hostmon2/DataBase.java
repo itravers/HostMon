@@ -59,10 +59,17 @@ public class DataBase {
 		return null;
 	}
 	
-	/*Private Methods*/
+	/* Private Methods */
 	
-	/*
-	 * Field Objects and Variables
-	 */
+	/* Static Methods */
+	public static ArrayList<String> getDBOptions() {
+		return null;
+	}
+	
+	/* Field Objects and Variables */
 	ArrayList<String>options;
+
+	
+
+	
 }
