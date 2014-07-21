@@ -16,8 +16,10 @@ public class ThreadPool {
 	 * @param noOfThreads
 	 * @param maxNoOfTasks
 	 */
-	public ThreadPool(int noOfThreads, int maxNoOfTasks) {
-		queue = new PriorityBlockingQueue<PingThread>(maxNoOfTasks);
+	public ThreadPool(PriorityBlockingQueue<RunnablePing>queue, int noOfThreads) {
+		this.noOfThreads = noOfThreads;
+		this.queue = queue;
+		queue = new PriorityBlockingQueue<RunnablePing>();
 
 		for (int i = 0; i < noOfThreads; i++) {
 			threads.add(new PingThread(queue));
@@ -36,9 +38,12 @@ public class ThreadPool {
 		if (this.isStopped){
 			throw new IllegalStateException("ThreadPool is stopped");
 		}
-		this.queue.enqueue(task);
+		this.queue.add(task);
 	}
 
+	/**
+	 * Stop All Threads
+	 */
 	public synchronized void stop() {
 		this.isStopped = true;
 		for (PingThread thread : threads) {
@@ -52,5 +57,6 @@ public class ThreadPool {
 	private PriorityBlockingQueue queue = null;
 	private List<PingThread> threads = new ArrayList<PingThread>();
 	private boolean isStopped = false;
+	private int noOfThreads;
 
 }
