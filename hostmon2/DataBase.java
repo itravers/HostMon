@@ -12,6 +12,7 @@ public class DataBase {
 	 * @param options - Array List of options used for connecting and reading from db.
 	 */
 	public DataBase(ArrayList<String>options){
+		Functions.debug("DataBase DataBase()");
 		this.options = options;
 	}
 	
@@ -22,6 +23,7 @@ public class DataBase {
 	 * @return True if db is now open. Else, False.
 	 */
 	public boolean open(){
+		Functions.debug("DataBase open()");
 		return false;
 	}
 	
@@ -30,6 +32,7 @@ public class DataBase {
 	 * @return True if Open
 	 */
 	public boolean isOpen(){
+		Functions.debug("DataBase isOpen()");
 		return false;
 	}
 	
@@ -38,6 +41,7 @@ public class DataBase {
 	 * @return True if Closed.
 	 */
 	public boolean close(){
+		Functions.debug("DataBase close()");
 		return false;
 	}
 	
@@ -47,6 +51,7 @@ public class DataBase {
 	 * @return
 	 */
 	public boolean write(String dbCommand){
+		Functions.debug("DataBase write()");
 		return false;
 	}
 	
@@ -56,6 +61,7 @@ public class DataBase {
 	 * @return
 	 */
 	public String read(String dbCommand){
+		Functions.debug("DataBase read()");
 		return null;
 	}
 	
@@ -63,13 +69,10 @@ public class DataBase {
 	
 	/* Static Methods */
 	public static ArrayList<String> getDBOptions() {
+		Functions.debug("DataBase getDBOptions()");
 		return null;
 	}
 	
 	/* Field Objects and Variables */
 	ArrayList<String>options;
-
-	
-
-	
 }

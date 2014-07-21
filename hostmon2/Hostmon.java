@@ -22,6 +22,7 @@ public class Hostmon {
 	 * The Constructor.
 	 */
 	public Hostmon(){
+		Functions.debug("Hostmon Hostmon()");
 		//Initialize Field Objects & Variables
 		init(); 
 	}
@@ -35,6 +36,7 @@ public class Hostmon {
 	 */
 	
 	private void init(){
+		Functions.debug("Hostmon init()");
 		//Retrieve the database connection options.
 		ArrayList <String> dbOptions = DataBase.getDBOptions();
 				
