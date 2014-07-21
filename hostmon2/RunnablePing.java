@@ -1,15 +1,23 @@
 import java.util.concurrent.PriorityBlockingQueue;
 
-
+/**
+ * The Runnable object that pings an ip, decodes the ping, adds a record to the database
+ * and checks
+ * @author admin
+ *
+ */
 public class RunnablePing  implements Comparable, Runnable{
 	
 	public RunnablePing(String ip, PriorityBlockingQueue<RunnablePing>queue){
+		active = true;
+		runTime = 0;
 		this.ip = ip;
 		this.queue	= queue;
 	}
 
 	@Override
 	public void run() {
+		long startTime = System.currentTimeMillis();
 		// TODO Auto-generated method stub
 		Functions.debug("RunnablePing run() " + ip);
 		try {
@@ -19,6 +27,7 @@ public class RunnablePing  implements Comparable, Runnable{
 			e.printStackTrace();
 		}
 		timeCompletedLast = System.currentTimeMillis();
+		runTime = System.currentTimeMillis() - startTime;
 	}
 
 	
@@ -43,11 +52,14 @@ public class RunnablePing  implements Comparable, Runnable{
 		return timeCompletedLast;
 	}
 	
+	public long getRunTime(){
+		return runTime;
+	}
+	
 	/* Field Objects & Variables */
 	private long timeCompletedLast;
-
-	
-
 	private String ip;
     private PriorityBlockingQueue<RunnablePing> queue;
+    private long runTime;
+    public boolean active;
 }
