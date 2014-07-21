@@ -19,7 +19,6 @@ public class ThreadPool {
 	public ThreadPool(PriorityBlockingQueue<RunnablePing>queue, int noOfThreads) {
 		this.noOfThreads = noOfThreads;
 		this.queue = queue;
-		queue = new PriorityBlockingQueue<RunnablePing>();
 
 		for (int i = 0; i < noOfThreads; i++) {
 			threads.add(new PingThread(queue));

@@ -39,7 +39,7 @@ public class LatencyChecker {
 	 */
 	private void mainLoop(){
 		test();
-		while(running){
+		//while(running){
 			Functions.debug("LatencyChecker mainLoop()");
 			
 			
@@ -49,12 +49,19 @@ public class LatencyChecker {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		//}
 	}
 	
 	private void test(){
 		//create a new RunnablePing, add it to the queue
 		pool.execute(new RunnablePing("google.com", queue));
+		pool.execute(new RunnablePing("facebook.com", queue));
+		pool.execute(new RunnablePing("reddit.com", queue));
+		pool.execute(new RunnablePing("gmail.com", queue));
+		pool.execute(new RunnablePing("digitalpath.com", queue));
+		pool.execute(new RunnablePing("w3schools.com", queue));
+		pool.execute(new RunnablePing("myspace.com", queue));
+		pool.execute(new RunnablePing("hotmail.com", queue));
 	}
 	
 	/**Initialize The Field Objects & Variables for the Class*/
