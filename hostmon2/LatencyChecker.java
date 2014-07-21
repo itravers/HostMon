@@ -40,7 +40,7 @@ public class LatencyChecker {
 	private void mainLoop(){
 		while(running){
 			Functions.debug("LatencyChecker mainLoop()");
-			
+			test();
 			
 			try {
 				Thread.sleep(1000);
@@ -51,12 +51,16 @@ public class LatencyChecker {
 		}
 	}
 	
+	private void test(){
+		//create a new RunnablePing, add it to the queue
+	}
+	
 	/**Initialize The Field Objects & Variables for the Class*/
 	private void init() {
 		Functions.debug("LatencyChecker init()");
 		this.db = db;
 		queue = new PriorityBlockingQueue();
-		pool = new ThreadPool(queue);
+		pool = new ThreadPool(queue, 5);
 		running = true;
 	}
 

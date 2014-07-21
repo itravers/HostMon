@@ -1,17 +1,19 @@
+import java.util.concurrent.PriorityBlockingQueue;
 
-public class PingThread extends Thread implements Comparable{
+
+public class PingThread extends Thread{
 	
-	 private BlockingQueue taskQueue = null;
-	  private boolean       isStopped = false;
+	 
 
-	  public PoolThread(BlockingQueue queue){
-	    taskQueue = queue;
+	  public PingThread(PriorityBlockingQueue<RunnablePing> queue){
+	    this.queue = queue;
+	    isStopped = false;
 	  }
 
 	  public void run(){
-	    while(!isStopped()){
+	    while(!isStopped){
 	      try{
-	        Runnable runnable = (Runnable) taskQueue.dequeue();
+	        Runnable runnable = (Runnable) queue.take();
 	        runnable.run();
 	      } catch(Exception e){
 	        //log or otherwise report exception,
@@ -20,19 +22,19 @@ public class PingThread extends Thread implements Comparable{
 	    }
 	  }
 
-	  public synchronized void stop(){
+	  public synchronized void stopThread(){
+		stop();
 	    isStopped = true;
 	    this.interrupt(); //break pool thread out of dequeue() call.
 	  }
 
-	  public synchronized void isStopped(){
+	  public synchronized boolean isStopped(){
 	    return isStopped;
 	  }
-
-	@Override
-	public int compareTo(Object arg0) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
+	/* Field Objects & Variables */
+	private PriorityBlockingQueue<RunnablePing> queue;
+	private boolean isStopped;
+	
 
 }
