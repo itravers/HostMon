@@ -12,7 +12,13 @@ public class RunnablePing  implements Comparable, Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 		Functions.debug("RunnablePing run() " + ip);
-		
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		timeCompletedLast = System.currentTimeMillis();
 	}
 
 	
