@@ -1,10 +1,17 @@
+import java.util.concurrent.PriorityBlockingQueue;
+
 
 public class RunnablePing  implements Comparable, Runnable{
+	
+	public RunnablePing(String ip, PriorityBlockingQueue<RunnablePing>queue){
+		this.ip = ip;
+		this.queue	= queue;
+	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		Functions.debug("RunnablePing run()");
+		Functions.debug("RunnablePing run() " + ip);
 		
 	}
 
@@ -35,5 +42,6 @@ public class RunnablePing  implements Comparable, Runnable{
 
 	
 
-
+	private String ip;
+    private PriorityBlockingQueue<RunnablePing> queue;
 }

@@ -38,9 +38,10 @@ public class LatencyChecker {
 	 * in the active list will be created and added to the queue.
 	 */
 	private void mainLoop(){
+		test();
 		while(running){
 			Functions.debug("LatencyChecker mainLoop()");
-			test();
+			
 			
 			try {
 				Thread.sleep(1000);
@@ -53,6 +54,7 @@ public class LatencyChecker {
 	
 	private void test(){
 		//create a new RunnablePing, add it to the queue
+		pool.execute(new RunnablePing("google.com", queue));
 	}
 	
 	/**Initialize The Field Objects & Variables for the Class*/
