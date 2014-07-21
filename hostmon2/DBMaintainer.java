@@ -6,6 +6,7 @@
 public class DBMaintainer {
 	
 	public DBMaintainer(DataBase db){
+		Functions.debug("DBMaintainer DBMaintainer()");
 		this.db = db;
 	}
 	

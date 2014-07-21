@@ -18,6 +18,7 @@ public class LatencyChecker {
 	 * @param db
 	 */
 	public LatencyChecker(DataBase db){
+		Functions.debug("LatencyChecker LatencyChecker()");
 		init();
 		mainLoop();
 	}
@@ -38,7 +39,7 @@ public class LatencyChecker {
 	 */
 	private void mainLoop(){
 		while(running){
-			System.out.println("LatencyChecker mainLoop()");
+			Functions.debug("LatencyChecker mainLoop()");
 			
 			
 			try {
@@ -52,6 +53,7 @@ public class LatencyChecker {
 	
 	/**Initialize The Field Objects & Variables for the Class*/
 	private void init() {
+		Functions.debug("LatencyChecker init()");
 		this.db = db;
 		queue = new PriorityBlockingQueue();
 		pool = new ThreadPool(queue);
