@@ -13,6 +13,7 @@ public class Hostmon {
 	 * The Program Start
 	 */
 	public static void main(String[] args) {
+		Functions.debug("Hostmon main()");
 		// TODO Auto-generated method stub
 		Hostmon hostmon = new Hostmon();
 	}
