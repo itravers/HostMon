@@ -21,7 +21,7 @@ public class ThreadPool {
 		this.queue = queue;
 		averageRunTime = 0;
 		totalRuns = 0;
-		goalAverageRunTime = 2500;
+		goalAverageRunTime = Functions.getAverageGoalTime();
 
 		for (int i = 0; i < noOfThreads; i++) {
 			threads.add(new PingThread(this, queue));
@@ -34,7 +34,7 @@ public class ThreadPool {
 	/* Public Methods. */
 	
 	public void addThread() {
-		if(threads.size() < 10){
+		if(threads.size() < 20){
 			PingThread thread;
 			if(stoppedThreads.size() > 0){
 				//there is a thread we can use in stoppedThreads

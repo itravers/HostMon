@@ -59,11 +59,22 @@ public class LatencyChecker {
 		pool.execute(new RunnablePing("reddit.com", queue));
 		pool.execute(new RunnablePing("gmail.com", queue));
 		pool.execute(new RunnablePing("digitalpath.com", queue));
-		//pool.execute(new RunnablePing("w3schools.com", queue));
-		//pool.execute(new RunnablePing("myspace.com", queue));
-		//pool.execute(new RunnablePing("hotmail.com", queue));
-		//pool.execute(new RunnablePing("youtube.com", queue));
-		//pool.execute(new RunnablePing("microsoft.com", queue));
+		pool.execute(new RunnablePing("w3schools.com", queue));
+		pool.execute(new RunnablePing("myspace.com", queue));
+		pool.execute(new RunnablePing("hotmail.com", queue));
+		pool.execute(new RunnablePing("youtube.com", queue));
+		pool.execute(new RunnablePing("microsoft.com", queue));
+		pool.execute(new RunnablePing("new.com", queue));
+		pool.execute(new RunnablePing("new.net", queue));
+		pool.execute(new RunnablePing("news.com", queue));
+		pool.execute(new RunnablePing("news.net", queue));
+		pool.execute(new RunnablePing("hello.com", queue));
+		pool.execute(new RunnablePing("hello.org", queue));
+		pool.execute(new RunnablePing("hello.net", queue));
+		pool.execute(new RunnablePing("xnxx.com", queue));
+		pool.execute(new RunnablePing("fightnight.com", queue));
+		pool.execute(new RunnablePing("xhamster.com", queue));
+		pool.execute(new RunnablePing("hbo.com", queue));
 	}
 	
 	/**Initialize The Field Objects & Variables for the Class*/
@@ -71,7 +82,7 @@ public class LatencyChecker {
 		Functions.debug("LatencyChecker init()");
 		this.db = db;
 		queue = new PriorityBlockingQueue();
-		pool = new ThreadPool(queue, 5);
+		pool = new ThreadPool(queue, Functions.getStartingThreads());
 		running = true;
 	}
 

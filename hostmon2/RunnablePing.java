@@ -9,6 +9,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 public class RunnablePing  implements Comparable, Runnable{
 	
 	public RunnablePing(String ip, PriorityBlockingQueue<RunnablePing>queue){
+		pinger = new Pinger();
 		active = true;
 		runTime = 0;
 		timeCompletedLast = 0;
@@ -19,14 +20,15 @@ public class RunnablePing  implements Comparable, Runnable{
 	@Override
 	public void run() {
 		long startTime = System.currentTimeMillis();
+		System.out.println("PING:: " + ip + " - " + pinger.ping(ip));
 		// TODO Auto-generated method stub
 		//Functions.debug("RunnablePing run() " + ip);
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//try {
+		//	Thread.sleep(500);
+		//} catch (InterruptedException e) {
+		//	// TODO Auto-generated catch block
+		//	e.printStackTrace();
+		//}
 		
 		//if timeCompletedLast is 0, this is first run and runtime is calculated from start
 		if(timeCompletedLast == 0){
@@ -71,4 +73,5 @@ public class RunnablePing  implements Comparable, Runnable{
     private PriorityBlockingQueue<RunnablePing> queue;
     private long runTime;
     public boolean active;
+    private Pinger pinger;
 }
