@@ -14,7 +14,9 @@ import java.util.concurrent.PriorityBlockingQueue;
  */
 public class PingThread extends Thread {
 
-	public PingThread(PriorityBlockingQueue<RunnablePing> queue) {
+	public PingThread(ThreadPool p, PriorityBlockingQueue<RunnablePing> queue) {
+		currentlyProcessing = false;
+		parent = p;
 		totalRunTime = 0;
 		numRuns = 0;
 		this.queue = queue;
@@ -22,7 +24,8 @@ public class PingThread extends Thread {
 	}
 
 	public void run() {
-		while (!isStopped) {
+		while (!isStopped && !Thread.currentThread().isInterrupted()) {
+			currentlyProcessing = true;
 			try {
 				RunnablePing runnable = (RunnablePing) queue.take();
 				runnable.run();
@@ -37,13 +40,65 @@ public class PingThread extends Thread {
 				}else{
 					//it'll get garbage collected by the jvm
 				}
-			} catch (Exception e) {
-				System.out.println(e);
+				
+				//check once in a while to see if our PARENTS averageRunTime is getting
+				//too much larger than our PARENTS goalAverageRunTime. If it is, and
+				//we don't have too many threads already, then we can create another 
+				//thread.
+				
+				//update PARENTS totalRuns, and averageRunTime
+				int pRuns = parent.getTotalRuns();
+				long pAverage = parent.getAverageRunTime();
+				long myAverage = getAverageRunTime();
+				long newPAverage =(pAverage + myAverage) / (2);
+				parent.addRun();
+				parent.setAverageRunTime(newPAverage);
+				System.out.println("ThreadPoolTHREADS: " + parent.getThreads().size());
+				System.out.println("ThreadPool - RUNS: " + parent.getTotalRuns());
+				System.out.println("ThreadPool - TIME: " + parent.getAverageRunTime());
+				//every 50 runs we will check if the parents average is meeting it's goals
+				//if it is, we check by how much, if it's meeting it's goal by 2x then we get
+				//rid of a thread. If it's not meeting it's goals we add a thread.
+				if(parent.getTotalRuns() % 50 == 0){
+					if(parent.getAverageRunTime() <= parent.getGoalRunTime()){
+						if((parent.getAverageRunTime() * 2) <= parent.getGoalRunTime()){
+							//average run time is less than half goal run time
+							Functions.debug("Exceeded Timing Goal, removing thread.");
+							parent.removeThread(this);
+						}else{
+							//we are hitting our timing goals, do nothing.
+							Functions.debug("Hit Timing Goal.");
+						}
+					}else if((parent.getAverageRunTime() / 2) > parent.getGoalRunTime()){
+						//if Average Run Time is 2x bigger than goal run time, we add a thread
+						Functions.debug("Missed Timing Goal, adding Thread");
+						parent.addThread();
+					}else{
+						//missed timing goal, but we are not bad enough to start another thread.
+						Functions.debug("Missed Timing Goal.");
+					}
+					for (PingThread thread : parent.getThreads()) {
+						thread.resetAverageRunTime();
+					}
+					//reset timers for parent, and me, and all brothers.
+					totalRunTime = myAverage;
+					parent.setAverageRunTime(myAverage);
+					parent.setTotalRuns(1);
+				}
+			} catch (InterruptedException consumed) {
+				System.out.println("THREAD INTERRUPTED");
 				// log or otherwise report exception,
 				// but keep pool thread alive.
 			}
-			
-			
+			//sleep for a second in currentlyProcessing = false mode
+			//to allow the threadpool to catch it when it is not processing
+			currentlyProcessing = false;
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -67,9 +122,11 @@ public class PingThread extends Thread {
 	}
 
 	/* Field Objects & Variables */
+	private ThreadPool parent;
 	private PriorityBlockingQueue<RunnablePing> queue;
 	private boolean isStopped;
 	private long totalRunTime;
 	private int numRuns;
+	public boolean currentlyProcessing;
 
 }

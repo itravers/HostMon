@@ -19,9 +19,12 @@ public class ThreadPool {
 	public ThreadPool(PriorityBlockingQueue<RunnablePing>queue, int noOfThreads) {
 		this.noOfThreads = noOfThreads;
 		this.queue = queue;
+		averageRunTime = 0;
+		totalRuns = 0;
+		goalAverageRunTime = 2000;
 
 		for (int i = 0; i < noOfThreads; i++) {
-			threads.add(new PingThread(queue));
+			threads.add(new PingThread(this, queue));
 		}
 		for (PingThread thread : threads) {
 			thread.start();
@@ -29,6 +32,31 @@ public class ThreadPool {
 	}
 	
 	/* Public Methods. */
+	
+	public void addThread() {
+		if(threads.size() < 10){
+			// TODO Auto-generated method stub
+			PingThread thread = new PingThread(this, queue);
+			threads.add(thread);
+			thread.start();
+		}
+	}
+	
+	public void removeThread(PingThread thread){
+		if(threads.size() > 1){
+			threads.remove(thread);
+			thread.interrupt();
+			//go through list, see if there is an item currentlyProcessing == false
+			//boolean success = false;
+			//for (PingThread thread : threads) {
+			//	if(thread.currentlyProcessing == false){
+			//		threads.remove(thread);
+			//		success = true;
+			//	}
+			
+			
+		}
+	}
 
 	/*
 	 * Enqueue a Task a Thread will get to it.
@@ -50,6 +78,34 @@ public class ThreadPool {
 		}
 	}
 	
+	public synchronized void setTotalRuns(int newRuns){
+		totalRuns = newRuns;
+	}
+	
+	public synchronized void setAverageRunTime(long newAvg){
+		averageRunTime = newAvg;
+	}
+	
+	public synchronized void addRun(){
+		setTotalRuns(getTotalRuns()+1);
+	}
+	
+	public synchronized int getTotalRuns(){
+		return totalRuns;
+	}
+	
+	public synchronized long getAverageRunTime(){
+		return averageRunTime;
+	}
+	
+	public synchronized long getGoalRunTime(){
+		return goalAverageRunTime;
+	}
+	
+	public synchronized ArrayList<PingThread> getThreads(){
+		return (ArrayList<PingThread>) threads;
+	}
+	
 	/* Private Methods */
 
 	/* Field Objects & Variables */
@@ -57,5 +113,10 @@ public class ThreadPool {
 	private List<PingThread> threads = new ArrayList<PingThread>();
 	private boolean isStopped = false;
 	private int noOfThreads;
+	private long averageRunTime;
+	private int totalRuns;
+	private long goalAverageRunTime;
+	
+	
 
 }
