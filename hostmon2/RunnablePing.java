@@ -11,6 +11,7 @@ public class RunnablePing  implements Comparable, Runnable{
 	public RunnablePing(String ip, PriorityBlockingQueue<RunnablePing>queue){
 		active = true;
 		runTime = 0;
+		timeCompletedLast = 0;
 		this.ip = ip;
 		this.queue	= queue;
 	}
@@ -19,15 +20,23 @@ public class RunnablePing  implements Comparable, Runnable{
 	public void run() {
 		long startTime = System.currentTimeMillis();
 		// TODO Auto-generated method stub
-		Functions.debug("RunnablePing run() " + ip);
+		//Functions.debug("RunnablePing run() " + ip);
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		//if timeCompletedLast is 0, this is first run and runtime is calculated from start
+		if(timeCompletedLast == 0){
+			runTime = System.currentTimeMillis() - startTime;
+		}else{
+			// else, we measure runtime from end to end
+			//calculate runTime endToEnd
+			runTime = System.currentTimeMillis() - timeCompletedLast;
+		}
 		timeCompletedLast = System.currentTimeMillis();
-		runTime = System.currentTimeMillis() - startTime;
 	}
 
 	
@@ -38,9 +47,9 @@ public class RunnablePing  implements Comparable, Runnable{
 	    int returnVal = 0;
 		
 	    RunnablePing p = (RunnablePing) o;
-	    if(getTimeCompleted() > p.getTimeCompleted()){
+	    if(getTimeCompleted() < p.getTimeCompleted()){
 	    	returnVal = BEFORE;
-	    }else if(getTimeCompleted() < p.getTimeCompleted()){
+	    }else if(getTimeCompleted() > p.getTimeCompleted()){
 	    	returnVal = AFTER;
 	    }else{
 	    	returnVal = EQUAL;
