@@ -22,7 +22,7 @@ public class RunnablePing  implements Comparable, Runnable{
 		// TODO Auto-generated method stub
 		//Functions.debug("RunnablePing run() " + ip);
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

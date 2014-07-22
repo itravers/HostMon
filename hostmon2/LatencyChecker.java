@@ -71,7 +71,7 @@ public class LatencyChecker {
 		Functions.debug("LatencyChecker init()");
 		this.db = db;
 		queue = new PriorityBlockingQueue();
-		pool = new ThreadPool(queue, 10);
+		pool = new ThreadPool(queue, 5);
 		running = true;
 	}
 

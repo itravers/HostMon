@@ -21,7 +21,7 @@ public class ThreadPool {
 		this.queue = queue;
 		averageRunTime = 0;
 		totalRuns = 0;
-		goalAverageRunTime = 2000;
+		goalAverageRunTime = 2500;
 
 		for (int i = 0; i < noOfThreads; i++) {
 			threads.add(new PingThread(this, queue));
@@ -35,24 +35,25 @@ public class ThreadPool {
 	
 	public void addThread() {
 		if(threads.size() < 10){
-			// TODO Auto-generated method stub
-			PingThread thread = new PingThread(this, queue);
+			PingThread thread;
+			if(stoppedThreads.size() > 0){
+				//there is a thread we can use in stoppedThreads
+				thread = stoppedThreads.remove(0);
+			}else{
+				thread = new PingThread(this, queue);
+				thread.start();
+			}
+			
 			threads.add(thread);
-			thread.start();
+			
 		}
 	}
 	
 	public void removeThread(PingThread thread){
 		if(threads.size() > 1){
 			threads.remove(thread);
-			thread.interrupt();
-			//go through list, see if there is an item currentlyProcessing == false
-			//boolean success = false;
-			//for (PingThread thread : threads) {
-			//	if(thread.currentlyProcessing == false){
-			//		threads.remove(thread);
-			//		success = true;
-			//	}
+			thread.stopThread();
+			stoppedThreads.add(thread);
 			
 			
 		}
@@ -111,11 +112,12 @@ public class ThreadPool {
 	/* Field Objects & Variables */
 	private PriorityBlockingQueue queue = null;
 	private List<PingThread> threads = new ArrayList<PingThread>();
+	private List<PingThread> stoppedThreads = new ArrayList<PingThread>();
 	private boolean isStopped = false;
 	private int noOfThreads;
 	private long averageRunTime;
 	private int totalRuns;
-	private long goalAverageRunTime;
+	public long goalAverageRunTime;
 	
 	
 
