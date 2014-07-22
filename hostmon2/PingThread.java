@@ -71,22 +71,15 @@ public class PingThread extends Thread {
 					//rid of a thread. If it's not meeting it's goals we add a thread.
 					if(parent.getTotalRuns() % 10 == 0){
 						if(parent.getAverageRunTime() <= parent.getGoalRunTime()){
-							if((parent.getAverageRunTime() * 2) <= parent.getGoalRunTime()){
+							if((parent.getAverageRunTime() + parent.getAverageRunTime()/3) <= parent.getGoalRunTime()){
 								//average run time is less than half goal run time
 								Functions.debug("Exceeded Timing Goal, removing thread.");
 								parent.removeThread(this);
 							}else{
 								//we are hitting our timing goals, do nothing.
 								Functions.debug("Hit Timing Goal.");
-								if(parent.goalAverageRunTime == 2500){
-									parent.goalAverageRunTime = 500;
-								}else if(parent.goalAverageRunTime == 2500){
-									parent.goalAverageRunTime = 500;
-								}
-								
-								
 							}
-						}else if((parent.getAverageRunTime() / 2) > parent.getGoalRunTime()){
+						}else if((parent.getAverageRunTime() - parent.getAverageRunTime()/5) > parent.getGoalRunTime()){
 							//if Average Run Time is 2x bigger than goal run time, we add a thread
 							Functions.debug("Missed Timing Goal, adding Thread");
 							parent.addThread();
