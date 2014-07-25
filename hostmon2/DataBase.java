@@ -11,7 +11,12 @@ public class DataBase {
 	public static void main(String[] args){
 		DataBase db = new DataBase(getDBOptions());
 		db.open();
-		db.recordPing("192.168.1.1", "000000", "300");
+		db.recordPing("192.168.1.1", "000000", "301");
+		db.recordPing("192.168.1.2", "000000", "302");
+		db.recordPing("192.168.1.3", "000000", "303");
+		db.recordPing("192.168.1.4", "000000", "304");
+		db.recordPing("192.168.1.5", "000000", "305");
+		db.recordPings();
 		db.close();
 		
 		
@@ -24,6 +29,7 @@ public class DataBase {
 	 */
 	public DataBase(ArrayList<String>options){
 		Functions.debug("DataBase DataBase()");
+		pingRecord = new ArrayList<ArrayList<String>>();
 		this.options = options;
 	}
 	
@@ -91,9 +97,19 @@ public class DataBase {
 	 * @param dbCommand
 	 * @return
 	 */
-	public boolean write(String dbCommand){
-		Functions.debug("DataBase write()");
-		return false;
+	public synchronized int write(String dbCommand){
+		int returnVal = 0;
+		Statement st;
+		try {
+			this.open();
+			st = conn.createStatement();
+			returnVal = st.executeUpdate(dbCommand);
+			this.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return returnVal;
 	}
 	
 	/**
@@ -101,7 +117,7 @@ public class DataBase {
 	 * @param dbCommand
 	 * @return
 	 */
-	public ResultSet read(String dbCommand){
+	public synchronized ResultSet read(String dbCommand){
 		ResultSet res = null;
 		try {
 			this.open();
@@ -116,21 +132,36 @@ public class DataBase {
 		return res;
 	}
 	
-	public void recordPing(String ip, String timeStamp, String latency){
-		String commandString = "INSERT into minute VALUES(default, '"+ip+"', '"+timeStamp+"','"+latency+"')";
-		Statement st;
+	/**
+	 * Inserts a list of ping records.
+	 */
+	private synchronized void recordPings() {
 		int val = 0;
-		try {
-			st = conn.createStatement();
-			val = st.executeUpdate(commandString);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for (int i = 0; i < pingRecord.size(); i++) {
+			String ip = pingRecord.get(i).get(0);
+			String timeStamp = pingRecord.get(i).get(1);
+			String latency = pingRecord.get(i).get(2);
+			String commandString = "INSERT into minute VALUES(default, '" + ip
+					+ "', '" + timeStamp + "','" + latency + "')";
+			val = write(commandString);
 		}
+		if (val == 1) {
+			System.out.print("Successfully inserted values");
+		}
+		pingRecord.clear();
+	}
+	
+	public synchronized void recordPing(String ip, String timeStamp, String latency){
+		ArrayList<String>list = new ArrayList<String>();
+		list.add(ip);
+		list.add(timeStamp);
+		list.add(latency);
+		pingRecord.add(list);
 		
-		  if(val==1)
-			  System.out.print("Successfully inserted value");
-
+		//once there are x ping records, we want to record to database.
+		if(pingRecord.size() >= Functions.getNumPingRunsBeforeDBRecord()){
+			recordPings();
+		}
 	}
 	
 	/* Private Methods */
@@ -149,4 +180,5 @@ public class DataBase {
 	/* Field Objects and Variables */
 	ArrayList<String>options;
 	static Connection conn;
+	ArrayList<ArrayList<String>>pingRecord;
 }
