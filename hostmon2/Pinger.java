@@ -33,7 +33,8 @@ public class Pinger {
 			 }
 			 in.close();
 			 pingResult = pingResult.toLowerCase();
-			if(pingResult.contains("request timed out") || pingResult.contains("could not")){
+			if(pingResult.contains("request timed out") || pingResult.contains("could not")
+			 ||pingResult.contains("100% packet loss")){
 				//don't know if request timed out is correct form in linux
 				return "5000";
 			}
