@@ -11,19 +11,19 @@ public class Tracker {
 	public Tracker(){
 		setTotalRuns(0);
 		setTotalTime(0);
-		setCurrentRuns(0);
+		setCurrentRuns(1);
 		setCurrentTime(0);
 	}
 	
 	public synchronized void addPing(long time){
 		setTotalRuns(getTotalRuns()+1);
-		setTotalTime(getTotalTime()+1);
+		setTotalTime(getTotalTime()+time);
 		setCurrentRuns(getCurrentRuns()+1);
-		setCurrentTime(getCurrentTime()+1);
+		setCurrentTime(getCurrentTime()+time);
 	}
 	
 	public synchronized void resetCurrent(){
-		setCurrentRuns(0);
+		setCurrentRuns(1);
 		setCurrentTime(0);
 	}
 
