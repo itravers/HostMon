@@ -8,7 +8,7 @@ public class Functions {
 	}
 	
 	public static long getAverageGoalTime(){
-		return 30000;
+		return 15000;
 	}
 
 	public static int getStartingThreads() {
