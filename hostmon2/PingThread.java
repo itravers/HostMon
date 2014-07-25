@@ -15,7 +15,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 public class PingThread extends Thread {
 
 	public PingThread(ThreadPool p, PriorityBlockingQueue<RunnablePing> queue) {
-		threadNumber = queue.size();
+		threadNumber = p.getThreads().size();
 		currentlyProcessing = false;
 		parent = p;
 		totalRunTime = 0;
