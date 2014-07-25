@@ -20,7 +20,7 @@ public class Pinger {
 
 	public String ping(String ip) {
 		String pingCommand = getPingCommand(ip);
-		String pingResult = null;
+		String pingResult = "-1";
 		 try{
 			 Runtime r = Runtime.getRuntime();
 			 Process p = r.exec(pingCommand);
