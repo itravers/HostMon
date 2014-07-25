@@ -41,7 +41,7 @@ public class Pinger {
 		    pingResult = pingResult.substring(pingResult.indexOf("time=")+5, pingResult.length()-1);
 		    pingResult = pingResult.substring(0, pingResult.indexOf("ms"));
 		 	} catch(Exception e) {
-		       System.out.println(e);
+		       System.err.println(e);
 		       pingResult = "-1";
 		    }
 		 return pingResult;
