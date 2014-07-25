@@ -25,7 +25,7 @@ public class Functions {
 	 * @return
 	 */
 	public static long getThreadRemovalCoeffient() {
-		return 3;
+		return 4;
 	}
 
 	/**
@@ -35,6 +35,6 @@ public class Functions {
 	 */
 	public static long getThreadAddCoeffient() {
 		// TODO Auto-generated method stub
-		return 5;
+		return 4;
 	}
 }
