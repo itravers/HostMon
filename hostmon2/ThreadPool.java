@@ -21,6 +21,7 @@ public class ThreadPool {
 		averageRunTime = 0;
 		totalRuns = 0;
 		goalAverageRunTime = Functions.getAverageGoalTime();
+		tracker = new Tracker();
 
 		for (int i = 0; i < noOfThreads; i++) {
 			threads.add(new PingThread(this, queue));
@@ -38,6 +39,8 @@ public class ThreadPool {
 			if(stoppedThreads.size() > 0){
 				//there is a thread we can use in stoppedThreads
 				thread = stoppedThreads.remove(0);
+				thread.startThread();
+				
 			}else{
 				thread = new PingThread(this, queue);
 				thread.start();
@@ -78,30 +81,6 @@ public class ThreadPool {
 		}
 	}
 	
-	public synchronized void setTotalRuns(int newRuns){
-		totalRuns = newRuns;
-	}
-	
-	public synchronized void setAverageRunTime(long newAvg){
-		averageRunTime = newAvg;
-	}
-	
-	public synchronized void addRun(){
-		setTotalRuns(getTotalRuns()+1);
-	}
-	
-	public synchronized int getTotalRuns(){
-		return totalRuns;
-	}
-	
-	public synchronized long getAverageRunTime(){
-		return averageRunTime;
-	}
-	
-	public synchronized long getGoalRunTime(){
-		return goalAverageRunTime;
-	}
-	
 	public synchronized ArrayList<PingThread> getThreads(){
 		return (ArrayList<PingThread>) threads;
 	}
@@ -116,6 +95,7 @@ public class ThreadPool {
 	private long averageRunTime;
 	private int totalRuns;
 	public long goalAverageRunTime;
+	protected Tracker tracker;
 	
 	
 

@@ -18,8 +18,7 @@ public class PingThread extends Thread {
 		threadNumber = p.getThreads().size();
 		currentlyProcessing = false;
 		parent = p;
-		totalRunTime = 0;
-		numRuns = 0;
+		tracker = p.tracker;
 		this.queue = queue;
 		isStopped = false;
 	}
@@ -41,8 +40,7 @@ public class PingThread extends Thread {
 					runnable.run();
 					
 					// update numRuns and totalRunTime counts;
-					totalRunTime += ((RunnablePing)runnable).getRunTime();
-					numRuns++;
+					tracker.addPing(((RunnablePing)runnable).getRunTime());
 					
 					// check if runnable is still active, requeue if so, destroy if not
 					if(((RunnablePing)runnable).active){
@@ -56,23 +54,15 @@ public class PingThread extends Thread {
 					//we don't have too many threads already, then we can create another 
 					//thread.
 					
-					//update PARENTS totalRuns, and averageRunTime
-					int pRuns = parent.getTotalRuns();
-					long pAverage = parent.getAverageRunTime();
-					long myAverage = getAverageRunTime();
-					long newPAverage =(pAverage + myAverage) / (2);
-					
-					parent.addRun();
-					parent.setAverageRunTime(newPAverage);
 					System.out.println("Thread " + threadNumber + " THREADS: " + parent.getThreads().size());
-					System.out.println("Thread " + threadNumber + " RUNS: " + parent.getTotalRuns());
-					System.out.println("Thread " + threadNumber + " TIME: " + parent.getAverageRunTime());
+					System.out.println("Thread " + threadNumber + " RUNS: " + tracker.getTotalRuns());
+					System.out.println("Thread " + threadNumber + " TIME: " + tracker.getAverageCurrentTime());
 					//every 50 runs we will check if the parents average is meeting it's goals
 					//if it is, we check by how much, if it's meeting it's goal by 2x then we get
 					//rid of a thread. If it's not meeting it's goals we add a thread.
-					if(parent.getTotalRuns() % Functions.getRunPerThreadCheck() == 0){
-						if(parent.getAverageRunTime() <= parent.getGoalRunTime()){
-							if((parent.getAverageRunTime() + parent.getAverageRunTime()/Functions.getThreadRemovalCoeffient()) <= parent.getGoalRunTime()){
+					if(tracker.getTotalRuns() % Functions.getRunPerThreadCheck() == 0){
+						if(tracker.getAverageCurrentTime() <= Functions.getAverageGoalTime()){
+							if((tracker.getAverageCurrentTime()*2) <= Functions.getAverageGoalTime()){
 								//average run time is less than half goal run time
 								Functions.debug("Exceeded Timing Goal, removing thread.");
 								parent.removeThread(this);
@@ -80,7 +70,7 @@ public class PingThread extends Thread {
 								//we are hitting our timing goals, do nothing.
 								Functions.debug("Hit Timing Goal.");
 							}
-						}else if((parent.getAverageRunTime() - parent.getAverageRunTime()/Functions.getThreadAddCoeffient()) > parent.getGoalRunTime()){
+						}else if((tracker.getAverageCurrentTime()*1) > Functions.getAverageGoalTime()){
 							//if Average Run Time is 2x bigger than goal run time, we add a thread
 							Functions.debug("Missed Timing Goal, adding Thread");
 							parent.addThread();
@@ -88,13 +78,8 @@ public class PingThread extends Thread {
 							//missed timing goal, but we are not bad enough to start another thread.
 							Functions.debug("Missed Timing Goal.");
 						}
-						for (PingThread thread : parent.getThreads()) {
-							thread.resetAverageRunTime();
-						}
 						//reset timers for parent, and me, and all brothers.
-						totalRunTime = myAverage;
-						parent.setAverageRunTime(myAverage);
-						parent.setTotalRuns(1);
+						tracker.resetCurrent();
 					}
 				} catch (InterruptedException consumed) {
 					System.out.println("THREAD INTERRUPTED");
@@ -120,18 +105,15 @@ public class PingThread extends Thread {
 		isStopped = true;
 		//this.interrupt(); // break pool thread out of dequeue() call.
 	}
+	
+	public synchronized void startThread() {
+		//stop();
+		isStopped = false;
+		//this.interrupt(); // break pool thread out of dequeue() call.
+	}
 
 	public synchronized boolean isStopped() {
 		return isStopped;
-	}
-	
-	public long getAverageRunTime(){
-		return totalRunTime / numRuns;
-	}
-	
-	public synchronized void resetAverageRunTime(){
-		totalRunTime = 0;
-		numRuns = 0;
 	}
 
 	public int getThreadNumber() {
@@ -142,9 +124,8 @@ public class PingThread extends Thread {
 	private ThreadPool parent;
 	private PriorityBlockingQueue<RunnablePing> queue;
 	private boolean isStopped;
-	private long totalRunTime;
-	private int numRuns;
 	public boolean currentlyProcessing;
 	private int threadNumber;
+	private Tracker tracker;
 
 }
