@@ -42,6 +42,6 @@ public class Functions {
 	//need to add or remove a thread.
 	public static int getRunPerThreadCheck() {
 		// TODO Auto-generated method stub
-		return 5;
+		return 10;
 	}
 }
