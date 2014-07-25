@@ -129,7 +129,7 @@ public class PingThread extends Thread {
 		return totalRunTime / numRuns;
 	}
 	
-	public void resetAverageRunTime(){
+	public synchronized void resetAverageRunTime(){
 		totalRunTime = 0;
 		numRuns = 0;
 	}
