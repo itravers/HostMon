@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.sql.*;
 
 /**
  * Class Responsible for all DataBase Connectivity.
@@ -9,6 +10,12 @@ public class DataBase {
 	
 	public static void main(String[] args){
 		DataBase db = new DataBase(getDBOptions());
+		db.open();
+		db.recordPing("192.168.1.1", "000000", "300");
+		db.close();
+		
+		
+		System.out.println("exit");
 	}
 	
 	/**
@@ -27,8 +34,33 @@ public class DataBase {
 	 * @return True if db is now open. Else, False.
 	 */
 	public boolean open(){
-		Functions.debug("DataBase open()");
-		return false;
+		boolean returnVal = false;
+		String dbName = options.get(0);
+		String driver = "com.mysql.jdbc.Driver";
+		String userName = options.get(1);
+		String password = options.get(2);
+		String url = "jdbc:mysql://"+options.get(3)+":3306/";
+		
+		try {
+			Class.forName(driver).newInstance();
+			conn = DriverManager.getConnection(url + dbName,
+					userName, password);
+
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			if(conn.isClosed()){
+				returnVal = false;
+			}else{
+				returnVal = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return returnVal;
 	}
 	
 	/**
@@ -45,7 +77,12 @@ public class DataBase {
 	 * @return True if Closed.
 	 */
 	public boolean close(){
-		Functions.debug("DataBase close()");
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 	
@@ -64,19 +101,52 @@ public class DataBase {
 	 * @param dbCommand
 	 * @return
 	 */
-	public String read(String dbCommand){
-		Functions.debug("DataBase read()");
-		return null;
+	public ResultSet read(String dbCommand){
+		ResultSet res = null;
+		try {
+			this.open();
+			Statement st;
+			st = conn.createStatement();
+			res = st.executeQuery(dbCommand);
+			this.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	public void recordPing(String ip, String timeStamp, String latency){
+		String commandString = "INSERT into minute VALUES(default, '"+ip+"', '"+timeStamp+"','"+latency+"')";
+		Statement st;
+		int val = 0;
+		try {
+			st = conn.createStatement();
+			val = st.executeUpdate(commandString);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		  if(val==1)
+			  System.out.print("Successfully inserted value");
+
 	}
 	
 	/* Private Methods */
 	
 	/* Static Methods */
 	public static ArrayList<String> getDBOptions() {
-		Functions.debug("DataBase getDBOptions()");
-		return null;
+		String o1="HostMon", o2="HostMonUser", o3="Micheal1", o4="192.168.2.146";
+		ArrayList<String>dbOptions = new ArrayList<String>();
+		dbOptions.add(o1);
+		dbOptions.add(o2);
+		dbOptions.add(o3);
+		dbOptions.add(o4);
+		return dbOptions;
 	}
 	
 	/* Field Objects and Variables */
 	ArrayList<String>options;
+	static Connection conn;
 }
