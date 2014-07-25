@@ -15,6 +15,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 public class PingThread extends Thread {
 
 	public PingThread(ThreadPool p, PriorityBlockingQueue<RunnablePing> queue) {
+		threadNumber = queue.size();
 		currentlyProcessing = false;
 		parent = p;
 		totalRunTime = 0;
@@ -63,9 +64,9 @@ public class PingThread extends Thread {
 					
 					parent.addRun();
 					parent.setAverageRunTime(newPAverage);
-					System.out.println("ThreadPoolTHREADS: " + parent.getThreads().size());
-					System.out.println("ThreadPool - RUNS: " + parent.getTotalRuns());
-					System.out.println("ThreadPool - TIME: " + parent.getAverageRunTime());
+					System.out.println("Thread " + threadNumber + " THREADS: " + parent.getThreads().size());
+					System.out.println("Thread " + threadNumber + " RUNS: " + parent.getTotalRuns());
+					System.out.println("Thread " + threadNumber + " TIME: " + parent.getAverageRunTime());
 					//every 50 runs we will check if the parents average is meeting it's goals
 					//if it is, we check by how much, if it's meeting it's goal by 2x then we get
 					//rid of a thread. If it's not meeting it's goals we add a thread.
@@ -133,6 +134,10 @@ public class PingThread extends Thread {
 		numRuns = 0;
 	}
 
+	public int getThreadNumber() {
+		return threadNumber;
+	}
+
 	/* Field Objects & Variables */
 	private ThreadPool parent;
 	private PriorityBlockingQueue<RunnablePing> queue;
@@ -140,5 +145,6 @@ public class PingThread extends Thread {
 	private long totalRunTime;
 	private int numRuns;
 	public boolean currentlyProcessing;
+	private int threadNumber;
 
 }
