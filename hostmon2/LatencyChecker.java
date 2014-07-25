@@ -18,6 +18,7 @@ public class LatencyChecker {
 	 * @param db
 	 */
 	public LatencyChecker(DataBase db){
+		this.db = db;
 		Functions.debug("LatencyChecker LatencyChecker()");
 		init();
 		mainLoop();
@@ -54,27 +55,27 @@ public class LatencyChecker {
 	
 	private void test(){
 		//create a new RunnablePing, add it to the queue
-		pool.execute(new RunnablePing("google.com", queue));
-		pool.execute(new RunnablePing("facebook.com", queue));
-		pool.execute(new RunnablePing("reddit.com", queue));
-		pool.execute(new RunnablePing("gmail.com", queue));
-		pool.execute(new RunnablePing("digitalpath.com", queue));
-		pool.execute(new RunnablePing("w3schools.com", queue));
-		pool.execute(new RunnablePing("myspace.com", queue));
-		pool.execute(new RunnablePing("hotmail.com", queue));
-		pool.execute(new RunnablePing("youtube.com", queue));
-		pool.execute(new RunnablePing("microsoft.com", queue));
-		pool.execute(new RunnablePing("new.com", queue));
-		pool.execute(new RunnablePing("new.net", queue));
-		pool.execute(new RunnablePing("news.com", queue));
-		pool.execute(new RunnablePing("news.net", queue));
-		pool.execute(new RunnablePing("hello.com", queue));
-		pool.execute(new RunnablePing("hello.org", queue));
-		pool.execute(new RunnablePing("hello.net", queue));
-		pool.execute(new RunnablePing("xnxx.com", queue));
-		pool.execute(new RunnablePing("fightnight.com", queue));
-		pool.execute(new RunnablePing("xhamster.com", queue));
-		pool.execute(new RunnablePing("hbo.com", queue));
+		pool.execute(new RunnablePing("google.com", queue, db));
+		pool.execute(new RunnablePing("facebook.com", queue, db));
+		pool.execute(new RunnablePing("reddit.com", queue, db));
+		pool.execute(new RunnablePing("gmail.com", queue, db));
+		pool.execute(new RunnablePing("digitalpath.com", queue, db));
+		pool.execute(new RunnablePing("w3schools.com", queue, db));
+		pool.execute(new RunnablePing("myspace.com", queue, db));
+		pool.execute(new RunnablePing("hotmail.com", queue, db));
+		pool.execute(new RunnablePing("youtube.com", queue, db));
+		pool.execute(new RunnablePing("microsoft.com", queue, db));
+		pool.execute(new RunnablePing("new.com", queue, db));
+		pool.execute(new RunnablePing("new.net", queue, db));
+		pool.execute(new RunnablePing("news.com", queue, db));
+		pool.execute(new RunnablePing("news.net", queue, db));
+		pool.execute(new RunnablePing("hello.com", queue, db));
+		pool.execute(new RunnablePing("hello.org", queue, db));
+		pool.execute(new RunnablePing("hello.net", queue, db));
+		pool.execute(new RunnablePing("xnxx.com", queue, db));
+		pool.execute(new RunnablePing("fightnight.com", queue, db));
+		pool.execute(new RunnablePing("xhamster.com", queue, db));
+		pool.execute(new RunnablePing("hbo.com", queue, db));
 	}
 	
 	/**Initialize The Field Objects & Variables for the Class*/

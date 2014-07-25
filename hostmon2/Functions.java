@@ -44,4 +44,13 @@ public class Functions {
 		// TODO Auto-generated method stub
 		return 10;
 	}
+
+	/**
+	 * The number of times we will ping before we make a call to the database.
+	 * @return
+	 */
+	public static int getNumPingRunsBeforeDBRecord() {
+		// TODO Auto-generated method stub
+		return 10;
+	}
 }
