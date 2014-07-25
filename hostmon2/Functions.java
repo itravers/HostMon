@@ -21,7 +21,7 @@ public class Functions {
 
 	/**
 	 * The Value that decides when threads are removed. 
-	 * The Higher the value the sooner an unneeded thread is removed.
+	 * The Lower the value the sooner an unneeded thread is removed.
 	 * @return
 	 */
 	public static long getThreadRemovalCoeffient() {
@@ -35,6 +35,13 @@ public class Functions {
 	 */
 	public static long getThreadAddCoeffient() {
 		// TODO Auto-generated method stub
-		return 4;
+		return 10;
+	}
+
+	//every x amount of times a thread is run we check if we
+	//need to add or remove a thread.
+	public static int getRunPerThreadCheck() {
+		// TODO Auto-generated method stub
+		return 5;
 	}
 }
