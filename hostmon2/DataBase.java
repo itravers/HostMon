@@ -7,6 +7,10 @@ import java.util.ArrayList;
  */
 public class DataBase {
 	
+	public static void main(String[] args){
+		DataBase db = new DataBase(getDBOptions());
+	}
+	
 	/**
 	 * Constructor
 	 * @param options - Array List of options used for connecting and reading from db.
