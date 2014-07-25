@@ -12,11 +12,11 @@ public class Functions {
 	}
 
 	public static int getStartingThreads() {
-		return 1;
+		return 5;
 	}
 
 	public static int getMaxThreads() {
-		return 20;
+		return 30;
 	}
 
 	/**
