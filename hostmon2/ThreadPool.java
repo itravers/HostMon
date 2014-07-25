@@ -17,7 +17,6 @@ public class ThreadPool {
 	 * @param maxNoOfTasks
 	 */
 	public ThreadPool(PriorityBlockingQueue<RunnablePing>queue, int noOfThreads) {
-		this.noOfThreads = noOfThreads;
 		this.queue = queue;
 		averageRunTime = 0;
 		totalRuns = 0;
@@ -34,7 +33,7 @@ public class ThreadPool {
 	/* Public Methods. */
 	
 	public void addThread() {
-		if(threads.size() < 20){
+		if(threads.size() < Functions.getMaxThreads()){
 			PingThread thread;
 			if(stoppedThreads.size() > 0){
 				//there is a thread we can use in stoppedThreads
@@ -114,7 +113,6 @@ public class ThreadPool {
 	private List<PingThread> threads = new ArrayList<PingThread>();
 	private List<PingThread> stoppedThreads = new ArrayList<PingThread>();
 	private boolean isStopped = false;
-	private int noOfThreads;
 	private long averageRunTime;
 	private int totalRuns;
 	public long goalAverageRunTime;
