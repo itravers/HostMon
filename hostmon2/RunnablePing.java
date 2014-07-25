@@ -20,7 +20,7 @@ public class RunnablePing  implements Comparable, Runnable{
 	@Override
 	public void run() {
 		long startTime = System.currentTimeMillis();
-		System.out.println("PING:: " + ip + " - " + pinger.ping(ip));
+		System.out.println("ping " + ip + ":" + pinger.ping(ip));
 		// TODO Auto-generated method stub
 		//Functions.debug("RunnablePing run() " + ip);
 		//try {
