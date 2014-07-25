@@ -70,7 +70,7 @@ public class PingThread extends Thread {
 					//every 50 runs we will check if the parents average is meeting it's goals
 					//if it is, we check by how much, if it's meeting it's goal by 2x then we get
 					//rid of a thread. If it's not meeting it's goals we add a thread.
-					if(parent.getTotalRuns() % 10 == 0){
+					if(parent.getTotalRuns() % Functions.getRunPerThreadCheck() == 0){
 						if(parent.getAverageRunTime() <= parent.getGoalRunTime()){
 							if((parent.getAverageRunTime() + parent.getAverageRunTime()/Functions.getThreadRemovalCoeffient()) <= parent.getGoalRunTime()){
 								//average run time is less than half goal run time
