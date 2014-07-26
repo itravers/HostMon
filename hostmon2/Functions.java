@@ -66,6 +66,6 @@ public class Functions {
 	 */
 	public static long getNewestPingMinutes() {
 		// TODO Auto-generated method stub
-		return 5;
+		return 300000;
 	}
 }
