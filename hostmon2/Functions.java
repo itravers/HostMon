@@ -59,13 +59,56 @@ public class Functions {
 		//15 minutes
 		return 900000;
 	}
+	
+	public static long getHourRecordAgeLimit() {
+		return 14400000; //4 hours
+	}
+
+	
+	public static long getDayRecordAgeLimit() {
+		return 345600000; //shoud be 4 days
+	}
+	
+	public static long getWeekRecordAgeLimit() {
+		return 2419200000L; //shoud be 4 weeks
+	}
 
 	/*
-	 * The amount of minutes we want to retrieve to average out new pings to add to hour table
-	 * default was 5
+	 * The amount of milliseconds we want to retrieve to average out new pings to add to hour table
+	 * default was 5 minutes or 300000
 	 */
 	public static long getNewestPingMinutes() {
-		// TODO Auto-generated method stub
 		return 300000;
 	}
+	
+	/**
+	 * The amount of milliseconds we want to retrieve in order to average out pings to add to the day table
+	 * default is 1 hour or 3600000 millis
+	 * @return
+	 */
+	public static long getNewestPingHours() {
+		return 3600000;
+	}
+	
+	/**
+	 * The amount of milliseconds we want to retrieve in order to average out pings to add to the day table
+	 * default is 1 day or 86400000 millis
+	 * @return
+	 */
+	public static long getNewestPingDays() {
+		return 86400000;
+	}
+	
+	/**
+	 * The amount of milliseconds we want to retrieve in order to average out pings to add to the day table
+	 * default is 1 week or 604800000 millis
+	 * @return
+	 */
+	public static long getNewestPingWeeks() {
+		return 604800000;
+	}
+
+	
+
+	
 }
