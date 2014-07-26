@@ -134,7 +134,7 @@ public class DataBase {
 				tableName = res.getMetaData().getTableName(1);
 				if(tableName.equals("timers")){
 					immediateResults.put(res.getString("name"), res.getString("value"));
-				}else if(tableName.equals("minute")){
+				}else if(tableName.equals("minute") || tableName.equals("hour") || tableName.equals("day") || tableName.equals("week")){
 					immediateResults.put("id", res.getString("id"));
 					immediateResults.put("ip", res.getString("ip"));
 					immediateResults.put("time", res.getString("time"));
@@ -174,7 +174,8 @@ public class DataBase {
 	}
 	
 	/**
-	 * Records a HashMap<String, <HashMap<String, String>>> of records into the db
+	 * Records a HashMap<String, <HashMap<String, String>>> of records into the hour table
+	 * this hashmap has each record averaged
 	 * @param averagedRecords
 	 */
 	public void recordHourRecords(
@@ -189,9 +190,72 @@ public class DataBase {
 			val = write(commandString);
 		}
 		if (val == 1) {
-			System.out.print("Inserted Latest Pings Into Minute Table");
+			System.out.print("Inserted Latest Pings Into Hour Table");
 		}
 		
+	}
+	
+	/**
+	 * Records a HashMap<String, <HashMap<String, String>>> of records into the day table
+	 * this hashmap has each record averaged
+	 * @param averagedRecords
+	 */
+	public void recordDayRecords(
+			HashMap<String, HashMap<String, String>> averagedRecords) {
+		int val = 0;
+		for (Entry<String, HashMap<String, String>> entry : averagedRecords.entrySet()) {
+			String ip = entry.getKey();
+			String timeStamp = entry.getValue().get("time");
+			String latency = entry.getValue().get("latency");
+			String commandString = "INSERT into day VALUES(default, '" + ip
+					+ "', '" + timeStamp + "','" + latency + "')";
+			val = write(commandString);
+		}
+		if (val == 1) {
+			System.out.print("Inserted Latest Pings Into Day Table");
+		}
+	}
+	
+	/**
+	 * Records a HashMap<String, <HashMap<String, String>>> of records into the week table
+	 * this hashmap has each record averaged
+	 * @param averagedRecords
+	 */
+	public void recordWeekRecords(
+			HashMap<String, HashMap<String, String>> averagedRecords) {
+		int val = 0;
+		for (Entry<String, HashMap<String, String>> entry : averagedRecords.entrySet()) {
+			String ip = entry.getKey();
+			String timeStamp = entry.getValue().get("time");
+			String latency = entry.getValue().get("latency");
+			String commandString = "INSERT into week VALUES(default, '" + ip
+					+ "', '" + timeStamp + "','" + latency + "')";
+			val = write(commandString);
+		}
+		if (val == 1) {
+			System.out.print("Inserted Latest Pings Into Week Table");
+		}
+	}
+	
+	/**
+	 * Records a HashMap<String, <HashMap<String, String>>> of records into the year table
+	 * this hashmap has each record averaged
+	 * @param averagedRecords
+	 */
+	public void recordYearRecords(
+			HashMap<String, HashMap<String, String>> averagedRecords) {
+		int val = 0;
+		for (Entry<String, HashMap<String, String>> entry : averagedRecords.entrySet()) {
+			String ip = entry.getKey();
+			String timeStamp = entry.getValue().get("time");
+			String latency = entry.getValue().get("latency");
+			String commandString = "INSERT into year VALUES(default, '" + ip
+					+ "', '" + timeStamp + "','" + latency + "')";
+			val = write(commandString);
+		}
+		if (val == 1) {
+			System.out.print("Inserted Latest Pings Into Year Table");
+		}
 	}
 	
 	public synchronized void recordPing(String ip, String timeStamp, String latency){
@@ -208,26 +272,85 @@ public class DataBase {
 	}
 	
 	public ArrayList<HashMap<String, String>> getTimers() {
-		// TODO Auto-generated method stub
+		ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
+
+		// we need to read from db
 		String command = "SELECT * FROM timers";
-		return read(command);
+		result = read(command);
+		return result;
+	}
+	
+	public void setTimer(String timerName, String newTime){
+		int val = 0;
+		
+		String commandString = "UPDATE timers SET timers.value='"+newTime+"' WHERE timers.name='"+timerName+"' ; ";
+		val = write(commandString);
+		
+		if (val == 1) {
+			System.out.print("Updated timer: " + timerName);
+		}
 	}
 	
 	public ArrayList<HashMap<String, String>> getNewestFiveMinutesOfPings() {
-		// TODO Auto-generated method stub
 		long timeLimit = System.currentTimeMillis() - Functions.getNewestPingMinutes();
 		String command = "SELECT * FROM `minute` WHERE time > " + (timeLimit);
 		ArrayList<HashMap<String, String>> newestFiveMinutesOfPings = read(command);
 		return newestFiveMinutesOfPings;
 	}
 	
+	public ArrayList<HashMap<String, String>> getNewestHourOfPings() {
+		long timeLimit = System.currentTimeMillis() - Functions.getNewestPingHours();
+		String command = "SELECT * FROM `hour` WHERE time > " + (timeLimit);
+		ArrayList<HashMap<String, String>> newestHourOfPings = read(command);
+		return newestHourOfPings;
+	}
+	
+	public ArrayList<HashMap<String, String>> getNewestDayOfPings() {
+		long timeLimit = System.currentTimeMillis() - Functions.getNewestPingDays();
+		String command = "SELECT * FROM `day` WHERE time > " + (timeLimit);
+		ArrayList<HashMap<String, String>> newestDayOfPings = read(command);
+		return newestDayOfPings;
+	}
+	
+	public ArrayList<HashMap<String, String>> getNewestWeekOfPings() {
+		long timeLimit = System.currentTimeMillis() - Functions.getNewestPingWeeks();
+		String command = "SELECT * FROM `week` WHERE time > " + (timeLimit);
+		ArrayList<HashMap<String, String>> newestWeekOfPings = read(command);
+		return newestWeekOfPings;
+	}
+	
 	public void deleteOldMinuteRecords() {
-		
-		// TODO Auto-generated method stub
 		long ageLimit = Functions.getMinuteRecordAgeLimit();
 		long time = System.currentTimeMillis();
 		long oldTime = time-ageLimit;
 		String command = "DELETE FROM `minute` WHERE time <="+oldTime;
+		write(command);
+		System.out.println("deleted Records older than " + ageLimit/1000 + " seconds");
+	}
+	
+	public void deleteOldHourRecords() {
+		long ageLimit = Functions.getHourRecordAgeLimit();
+		long time = System.currentTimeMillis();
+		long oldTime = time-ageLimit;
+		String command = "DELETE FROM `hour` WHERE time <="+oldTime;
+		write(command);
+		System.out.println("deleted Records older than " + ageLimit/1000 + " seconds");
+	}
+	
+	public void deleteOldDayRecords() {
+		long ageLimit = Functions.getDayRecordAgeLimit();
+		long time = System.currentTimeMillis();
+		long oldTime = time-ageLimit;
+		String command = "DELETE FROM `day` WHERE time <="+oldTime;
+		write(command);
+		System.out.println("deleted Records older than " + ageLimit/1000 + " seconds");
+	}
+	
+	public void deleteOldWeekRecords() {
+		long ageLimit = Functions.getWeekRecordAgeLimit();
+		long time = System.currentTimeMillis();
+		long oldTime = time-ageLimit;
+		String command = "DELETE FROM `week` WHERE time <="+oldTime;
 		write(command);
 		System.out.println("deleted Records older than " + ageLimit/1000 + " seconds");
 	}
@@ -249,6 +372,11 @@ public class DataBase {
 	ArrayList<String>options;
 	static Connection conn;
 	ArrayList<ArrayList<String>>pingRecord;
+	
+	
+	
+	
+	
 	
 	
 	

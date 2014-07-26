@@ -97,37 +97,257 @@ public class DBMaintainer extends Thread{
 						avgRecord.put("time", String.valueOf(avgTime));
 						avgRecord.put("latency", String.valueOf(avgLatency));
 						averagedRecords.put(ip, avgRecord);
+						//System.out.println("Added Entry to Hour Table");
 					}
 					db.recordHourRecords(averagedRecords);
-					System.out.println("stop here");
+					//System.out.println("stop here");
+					long nextTime = System.currentTimeMillis() + 300000;
+					db.setTimer("fiveMinuteTimer", String.valueOf(nextTime));
+					fiveMinuteTimer = nextTime;
 				}
 				
-				/*
+				
 				if(System.currentTimeMillis() >= fifteenMinuteTimer){
 					//run every minute code & reset minute timer
+					db.deleteOldHourRecords();
+					long nextTime = System.currentTimeMillis() + 900000;
+					db.setTimer("fifteenMinuteTimer", String.valueOf(nextTime));
+					fifteenMinuteTimer = nextTime;
 				}
+				
 				
 				if(System.currentTimeMillis() >= hourTimer){
 					//run every minute code & reset minute timer
+					//average the latest 5 minutes of data, for each device & reset minute timer
+					ArrayList<HashMap<String, String>> newestHourOfPings = db.getNewestHourOfPings();
+					HashMap<String, HashMap<String,ArrayList<String>>> dayRecords = new HashMap<String, HashMap<String, ArrayList<String>>>();
+					for(int i = 0; i < newestHourOfPings.size(); i++){
+						String ip = newestHourOfPings.get(i).get("ip");
+						String time = newestHourOfPings.get(i).get("time");
+						String latency = newestHourOfPings.get(i).get("latency");
+						//if the hourRecords don't have the ip, we need to add a new record
+						if(!dayRecords.containsKey(ip)){
+							HashMap<String, ArrayList<String>> newRecord = new HashMap<String, ArrayList<String>>();
+							//create new list for times and add the first one in
+							ArrayList<String> timeList = new ArrayList<String>();
+							timeList.add(time);
+							newRecord.put("time", timeList);
+							//create a new list for latencies, and add the first
+							ArrayList<String> latencyList = new ArrayList<String>();
+							latencyList.add(latency);
+							newRecord.put("latency", latencyList);
+							//add the time and latency to the ip label in the hourRecords
+							dayRecords.put(ip, newRecord);
+						}else{
+							//hourRecords already contains a record for ip. We need to
+							//add time and latency to their respective lists.
+							HashMap<String, ArrayList<String>> modifyRecord = dayRecords.get(ip);
+							//add the current time to timeList
+							ArrayList<String>timeList = modifyRecord.get("time");
+							timeList.add(time);
+							//add the current latency to the latencyList
+							ArrayList<String>latencyList = modifyRecord.get("latency");
+							latencyList.add(latency);
+						}
+					}
+					// now we are going to average out each list in hourRecords,
+					// to get Rid of the list
+					HashMap<String, HashMap<String, String>> averagedRecords = new HashMap<String, HashMap<String, String>>();
+					for (Entry<String, HashMap<String, ArrayList<String>>> entry : dayRecords.entrySet()) {
+						//System.out.printf("Key : %s and Value: %s %n", entry.getKey(), entry.getValue());
+						String ip = entry.getKey();
+						//average out times
+						ArrayList<String>time = entry.getValue().get("time");
+						long avgTime = 0;
+						for(int i = 0; i < time.size(); i++){
+							avgTime += Long.valueOf(time.get(i));
+						}
+						if(time.size() > 0)avgTime = avgTime / time.size();
+						
+						//average out latencies
+						ArrayList<String>latency = entry.getValue().get("latency");
+						long avgLatency = 0;
+						for(int i = 0; i < latency.size(); i++){
+							avgLatency += Long.valueOf(latency.get(i));
+						}
+						if(latency.size() > 0)avgLatency = avgLatency / latency.size();
+						
+						//add averaged record for this ip to averagedRecords
+						HashMap<String, String> avgRecord = new HashMap<String, String>();
+						avgRecord.put("time", String.valueOf(avgTime));
+						avgRecord.put("latency", String.valueOf(avgLatency));
+						averagedRecords.put(ip, avgRecord);
+						
+					}
+					//System.out.println("Added Entry to Day Table");
+					db.recordDayRecords(averagedRecords);
+					//System.out.println("stop here");
+					long nextTime = System.currentTimeMillis() + 3600000;
+					db.setTimer("hourTimer", String.valueOf(nextTime));
+					hourTimer = nextTime;
 				}
+				
 				
 				if(System.currentTimeMillis() >= twelveHourTimer){
 					//run every minute code & reset minute timer
+					db.deleteOldDayRecords();
+					long nextTime = System.currentTimeMillis() + 43200000;//12 hours
+					db.setTimer("twelveHourTimer", String.valueOf(nextTime));
+					twelveHourTimer = nextTime;
 				}
+				
 				
 				if(System.currentTimeMillis() >= dayTimer){
 					//run every minute code & reset minute timer
+					//average the latest 5 minutes of data, for each device & reset minute timer
+					ArrayList<HashMap<String, String>> newestDayOfPings = db.getNewestDayOfPings();
+					HashMap<String, HashMap<String,ArrayList<String>>> weekRecords = new HashMap<String, HashMap<String, ArrayList<String>>>();
+					for(int i = 0; i < newestDayOfPings.size(); i++){
+						String ip = newestDayOfPings.get(i).get("ip");
+						String time = newestDayOfPings.get(i).get("time");
+						String latency = newestDayOfPings.get(i).get("latency");
+						//if the hourRecords don't have the ip, we need to add a new record
+						if(!weekRecords.containsKey(ip)){
+							HashMap<String, ArrayList<String>> newRecord = new HashMap<String, ArrayList<String>>();
+							//create new list for times and add the first one in
+							ArrayList<String> timeList = new ArrayList<String>();
+							timeList.add(time);
+							newRecord.put("time", timeList);
+							//create a new list for latencies, and add the first
+							ArrayList<String> latencyList = new ArrayList<String>();
+							latencyList.add(latency);
+							newRecord.put("latency", latencyList);
+							//add the time and latency to the ip label in the hourRecords
+							weekRecords.put(ip, newRecord);
+						}else{
+							//hourRecords already contains a record for ip. We need to
+							//add time and latency to their respective lists.
+							HashMap<String, ArrayList<String>> modifyRecord = weekRecords.get(ip);
+							//add the current time to timeList
+							ArrayList<String>timeList = modifyRecord.get("time");
+							timeList.add(time);
+							//add the current latency to the latencyList
+							ArrayList<String>latencyList = modifyRecord.get("latency");
+							latencyList.add(latency);
+						}
+					}
+					// now we are going to average out each list in hourRecords,
+					// to get Rid of the list
+					HashMap<String, HashMap<String, String>> averagedRecords = new HashMap<String, HashMap<String, String>>();
+					for (Entry<String, HashMap<String, ArrayList<String>>> entry : weekRecords.entrySet()) {
+						//System.out.printf("Key : %s and Value: %s %n", entry.getKey(), entry.getValue());
+						String ip = entry.getKey();
+						//average out times
+						ArrayList<String>time = entry.getValue().get("time");
+						long avgTime = 0;
+						for(int i = 0; i < time.size(); i++){
+							avgTime += Long.valueOf(time.get(i));
+						}
+						if(time.size() > 0)avgTime = avgTime / time.size();
+						
+						//average out latencies
+						ArrayList<String>latency = entry.getValue().get("latency");
+						long avgLatency = 0;
+						for(int i = 0; i < latency.size(); i++){
+							avgLatency += Long.valueOf(latency.get(i));
+						}
+						if(latency.size() > 0)avgLatency = avgLatency / latency.size();
+						
+						//add averaged record for this ip to averagedRecords
+						HashMap<String, String> avgRecord = new HashMap<String, String>();
+						avgRecord.put("time", String.valueOf(avgTime));
+						avgRecord.put("latency", String.valueOf(avgLatency));
+						averagedRecords.put(ip, avgRecord);
+						
+					}
+					//System.out.println("Added Entry to Week Table");
+					db.recordWeekRecords(averagedRecords);
+					//System.out.println("stop here");
+					long nextTime = System.currentTimeMillis() + 86400000; //1day
+					db.setTimer("dayTimer", String.valueOf(nextTime));
+					dayTimer = nextTime;
 				}
 				
 				if(System.currentTimeMillis() >= fourtyEightHourTimer){
 					//run every minute code & reset minute timer
+					db.deleteOldWeekRecords();
+					long nextTime = System.currentTimeMillis() + 172800000; //48 hours
+					db.setTimer("fourtyEightHourTimer", String.valueOf(nextTime));
+					fourtyEightHourTimer = nextTime;
 				}
 				
 				if(System.currentTimeMillis() >= weekTimer){
 					//run every minute code & reset minute timer
-				}*/
+					//average the latest 5 minutes of data, for each device & reset minute timer
+					ArrayList<HashMap<String, String>> newestWeekOfPings = db.getNewestWeekOfPings();
+					HashMap<String, HashMap<String,ArrayList<String>>> yearRecords = new HashMap<String, HashMap<String, ArrayList<String>>>();
+					for(int i = 0; i < newestWeekOfPings.size(); i++){
+						String ip = newestWeekOfPings.get(i).get("ip");
+						String time = newestWeekOfPings.get(i).get("time");
+						String latency = newestWeekOfPings.get(i).get("latency");
+						//if the hourRecords don't have the ip, we need to add a new record
+						if(!yearRecords.containsKey(ip)){
+							HashMap<String, ArrayList<String>> newRecord = new HashMap<String, ArrayList<String>>();
+							//create new list for times and add the first one in
+							ArrayList<String> timeList = new ArrayList<String>();
+							timeList.add(time);
+							newRecord.put("time", timeList);
+							//create a new list for latencies, and add the first
+							ArrayList<String> latencyList = new ArrayList<String>();
+							latencyList.add(latency);
+							newRecord.put("latency", latencyList);
+							//add the time and latency to the ip label in the hourRecords
+							yearRecords.put(ip, newRecord);
+						}else{
+							//hourRecords already contains a record for ip. We need to
+							//add time and latency to their respective lists.
+							HashMap<String, ArrayList<String>> modifyRecord = yearRecords.get(ip);
+							//add the current time to timeList
+							ArrayList<String>timeList = modifyRecord.get("time");
+							timeList.add(time);
+							//add the current latency to the latencyList
+							ArrayList<String>latencyList = modifyRecord.get("latency");
+							latencyList.add(latency);
+						}
+					}
+					// now we are going to average out each list in hourRecords,
+					// to get Rid of the list
+					HashMap<String, HashMap<String, String>> averagedRecords = new HashMap<String, HashMap<String, String>>();
+					for (Entry<String, HashMap<String, ArrayList<String>>> entry : yearRecords.entrySet()) {
+						//System.out.printf("Key : %s and Value: %s %n", entry.getKey(), entry.getValue());
+						String ip = entry.getKey();
+						//average out times
+						ArrayList<String>time = entry.getValue().get("time");
+						long avgTime = 0;
+						for(int i = 0; i < time.size(); i++){
+							avgTime += Long.valueOf(time.get(i));
+						}
+						if(time.size() > 0)avgTime = avgTime / time.size();
+						
+						//average out latencies
+						ArrayList<String>latency = entry.getValue().get("latency");
+						long avgLatency = 0;
+						for(int i = 0; i < latency.size(); i++){
+							avgLatency += Long.valueOf(latency.get(i));
+						}
+						if(latency.size() > 0)avgLatency = avgLatency / latency.size();
+						
+						//add averaged record for this ip to averagedRecords
+						HashMap<String, String> avgRecord = new HashMap<String, String>();
+						avgRecord.put("time", String.valueOf(avgTime));
+						avgRecord.put("latency", String.valueOf(avgLatency));
+						averagedRecords.put(ip, avgRecord);
+					}
+					//System.out.println("Added Entry to Year Table");
+					db.recordYearRecords(averagedRecords);
+					//System.out.println("stop here");
+					long nextTime = System.currentTimeMillis() + 604800000; //1week
+					db.setTimer("weekTimer", String.valueOf(nextTime));
+					weekTimer = nextTime;
+				}
 				
 				try {
+					//let the thread sleep for a while.
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -138,10 +358,7 @@ public class DBMaintainer extends Thread{
 		} catch (NumberFormatException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
-		
-		
-		
+		}	
 	}
 	
 	public DBMaintainer(DataBase db) {
