@@ -164,6 +164,17 @@ public class DataBase {
 		}
 	}
 	
+	public void deleteOldMinuteRecords() {
+		
+		// TODO Auto-generated method stub
+		long ageLimit = Functions.getMinuteRecordAgeLimit();
+		long time = System.currentTimeMillis();
+		long oldTime = time-ageLimit;
+		String command = "DELETE FROM `minute` WHERE time <="+oldTime;
+		write(command);
+		System.out.println("deleted Records older than " + ageLimit/1000 + " seconds");
+	}
+	
 	/* Private Methods */
 	
 	/* Static Methods */
@@ -181,4 +192,5 @@ public class DataBase {
 	ArrayList<String>options;
 	static Connection conn;
 	ArrayList<ArrayList<String>>pingRecord;
+	
 }
