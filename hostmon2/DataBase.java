@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.sql.*;
 
 /**
@@ -118,9 +119,9 @@ public class DataBase {
 	 * @param dbCommand
 	 * @return
 	 */
-	public synchronized HashMap<String, String>read(String dbCommand){
+	public synchronized ArrayList<HashMap<String,String>>read(String dbCommand){
 		ResultSet res = null;
-		HashMap<String,String>results = new HashMap<String,String>();
+		ArrayList<HashMap<String,String>>results = new ArrayList<HashMap<String,String>>();
 		String tableName = "";
 		try {
 			this.open();
@@ -128,16 +129,23 @@ public class DataBase {
 			st = conn.createStatement();
 			res = st.executeQuery(dbCommand);
 			while (res.next()) {
+				//System.out.println(res.getRow());
+				HashMap<String,String>immediateResults = new HashMap<String,String>();
 				tableName = res.getMetaData().getTableName(1);
 				if(tableName.equals("timers")){
-					results.put(res.getString("name"), res.getString("value"));
+					immediateResults.put(res.getString("name"), res.getString("value"));
 				}else if(tableName.equals("minute")){
-					results.put("id", res.getString("id"));
-					results.put("ip", res.getString("ip"));
-					results.put("time", res.getString("time"));
-					results.put("latency", res.getString("latency"));
+					immediateResults.put("id", res.getString("id"));
+					immediateResults.put("ip", res.getString("ip"));
+					immediateResults.put("time", res.getString("time"));
+					immediateResults.put("latency", res.getString("latency"));
 				}
+				if(results==null){
+					System.out.println("null");
+				}
+				results.add(immediateResults);
 			}
+			System.out.println(res.getRow());
 			this.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -160,9 +168,30 @@ public class DataBase {
 			val = write(commandString);
 		}
 		if (val == 1) {
-			System.out.print("Successfully inserted values");
+			System.out.print("Inserted Latest Pings Into Minute Table");
 		}
 		pingRecord.clear();
+	}
+	
+	/**
+	 * Records a HashMap<String, <HashMap<String, String>>> of records into the db
+	 * @param averagedRecords
+	 */
+	public void recordHourRecords(
+			HashMap<String, HashMap<String, String>> averagedRecords) {
+		int val = 0;
+		for (Entry<String, HashMap<String, String>> entry : averagedRecords.entrySet()) {
+			String ip = entry.getKey();
+			String timeStamp = entry.getValue().get("time");
+			String latency = entry.getValue().get("latency");
+			String commandString = "INSERT into hour VALUES(default, '" + ip
+					+ "', '" + timeStamp + "','" + latency + "')";
+			val = write(commandString);
+		}
+		if (val == 1) {
+			System.out.print("Inserted Latest Pings Into Minute Table");
+		}
+		
 	}
 	
 	public synchronized void recordPing(String ip, String timeStamp, String latency){
@@ -178,17 +207,17 @@ public class DataBase {
 		}
 	}
 	
-	public HashMap<String,String> getTimers() {
+	public ArrayList<HashMap<String, String>> getTimers() {
 		// TODO Auto-generated method stub
 		String command = "SELECT * FROM timers";
 		return read(command);
 	}
 	
-	public HashMap<String,String> getNewestFiveMinutesOfPings() {
+	public ArrayList<HashMap<String, String>> getNewestFiveMinutesOfPings() {
 		// TODO Auto-generated method stub
 		long timeLimit = System.currentTimeMillis() - Functions.getNewestPingMinutes();
 		String command = "SELECT * FROM `minute` WHERE time > " + (timeLimit);
-		HashMap<String,String> newestFiveMinutesOfPings = read(command);
+		ArrayList<HashMap<String, String>> newestFiveMinutesOfPings = read(command);
 		return newestFiveMinutesOfPings;
 	}
 	
@@ -220,6 +249,7 @@ public class DataBase {
 	ArrayList<String>options;
 	static Connection conn;
 	ArrayList<ArrayList<String>>pingRecord;
+	
 	
 	
 	
