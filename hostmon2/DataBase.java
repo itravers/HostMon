@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.sql.*;
 
 /**
@@ -117,19 +118,32 @@ public class DataBase {
 	 * @param dbCommand
 	 * @return
 	 */
-	public synchronized ResultSet read(String dbCommand){
+	public synchronized HashMap<String, String>read(String dbCommand){
 		ResultSet res = null;
+		HashMap<String,String>results = new HashMap<String,String>();
+		String tableName = "";
 		try {
 			this.open();
 			Statement st;
 			st = conn.createStatement();
 			res = st.executeQuery(dbCommand);
+			while (res.next()) {
+				tableName = res.getMetaData().getTableName(1);
+				if(tableName.equals("timers")){
+					results.put(res.getString("name"), res.getString("value"));
+				}else if(tableName.equals("minute")){
+					results.put("id", res.getString("id"));
+					results.put("ip", res.getString("ip"));
+					results.put("time", res.getString("time"));
+					results.put("latency", res.getString("latency"));
+				}
+			}
 			this.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return res;
+		return results;
 	}
 	
 	/**
@@ -164,6 +178,20 @@ public class DataBase {
 		}
 	}
 	
+	public HashMap<String,String> getTimers() {
+		// TODO Auto-generated method stub
+		String command = "SELECT * FROM timers";
+		return read(command);
+	}
+	
+	public HashMap<String,String> getNewestFiveMinutesOfPings() {
+		// TODO Auto-generated method stub
+		long timeLimit = System.currentTimeMillis() - Functions.getNewestPingMinutes();
+		String command = "SELECT * FROM `minute` WHERE time > " + (timeLimit);
+		HashMap<String,String> newestFiveMinutesOfPings = read(command);
+		return newestFiveMinutesOfPings;
+	}
+	
 	public void deleteOldMinuteRecords() {
 		
 		// TODO Auto-generated method stub
@@ -192,5 +220,7 @@ public class DataBase {
 	ArrayList<String>options;
 	static Connection conn;
 	ArrayList<ArrayList<String>>pingRecord;
+	
+	
 	
 }
