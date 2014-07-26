@@ -53,4 +53,10 @@ public class Functions {
 		// TODO Auto-generated method stub
 		return 10;
 	}
+
+	//the age each record in the minute table should get before being deleted. in millis
+	public static long getMinuteRecordAgeLimit() {
+		//15 minutes
+		return 900000;
+	}
 }
