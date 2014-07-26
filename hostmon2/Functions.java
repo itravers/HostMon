@@ -59,4 +59,13 @@ public class Functions {
 		//15 minutes
 		return 900000;
 	}
+
+	/*
+	 * The amount of minutes we want to retrieve to average out new pings to add to hour table
+	 * default was 5
+	 */
+	public static long getNewestPingMinutes() {
+		// TODO Auto-generated method stub
+		return 5;
+	}
 }
