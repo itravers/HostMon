@@ -21,8 +21,9 @@ public class RunnablePing  implements Comparable, Runnable{
 	@Override
 	public void run() {
 		long startTime = System.currentTimeMillis();
-		System.out.println("ping " + ip + ":" + pinger.ping(ip));
+		//System.out.println("ping " + ip + ":" + pinger.ping(ip));
 		String latency = pinger.ping(ip);
+		lastLatency = latency;
 		String timeStamp = Long.toString(System.currentTimeMillis());
 		db.recordPing(ip, timeStamp, latency);
 		
@@ -82,4 +83,5 @@ public class RunnablePing  implements Comparable, Runnable{
     public boolean active;
     private Pinger pinger;
     private DataBase db;
+    public String lastLatency = "";
 }

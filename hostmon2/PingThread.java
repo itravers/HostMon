@@ -55,9 +55,36 @@ public class PingThread extends Thread {
 					//we don't have too many threads already, then we can create another 
 					//thread.
 					
-					System.out.println("Thread " + threadNumber + " THREADS: " + parent.getThreads().size());
-					System.out.println("Thread " + threadNumber + " RUNS: " + tracker.getTotalRuns());
-					System.out.println("Thread " + threadNumber + " TIME: " + tracker.getAverageCurrentTime());
+					//System.out.println("Thread " + threadNumber + " THREADS: " + parent.getThreads().size());
+					//System.out.println("Thread " + threadNumber + " RUNS: " + tracker.getTotalRuns());
+					//System.out.println("Thread " + threadNumber + " TIME: " + tracker.getAverageCurrentTime());
+					//System.out.println("THREAD: " + threadNumber + 
+					//				   " Time: " + tracker.getAverageCurrentTime() +
+					//				   " Runs: " + tracker.getTotalRuns() +
+					//				   " #Threads: " + parent.getThreads().size() + 
+					//				   " ip: " + ((RunnablePing)currentRunnable).getIp() +
+					//				   " ");
+					//System.out.println(((RunnablePing)currentRunnable).getIp() +
+					//				   " " + ((RunnablePing)currentRunnable).lastLatency +
+					//				   " Thread #: " + threadNumber +
+					//				   " Time: " + tracker.getAverageCurrentTime() +
+					//				   " Run #: " + tracker.getTotalRuns() +
+					//				   " Threads Running: " + parent.getThreads().size());
+					String output = String.format("%15s", ((RunnablePing)currentRunnable).getIp());
+					output += String.format("%4s", ((RunnablePing)currentRunnable).lastLatency);
+					output += String.format("%10s", "Thread #:");
+					output += String.format("%2d", threadNumber);
+					output += String.format("%6s", "Time:");
+					output += String.format("%6d", tracker.getAverageCurrentTime());
+					
+					output += String.format("%16s", "Thread Running:");
+					output += String.format("%3d", parent.getThreads().size());
+					output += String.format("%6s", "Run#:");
+					output += String.format("%7d", tracker.getTotalRuns());
+					
+					
+					System.out.println(output);
+					
 					//every 50 runs we will check if the parents average is meeting it's goals
 					//if it is, we check by how much, if it's meeting it's goal by 2x then we get
 					//rid of a thread. If it's not meeting it's goals we add a thread.
@@ -98,8 +125,13 @@ public class PingThread extends Thread {
 					e.printStackTrace();
 				}
 			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		
 	}
 
 	public synchronized void stopThread() {
