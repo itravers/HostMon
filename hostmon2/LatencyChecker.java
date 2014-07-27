@@ -87,6 +87,7 @@ public class LatencyChecker {
 					}
 				}
 				if(found){
+					activePings.get(i).active = true;
 					queue.add(activePings.get(i));
 				}
 			}
