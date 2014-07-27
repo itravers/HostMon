@@ -39,7 +39,7 @@ public class RunnablePing  implements Comparable, Runnable{
 			
 			runTime = System.currentTimeMillis() - timeCompletedLast;
 		}
-		if(ip.equals("google.com"))
+		//if(ip.equals("google.com"))
 		System.out.println("Run Time: " + runTime);
 		tracker.addPing(runTime);
 		timeCompletedLast = System.currentTimeMillis();
