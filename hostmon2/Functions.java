@@ -8,11 +8,11 @@ public class Functions {
 	}
 	
 	public static long getAverageGoalTime(){
-		return 15000;
+		return 20000;
 	}
 
 	public static int getStartingThreads() {
-		return 1;
+		return 10;
 	}
 
 	public static int getMaxThreads() {
@@ -42,7 +42,7 @@ public class Functions {
 	//need to add or remove a thread.
 	public static int getRunPerThreadCheck() {
 		// TODO Auto-generated method stub
-		return 10;
+		return 5;
 	}
 
 	/**

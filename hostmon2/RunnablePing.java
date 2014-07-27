@@ -21,6 +21,7 @@ public class RunnablePing  implements Comparable, Runnable{
 
 	@Override
 	public void run() {
+		
 		long startTime = System.currentTimeMillis();
 		//System.out.println("ping " + ip + ":" + pinger.ping(ip));
 		String latency = pinger.ping(ip);
