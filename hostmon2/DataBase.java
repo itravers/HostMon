@@ -139,6 +139,13 @@ public class DataBase {
 					immediateResults.put("ip", res.getString("ip"));
 					immediateResults.put("time", res.getString("time"));
 					immediateResults.put("latency", res.getString("latency"));
+				}else if(tableName.equals("Active_Devices")){
+					immediateResults.put("id", res.getString("deviceid"));;
+				}else if(tableName.equals("Devices")){
+					immediateResults.put("id", res.getString("id"));;
+					immediateResults.put("ip", res.getString("ip"));;
+					immediateResults.put("name", res.getString("name"));;
+					immediateResults.put("description", res.getString("description"));;
 				}
 				if(results==null){
 					System.out.println("null");
@@ -319,6 +326,23 @@ public class DataBase {
 		return newestWeekOfPings;
 	}
 	
+	public ArrayList<HashMap<String, String>> getActivePings() {
+		String command = "SELECT * FROM `Active_Devices`";
+		ArrayList<HashMap<String, String>> activePings = read(command);
+		return activePings;
+	}
+	
+	public ArrayList<String> getActiveIps(){
+		ArrayList<HashMap<String, String>> activePings = getActivePings();
+		ArrayList<String>newActiveIPs = new ArrayList<String>();
+		for(int i = 0; i < activePings.size(); i++){
+			String command = "SELECT * FROM `Devices` WHERE Devices.id="+activePings.get(i).get("id")+"";
+			ArrayList<HashMap<String, String>> activeIPs = read(command);
+			newActiveIPs.add(activeIPs.get(0).get("ip"));
+		}
+		return newActiveIPs;
+	}
+	
 	public void deleteOldMinuteRecords() {
 		long ageLimit = Functions.getMinuteRecordAgeLimit();
 		long time = System.currentTimeMillis();
@@ -372,6 +396,7 @@ public class DataBase {
 	ArrayList<String>options;
 	static Connection conn;
 	ArrayList<ArrayList<String>>pingRecord;
+	
 	
 	
 	

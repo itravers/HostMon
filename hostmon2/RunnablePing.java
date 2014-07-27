@@ -64,10 +64,20 @@ public class RunnablePing  implements Comparable, Runnable{
 		return runTime;
 	}
 	
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+	
 	/* Field Objects & Variables */
 	private long timeCompletedLast;
 	private String ip;
-    private PriorityBlockingQueue<RunnablePing> queue;
+    
+
+	private PriorityBlockingQueue<RunnablePing> queue;
     private long runTime;
     public boolean active;
     private Pinger pinger;

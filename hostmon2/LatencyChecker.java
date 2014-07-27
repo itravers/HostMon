@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.PriorityBlockingQueue;
 
 /**
@@ -39,18 +41,55 @@ public class LatencyChecker {
 	 * in the active list will be created and added to the queue.
 	 */
 	private void mainLoop(){
-		test();
-		//while(running){
+		//test();
+		while(running){
 			Functions.debug("LatencyChecker mainLoop()");
+			//get a list of active ip's from the database
+			ArrayList<String>activeIps = db.getActiveIps();
+			ArrayList<RunnablePing>activePings = new ArrayList<RunnablePing>();
+			//loop through activeIP's compare them with ip's from runnables in queue, and pool
+			for(int i = 0; i < activeIps.size(); i++){
+				//go through queue and get all RunnablePings that math ActiveIP's
+				Iterator queueIterator = queue.iterator();
+				while(queueIterator.hasNext()){
+					RunnablePing p = (RunnablePing) queueIterator.next();
+					if(p.getIp().equals(activeIps.get(i))){
+						if(!activePings.contains(p)) {
+							activePings.add(p);
+							activeIps.remove(p.getIp());
+						}
+					}
+				}
+				
+				//next we loop through the thread pool threads, get their runnablePing and check that
+				for(int j = 0; j < pool.getThreads().size(); j++){
+					RunnablePing p = (RunnablePing) pool.getThreads().get(j).getCurrentRunnable();
+					if(p != null){
+						if(p.getIp().equals(activeIps.get(i))){
+							if(!activePings.contains(p)){
+								activePings.add(p);
+								activeIps.remove(p.getIp());
+							}
+						}
+					}
+				}
+			}
 			
+			//any activeIp's left should be new one's that need to
+			//be added to the priority queue
+			for(int i = 0; i < activeIps.size(); i++){
+				RunnablePing p = new RunnablePing(activeIps.get(i), queue, db);
+				queue.add(p);
+				System.out.println("test");
+			}
 			
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(10000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		//}
+		}
 	}
 	
 	private void test(){
