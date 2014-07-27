@@ -54,12 +54,14 @@ public class LatencyChecker {
 				Iterator queueIterator = queue.iterator();
 				while(queueIterator.hasNext()){
 					RunnablePing p = (RunnablePing) queueIterator.next();
-					p.active = false;
+					
 					//queue.remove(p);
 					if(p.getIp().equals(activeIps.get(i))){
 						if(!activePings.contains(p)) {
 							activePings.add(p);
 						}
+					}else{
+						p.active = false;
 					}
 				}
 				
@@ -67,17 +69,20 @@ public class LatencyChecker {
 				for(int j = 0; j < pool.getThreads().size(); j++){
 					RunnablePing p = (RunnablePing) pool.getThreads().get(j).getCurrentRunnable();
 					if(p != null){
-						p.active = false;
-						if(p.active && p.getIp().equals(activeIps.get(i))){
+						
+						if(p.getIp().equals(activeIps.get(i))){
 							if(!activePings.contains(p)){
 								activePings.add(p);
 							}
+						}else{
+							p.active = false;
 						}
 					}
 				}
 			}
 			
 			//next we loop through active pings and remove anything that doesn't have a activeIP
+			queue.clear();
 			for(int i = 0; i< activePings.size(); i++){
 				boolean found = false;
 				for(int j = 0; j < activeIps.size(); j++){
@@ -86,7 +91,6 @@ public class LatencyChecker {
 					}
 				}
 				if(found){
-					
 					//boole
 					if(!queue.contains(activePings.get(i))){
 						queue.add(activePings.get(i));
@@ -107,7 +111,9 @@ public class LatencyChecker {
 						addIt = false;
 					}
 				}
-				if(addIt) queue.add(p);
+				if(addIt){
+					queue.add(p);
+				}
 				//System.out.println("test");
 			}
 			
