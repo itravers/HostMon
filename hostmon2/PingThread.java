@@ -37,6 +37,7 @@ public class PingThread extends Thread {
 				currentlyProcessing = true;
 				try {
 					RunnablePing runnable = (RunnablePing) queue.take();
+					setCurrentRunnable(runnable);
 					runnable.run();
 					
 					// update numRuns and totalRunTime counts;
@@ -81,6 +82,7 @@ public class PingThread extends Thread {
 						//reset timers for parent, and me, and all brothers.
 						tracker.resetCurrent();
 					}
+					setCurrentRunnable(null);
 				} catch (InterruptedException consumed) {
 					System.out.println("THREAD INTERRUPTED");
 					// log or otherwise report exception,
@@ -120,6 +122,20 @@ public class PingThread extends Thread {
 		return threadNumber;
 	}
 
+	/**
+	 * @return the currentRunnable
+	 */
+	public Runnable getCurrentRunnable() {
+		return currentRunnable;
+	}
+
+	/**
+	 * @param currentRunnable the currentRunnable to set
+	 */
+	public void setCurrentRunnable(Runnable currentRunnable) {
+		this.currentRunnable = currentRunnable;
+	}
+
 	/* Field Objects & Variables */
 	private ThreadPool parent;
 	private PriorityBlockingQueue<RunnablePing> queue;
@@ -127,5 +143,6 @@ public class PingThread extends Thread {
 	public boolean currentlyProcessing;
 	private int threadNumber;
 	private Tracker tracker;
+	private Runnable currentRunnable = null;
 
 }
