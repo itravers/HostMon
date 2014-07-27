@@ -171,7 +171,7 @@ public class DataBase {
 			val = write(commandString);
 		}
 		if (val == 1) {
-			System.out.print("Inserted Latest Pings Into Minute Table");
+			System.out.println("Inserted Latest Pings Into Minute Table");
 		}
 		pingRecord.clear();
 	}
