@@ -54,8 +54,8 @@ public class LatencyChecker {
 				Iterator queueIterator = queue.iterator();
 				while(queueIterator.hasNext()){
 					RunnablePing p = (RunnablePing) queueIterator.next();
-					p.active = false;
-					queue.remove(p);
+					//p.active = false;
+					//queue.remove(p);
 					if(p.getIp().equals(activeIps.get(i))){
 						if(!activePings.contains(p)) {
 							activePings.add(p);
@@ -87,7 +87,9 @@ public class LatencyChecker {
 				}
 				if(found){
 					activePings.get(i).active = true;
-					queue.add(activePings.get(i));
+					if(!queue.contains(activePings.get(i))){
+						queue.add(activePings.get(i));
+					}
 				}
 			}
 			
