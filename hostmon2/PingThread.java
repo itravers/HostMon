@@ -79,6 +79,10 @@ public class PingThread extends Thread {
 					
 					output += String.format("%16s", "Thread Running:");
 					output += String.format("%3d", parent.getThreads().size());
+					
+					output += String.format("%6s", "Job#:");
+					output += String.format("%3d", queue.size());
+					
 					output += String.format("%6s", "Run#:");
 					output += String.format("%7d", tracker.getTotalRuns());
 					

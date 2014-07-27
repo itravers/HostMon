@@ -97,7 +97,15 @@ public class LatencyChecker {
 			//be added to the priority queue
 			for(int i = 0; i < activeIps.size(); i++){
 				RunnablePing p = new RunnablePing(activeIps.get(i), queue, db);
-				queue.add(p);
+				boolean addIt = true;
+				Iterator queueIterator = queue.iterator();
+				while(queueIterator.hasNext()){
+					RunnablePing p2 = (RunnablePing) queueIterator.next();
+					if(p2.getIp().equals(p.getIp())){ //if the ip's equal, we don't add it again
+						addIt = false;
+					}
+				}
+				if(addIt) queue.add(p);
 				//System.out.println("test");
 			}
 			
