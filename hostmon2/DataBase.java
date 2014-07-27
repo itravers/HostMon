@@ -20,8 +20,6 @@ public class DataBase {
 		db.recordPing("192.168.1.5", "000000", "305");
 		db.recordPings();
 		db.close();
-		
-		
 		System.out.println("exit");
 	}
 	
@@ -53,8 +51,6 @@ public class DataBase {
 			Class.forName(driver).newInstance();
 			conn = DriverManager.getConnection(url + dbName,
 					userName, password);
-
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -199,7 +195,6 @@ public class DataBase {
 		if (val == 1) {
 			System.out.print("Inserted Latest Pings Into Hour Table");
 		}
-		
 	}
 	
 	/**
@@ -396,14 +391,4 @@ public class DataBase {
 	ArrayList<String>options;
 	static Connection conn;
 	ArrayList<ArrayList<String>>pingRecord;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
