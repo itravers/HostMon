@@ -27,7 +27,7 @@ public class PingThread extends Thread {
 		while(true){
 			while(isStopped){
 				try {
-					Thread.sleep(500);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -40,8 +40,7 @@ public class PingThread extends Thread {
 					setCurrentRunnable(runnable);
 					runnable.run();
 					
-					// update numRuns and totalRunTime counts;
-					tracker.addPing(((RunnablePing)runnable).getRunTime());
+					
 					
 					// check if runnable is still active, requeue if so, destroy if not
 					if(((RunnablePing)runnable).active){
@@ -92,27 +91,7 @@ public class PingThread extends Thread {
 					//every 50 runs we will check if the parents average is meeting it's goals
 					//if it is, we check by how much, if it's meeting it's goal by 2x then we get
 					//rid of a thread. If it's not meeting it's goals we add a thread.
-					if(tracker.getTotalRuns() % Functions.getRunPerThreadCheck() == 0){
-						if(tracker.getAverageCurrentTime() <= Functions.getAverageGoalTime()){
-							if((tracker.getAverageCurrentTime()*2) <= Functions.getAverageGoalTime()){
-								//average run time is less than half goal run time
-								Functions.debug("Exceeded Timing Goal, removing thread.");
-								parent.removeThread(this);
-							}else{
-								//we are hitting our timing goals, do nothing.
-								Functions.debug("Hit Timing Goal.");
-							}
-						}else if((tracker.getAverageCurrentTime()*1) > Functions.getAverageGoalTime()){
-							//if Average Run Time is 2x bigger than goal run time, we add a thread
-							Functions.debug("Missed Timing Goal, adding Thread");
-							parent.addThread();
-						}else{
-							//missed timing goal, but we are not bad enough to start another thread.
-							Functions.debug("Missed Timing Goal.");
-						}
-						//reset timers for parent, and me, and all brothers.
-						tracker.resetCurrent();
-					}
+					updateThreadCount();
 					setCurrentRunnable(null);
 				} catch (InterruptedException consumed) {
 					System.out.println("THREAD INTERRUPTED");
@@ -123,19 +102,40 @@ public class PingThread extends Thread {
 				//to allow the threadpool to catch it when it is not processing
 				currentlyProcessing = false;
 				try {
-					Thread.sleep(10);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		}
+	}
+
+	private void updateThreadCount() {
+		if(tracker.getTotalRuns() % Functions.getRunPerThreadCheck() == 0){
+			if(tracker.getAverageCurrentTime() != 0){ //fix for multiple threads doing this at once
+				if(tracker.getAverageCurrentTime() <= Functions.getAverageGoalTime()){
+					if((tracker.getAverageCurrentTime()*2) <= Functions.getAverageGoalTime()){
+						//average run time is less than half goal run time
+						Functions.debug("Exceeded Timing Goal, removing thread.");
+						parent.removeThread(this);
+					}else{
+						//we are hitting our timing goals, do nothing.
+						Functions.debug("Hit Timing Goal.");
+					}
+				}else if((tracker.getAverageCurrentTime()*1) > Functions.getAverageGoalTime()){
+					//if Average Run Time is 2x bigger than goal run time, we add a thread
+					Functions.debug("Missed Timing Goal, adding Thread");
+					parent.addThread();
+				}else{
+					//missed timing goal, but we are not bad enough to start another thread.
+					Functions.debug("Missed Timing Goal.");
+				}
+				//reset timers for parent, and me, and all brothers.
+				tracker.resetCurrent();
 			}
 		}
+		
 	}
 
 	public synchronized void stopThread() {

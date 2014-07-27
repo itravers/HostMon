@@ -54,7 +54,7 @@ public class LatencyChecker {
 				Iterator queueIterator = queue.iterator();
 				while(queueIterator.hasNext()){
 					RunnablePing p = (RunnablePing) queueIterator.next();
-					//p.active = false;
+					p.active = false;
 					//queue.remove(p);
 					if(p.getIp().equals(activeIps.get(i))){
 						if(!activePings.contains(p)) {
@@ -68,7 +68,7 @@ public class LatencyChecker {
 					RunnablePing p = (RunnablePing) pool.getThreads().get(j).getCurrentRunnable();
 					if(p != null){
 						p.active = false;
-						if(p.getIp().equals(activeIps.get(i))){
+						if(p.active && p.getIp().equals(activeIps.get(i))){
 							if(!activePings.contains(p)){
 								activePings.add(p);
 							}
@@ -86,9 +86,11 @@ public class LatencyChecker {
 					}
 				}
 				if(found){
-					activePings.get(i).active = true;
+					
+					//boole
 					if(!queue.contains(activePings.get(i))){
 						queue.add(activePings.get(i));
+						activePings.get(i).active = true;
 					}
 				}
 			}
@@ -96,7 +98,7 @@ public class LatencyChecker {
 			//any activeIp's left should be new one's that need to
 			//be added to the priority queue
 			for(int i = 0; i < activeIps.size(); i++){
-				RunnablePing p = new RunnablePing(activeIps.get(i), queue, db);
+				RunnablePing p = new RunnablePing(activeIps.get(i), queue, db, tracker);
 				boolean addIt = true;
 				Iterator queueIterator = queue.iterator();
 				while(queueIterator.hasNext()){
@@ -120,35 +122,36 @@ public class LatencyChecker {
 	
 	private void test(){
 		//create a new RunnablePing, add it to the queue
-		pool.execute(new RunnablePing("google.com", queue, db));
-		pool.execute(new RunnablePing("facebook.com", queue, db));
-		pool.execute(new RunnablePing("reddit.com", queue, db));
-		pool.execute(new RunnablePing("gmail.com", queue, db));
-		pool.execute(new RunnablePing("digitalpath.com", queue, db));
-		pool.execute(new RunnablePing("w3schools.com", queue, db));
-		pool.execute(new RunnablePing("myspace.com", queue, db));
-		pool.execute(new RunnablePing("hotmail.com", queue, db));
-		pool.execute(new RunnablePing("youtube.com", queue, db));
-		pool.execute(new RunnablePing("microsoft.com", queue, db));
-		pool.execute(new RunnablePing("new.com", queue, db));
-		pool.execute(new RunnablePing("new.net", queue, db));
-		pool.execute(new RunnablePing("news.com", queue, db));
-		pool.execute(new RunnablePing("news.net", queue, db));
-		pool.execute(new RunnablePing("hello.com", queue, db));
-		pool.execute(new RunnablePing("hello.org", queue, db));
-		pool.execute(new RunnablePing("hello.net", queue, db));
-		pool.execute(new RunnablePing("xnxx.com", queue, db));
-		pool.execute(new RunnablePing("fightnight.com", queue, db));
-		pool.execute(new RunnablePing("xhamster.com", queue, db));
-		pool.execute(new RunnablePing("hbo.com", queue, db));
+		pool.execute(new RunnablePing("google.com", queue, db, tracker));
+		pool.execute(new RunnablePing("facebook.com", queue, db, tracker));
+		pool.execute(new RunnablePing("reddit.com", queue, db, tracker));
+		pool.execute(new RunnablePing("gmail.com", queue, db, tracker));
+		pool.execute(new RunnablePing("digitalpath.com", queue, db, tracker));
+		pool.execute(new RunnablePing("w3schools.com", queue, db, tracker));
+		pool.execute(new RunnablePing("myspace.com", queue, db, tracker));
+		pool.execute(new RunnablePing("hotmail.com", queue, db, tracker));
+		pool.execute(new RunnablePing("youtube.com", queue, db, tracker));
+		pool.execute(new RunnablePing("microsoft.com", queue, db, tracker));
+		pool.execute(new RunnablePing("new.com", queue, db, tracker));
+		pool.execute(new RunnablePing("new.net", queue, db, tracker));
+		pool.execute(new RunnablePing("news.com", queue, db, tracker));
+		pool.execute(new RunnablePing("news.net", queue, db, tracker));
+		pool.execute(new RunnablePing("hello.com", queue, db, tracker));
+		pool.execute(new RunnablePing("hello.org", queue, db, tracker));
+		pool.execute(new RunnablePing("hello.net", queue, db, tracker));
+		pool.execute(new RunnablePing("xnxx.com", queue, db, tracker));
+		pool.execute(new RunnablePing("fightnight.com", queue, db, tracker));
+		pool.execute(new RunnablePing("xhamster.com", queue, db, tracker));
+		pool.execute(new RunnablePing("hbo.com", queue, db, tracker));
 	}
 	
 	/**Initialize The Field Objects & Variables for the Class*/
 	private void init() {
 		Functions.debug("LatencyChecker init()");
+		tracker = new Tracker();
 		this.db = db;
 		queue = new PriorityBlockingQueue();
-		pool = new ThreadPool(queue, Functions.getStartingThreads());
+		pool = new ThreadPool(queue, Functions.getStartingThreads(), tracker);
 		running = true;
 	}
 
@@ -157,4 +160,5 @@ public class LatencyChecker {
 	private PriorityBlockingQueue queue;
 	private ThreadPool pool;
 	private boolean running;
+	private Tracker tracker;
 }

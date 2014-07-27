@@ -1,7 +1,7 @@
 
 public class Functions {
 	public static void debug(String msg){
-		boolean dbug = false;
+		boolean dbug = true;
 		if(dbug){
 			System.out.println(msg);
 		}
@@ -12,7 +12,7 @@ public class Functions {
 	}
 
 	public static int getStartingThreads() {
-		return 15;
+		return 1;
 	}
 
 	public static int getMaxThreads() {

@@ -16,12 +16,12 @@ public class ThreadPool {
 	 * @param noOfThreads
 	 * @param maxNoOfTasks
 	 */
-	public ThreadPool(PriorityBlockingQueue<RunnablePing>queue, int noOfThreads) {
+	public ThreadPool(PriorityBlockingQueue<RunnablePing>queue, int noOfThreads, Tracker t) {
+		this.tracker = t;
 		this.queue = queue;
 		averageRunTime = 0;
 		totalRuns = 0;
 		goalAverageRunTime = Functions.getAverageGoalTime();
-		tracker = new Tracker();
 
 		for (int i = 0; i < noOfThreads; i++) {
 			threads.add(new PingThread(this, queue));

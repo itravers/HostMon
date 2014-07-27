@@ -8,7 +8,8 @@ import java.util.concurrent.PriorityBlockingQueue;
  */
 public class RunnablePing  implements Comparable, Runnable{
 	
-	public RunnablePing(String ip, PriorityBlockingQueue<RunnablePing>queue, DataBase db){
+	public RunnablePing(String ip, PriorityBlockingQueue<RunnablePing>queue, DataBase db, Tracker t){
+		this.tracker = t;
 		this.db = db;
 		pinger = new Pinger();
 		active = true;
@@ -25,6 +26,7 @@ public class RunnablePing  implements Comparable, Runnable{
 		String latency = pinger.ping(ip);
 		lastLatency = latency;
 		String timeStamp = Long.toString(System.currentTimeMillis());
+		
 		db.recordPing(ip, timeStamp, latency);
 		
 		
@@ -34,9 +36,21 @@ public class RunnablePing  implements Comparable, Runnable{
 		}else{
 			// else, we measure runtime from end to end
 			//calculate runTime endToEnd
+			
 			runTime = System.currentTimeMillis() - timeCompletedLast;
 		}
+		if(ip.equals("google.com"))
+		System.out.println("Run Time: " + runTime);
+		tracker.addPing(runTime);
 		timeCompletedLast = System.currentTimeMillis();
+		
+		//we need to slow total job time down sometimes down.
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	
@@ -84,4 +98,5 @@ public class RunnablePing  implements Comparable, Runnable{
     private Pinger pinger;
     private DataBase db;
     public String lastLatency = "";
+    private Tracker tracker;
 }
