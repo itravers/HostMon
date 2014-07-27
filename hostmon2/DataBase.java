@@ -152,7 +152,7 @@ public class DataBase {
 				}
 				results.add(immediateResults);
 			}
-			System.out.println(res.getRow());
+			//System.out.println(res.getRow());
 			this.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
