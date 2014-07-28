@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.sql.*;
 
 /**
@@ -12,14 +14,15 @@ public class DataBase {
 	
 	public static void main(String[] args){
 		DataBase db = new DataBase(getDBOptions());
-		db.open();
-		db.recordPing("192.168.1.1", "000000", "301");
-		db.recordPing("192.168.1.2", "000000", "302");
-		db.recordPing("192.168.1.3", "000000", "303");
-		db.recordPing("192.168.1.4", "000000", "304");
-		db.recordPing("192.168.1.5", "000000", "305");
-		db.recordPings();
-		db.close();
+		String setting = db.getConfig("averageGoalTime");
+		//db.open();
+		//db.recordPing("192.168.1.1", "000000", "301");
+		//db.recordPing("192.168.1.2", "000000", "302");
+		//db.recordPing("192.168.1.3", "000000", "303");
+		//db.recordPing("192.168.1.4", "000000", "304");
+		//db.recordPing("192.168.1.5", "000000", "305");
+		//db.recordPings();
+		//db.close();
 		System.out.println("exit");
 	}
 	
@@ -30,6 +33,7 @@ public class DataBase {
 	public DataBase(ArrayList<String>options){
 		Functions.debug("DataBase DataBase()");
 		pingRecord = new ArrayList<ArrayList<String>>();
+		config = new HashMap<String, String>();
 		this.options = options;
 	}
 	
@@ -142,6 +146,8 @@ public class DataBase {
 					immediateResults.put("ip", res.getString("ip"));;
 					immediateResults.put("name", res.getString("name"));;
 					immediateResults.put("description", res.getString("description"));;
+				}else if(tableName.equals("configuration")){
+					immediateResults.put(res.getString("name"), res.getString("value"));
 				}
 				if(results==null){
 					System.out.println("null");
@@ -267,8 +273,8 @@ public class DataBase {
 		list.add(latency);
 		pingRecord.add(list);
 		
-		//once there are x ping records, we want to record to database.
-		if(pingRecord.size() >= Functions.getNumPingRunsBeforeDBRecord()){
+		//once there are x ping records, we want to record to database. 
+		if(pingRecord.size() >= Integer.parseInt(getConfig("numPingRunsBeforeDBRecord"))){
 			recordPings();
 		}
 	}
@@ -294,28 +300,28 @@ public class DataBase {
 	}
 	
 	public ArrayList<HashMap<String, String>> getNewestFiveMinutesOfPings() {
-		long timeLimit = System.currentTimeMillis() - Functions.getNewestPingMinutes();
+		long timeLimit = System.currentTimeMillis() - Long.parseLong(getConfig("newestPingMinutes"));
 		String command = "SELECT * FROM `minute` WHERE time > " + (timeLimit);
 		ArrayList<HashMap<String, String>> newestFiveMinutesOfPings = read(command);
 		return newestFiveMinutesOfPings;
 	}
 	
 	public ArrayList<HashMap<String, String>> getNewestHourOfPings() {
-		long timeLimit = System.currentTimeMillis() - Functions.getNewestPingHours();
+		long timeLimit = System.currentTimeMillis() - Long.parseLong(getConfig("newestPingHours"));
 		String command = "SELECT * FROM `hour` WHERE time > " + (timeLimit);
 		ArrayList<HashMap<String, String>> newestHourOfPings = read(command);
 		return newestHourOfPings;
 	}
 	
 	public ArrayList<HashMap<String, String>> getNewestDayOfPings() {
-		long timeLimit = System.currentTimeMillis() - Functions.getNewestPingDays();
+		long timeLimit = System.currentTimeMillis() - Long.parseLong(getConfig("newestPingDays"));
 		String command = "SELECT * FROM `day` WHERE time > " + (timeLimit);
 		ArrayList<HashMap<String, String>> newestDayOfPings = read(command);
 		return newestDayOfPings;
 	}
 	
 	public ArrayList<HashMap<String, String>> getNewestWeekOfPings() {
-		long timeLimit = System.currentTimeMillis() - Functions.getNewestPingWeeks();
+		long timeLimit = System.currentTimeMillis() - Long.parseLong(getConfig("newestPingWeeks"));
 		String command = "SELECT * FROM `week` WHERE time > " + (timeLimit);
 		ArrayList<HashMap<String, String>> newestWeekOfPings = read(command);
 		return newestWeekOfPings;
@@ -339,7 +345,7 @@ public class DataBase {
 	}
 	
 	public void deleteOldMinuteRecords() {
-		long ageLimit = Functions.getMinuteRecordAgeLimit();
+		long ageLimit = Long.parseLong(getConfig("minuteRecordAgeLimit"));
 		long time = System.currentTimeMillis();
 		long oldTime = time-ageLimit;
 		String command = "DELETE FROM `minute` WHERE time <="+oldTime;
@@ -348,7 +354,7 @@ public class DataBase {
 	}
 	
 	public void deleteOldHourRecords() {
-		long ageLimit = Functions.getHourRecordAgeLimit();
+		long ageLimit = Long.parseLong(getConfig("hourRecordAgeLimit"));
 		long time = System.currentTimeMillis();
 		long oldTime = time-ageLimit;
 		String command = "DELETE FROM `hour` WHERE time <="+oldTime;
@@ -357,7 +363,7 @@ public class DataBase {
 	}
 	
 	public void deleteOldDayRecords() {
-		long ageLimit = Functions.getDayRecordAgeLimit();
+		long ageLimit = Long.parseLong(getConfig("dayRecordAgeLimit"));
 		long time = System.currentTimeMillis();
 		long oldTime = time-ageLimit;
 		String command = "DELETE FROM `day` WHERE time <="+oldTime;
@@ -366,12 +372,48 @@ public class DataBase {
 	}
 	
 	public void deleteOldWeekRecords() {
-		long ageLimit = Functions.getWeekRecordAgeLimit();
+		long ageLimit = Long.parseLong(getConfig("weekRecordAgeLimit"));
 		long time = System.currentTimeMillis();
 		long oldTime = time-ageLimit;
 		String command = "DELETE FROM `week` WHERE time <="+oldTime;
 		write(command);
 		System.out.println("deleted Records older than " + ageLimit/1000 + " seconds");
+	}
+	
+	/**
+	 * Gets a configuration settings, every few times it's run it will
+	 * get new config settings from the database.
+	 * @param name
+	 * @return
+	 */
+	public String getConfig(String name){
+		configReads++;
+		if(configReads % 50 == 0 || configReads == 0 || !config.containsKey(name)){
+			//pull config settings from database and add all to config
+			config = getConfigsFromDB();
+		}
+		return config.get(name);
+	}
+	
+	/**
+	 * Gets all config settings from database.
+	 * @return A Hashmap of the settings.
+	 */
+	public HashMap<String, String>getConfigsFromDB(){
+		HashMap<String, String> returnVal = new HashMap<String, String>();
+		String command = "SELECT * FROM configuration";
+		ArrayList<HashMap<String,String>>dbResults = read(command);
+		//loop through dbResults, pulling each item 0 and adding it's values to returnVal
+		for(int i = 0; i < dbResults.size(); i++){
+			HashMap<String, String>r = dbResults.get(i);
+			Set<String> s = r.keySet();
+			Iterator<String> iterator = s.iterator();
+			while(iterator.hasNext()){
+				String key = iterator.next();
+				returnVal.put(key, r.get(key));
+			}
+		}
+		return returnVal;
 	}
 	
 	/* Private Methods */
@@ -391,4 +433,6 @@ public class DataBase {
 	ArrayList<String>options;
 	static Connection conn;
 	ArrayList<ArrayList<String>>pingRecord;
+	int configReads = -1;
+	HashMap<String, String>config;
 }
