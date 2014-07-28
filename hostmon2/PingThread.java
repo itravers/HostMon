@@ -14,9 +14,10 @@ import java.util.concurrent.PriorityBlockingQueue;
  */
 public class PingThread extends Thread {
 
-	public PingThread(ThreadPool p, PriorityBlockingQueue<RunnablePing> queue) {
+	public PingThread(ThreadPool p, PriorityBlockingQueue<RunnablePing> queue, DataBase db) {
 		threadNumber = p.getThreads().size();
 		currentlyProcessing = false;
+		this.db = db;
 		parent = p;
 		tracker = p.tracker;
 		this.queue = queue;
@@ -110,12 +111,11 @@ public class PingThread extends Thread {
 			}
 		}
 	}
-
 	private void updateThreadCount() {
-		if(tracker.getTotalRuns() % Functions.getRunPerThreadCheck() == 0){
+		if(tracker.getTotalRuns() %  Integer.parseInt(db.getConfig("runPerThreadCheck"))== 0){
 			if(tracker.getAverageCurrentTime() != 0){ //fix for multiple threads doing this at once
-				if(tracker.getAverageCurrentTime() <= Functions.getAverageGoalTime()){
-					if((tracker.getAverageCurrentTime()*2) <= Functions.getAverageGoalTime()){
+				if(tracker.getAverageCurrentTime() <= Long.parseLong(db.getConfig("averageGoalTime"))){
+					if((tracker.getAverageCurrentTime()*2) <= Long.parseLong(db.getConfig("averageGoalTime"))){
 						//average run time is less than half goal run time
 						Functions.debug("Exceeded Timing Goal, removing thread.");
 						parent.removeThread(this);
@@ -123,7 +123,7 @@ public class PingThread extends Thread {
 						//we are hitting our timing goals, do nothing.
 						Functions.debug("Hit Timing Goal.");
 					}
-				}else if((tracker.getAverageCurrentTime()*1) > Functions.getAverageGoalTime()){
+				}else if((tracker.getAverageCurrentTime()*1) > Long.parseLong(db.getConfig("averageGoalTime"))){
 					//if Average Run Time is 2x bigger than goal run time, we add a thread
 					Functions.debug("Missed Timing Goal, adding Thread");
 					parent.addThread();
@@ -180,5 +180,6 @@ public class PingThread extends Thread {
 	private int threadNumber;
 	private Tracker tracker;
 	private Runnable currentRunnable = null;
+	private DataBase db;
 
 }

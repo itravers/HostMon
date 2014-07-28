@@ -16,25 +16,26 @@ public class ThreadPool {
 	 * @param noOfThreads
 	 * @param maxNoOfTasks
 	 */
-	public ThreadPool(PriorityBlockingQueue<RunnablePing>queue, int noOfThreads, Tracker t) {
+	public ThreadPool(PriorityBlockingQueue<RunnablePing>queue, int noOfThreads, Tracker t, DataBase db) {
 		this.tracker = t;
 		this.queue = queue;
+		this.db = db;
 		averageRunTime = 0;
 		totalRuns = 0;
-		goalAverageRunTime = Functions.getAverageGoalTime();
+		goalAverageRunTime = Long.parseLong(db.getConfig("averageGoalTime"));//Functions.getAverageGoalTime();
 
 		for (int i = 0; i < noOfThreads; i++) {
-			threads.add(new PingThread(this, queue));
+			threads.add(new PingThread(this, queue, db));
 		}
 		for (PingThread thread : threads) {
 			thread.start();
 		}
 	}
 	
-	/* Public Methods. */
+	/* Public Methods.*/
 	
 	public void addThread() {
-		if(threads.size() < Functions.getMaxThreads()){
+		if(threads.size() < Integer.parseInt(db.getConfig("maxThreads"))){
 			PingThread thread;
 			if(stoppedThreads.size() > 0){
 				//there is a thread we can use in stoppedThreads
@@ -42,7 +43,7 @@ public class ThreadPool {
 				thread.startThread();
 				
 			}else{
-				thread = new PingThread(this, queue);
+				thread = new PingThread(this, queue, db);
 				thread.start();
 			}
 			
@@ -95,6 +96,7 @@ public class ThreadPool {
 	private boolean isStopped = false;
 	private long averageRunTime;
 	private int totalRuns;
+	private DataBase db;
 	public long goalAverageRunTime;
 	protected Tracker tracker;
 	

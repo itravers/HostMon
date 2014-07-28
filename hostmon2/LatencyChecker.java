@@ -157,7 +157,9 @@ public class LatencyChecker {
 		tracker = new Tracker();
 		this.db = db;
 		queue = new PriorityBlockingQueue();
-		pool = new ThreadPool(queue, Functions.getStartingThreads(), tracker);
+		String sThreads = db.getConfig("startingThreads");
+		int startingThreads = Integer.parseInt(sThreads);
+		pool = new ThreadPool(queue, startingThreads, tracker, db);
 		running = true;
 	}
 
