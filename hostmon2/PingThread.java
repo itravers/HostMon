@@ -71,7 +71,7 @@ public class PingThread extends Thread {
 					//				   " Run #: " + tracker.getTotalRuns() +
 					//				   " Threads Running: " + parent.getThreads().size());
 					String output = String.format("%15s", ((RunnablePing)currentRunnable).getIp());
-					output += String.format("%5s", ((RunnablePing)currentRunnable).lastLatency);
+					output += String.format("%8s", ((RunnablePing)currentRunnable).lastLatency);
 					output += String.format("%10s", "Thread #:");
 					output += String.format("%2d", threadNumber);
 					output += String.format("%6s", "Time:");
