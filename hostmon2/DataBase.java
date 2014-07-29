@@ -6,23 +6,21 @@ import java.util.Set;
 import java.sql.*;
 
 /**
- * Class Responsible for all DataBase Connectivity.
+ * This Class is an intermediary between the underlying database and the
+ * rest of the program. As of now it supports MySQL.
+ * Any information that needs to be written to or read from the database should use
+ * this class.
  * @author Isaac Assegai
- *
  */
 public class DataBase {
 	
+	/**
+	 * Entry Point used for testing Class
+	 * @param args
+	 */
 	public static void main(String[] args){
 		DataBase db = new DataBase(getDBOptions());
 		String setting = db.getConfig("averageGoalTime");
-		//db.open();
-		//db.recordPing("192.168.1.1", "000000", "301");
-		//db.recordPing("192.168.1.2", "000000", "302");
-		//db.recordPing("192.168.1.3", "000000", "303");
-		//db.recordPing("192.168.1.4", "000000", "304");
-		//db.recordPing("192.168.1.5", "000000", "305");
-		//db.recordPings();
-		//db.close();
 		System.out.println("exit");
 	}
 	
@@ -38,150 +36,6 @@ public class DataBase {
 	}
 	
 	/* Public Methods*/
-	
-	/**
-	 * Opens the db for reading or writing.
-	 * @return True if db is now open. Else, False.
-	 */
-	public boolean open(){
-		boolean returnVal = false;
-		String dbName = options.get(0);
-		String driver = "com.mysql.jdbc.Driver";
-		String userName = options.get(1);
-		String password = options.get(2);
-		String url = "jdbc:mysql://"+options.get(3)+":3306/";
-		
-		try {
-			Class.forName(driver).newInstance();
-			conn = DriverManager.getConnection(url + dbName,
-					userName, password);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
-			if(conn.isClosed()){
-				returnVal = false;
-			}else{
-				returnVal = true;
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return returnVal;
-	}
-	
-	/**
-	 * Lets us know if the db is currently open, or not.
-	 * @return True if Open
-	 */
-	public boolean isOpen(){
-		Functions.debug("DataBase isOpen()");
-		return false;
-	}
-	
-	/**
-	 * Closes the db.
-	 * @return True if Closed.
-	 */
-	public boolean close(){
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
-	/**
-	 * Send a command to make a change in the database.
-	 * @param dbCommand
-	 * @return
-	 */
-	public synchronized int write(String dbCommand){
-		int returnVal = 0;
-		Statement st;
-		try {
-			this.open();
-			st = conn.createStatement();
-			returnVal = st.executeUpdate(dbCommand);
-			this.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return returnVal;
-	}
-	
-	/**
-	 * Send a command to pull up information from the db.
-	 * @param dbCommand
-	 * @return
-	 */
-	public synchronized ArrayList<HashMap<String,String>>read(String dbCommand){
-		ResultSet res = null;
-		ArrayList<HashMap<String,String>>results = new ArrayList<HashMap<String,String>>();
-		String tableName = "";
-		try {
-			this.open();
-			Statement st;
-			st = conn.createStatement();
-			res = st.executeQuery(dbCommand);
-			while (res.next()) {
-				//System.out.println(res.getRow());
-				HashMap<String,String>immediateResults = new HashMap<String,String>();
-				tableName = res.getMetaData().getTableName(1);
-				if(tableName.equals("timers")){
-					immediateResults.put(res.getString("name"), res.getString("value"));
-				}else if(tableName.equals("minute") || tableName.equals("hour") || tableName.equals("day") || tableName.equals("week")){
-					immediateResults.put("id", res.getString("id"));
-					immediateResults.put("ip", res.getString("ip"));
-					immediateResults.put("time", res.getString("time"));
-					immediateResults.put("latency", res.getString("latency"));
-				}else if(tableName.equals("Active_Devices")){
-					immediateResults.put("id", res.getString("deviceid"));;
-				}else if(tableName.equals("Devices")){
-					immediateResults.put("id", res.getString("id"));;
-					immediateResults.put("ip", res.getString("ip"));;
-					immediateResults.put("name", res.getString("name"));;
-					immediateResults.put("description", res.getString("description"));;
-				}else if(tableName.equals("configuration")){
-					immediateResults.put(res.getString("name"), res.getString("value"));
-				}
-				if(results==null){
-					System.out.println("null");
-				}
-				results.add(immediateResults);
-			}
-			//System.out.println(res.getRow());
-			this.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return results;
-	}
-	
-	/**
-	 * Inserts a list of ping records.
-	 */
-	private synchronized void recordPings() {
-		int val = 0;
-		for (int i = 0; i < pingRecord.size(); i++) {
-			String ip = pingRecord.get(i).get(0);
-			String timeStamp = pingRecord.get(i).get(1);
-			String latency = pingRecord.get(i).get(2);
-			String commandString = "INSERT into minute VALUES(default, '" + ip
-					+ "', '" + timeStamp + "','" + latency + "')";
-			val = write(commandString);
-		}
-		if (val == 1) {
-			System.out.println("Inserted Latest Pings Into Minute Table");
-		}
-		pingRecord.clear();
-	}
-	
 	/**
 	 * Records a HashMap<String, <HashMap<String, String>>> of records into the hour table
 	 * this hashmap has each record averaged
@@ -266,6 +120,14 @@ public class DataBase {
 		}
 	}
 	
+	/**
+	 * Responsible for recording latency into the database. This object will keep a record
+	 * of pings. Every X times this method is called the record of pings will be
+	 * recorded to the database
+	 * @param ip The ip of the device we are recording.
+	 * @param timeStamp The time that this ping happened.
+	 * @param latency The result of the ping.
+	 */
 	public synchronized void recordPing(String ip, String timeStamp, String latency){
 		ArrayList<String>list = new ArrayList<String>();
 		list.add(ip);
@@ -279,6 +141,10 @@ public class DataBase {
 		}
 	}
 	
+	/**
+	 * Returns a list of timers from the db, in our "special" format.
+	 * @return
+	 */
 	public ArrayList<HashMap<String, String>> getTimers() {
 		ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
 
@@ -288,6 +154,13 @@ public class DataBase {
 		return result;
 	}
 	
+	/**
+	 * Updates a timer in the database. Useful if the program stops running it
+	 * will still be able to maintain the db on the next run at the appropriate
+	 * times.
+	 * @param timerName The Name of the Timer
+	 * @param newTime The next time the Timer should be set off
+	 */
 	public void setTimer(String timerName, String newTime){
 		int val = 0;
 		
@@ -299,6 +172,10 @@ public class DataBase {
 		}
 	}
 	
+	/**
+	 * Returns the newest 5 minutes of records in the minute table.
+	 * @return The information requested in our "Special" format.
+	 */
 	public ArrayList<HashMap<String, String>> getNewestFiveMinutesOfPings() {
 		long timeLimit = System.currentTimeMillis() - Long.parseLong(getConfig("newestPingMinutes"));
 		String command = "SELECT * FROM `minute` WHERE time > " + (timeLimit);
@@ -306,6 +183,10 @@ public class DataBase {
 		return newestFiveMinutesOfPings;
 	}
 	
+	/**
+	 * Returns the newest hour of records in the hour table.
+	 * @return The information requested in our "Special" format.
+	 */
 	public ArrayList<HashMap<String, String>> getNewestHourOfPings() {
 		long timeLimit = System.currentTimeMillis() - Long.parseLong(getConfig("newestPingHours"));
 		String command = "SELECT * FROM `hour` WHERE time > " + (timeLimit);
@@ -313,6 +194,10 @@ public class DataBase {
 		return newestHourOfPings;
 	}
 	
+	/**
+	 * Returns the newest day of records in the day table.
+	 * @return The information requested in our "Special" format.
+	 */
 	public ArrayList<HashMap<String, String>> getNewestDayOfPings() {
 		long timeLimit = System.currentTimeMillis() - Long.parseLong(getConfig("newestPingDays"));
 		String command = "SELECT * FROM `day` WHERE time > " + (timeLimit);
@@ -320,6 +205,10 @@ public class DataBase {
 		return newestDayOfPings;
 	}
 	
+	/**
+	 * Returns the newest week of records in the week table.
+	 * @return The information requested in our "Special" format.
+	 */
 	public ArrayList<HashMap<String, String>> getNewestWeekOfPings() {
 		long timeLimit = System.currentTimeMillis() - Long.parseLong(getConfig("newestPingWeeks"));
 		String command = "SELECT * FROM `week` WHERE time > " + (timeLimit);
@@ -327,12 +216,21 @@ public class DataBase {
 		return newestWeekOfPings;
 	}
 	
+	/**
+	 * Returns a list of active devices ID, in our "special" format.
+	 * @return The ID's of our active devices, in our "special" format.
+	 */
 	public ArrayList<HashMap<String, String>> getActivePings() {
 		String command = "SELECT * FROM `Active_Devices`";
 		ArrayList<HashMap<String, String>> activePings = read(command);
 		return activePings;
 	}
 	
+	/**
+	 * Returns an array list of ip addresses that represent active devices
+	 * that are currently supposed to be pinged.
+	 * @return The ArrayList of IP's
+	 */
 	public ArrayList<String> getActiveIps(){
 		ArrayList<HashMap<String, String>> activePings = getActivePings();
 		ArrayList<String>newActiveIPs = new ArrayList<String>();
@@ -344,6 +242,10 @@ public class DataBase {
 		return newActiveIPs;
 	}
 	
+	/**
+	 * Deletes Records in the minute table that are older that
+	 * a predetermined age limit.
+	 */
 	public void deleteOldMinuteRecords() {
 		long ageLimit = Long.parseLong(getConfig("minuteRecordAgeLimit"));
 		long time = System.currentTimeMillis();
@@ -353,6 +255,10 @@ public class DataBase {
 		System.out.println("deleted Records older than " + ageLimit/1000 + " seconds");
 	}
 	
+	/**
+	 * Deletes Records in the hour table that are older that
+	 * a predetermined age limit.
+	 */
 	public void deleteOldHourRecords() {
 		long ageLimit = Long.parseLong(getConfig("hourRecordAgeLimit"));
 		long time = System.currentTimeMillis();
@@ -362,6 +268,10 @@ public class DataBase {
 		System.out.println("deleted Records older than " + ageLimit/1000 + " seconds");
 	}
 	
+	/**
+	 * Deletes Records in the day table that are older that
+	 * a predetermined age limit.
+	 */
 	public void deleteOldDayRecords() {
 		long ageLimit = Long.parseLong(getConfig("dayRecordAgeLimit"));
 		long time = System.currentTimeMillis();
@@ -371,6 +281,10 @@ public class DataBase {
 		System.out.println("deleted Records older than " + ageLimit/1000 + " seconds");
 	}
 	
+	/**
+	 * Deletes Records in the week table that are older that
+	 * a predetermined age limit.
+	 */
 	public void deleteOldWeekRecords() {
 		long ageLimit = Long.parseLong(getConfig("weekRecordAgeLimit"));
 		long time = System.currentTimeMillis();
@@ -383,8 +297,8 @@ public class DataBase {
 	/**
 	 * Gets a configuration settings, every few times it's run it will
 	 * get new config settings from the database.
-	 * @param name
-	 * @return
+	 * @param name The name of the configuration setting.
+	 * @return The value of the configuration setting.
 	 */
 	public String getConfig(String name){
 		configReads++;
@@ -417,8 +331,148 @@ public class DataBase {
 	}
 	
 	/* Private Methods */
+	/**
+	 * Opens the db for reading or writing.
+	 * @return True if db is now open. Else, False.
+	 */
+	private boolean open(){
+		boolean returnVal = false;
+		String dbName = options.get(0);
+		String driver = "com.mysql.jdbc.Driver";
+		String userName = options.get(1);
+		String password = options.get(2);
+		String url = "jdbc:mysql://"+options.get(3)+":3306/";
+		
+		try {
+			Class.forName(driver).newInstance();
+			conn = DriverManager.getConnection(url + dbName,
+					userName, password);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			if(conn.isClosed()){
+				returnVal = false;
+			}else{
+				returnVal = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return returnVal;
+	}
+	
+	/**
+	 * Closes the db.
+	 * @return True if Closed.
+	 */
+	private boolean close(){
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	/**
+	 * Send a command to make a change in the database.
+	 * @param dbCommand
+	 * @return
+	 */
+	private synchronized int write(String dbCommand){
+		int returnVal = 0;
+		Statement st;
+		try {
+			this.open();
+			st = conn.createStatement();
+			returnVal = st.executeUpdate(dbCommand);
+			this.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return returnVal;
+	}
+	
+	/**
+	 * Send a command to pull up information from the db.
+	 * @param dbCommand
+	 * @return
+	 */
+	private synchronized ArrayList<HashMap<String,String>>read(String dbCommand){
+		ResultSet res = null;
+		ArrayList<HashMap<String,String>>results = new ArrayList<HashMap<String,String>>();
+		String tableName = "";
+		try {
+			this.open();
+			Statement st;
+			st = conn.createStatement();
+			res = st.executeQuery(dbCommand);
+			while (res.next()) {
+				//System.out.println(res.getRow());
+				HashMap<String,String>immediateResults = new HashMap<String,String>();
+				tableName = res.getMetaData().getTableName(1);
+				if(tableName.equals("timers")){
+					immediateResults.put(res.getString("name"), res.getString("value"));
+				}else if(tableName.equals("minute") || tableName.equals("hour") || tableName.equals("day") || tableName.equals("week")){
+					immediateResults.put("id", res.getString("id"));
+					immediateResults.put("ip", res.getString("ip"));
+					immediateResults.put("time", res.getString("time"));
+					immediateResults.put("latency", res.getString("latency"));
+				}else if(tableName.equals("Active_Devices")){
+					immediateResults.put("id", res.getString("deviceid"));;
+				}else if(tableName.equals("Devices")){
+					immediateResults.put("id", res.getString("id"));;
+					immediateResults.put("ip", res.getString("ip"));;
+					immediateResults.put("name", res.getString("name"));;
+					immediateResults.put("description", res.getString("description"));;
+				}else if(tableName.equals("configuration")){
+					immediateResults.put(res.getString("name"), res.getString("value"));
+				}
+				if(results==null){
+					System.out.println("null");
+				}
+				results.add(immediateResults);
+			}
+			//System.out.println(res.getRow());
+			this.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return results;
+	}
+	
+	/**
+	 * Inserts a list of ping records into the DB
+	 */
+	private synchronized void recordPings() {
+		int val = 0;
+		for (int i = 0; i < pingRecord.size(); i++) {
+			String ip = pingRecord.get(i).get(0);
+			String timeStamp = pingRecord.get(i).get(1);
+			String latency = pingRecord.get(i).get(2);
+			String commandString = "INSERT into minute VALUES(default, '" + ip
+					+ "', '" + timeStamp + "','" + latency + "')";
+			val = write(commandString);
+		}
+		if (val == 1) {
+			System.out.println("Inserted Latest Pings Into Minute Table");
+		}
+		pingRecord.clear();
+	}
 	
 	/* Static Methods */
+	
+	/**
+	 * Reads from config file to find Database settings, or uses default if config
+	 * file is not found. This config file should be generated by the front-end, or
+	 * and install script.
+	 * @return The ArrayList<String> of database name, user, password, ip
+	 */
 	public static ArrayList<String> getDBOptions() {
 		String o1="HostMon", o2="HostMonUser", o3="Micheal1", o4="192.168.2.146";
 		ArrayList<String>dbOptions = new ArrayList<String>();
@@ -430,9 +484,15 @@ public class DataBase {
 	}
 	
 	/* Field Objects and Variables */
-	ArrayList<String>options;
-	static Connection conn;
-	ArrayList<ArrayList<String>>pingRecord;
-	int configReads = -1;
-	HashMap<String, String>config;
+	
+	/**The List of Options used to connect to the Database backend. */
+	private ArrayList<String>options;
+	/**The variable used to connect to the database*/
+	private static Connection conn;
+	/**The record of pings that have not yet been recorded to the database. */
+	private ArrayList<ArrayList<String>>pingRecord;
+	/**Used to decide when we want to pull new configuration data down from the DB.*/
+	private int configReads = -1;
+	/**Configuration Data that has been read in from the DB.*/
+	private HashMap<String, String>config;
 }

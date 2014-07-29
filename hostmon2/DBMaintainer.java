@@ -5,18 +5,38 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 /**
- * Class used to perform the periodic maintenence on the database the app requires.
+ * This class performs the periodic maintenance that the database requires to perform
+ * in a round-robin type of way. maintenance happens through timers.
+ * There are two types of timers, one type clears old information from db tables.
+ * The other type averages out information in one db table and adds that average to another.
  * @author Isaac Assegai
- *
  */
 public class DBMaintainer extends Thread{
 	
+	/**
+	 * Entry Point for Class Testing
+	 * @param args
+	 */
 	public static void main(String[] args){
 		DataBase db = new DataBase(DataBase.getDBOptions());
 		DBMaintainer dbMaintainer = new DBMaintainer(db);
-		
 	}
 	
+	/**
+	 * The Constructor
+	 * @param db The database that this class will be working with.
+	 */
+	public DBMaintainer(DataBase db) {
+		isRunning = true;
+		this.db = db;
+		Functions.debug("DBMaintainer DBMaintainer()");
+		start();
+	}
+	
+	/* Public Methods */
+	/**
+	 * The main work done by this classes dedicated thread.
+	 */
 	public void run() {
 		long minuteTimer = 0;
 		ArrayList<HashMap<String, String>> timers = db.getTimers();
@@ -106,7 +126,6 @@ public class DBMaintainer extends Thread{
 					fiveMinuteTimer = nextTime;
 				}
 				
-				
 				if(System.currentTimeMillis() >= fifteenMinuteTimer){
 					//run every minute code & reset minute timer
 					db.deleteOldHourRecords();
@@ -114,7 +133,6 @@ public class DBMaintainer extends Thread{
 					db.setTimer("fifteenMinuteTimer", String.valueOf(nextTime));
 					fifteenMinuteTimer = nextTime;
 				}
-				
 				
 				if(System.currentTimeMillis() >= hourTimer){
 					//run every minute code & reset minute timer
@@ -177,7 +195,6 @@ public class DBMaintainer extends Thread{
 						avgRecord.put("time", String.valueOf(avgTime));
 						avgRecord.put("latency", String.valueOf(avgLatency));
 						averagedRecords.put(ip, avgRecord);
-						
 					}
 					//System.out.println("Added Entry to Day Table");
 					db.recordDayRecords(averagedRecords);
@@ -187,7 +204,6 @@ public class DBMaintainer extends Thread{
 					hourTimer = nextTime;
 				}
 				
-				
 				if(System.currentTimeMillis() >= twelveHourTimer){
 					//run every minute code & reset minute timer
 					db.deleteOldDayRecords();
@@ -195,7 +211,6 @@ public class DBMaintainer extends Thread{
 					db.setTimer("twelveHourTimer", String.valueOf(nextTime));
 					twelveHourTimer = nextTime;
 				}
-				
 				
 				if(System.currentTimeMillis() >= dayTimer){
 					//run every minute code & reset minute timer
@@ -258,7 +273,6 @@ public class DBMaintainer extends Thread{
 						avgRecord.put("time", String.valueOf(avgTime));
 						avgRecord.put("latency", String.valueOf(avgLatency));
 						averagedRecords.put(ip, avgRecord);
-						
 					}
 					//System.out.println("Added Entry to Week Table");
 					db.recordWeekRecords(averagedRecords);
@@ -353,7 +367,6 @@ public class DBMaintainer extends Thread{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
 			}
 		} catch (NumberFormatException e1) {
 			// TODO Auto-generated catch block
@@ -361,19 +374,11 @@ public class DBMaintainer extends Thread{
 		}	
 	}
 	
-	public DBMaintainer(DataBase db) {
-		isRunning = true;
-		this.db = db;
-		Functions.debug("DBMaintainer DBMaintainer()");
-		start();
-		
-	}
-	
-	/* Public Methods */
-	
 	/* Private Methods */
 	
 	/* Field Objects & Variables */
+	/**Keeps track if this class is running, setting this to false is a good way to shutdown class.*/
 	private boolean isRunning;
+	/**The DB this class is working with.*/
 	private DataBase db;
 }
