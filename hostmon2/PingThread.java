@@ -10,13 +10,17 @@ import java.util.concurrent.PriorityBlockingQueue;
  * If not it will destroy it.
  * 
  * @author Isaac Assegai
- * 
  */
 public class PingThread extends Thread {
 
+	/**
+	 * The Constructor.
+	 * @param p The thread pool this object belongs to.
+	 * @param queue The queue this object is going to help process.
+	 * @param db The database this object is working with.
+	 */
 	public PingThread(ThreadPool p, PriorityBlockingQueue<RunnablePing> queue, DataBase db) {
 		threadNumber = p.getThreads().size();
-		currentlyProcessing = false;
 		this.db = db;
 		parent = p;
 		tracker = p.tracker;
@@ -24,6 +28,10 @@ public class PingThread extends Thread {
 		isStopped = false;
 	}
 
+	/*Public Methods.*/
+	/**
+	 * The main block of work this thread will do.
+	 */
 	public void run() {
 		while(true){
 			while(isStopped){
@@ -35,60 +43,17 @@ public class PingThread extends Thread {
 				}
 			}
 			while (!isStopped && !Thread.currentThread().isInterrupted()) {
-				currentlyProcessing = true;
 				try {
 					RunnablePing runnable = (RunnablePing) queue.take();
 					setCurrentRunnable(runnable);
 					runnable.run();
-					
-					
-					
 					// check if runnable is still active, requeue if so, destroy if not
-					if(((RunnablePing)runnable).active){
+					if(((RunnablePing)runnable).isActive()){
 						queue.add(runnable);
 					}else{
 						//it'll get garbage collected by the jvm
 					}
-					
-					//check once in a while to see if our PARENTS averageRunTime is getting
-					//too much larger than our PARENTS goalAverageRunTime. If it is, and
-					//we don't have too many threads already, then we can create another 
-					//thread.
-					
-					//System.out.println("Thread " + threadNumber + " THREADS: " + parent.getThreads().size());
-					//System.out.println("Thread " + threadNumber + " RUNS: " + tracker.getTotalRuns());
-					//System.out.println("Thread " + threadNumber + " TIME: " + tracker.getAverageCurrentTime());
-					//System.out.println("THREAD: " + threadNumber + 
-					//				   " Time: " + tracker.getAverageCurrentTime() +
-					//				   " Runs: " + tracker.getTotalRuns() +
-					//				   " #Threads: " + parent.getThreads().size() + 
-					//				   " ip: " + ((RunnablePing)currentRunnable).getIp() +
-					//				   " ");
-					//System.out.println(((RunnablePing)currentRunnable).getIp() +
-					//				   " " + ((RunnablePing)currentRunnable).lastLatency +
-					//				   " Thread #: " + threadNumber +
-					//				   " Time: " + tracker.getAverageCurrentTime() +
-					//				   " Run #: " + tracker.getTotalRuns() +
-					//				   " Threads Running: " + parent.getThreads().size());
-					String output = String.format("%15s", ((RunnablePing)currentRunnable).getIp());
-					output += String.format("%8s", ((RunnablePing)currentRunnable).lastLatency);
-					output += String.format("%10s", "Thread #:");
-					output += String.format("%2d", threadNumber);
-					output += String.format("%6s", "Time:");
-					output += String.format("%6d", tracker.getAverageCurrentTime());
-					
-					output += String.format("%16s", "Thread Running:");
-					output += String.format("%3d", parent.getThreads().size());
-					
-					output += String.format("%6s", "Job#:");
-					output += String.format("%3d", queue.size());
-					
-					output += String.format("%6s", "Run#:");
-					output += String.format("%7d", tracker.getTotalRuns());
-					
-					
-					System.out.println(output);
-					
+					printThreadStatus();
 					//every 50 runs we will check if the parents average is meeting it's goals
 					//if it is, we check by how much, if it's meeting it's goal by 2x then we get
 					//rid of a thread. If it's not meeting it's goals we add a thread.
@@ -99,11 +64,8 @@ public class PingThread extends Thread {
 					// log or otherwise report exception,
 					// but keep pool thread alive.
 				}
-				//sleep for a second in currentlyProcessing = false mode
-				//to allow the threadpool to catch it when it is not processing
-				currentlyProcessing = false;
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -111,6 +73,58 @@ public class PingThread extends Thread {
 			}
 		}
 	}
+	
+	/**Prohibits the thread from processesing.*/
+	public synchronized void stopThread() {
+		isStopped = true;
+	}
+	
+	/**Allows the thread to process.*/
+	public synchronized void startThread() {
+		isStopped = false;
+	}
+
+	/**Lets us know if the thread is running or not.*/
+	public synchronized boolean isStopped() {
+		return isStopped;
+	}
+
+	/**Tells us how many threads are running.*/
+	public int getThreadNumber() {
+		return threadNumber;
+	}
+	
+	/**
+	 * Returns the item this thread is currently processing, if any. Null if none.
+	 * @return the currentRunnable
+	 */
+	public Runnable getCurrentRunnable() {
+		return currentRunnable;
+	}
+	
+	/*Private Methods */
+	/**Prints the status of this thread in a table to the console.*/
+	private void printThreadStatus() {
+		String output = String.format("%15s", ((RunnablePing)currentRunnable).getIp());
+		output += String.format("%8s", ((RunnablePing)currentRunnable).getLastLatency());
+		output += String.format("%10s", "Thread #:");
+		output += String.format("%2d", threadNumber);
+		output += String.format("%6s", "Time:");
+		output += String.format("%6d", tracker.getAverageCurrentTime());
+		output += String.format("%16s", "Thread Running:");
+		output += String.format("%3d", parent.getThreads().size());
+		output += String.format("%6s", "Job#:");
+		output += String.format("%3d", queue.size());
+		output += String.format("%6s", "Run#:");
+		output += String.format("%7d", tracker.getTotalRuns());
+		output += String.format("%10s", "Run Time:");
+		output += String.format("%7d", ((RunnablePing)currentRunnable).getRunTime());
+		System.out.println(output);
+	}
+
+	/**
+	 * Checks every x runs to see if we should add, or remove a thread.
+	 */
 	private void updateThreadCount() {
 		if(tracker.getTotalRuns() %  Integer.parseInt(db.getConfig("runPerThreadCheck"))== 0){
 			if(tracker.getAverageCurrentTime() != 0){ //fix for multiple threads doing this at once
@@ -135,51 +149,29 @@ public class PingThread extends Thread {
 				tracker.resetCurrent();
 			}
 		}
-		
-	}
-
-	public synchronized void stopThread() {
-		//stop();
-		isStopped = true;
-		//this.interrupt(); // break pool thread out of dequeue() call.
 	}
 	
-	public synchronized void startThread() {
-		//stop();
-		isStopped = false;
-		//this.interrupt(); // break pool thread out of dequeue() call.
-	}
-
-	public synchronized boolean isStopped() {
-		return isStopped;
-	}
-
-	public int getThreadNumber() {
-		return threadNumber;
-	}
-
 	/**
-	 * @return the currentRunnable
-	 */
-	public Runnable getCurrentRunnable() {
-		return currentRunnable;
-	}
-
-	/**
+	 * Remembers the item this thread is currently processing so it can refer to it later.
 	 * @param currentRunnable the currentRunnable to set
 	 */
-	public void setCurrentRunnable(Runnable currentRunnable) {
+	private void setCurrentRunnable(Runnable currentRunnable) {
 		this.currentRunnable = currentRunnable;
 	}
 
 	/* Field Objects & Variables */
+	/**The Pool this thread belongs to.*/
 	private ThreadPool parent;
+	/**The queue this thread helps process.*/
 	private PriorityBlockingQueue<RunnablePing> queue;
+	/**Keeps track of if the thread is running.*/
 	private boolean isStopped;
-	public boolean currentlyProcessing;
+	/**Keeps track of the number of threads running.*/
 	private int threadNumber;
+	/**Keeps track of each jobs average time.*/
 	private Tracker tracker;
+	/**Keeps track of the job this thread is processing, null if none.*/
 	private Runnable currentRunnable = null;
+	/**The database this thread works with.*/
 	private DataBase db;
-
 }
