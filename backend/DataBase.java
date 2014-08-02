@@ -9,7 +9,7 @@ import java.sql.*;
  * This Class is an intermediary between the underlying database and the
  * rest of the program. As of now it supports MySQL.
  * Any information that needs to be written to or read from the database should use
- * this class.
+ * this class .
  * @author Isaac Assegai
  */
 public class DataBase {
