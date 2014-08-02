@@ -10,14 +10,13 @@ import java.util.concurrent.PriorityBlockingQueue;
  * Every time a job is executed it's results are written to the database, the average 
  * amount of time it took the job to be executed is calculated, if this average is
  * too high, another thread will be added to the thread pool.
- * @author admin
- *
+ * @author Isaac Assegai
  */
 public class LatencyChecker {
 	
 	/**
 	 * The Constructor
-	 * @param db
+	 * @param db The Database we are working with.
 	 */
 	public LatencyChecker(DataBase db){
 		this.db = db;
@@ -41,7 +40,6 @@ public class LatencyChecker {
 	 * in the active list will be created and added to the queue.
 	 */
 	private void mainLoop(){
-		//test();
 		while(running){
 			Functions.debug("LatencyChecker mainLoop()");
 			//get a list of active ip's from the database
@@ -61,7 +59,7 @@ public class LatencyChecker {
 							activePings.add(p);
 						}
 					}else{
-						p.active = false;
+						p.setActive(false);
 					}
 				}
 				
@@ -75,7 +73,7 @@ public class LatencyChecker {
 								activePings.add(p);
 							}
 						}else{
-							p.active = false;
+							p.setActive(false);
 						}
 					}
 				}
@@ -91,10 +89,9 @@ public class LatencyChecker {
 					}
 				}
 				if(found){
-					//boole
 					if(!queue.contains(activePings.get(i))){
 						queue.add(activePings.get(i));
-						activePings.get(i).active = true;
+						activePings.get(i).setActive(true);
 					}
 				}
 			}
@@ -114,7 +111,6 @@ public class LatencyChecker {
 				if(addIt){
 					queue.add(p);
 				}
-				//System.out.println("test");
 			}
 			
 			try {
@@ -124,31 +120,6 @@ public class LatencyChecker {
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	private void test(){
-		//create a new RunnablePing, add it to the queue
-		pool.execute(new RunnablePing("google.com", queue, db, tracker));
-		pool.execute(new RunnablePing("facebook.com", queue, db, tracker));
-		pool.execute(new RunnablePing("reddit.com", queue, db, tracker));
-		pool.execute(new RunnablePing("gmail.com", queue, db, tracker));
-		pool.execute(new RunnablePing("digitalpath.com", queue, db, tracker));
-		pool.execute(new RunnablePing("w3schools.com", queue, db, tracker));
-		pool.execute(new RunnablePing("myspace.com", queue, db, tracker));
-		pool.execute(new RunnablePing("hotmail.com", queue, db, tracker));
-		pool.execute(new RunnablePing("youtube.com", queue, db, tracker));
-		pool.execute(new RunnablePing("microsoft.com", queue, db, tracker));
-		pool.execute(new RunnablePing("new.com", queue, db, tracker));
-		pool.execute(new RunnablePing("new.net", queue, db, tracker));
-		pool.execute(new RunnablePing("news.com", queue, db, tracker));
-		pool.execute(new RunnablePing("news.net", queue, db, tracker));
-		pool.execute(new RunnablePing("hello.com", queue, db, tracker));
-		pool.execute(new RunnablePing("hello.org", queue, db, tracker));
-		pool.execute(new RunnablePing("hello.net", queue, db, tracker));
-		pool.execute(new RunnablePing("xnxx.com", queue, db, tracker));
-		pool.execute(new RunnablePing("fightnight.com", queue, db, tracker));
-		pool.execute(new RunnablePing("xhamster.com", queue, db, tracker));
-		pool.execute(new RunnablePing("hbo.com", queue, db, tracker));
 	}
 	
 	/**Initialize The Field Objects & Variables for the Class*/
@@ -164,9 +135,14 @@ public class LatencyChecker {
 	}
 
 	/* Field Objects & Variables */
+	/**The Database we are working with.*/
 	private DataBase db;
+	/**The queue jobs are stored in.*/
 	private PriorityBlockingQueue queue;
+	/**The pool of threads that processes the queue.*/
 	private ThreadPool pool;
+	/**Is this class running.*/
 	private boolean running;
+	/**Keeps track of average job run times.*/
 	private Tracker tracker;
 }
