@@ -26,7 +26,7 @@ header {
 }
 
 #overlay {
-    background-image:url(images/transparent2.png);
+    background-image:url("../images/transparent2.png");
     color:#efefef;
     height:1100px;
 }
@@ -232,7 +232,7 @@ nav.top ul > li {
 }
 
 body.menu-open {
-	cursor: url(../images/close.png) 20 20, auto;
+	cursor: url("../images/close.png") 20 20, auto;
 }
 
 body.menu-open .overlay {
@@ -610,7 +610,7 @@ div.apple_overlay.black {
     color: #686868;
     width: 200px;
 	height: 40px;
-	background-image: url(../images/username.png) no-repeat;
+	background-image: url("../images/username.png") no-repeat;
 }
 
 .login-form input[type=text]:hover,
