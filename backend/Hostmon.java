@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Java Back-End of the HostMon Project.
@@ -31,7 +32,7 @@ public class Hostmon {
 	private void init(){
 		Functions.debug("Hostmon init()");
 		//Retrieve the database connection options.
-		ArrayList <String> dbOptions = DataBase.getDBOptions();	
+		HashMap<String, String> dbOptions = DataBase.getDBOptions();	
 		//Instantiate the database object we will use to talk to the db.
 		db = new DataBase(dbOptions);
 		//Instantiate the class that will be responsible for maintaining the db.

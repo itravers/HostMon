@@ -14,4 +14,9 @@ public class Functions {
 			System.out.println(msg);
 		}
 	}
+
+	public static String getDBConfigFileName() {
+		// TODO Auto-generated method stub
+		return "../cfg/db.cfg";
+	}
 }

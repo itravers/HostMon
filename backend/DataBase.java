@@ -3,6 +3,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 
 /**
@@ -28,7 +32,7 @@ public class DataBase {
 	 * Constructor
 	 * @param options - Array List of options used for connecting and reading from db.
 	 */
-	public DataBase(ArrayList<String>options){
+	public DataBase(HashMap<String, String>options){
 		Functions.debug("DataBase DataBase()");
 		pingRecord = new ArrayList<ArrayList<String>>();
 		config = new HashMap<String, String>();
@@ -337,11 +341,11 @@ public class DataBase {
 	 */
 	private boolean open(){
 		boolean returnVal = false;
-		String dbName = options.get(0);
+		String dbName = options.get("DB");
 		String driver = "com.mysql.jdbc.Driver";
-		String userName = options.get(1);
-		String password = options.get(2);
-		String url = "jdbc:mysql://"+options.get(3)+":3306/";
+		String userName = options.get("USER");
+		String password = options.get("PASS");
+		String url = "jdbc:mysql://"+options.get("IP")+":3306/";
 		
 		try {
 			Class.forName(driver).newInstance();
@@ -473,20 +477,53 @@ public class DataBase {
 	 * and install script.
 	 * @return The ArrayList<String> of database name, user, password, ip
 	 */
-	public static ArrayList<String> getDBOptions() {
-		String o1="HostMon", o2="HostMonUser", o3="Micheal1", o4="192.168.2.146";
-		ArrayList<String>dbOptions = new ArrayList<String>();
-		dbOptions.add(o1);
-		dbOptions.add(o2);
-		dbOptions.add(o3);
-		dbOptions.add(o4);
+	public static HashMap<String, String>getDBOptions() {
+		//String o1="HostMon", o2="HostMonUser", o3="Micheal1", o4="192.168.2.146";
+		//ArrayList<String>dbOptions = new ArrayList<String>();
+		//dbOptions.add(o1);
+		//dbOptions.add(o2);
+		//dbOptions.add(o3);
+		//dbOptions.add(o4);
+		//return dbOptions;
+		HashMap<String, String>dbOptions = new HashMap<String, String>();
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader(Functions.getDBConfigFileName()));
+			String line="";
+			String result = "";
+			
+			while ((line = br.readLine()) != null) {
+			   // process the line.
+				if(line.contains("DB:")){
+					result = line.substring(line.indexOf(":")+1, line.indexOf(";"));
+					dbOptions.put("DB", result);
+				}else if(line.contains("USER:")){
+					result = line.substring(line.indexOf(":")+1, line.indexOf(";"));
+					dbOptions.put("USER", result);
+				}else if(line.contains("PASS:")){
+					result = line.substring(line.indexOf(":")+1, line.indexOf(";"));
+					dbOptions.put("PASS", result);
+				}else if(line.contains("IP:")){
+					result = line.substring(line.indexOf(":")+1, line.indexOf(";"));
+					dbOptions.put("IP", result);
+				}
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return dbOptions;
 	}
 	
 	/* Field Objects and Variables */
 	
 	/**The List of Options used to connect to the Database backend. */
-	private ArrayList<String>options;
+	private HashMap<String, String> options;
 	/**The variable used to connect to the database*/
 	private static Connection conn;
 	/**The record of pings that have not yet been recorded to the database. */
