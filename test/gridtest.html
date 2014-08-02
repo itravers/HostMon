@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>gridster test</title>
+      <link rel="stylesheet" type="text/css" href="css/gridster.css">
+      <link rel="stylesheet" type="text/css" href="css/styles.css">
+      
+      <style>
+    /* use a semi-transparent image for the overlay */
+  #overlay {
+    background-image:url(images/transparent2.png);
+    color:#efefef;
+    height:1100px;
+  }
+  /* container for external content. uses vertical scrollbar, if needed */
+  div.contentWrap {
+    height:1100px;
+    overflow-y:auto;
+  }
+  </style>
+  <a class="menu" href="#">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+   </a>
+    
+   <nav class="left">
+        <ul>
+        <li>
+        <a href="#">Home</a>
+        </li>
+        <li>
+        <a href="#">Options</a>
+        </li>
+        <li>
+        <a href="#">Logout</a>
+        </li>
+        </ul>
+  </nav>
+  </head>
+  <body>
+      <section class="demo">
+          <div class="gridster">
+              <ul class='gridlist'>
+                  <li href="devicechart.html" rel="#overlay" data-row="1" data-col="1" data-sizex="4" data-sizey="2" onclick="loadDevice('0');">
+                  	<div class="device_record"><h1>DeviceName</h1><h2>192.168.100.1</h2><h3>1ms</h3><canvas class="can1"></canvas><div id="statusmark"></div></div></li>
+                  <li href="devicechart.html" rel="#overlay" data-row="1" data-col="5" data-sizex="4" data-sizey="4" onclick="loadDevice('0');">
+                  	<div class="device_record"><h1>DeviceName</h1><h2>192.168.100.1</h2><h3>1ms</h3><canvas class="can1"></canvas><canvas class="can1 secondImage"></canvas><div id="statusmark"></div></div></li>
+                  <li href="devicechart.html" class="yellow" rel="#overlay" data-row="3" data-col="1" data-sizex="2" data-sizey="2" onclick="loadDevice('0');">
+                  	<div class="device_record"><h1>DeviceName</h1><h2>192.168.100.1</h2><h3>1ms</h3><canvas class="can1"></canvas><div id="statusmark"></div></div></li>
+                  <li href="devicechart.html" class="red" rel="#overlay" data-row="3" data-col="3" data-sizex="2" data-sizey="2" onclick="loadDevice('0');">
+                  	<div class="device_record"><h1>DeviceName</h1><h2>192.168.100.1</h2><h3>1ms</h3><canvas class="can1"></canvas><div id="statusmark"></div></div></li>
+                  <li href="devicechart.html" rel="#overlay" data-row="5" data-col="1" data-sizex="2" data-sizey="2" onclick="loadDevice('0');">
+                  	<div class="device_record"><h1>DeviceName</h1><h2>192.168.100.1</h2><h3>1ms</h3><canvas class="can1"></canvas><div id="statusmark"></div></div></li>
+                  <li href="devicechart.html" rel="#overlay" data-row="5" data-col="3" data-sizex="4" data-sizey="2" onclick="loadDevice('0');">
+                  	<div class="device_record"><h1>DeviceName</h1><h2>192.168.100.1</h2><h3>1ms</h3><canvas class="can1"></canvas><div id="statusmark"></div></div></li>
+                  <li href="devicechart.html" class="yellow" rel="#overlay" data-row="5" data-col="7" data-sizex="1" data-sizey="1" onclick="loadDevice('0');">
+                  	<div class="device_record"><h1>DeviceName</h1><h2>192.168.100.1</h2><h3>1ms</h3><canvas class="can1"></canvas><div id="statusmark"></div></div></li>
+                  <li href="devicechart.html" rel="#overlay" data-row="5" data-col="8" data-sizex="1" data-sizey="1" onclick="loadDevice('0');">
+                  	<div class="device_record"><h1>DeviceName</h1><h2>192.168.100.1</h2><h3>1ms</h3><canvas class="can1"></canvas><div id="statusmark"></div></div></li>
+                  <li href="devicechart.html" class="red" rel="#overlay" data-row="6" data-col="7" data-sizex="1" data-sizey="1" onclick="loadDevice('0');">
+                  	<div class="device_record"><h1>DeviceName</h1><h2>192.168.100.1</h2><h3>1ms</h3><canvas class="can1"></canvas><div id="statusmark"></div></div></li>
+                  <li href="devicechart.html" rel="#overlay" data-row="6" data-col="8" data-sizex="1" data-sizey="1" onclick="loadDevice('0');">
+                  	<div class="device_record"><h1>DeviceName</h1><h2>192.168.100.1</h2><h3>1ms</h3><canvas class="can1"></canvas><div id="statusmark"></div></div></li>
+              </ul>
+          </div>
+          
+            
+          
+
+  <div class="close"></div>
+  
+        
+          
+      </section>
+                <!-- overlayed element -->
+<div class="apple_overlay" id="overlay">
+  <!-- the external content is loaded inside this tag -->
+  <div class="contentWrap"></div>
+       <script src="js/jquery.tools.min.js"></script>
+       <script src="js/canvas.js"></script>
+      <script type="text/javascript" src="js/jquery.gridster.min.js" charster="utf-8"></script>
+      
+      <script type="text/javascript">
+          var gridster;
+		  var dragged = 0;
+		  
+		  c = initializeCanvas();
+          for(i = 0; i < c.length; i++){
+          	canvas = c[i];
+			 canvas.height = canvas.width/3;
+            colorCanvas(canvas, "#51bbff");
+            drawGraph(canvas);
+          }
+         
+		  
+		  function loadDevice(id) {
+		  	if(!dragged){
+				//alert("loadDevice " + id);
+				//loading the device now happens when user clicks the li[rel]
+				//this function only resets the dragged variable now.
+			}	// RESET DRAGGED SINCE CLICK EVENT IS FIRED AFTER drag stop
+			dragged = 0;
+		  }
+
+          $(function() {
+              gridtster = $(".gridster > ul").gridster({
+                  widget_margins: [5, 5],
+                  widget_base_dimensions: [95, 95],
+                  min_cols: 8,
+				  draggable: {
+					start: function(event, ui) {
+			
+						dragged = 1;
+						// DO SEOMETHING
+					}
+				}
+				 
+              }).data('gridster');
+			  
+			  
+			  //$.noConflict();
+			  // if the function argument is given to overlay,
+				// it is assumed to be the onBeforeLoad event listener
+				$("li[rel]").overlay({
+					top:top,
+					mask: 'darkred',
+					effect: 'apple',
+					fixed: false,
+					top: '1%',
+			
+					onBeforeLoad: function() {
+						if(!dragged){
+							$('.menu').fadeOut();
+							// grab wrapper element inside content
+							var wrap = this.getOverlay().find(".contentWrap");
+				console.log(wrap);
+							// load the page specified in the trigger
+							wrap.load(this.getTrigger().attr("href"));
+							
+						}
+						
+					},
+					onClose: function() {
+						$('.menu').fadeIn();
+					}
+			
+				});
+				
+				$('.menu').click(function() {
+			$('nav').addClass('open');
+			$('body').addClass('menu-open');
+			return false;
+			});
+			
+			$(document).click(function() {
+			$('body').removeClass('menu-open');
+			$('nav').removeClass('open');
+			});
+				
+          });
+		  
+		  
+      </script>
+      
+       
+  </body>
+</html>
+
