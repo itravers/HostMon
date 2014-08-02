@@ -1,0 +1,36 @@
+<html>
+        <head> 
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+         </head>
+        <body>
+          
+            <!-- Button that triggers the popup -->
+            <button id="my-button">POP IT UP</button>
+            <!-- Element to pop up -->
+            <div >
+            </div>
+            <iframe src="../login.php" width="400" height="400" frameBorder="0" id='element_to_pop_up'>Browser not compatible.</iframe>
+          
+          
+          <script type="text/javascript" src="js/jquery.js"></script>
+   		   <script type="text/javascript" src="js/bPopup.js"></script>
+           <script type="text/javascript">
+           // Semicolon (;) to ensure closing of earlier scripting
+    
+    ;(function($) {
+        $(function() {
+            $('#my-button').bind('click', function(e) {
+                e.preventDefault();
+               $('#element_to_pop_up').bPopup({
+				   	modalColor: '#166517',
+					content:'ajax', //'ajax', 'iframe' or 'image'
+					contentContainer:'.content',
+					loadUrl:'../login.html'
+				});
+            });
+         });
+     })(jQuery);
+    
+    </script>
+        </body>
+    </html>

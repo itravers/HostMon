@@ -1,0 +1,1148 @@
+/* CSS Document */
+
+body {
+	
+    background-color: #009cff;
+	
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+	
+    -webkit-font-smoothing: antialiased;
+	
+    font-size: x-small;
+	
+    color: #666666;
+	
+
+}
+
+.demo{
+    position:relative;
+    margin-left: auto;
+    margin-right: auto;
+    width:800px;
+}
+
+
+
+ul, ol {
+	
+    list-style: none;
+	
+
+}
+
+
+
+h1 {
+	
+  margin-bottom: 5px;
+	
+  text-align: center;
+	
+  font-size: 30px;
+	
+  font-weight: 400;
+	
+  color:white;
+	
+
+}
+
+
+
+h3 {
+	
+  font-size: 25px;
+	
+  font-weight: 600;
+	
+  color: white;
+	
+
+}
+
+
+
+/* Gridster styles */
+.demo {
+	
+   /* margin: 3em 0;
+	
+    padding: 7.5em 0 5.5em;
+	*/
+    
+
+}
+
+
+
+.demo:hover .gridster {
+	
+    opacity: 1;
+	
+
+}
+
+
+
+.gridster {
+	
+  /*  width: 940px;
+	
+    margin: 0 auto;
+	
+
+    opacity: .8;
+	
+
+    -webkit-transition: opacity .6s;
+	
+    -moz-transition: opacity .6s;
+	
+    -o-transition: opacity .6s;
+	
+    -ms-transition: opacity .6s;
+	
+    transition: opacity .6s;
+	*/
+
+}
+
+
+
+.gridster .gs_w {
+	
+    background: #FFF;
+	
+    cursor: pointer;
+	
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.3);
+	
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+	
+
+}
+
+
+
+
+
+/* get rid of those system borders being generated for A tags */
+a:active {
+	
+    outline:none;
+	
+
+}
+
+
+
+:focus {
+	
+    -moz-outline-style:none;
+	
+
+}
+
+
+
+
+/* the overlayed element */
+.apple_overlay {
+	
+
+    /* initially overlay is hidden */
+    display:none;
+	
+
+    /* growing background image */
+    background-image:url("../images/white.png");
+	
+
+    /*
+      width after the growing animation finishes
+      height is automatically calculated
+      */
+    width:1100px;
+	
+
+    /* some padding to layout nested elements nicely  */
+    padding:35px;
+	
+
+    /* a little styling */
+    font-size:11px;
+	
+
+}
+
+
+
+
+/* default close button positioned on upper right corner */
+
+ .apple_overlay .close {
+	
+    background-image:url("../images/old_close.png");
+	
+    position:absolute;
+	 right:5px;
+	 top:5px;
+	
+    cursor:pointer;
+	
+    height:35px;
+	
+    width:35px;
+	
+
+}
+
+
+
+<!--[if lt IE 7]>
+<style>
+  div.apple_overlay {
+	
+    background-image:url("../images/transparent2.png");
+	
+    color:#fff;
+	
+  
+}
+
+
+ 
+  /* default close button positioned on upper right corner */
+  div.apple_overlay div.close {
+	
+    background-image:url("../images/old_close.png");
+	
+	 position:absolute;
+	 right:5px;
+	 top:5px;
+	
+    cursor:pointer;
+	
+    height:35px;
+	
+    width:35px;
+	
+  
+}
+
+
+</style>
+<![endif]-->
+
+/* black version of the overlay. simply uses a different background image */
+div.apple_overlay.black {
+	
+background-image:url("../images/transparent.png");
+	
+color:#fff;
+	
+
+}
+
+
+ 
+  /* tooltip styling */
+  .tooltip {
+	
+    display:none;
+	
+    background:url("../images/black_arrow_big.png");
+	
+    height:163px;
+	
+    padding:40px 30px 10px 30px;
+	
+    width:310px;
+	
+    font-size:11px;
+	
+    color:#fff;
+	
+  
+}
+
+
+ 
+  /* a .label element inside tooltip */
+  .tooltip .label {
+	
+    color:yellow;
+	
+    width:35px;
+	
+  
+}
+
+
+ 
+  .tooltip a {
+	
+    color:#ad4;
+	
+    font-size:11px;
+	
+    font-weight:bold;
+	
+  
+}
+
+
+  
+  
+  html, body {
+	
+  width: 100%;
+	
+  height: 100%;
+ }
+
+
+
+
+
+
+p {
+	
+  margin-bottom: 20px;
+	
+  line-height: 1.6;
+	
+  opacity: 0.15;
+ }
+
+
+
+a {
+	
+  color: #55acee;
+ }
+
+
+  a:hover {
+	
+    text-decoration: none;
+ }
+
+
+
+.main-content {
+	
+  max-width: 900px;
+	
+  padding: 80px 20px;
+ }
+
+
+
+header {
+	
+  height: 80px;
+	
+  padding: 22px 25px;
+	
+  background: #222222;
+	
+  width: 100%;
+	
+  text-align: center;
+ }
+
+
+
+a.menu {
+	
+  display: block;
+	
+  width: 30px;
+	
+  margin: 0 auto;
+	
+  z-index:100;
+ }
+
+
+  a.menu .bar {
+	
+    background-color: white;
+	
+    display: block;
+	
+    height: 3px;
+	
+    width: 100%;
+	
+    margin: 6px 0;
+ }
+
+
+
+.overlay {
+	
+  position: fixed;
+	
+  top: 0px;
+	
+  left: 0px;
+	
+  width: 100%;
+	
+  height: 100%;
+	
+  background-color: transparent;
+	
+  z-index: 10;
+	
+  display: none;
+ }
+
+
+
+nav {
+	
+  position: fixed;
+	
+  top: 0;
+	
+  z-index: 100;
+	
+  -webkit-transition: all 0.4s 0.4s;
+	
+  -moz-transition: all 0.4s 0.4s;
+	
+  transition: all 0.4s 0.4s;
+ }
+
+
+  nav ul {
+	
+    list-style: none;
+	
+    height: 100%;
+	
+    padding: 0;
+	
+    margin: 0;
+	
+    overflow: hidden;
+ }
+
+
+    nav ul > li {
+	
+      display: table;
+	
+      text-align: center;
+	
+      float: left;
+	
+      -webkit-transition: all 0.4s;
+	
+      -moz-transition: all 0.4s;
+	
+      transition: all 0.4s;
+ }
+
+
+      nav ul > li:nth-child(1) {
+	
+        background-color: #141517;
+ }
+
+
+      nav ul > li:nth-child(2) {
+	
+        background-color: #19a6d4;
+	
+        -webkit-transition-delay: 0.1s;
+	
+        -moz-transition-delay: 0.1s;
+	
+        transition-delay: 0.1s;
+ }
+
+
+      nav ul > li:nth-child(3) {
+	
+        background-color: #189cc7;
+	
+        -webkit-transition-delay: 0.2s;
+	
+        -moz-transition-delay: 0.2s;
+	
+        transition-delay: 0.2s;
+ }
+
+
+      nav ul > li:nth-child(4) {
+	
+        background-color: #1691b9;
+	
+        -webkit-transition-delay: 0.3s;
+	
+        -moz-transition-delay: 0.3s;
+	
+        transition-delay: 0.3s;
+ }
+
+
+      nav ul > li:nth-child(5) {
+	
+        background-color: #1486ab;
+	
+        -webkit-transition-delay: 0.4s;
+	
+        -moz-transition-delay: 0.4s;
+	
+        transition-delay: 0.4s;
+ }
+
+
+      nav ul > li > a {
+	
+        color: white;
+	
+        text-transform: uppercase;
+	
+        display: table-cell;
+	
+        vertical-align: middle;
+	
+        font-size: 16px;
+	
+        letter-spacing: 0.05em;
+	
+        -webkit-transition: all 0.2s linear;
+	
+        -moz-transition: all 0.2s linear;
+	
+        transition: all 0.2s linear;
+ }
+
+
+        nav ul > li > a:hover {
+	
+          color: white;
+	
+          background-color: rgba(0, 0, 0, 0.2);
+ }
+
+
+  nav.left, nav.right {
+	
+    width: 280px;
+	
+    height: 100%;
+ }
+
+
+    nav.left ul > li, nav.right ul > li {
+	
+      width: 100%;
+	
+      height: 20.2%;
+ }
+
+
+  nav.left {
+	
+    left: -280px;
+ }
+
+
+    nav.left ul > li {
+	
+      -webkit-transform: translate(-100%, 0);
+	
+      -moz-transform: translate(-100%, 0);
+	
+      -ms-transform: translate(-100%, 0);
+	
+      -o-transform: translate(-100%, 0);
+	
+      transform: translate(-100%, 0);
+ }
+
+
+  nav.right {
+	
+    left: auto;
+	
+    right: -280px;
+ }
+
+
+    nav.right ul > li {
+	
+      -webkit-transform: translate(100%, 0);
+	
+      -moz-transform: translate(100%, 0);
+	
+      -ms-transform: translate(100%, 0);
+	
+      -o-transform: translate(100%, 0);
+	
+      transform: translate(100%, 0);
+ }
+
+
+  nav.top {
+	
+    left: 0;
+	
+    top: -200px;
+	
+    width: 100%;
+	
+    height: 200px;
+ }
+
+
+    nav.top ul {
+	
+      width: 101%;
+ }
+
+
+      nav.top ul > li {
+	
+        width: 20%;
+	
+        height: 100%;
+	
+        -webkit-transform: translate(0, -100%);
+	
+        -moz-transform: translate(0, -100%);
+	
+        -ms-transform: translate(0, -100%);
+	
+        -o-transform: translate(0, -100%);
+	
+        transform: translate(0, -100%);
+ }
+
+
+
+body.menu-open {
+	
+  cursor: url(../images/close.png) 20 20, auto;
+ }
+
+
+  body.menu-open .overlay {
+	
+    display: block;
+ }
+
+
+
+nav.open {
+	
+  -webkit-transition-delay: 0;
+	
+  -moz-transition-delay: 0;
+	
+  transition-delay: 0;
+ }
+
+
+  nav.open ul > li {
+	
+    -webkit-transform: translate(0, 0);
+	
+    -moz-transform: translate(0, 0);
+	
+    -ms-transform: translate(0, 0);
+	
+    -o-transform: translate(0, 0);
+	
+    transform: translate(0, 0);
+ }
+
+
+  nav.open.left {
+	
+    left: 0;
+ }
+
+
+  nav.open.right {
+	
+    right: 0;
+ }
+
+
+  nav.open.top {
+	
+    top: 0;
+ }
+
+
+
+
+#linemin, linehour, lineday, polormin, polorday, polorhour{
+	
+	z-index: 100;
+	
+
+}
+
+
+
+
+/* root element for accordion. decorated with rounded borders and gradient background image */
+#accordion {
+	
+    /*background:#333 url(/media/img/gradient/h30.png) 0 0;
+	
+	*/
+    width: 620px;
+	
+    height: 520px;
+	
+    margin: 5px auto;
+	
+
+}
+
+
+
+/* accordion header */
+#accordion h2 {
+	
+    /*background:#51bbff url(/media/img/gradient/h30.png);
+	*/
+    line-height: 12px;
+	
+    margin:0;
+	
+    padding:5px 15px;
+	
+    font-size:14px;
+	
+    font-weight:bold;
+	
+    border:1px solid #51bbff;
+	
+    border-bottom:1px solid #51bbff;
+	
+    cursor:pointer;
+	
+	color:white;
+	
+
+}
+
+
+
+/* currently active header */
+#accordion h2.current {
+	
+    cursor:default;
+	
+    background-color:#51bbff;
+	
+
+}
+
+
+
+/* accordion pane */
+#accordion .pane {
+	
+	border:1px solid #51bbff;
+	
+    border-width:0 2px;
+	
+    display:none;
+	
+    height:425px;
+	
+    padding:10px;
+	
+    color:#fff;
+	
+    font-size:12px;
+	
+
+}
+
+
+
+/* a title inside pane */
+#accordion .pane h3 {
+	
+	font-weight:normal;
+	
+	margin:0;
+	
+	font-size:16px;
+	
+	color:#ff;
+	
+
+}
+
+
+
+/* root element for accordion. decorated with rounded borders and gradient background image */
+#accordion2 {
+	
+    /*background:#333 url(/media/img/gradient/h30.png) 0 0;
+	
+	*/
+    width: 410px;
+	
+    height: 315px;
+	
+    margin: 5px auto;
+	
+
+}
+
+
+
+/* accordion header */
+#accordion2 h2 {
+	
+    /*background:#51bbff url(/media/img/gradient/h30.png);
+	*/
+    line-height: 10px;
+	
+    margin:0;
+	
+    padding:5px 15px;
+	
+    font-size:12px;
+	
+    font-weight:bold;
+	
+    border:1px solid #51bbff;
+	
+    border-bottom:1px solid #51bbff;
+	
+    cursor:pointer;
+	
+	color:white;
+	
+
+}
+
+
+
+/* currently active header */
+#accordion2 h2.current {
+	
+    cursor:default;
+	
+    background-color:#51bbff;
+	
+
+}
+
+
+
+/* accordion pane */
+#accordion2 .pane {
+	
+	border:1px solid #51bbff;
+	
+    border-width:0 2px;
+	
+    display:none;
+	
+    height:215px;
+	
+    padding:10px;
+	
+    color:#fff;
+	
+    font-size:12px;
+	
+
+}
+
+
+
+/* a title inside pane */
+#accordion2 .pane h3 {
+	
+	font-weight:normal;
+	
+	margin:0;
+	
+	font-size:16px;
+	
+	color:#ff;
+	
+
+}
+
+
+
+/* root element for accordion. decorated with rounded borders and gradient background image */
+#accordion3 {
+	
+	
+    /*background:#333 url(/media/img/gradient/h30.png) 0 0;
+	
+	
+	*/
+    width: 415px;
+	
+	
+    height: 315px;
+	
+	
+	
+
+
+}
+
+
+
+
+
+/* accordion header */
+#accordion3 h2 {
+	
+	
+    line-height: 10px;
+	
+	
+    margin:0;
+	
+	
+    padding:5px 15px;
+	
+	
+    font-size:12px;
+	
+	
+    font-weight:bold;
+	
+	
+	color:white;
+	
+    border-top:1px solid #009cff;
+	
+	
+    cursor:pointer;
+	
+	
+
+
+}
+
+
+
+
+
+/* currently active header */
+#accordion3 h2.current {
+	
+	
+    cursor:default;
+	
+	
+    background-color:#51bbff;
+	
+	
+
+
+}
+
+
+
+
+
+/* accordion pane */
+#accordion3 .pane {
+	
+    display:none;
+	
+    height:80px;
+	
+	width:370px;
+	
+    color:#fff;
+	
+    font-size:18px;
+	
+    font-weight:bold;
+	
+    padding-left:40px;
+	
+
+}
+
+
+
+
+
+/* a title inside pane */
+#accordion3 .pane h3 {
+	
+	
+	font-weight:normal;
+	
+	
+	margin:0;
+	
+	
+	font-size:16px;
+	
+	
+	color:#ff;
+	
+	
+
+
+}
+
+
+
+/* root element for scrollable */
+  .scrollable {
+	
+	
+	
+	
+ 
+  /* required settings */
+  position:relative;
+	
+	
+	
+	
+  overflow:hidden;
+	
+	
+	
+	
+ 
+  /*
+  vertical scrollables have typically larger height than width but
+  not now
+  */
+  height: 270px;
+	
+	padding-top:10px;
+	
+	padding-left:2px;
+	
+	
+  width: 415px;
+	
+	
+	
+
+
+
+}
+
+
+
+
+ 
+  /* root element for scrollable items */
+  .scrollable .items {
+	
+  position:absolute;
+	
+ background-color:#51bbff;
+	
+	
+
+}
+
+
+
+
+.item{
+	
+    padding-top:5px;
+	
+    margin-top:5px;
+	
+	width:500px;
+	
+    background-color:#51bbff;
+	
+	
+	
+    height: 10px;
+	
+	
+	
+
+
+}
+
+
+
+#notenum{
+	
+    display:inline;
+	
+    position:absolute;
+	
+
+}
+
+
+
+#notename{
+	
+	padding-left:25px;
+	
+    display:inline;
+	
+    position:absolute;
+	
+
+}
+
+
+
+#notedate{
+	
+	 position:absolute;
+	
+	padding-left:125px;
+	
+    display:inline;
+	
+
+}
+
+
+#notetime{
+	
+     position:absolute;
+	
+	padding-left:250px;
+	
+    display:inline;
+	
+
+}
+
+
+
+#notebuttons{
+	
+     position:absolute;
+	
+	padding-left:280px;
+	
+    display:inline;
+	
+	
+
+}

@@ -1,0 +1,39 @@
+<html>
+        <head> 
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <link rel="stylesheet" type="text/css" href="css/magnific-popup.css">
+        <link rel="stylesheet" type="text/css" href="../css/styles.css">
+         </head>
+        <body>
+        
+          
+          <a class="simple-ajax-popup-align-top" href="gridtest.html">Load content via ajax</a><br>
+          <!-- dialog itself, mfp-hide class is required to make dialog hidden -->
+           
+          
+          <script type="text/javascript" src="js/jquery.js"></script>
+   		   <script type="text/javascript" src="js/jquery.magnific-popup.js"></script>
+           <script type="text/javascript">
+           // Semicolon (;) to ensure closing of earlier scripting
+    
+		  $(document).ready(function() {
+		
+			$('.simple-ajax-popup-align-top').magnificPopup({
+				type: 'ajax',
+				alignTop: true,
+				preloader: false,
+				modal:true,
+				mainClass: 'my-mfp-zoom-in',
+				overflowY: 'scroll' // as we know that popup content is tall we set scroll overflow by default to avoid jump
+			});
+			
+			$(document).on('click', '.popup-modal-dismiss', function (e) {
+				//e.preventDefault();
+				$.magnificPopup.close();
+			});
+			
+		});
+    
+    </script>
+        </body>
+    </html>
