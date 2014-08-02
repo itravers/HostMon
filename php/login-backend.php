@@ -1,4 +1,7 @@
 <?php
+	include_once("functions.php");
+
+	
 
 	session_start();
 	if($_POST['submit']=='Login'){
@@ -7,10 +10,13 @@
 			$resp[] = 'ALL THE FIELDS MUST BE FILLED IN';
 		}
 		
+		
+		
 		if(!count($resp)){
 			// Make a MySQL Connection
-			mysql_connect("localhost", "HostMonUser", "Micheal1") or die(mysql_error());
-			mysql_select_db("HostMon") or die(mysql_error());
+			$dbOptions = getDBOptions();
+			mysql_connect($dbOptions["IP"], $dbOptions["USER"], $dbOptions["PASS"]) or die(mysql_error());
+			mysql_select_db($dbOptions["DB"]) or die(mysql_error());
 			$_POST['username'] = mysql_real_escape_string($_POST['username']);
 			$_POST['password'] = mysql_real_escape_string($_POST['password']);
 			$_POST['remember'] = (int)$_POST['remember'];
