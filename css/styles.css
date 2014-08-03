@@ -384,8 +384,9 @@ nav.open.top {
 /* root element for accordion. decorated with rounded borders and gradient background image */
 #accordion3 {
     /*background:#333 url(/media/img/gradient/h30.png) 0 0;*/
-    width: 415px;
+    width: 420px;
     height: 315px;
+	  padding-top:20px;
 }
 
 /* accordion header */
@@ -433,7 +434,7 @@ nav.open.top {
 	/*vertical scrollables have typically larger height than width but
   	not now*/
   	height: 270px;
-	padding-top:10px;
+	padding-top:0px;
 	padding-left:2px;	
   	width: 415px;
 }
