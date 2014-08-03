@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="main_grid">
   <head>
       <title>gridster test</title>
       <link rel="stylesheet" type="text/css" href="css/gridster.css">
@@ -26,7 +26,7 @@
   </nav>
   </head>
   <body>
-      <section class="demo">
+      <section class="grid">
           <div class="gridster">
               <ul class='gridlist'>
                   <li href="device.html" rel="#overlay" data-row="1" data-col="1" data-sizex="4" data-sizey="2" onclick="loadDevice('0');">
@@ -121,7 +121,7 @@
 							$('.menu').fadeOut();
 							// grab wrapper element inside content
 							var wrap = this.getOverlay().find(".contentWrap");
-				console.log(wrap);
+							console.log(wrap);
 							// load the page specified in the trigger
 							wrap.load(this.getTrigger().attr("href"));
 							
