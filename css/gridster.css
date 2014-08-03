@@ -30,7 +30,7 @@
     border-color:white;
 	  border-style: solid;
     background-color: #51bbff;
-    max-width: 1050px;
+    width: 1050px;
 }
 
 .device .gridster li {
