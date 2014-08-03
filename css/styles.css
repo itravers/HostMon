@@ -1,8 +1,16 @@
 html, body {
 	width: 100%;
 	height: 100%;
-	background-color: #009cff;
+	
  }
+ 
+.main_grid{
+	background-color: #009cff;
+}
+
+.main_device{
+	background-color: #51bbff;
+}
 
 .main-body{
 	background-color: #009cff;
@@ -13,7 +21,7 @@ html, body {
 }
 
 .main-content {
-	max-width: 900px;
+	max-width: 1050px;
 	padding: 80px 20px;
 }
 
@@ -26,22 +34,17 @@ header {
 }
 
 #overlay {
+	margin-top:-30px;
     background-image:url("../images/transparent2.png");
     color:#efefef;
     height:1100px;
+	
 }
 
 /* container for external content. uses vertical scrollbar, if needed */
 div.contentWrap {
     height:1100px;
     overflow-y:auto;
-}
-
-.demo{
-    position:relative;
-    margin-left: auto;
-    margin-right: auto;
-    width:800px;
 }
 
 ul, ol {
@@ -79,6 +82,10 @@ a:hover {
 /* get rid of those system borders being generated for A tags */
 a:active {
     outline:none;
+}
+
+.device .gridmenu a.menu{
+	padding-top:10px;	
 }
 
 a.menu {
@@ -479,6 +486,7 @@ nav.open.top {
 	/* initially overlay is hidden */
     display:none;
 	/* growing background image */
+	
     background-image:url("../images/white.png");
 	/*
       width after the growing animation finishes
@@ -495,6 +503,7 @@ nav.open.top {
 .apple_overlay .close {
 	 background-image:url("../images/old_close.png");
 	 position:absolute;
+	margin-top:25px;
 	 right:5px;
 	 top:5px;
 	 cursor:pointer;
