@@ -40,17 +40,7 @@
     font-family: Raavi;
 }
 
-.prev{
-    position:absolute;
-    margin-top:-270px;
-    margin-left:175px;
-}
 
-.next{
-     position:absolute;
-    margin-top:5px;
-    margin-left:175px;
-}
 
 .device .gridster li h1:before {
     background-image: url('../images/device.png');

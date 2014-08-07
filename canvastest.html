@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>gridster test</title>
+  </head>
+  <body bgcolor="#51bbff">
+  <img onClick="updateGraph()" src="images/plus.png"></img>
+  <canvas id="mainDeviceChart" width="600px" height="425px">
+  
+  
+  
+       <script src="js/jquery.tools.min.js"></script>
+       <script src="js/hostmonChart.js"></script> 
+       <script type="text/javascript">
+	   		var demoData = getMinuteDemoData();
+	   		var mainDeviceChart = getMainDeviceChart("mainDeviceChart", "#51bbff", demoData);
+			
+		
+		function updateGraph(){
+			var demoData = getMinuteDemoData2();
+	   		var mainDeviceChart = getMainDeviceChart("mainDeviceChart", "#51bbff", demoData);
+		}
+		
+		  
+      </script>   
+  </body>
+</html>

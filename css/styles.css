@@ -295,6 +295,8 @@ nav.open.top {
     margin: 5px auto;
 }
 
+
+
 /* accordion header */
 #accordion h2 {
     /*background:#51bbff url(/media/img/gradient/h30.png);*/
@@ -381,12 +383,30 @@ nav.open.top {
 	color:#ff;
 }
 
+.prev{
+    position:absolute;
+    margin-top:-290px;
+    margin-left:175px;
+}
+
+.next{
+     position:absolute;
+    margin-top:-0px;
+    margin-left:175px;
+}
+
+.plus{
+	position:absolute;
+	margin-top:-290px;
+    margin-left:350px;
+}
+
 /* root element for accordion. decorated with rounded borders and gradient background image */
 #accordion3 {
     /*background:#333 url(/media/img/gradient/h30.png) 0 0;*/
     width: 420px;
     height: 315px;
-	  padding-top:20px;
+	  padding-top:0px;
 }
 
 /* accordion header */
@@ -396,9 +416,20 @@ nav.open.top {
     padding:5px 15px;
     font-size:12px;
     font-weight:bold;
-	color:white;
-    border-top:1px solid #009cff;
+	  color:white;
     cursor:pointer;
+}
+
+#accordion3 h2 img{
+	display:none;
+	position: absolute;
+	padding-left:332px;
+}
+
+#accordion3 h2.current img{
+	display:initial;
+	position: absolute;
+	padding-left:332px;
 }
 
 /* currently active header */
@@ -434,7 +465,7 @@ nav.open.top {
 	/*vertical scrollables have typically larger height than width but
   	not now*/
   	height: 270px;
-	padding-top:0px;
+	margin-top:20px;
 	padding-left:2px;	
   	width: 415px;
 }
