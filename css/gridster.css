@@ -3,23 +3,122 @@
 * Copyright (c) 2014 ducksboard;
  Licensed MIT */
 
-.gridster {
-    position:relative;
+.device .gridster {
+    position:relative;   
 }
 
-.demo:hover .gridster {
-    opacity: 1;
-}
-
-.gridster .gs_w {
+.device .gridster .gs_w {
     background: #FFF;
     cursor: pointer;
     -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.3);
     box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
 
-.gridster > * {
+
+.device .gridster > * {
     margin: 0 auto;
+    -webkit-transition: height .4s, width .4s;
+    -moz-transition: height .4s, width .4s;
+    -o-transition: height .4s, width .4s;
+    -ms-transition: height .4s, width .4s;
+    transition: height .4s, width .4s;
+    /*background of grid list items.*/
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    border-width:3px;
+    border-color:white;
+	  border-style: solid;
+    background-color: #51bbff;
+    width: 1050px;
+}
+
+.device .gridster li {
+    cursor: default;
+    background-color: #51bbff;
+    overflow:hidden;
+    font-family: Raavi;
+}
+
+
+
+.device .gridster li h1:before {
+    background-image: url('../images/device.png');
+	  background-size: 60px 50px;
+    background-position: left center;
+    background-repeat: no-repeat;
+    margin-left:-0px;
+    padding-right:55px;
+    padding-bottom:15px;
+    content: "\00a0";
+}
+
+.device .gridster li h1{
+    position:absolute;
+    font-size:30px;
+    margin-top:-10px;
+    
+}
+
+.device .gridster li h2{
+    position:relative;
+    padding-left:63px;
+    font-size:22px;
+    font-family: Raavi;
+    color:white;
+    
+}
+
+.device .gridster .gs-w {
+    z-index: 2;
+    position: absolute;
+}
+
+.grid .gridster .preview-holder {
+    z-index: 1;
+    position: absolute;
+    background-color: #fff;
+    border-color: #fff;
+    opacity: 0.3;
+}
+
+.grid .gridster .player-revert {
+    z-index: 10!important;
+    -webkit-transition: left .3s, top .3s!important;
+    -moz-transition: left .3s, top .3s!important;
+    -o-transition: left .3s, top .3s!important;
+    transition:  left .3s, top .3s!important;
+}
+
+.grid .gridster .dragging,
+.grid .gridster .resizing {
+    z-index: 10!important;
+    -webkit-transition: all 0s !important;
+    -moz-transition: all 0s !important;
+    -o-transition: all 0s !important;
+    transition: all 0s !important;
+}
+
+
+.grid .gridster {
+    position:relative;
+    
+}
+
+.grid:hover .gridster {
+    opacity: 1;
+}
+
+.grid .gridster .gs_w {
+    background: #FFF;
+    cursor: pointer;
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+.grid .gridster > * {
+    margin: 0 auto;
+    
     -webkit-transition: height .4s, width .4s;
     -moz-transition: height .4s, width .4s;
     -o-transition: height .4s, width .4s;
@@ -27,7 +126,7 @@
     transition: height .4s, width .4s;
 }
 
-.gridster li {
+.grid .gridster li {
     cursor: default;
     background-color: #51bbff;
 	/*background of grid list items.*/
@@ -42,14 +141,14 @@ font-family: Raavi;
 }
 
 /*
-.gridster li div{
+.grid .gridster li div{
     overflow:hidden;
     position:absolute;
     margin-top:-25px;
 }*/
 
 /*
-.gridster li[data-sizex="4"] div{
+.grid .gridster li[data-sizex="4"] div{
     position:relative;
     padding-top:0px;
 	background-color:red;
@@ -61,7 +160,7 @@ font-family: Raavi;
     margin-top:-25px; 
 }
 
-.gridster li[data-sizex="4"] div h1:before {
+.grid .gridster li[data-sizex="4"] div h1:before {
     background-image: url('../images/device.png');
 	background-size: 50px 45px;
     background-position: left center;
@@ -72,11 +171,11 @@ font-family: Raavi;
     content: "\00a0";
 }
 
-.gridster li[data-sizex="4"] div h1{
+.grid .gridster li[data-sizex="4"] div h1{
     font-size:28px;
 }
 
-.gridster li[data-sizex="4"] div h2{
+.grid .gridster li[data-sizex="4"] div h2{
     position:relative;
     margin-top:-30px;
     margin-left:58px;
@@ -84,7 +183,7 @@ font-family: Raavi;
     font-size:18px;
 }
 
-.gridster li[data-sizex="4"] div h3{
+.grid .gridster li[data-sizex="4"] div h3{
     position:absolute;
     margin-top:90px;
     padding-left:10px;
@@ -92,11 +191,11 @@ font-family: Raavi;
     font-size:22px;
 }
 
-.gridster li[data-sizex="4"][data-sizey="4"] div h3{
+.grid .gridster li[data-sizex="4"][data-sizey="4"] div h3{
     margin-top:300px;
 }
 
-.gridster li[data-sizex="4"] div canvas{
+.grid .gridster li[data-sizex="4"] div canvas{
     position:absolute;
     width:350px;
     padding-top:0px;
@@ -104,7 +203,7 @@ font-family: Raavi;
     padding-left:20px;
 }
 
-.gridster li[data-sizex="4"] div canvas.secondImage{
+.grid .gridster li[data-sizex="4"] div canvas.secondImage{
     position:absolute;
     width:350px;
     padding-top:160px;
@@ -112,22 +211,22 @@ font-family: Raavi;
 }
 
 /* Status Mark for a Default Background. */
-.gridster li div div#statusmark{
+.grid .gridster li div div#statusmark{
    background-image: url('../images/checkmark.png');  
 }
 
 /* Status Mark for a Yellow Background. */
-.gridster li.yellow div div#statusmark{
+.grid .gridster li.yellow div div#statusmark{
    background-image: url('../images/exclaimationmark.png');  
 }
 
 /* Status Mark for a Red Background. */
-.gridster li.red div div#statusmark{
+.grid .gridster li.red div div#statusmark{
    background-image: url('../images/xmark.png');  
 }
 
 /* 4x? grid status mark*/
-.gridster li[data-sizex="4"] div div#statusmark{
+.grid .gridster li[data-sizex="4"] div div#statusmark{
     position:absolute;
     width:25px;
     padding-top:30px;
@@ -138,7 +237,7 @@ font-family: Raavi;
 }
 
 /* 4x4 grid status mark*/
-.gridster li[data-sizex="4"][data-sizey="4"] div div#statusmark{
+.grid .gridster li[data-sizex="4"][data-sizey="4"] div div#statusmark{
     margin-top:305px;
 }
 
@@ -147,7 +246,7 @@ font-family: Raavi;
     margin-top:-25px; 
 }
 
-.gridster li[data-sizex="2"] div h1:before {
+.grid .gridster li[data-sizex="2"] div h1:before {
     background-image: url('../images/device.png');
     background-size: 40px 38px;
      background-position: left center;
@@ -158,12 +257,12 @@ font-family: Raavi;
     content: "\00a0";
 }
 
-.gridster li[data-sizex="2"] div h1{
+.grid .gridster li[data-sizex="2"] div h1{
     font-size:22px;
     padding-top:5px;
 }
 
-.gridster li[data-sizex="2"] div h2{
+.grid .gridster li[data-sizex="2"] div h2{
     position:relative;
     margin-top:-25px;
     margin-left:48px;
@@ -171,7 +270,7 @@ font-family: Raavi;
     font-size:18px;
 }
 
-.gridster li[data-sizex="2"] div h3{
+.grid .gridster li[data-sizex="2"] div h3{
     position:absolute;
     margin-top:100px;
     padding-left:5px;
@@ -179,7 +278,7 @@ font-family: Raavi;
     font-size:18px;
 }
 
-.gridster li[data-sizex="2"] div canvas{
+.grid .gridster li[data-sizex="2"] div canvas{
     position:absolute;
     width:175px;
     padding-top:5px;
@@ -188,7 +287,7 @@ font-family: Raavi;
 
 
 /* 2x? grid status mark*/
-.gridster li[data-sizex="2"] div div#statusmark{
+.grid .gridster li[data-sizex="2"] div div#statusmark{
     position:absolute;
     width:25px;
     padding-top:30px;
@@ -204,7 +303,7 @@ font-family: Raavi;
     margin-left:5px; 
 }
 
-.gridster li[data-sizex="1"] div h1:before {
+.grid .gridster li[data-sizex="1"] div h1:before {
     background-image: url('../images/device.png');
     background-size: 18px 12px;
      background-position: left center;
@@ -216,12 +315,12 @@ font-family: Raavi;
     margin-right:-18px;
 }
 
-.gridster li[data-sizex="1"] div h1{
+.grid .gridster li[data-sizex="1"] div h1{
     font-size:12px;
     padding-top:13px;
 }
 
-.gridster li[data-sizex="1"] div h2{
+.grid .gridster li[data-sizex="1"] div h2{
     position:relative;
     margin-top:-12px;
     margin-left:20px;
@@ -229,7 +328,7 @@ font-family: Raavi;
     font-size:10px;
 }
 
-.gridster li[data-sizex="1"] div h3{
+.grid .gridster li[data-sizex="1"] div h3{
     position:absolute;
     margin-top:30px;
     padding-left:5px;
@@ -237,7 +336,7 @@ font-family: Raavi;
     font-size:12px;
 }
 
-.gridster li[data-sizex="1"] div canvas{
+.grid .gridster li[data-sizex="1"] div canvas{
     position:absolute;
     width:90px;
     margin-top:-5px;
@@ -245,7 +344,7 @@ font-family: Raavi;
 }
 
 /* 2x? grid status mark*/
-.gridster li[data-sizex="1"] div div#statusmark{
+.grid .gridster li[data-sizex="1"] div div#statusmark{
     position:absolute;
     width:25px;
     padding-top:30px;
@@ -255,15 +354,15 @@ font-family: Raavi;
     margin-top:30px;
 }
     
-.gridster li.yellow{
+.grid .gridster li.yellow{
 	background-color:#ffdb6d;
 }
 
-.gridster li.red{
+.grid .gridster li.red{
 	background-color:#ff6d6f;
 }
 
-.gridster .gs-w {
+.grid .gridster .gs-w {
     z-index: 2;
     position: absolute;
 }
@@ -283,7 +382,7 @@ font-family: Raavi;
     transition: opacity .3s, left .3s, top .3s, width .3s, height .3s;
 }
 
-.gridster .preview-holder {
+.grid .gridster .preview-holder {
     z-index: 1;
     position: absolute;
     background-color: #fff;
@@ -291,7 +390,7 @@ font-family: Raavi;
     opacity: 0.3;
 }
 
-.gridster .player-revert {
+.grid .gridster .player-revert {
     z-index: 10!important;
     -webkit-transition: left .3s, top .3s!important;
     -moz-transition: left .3s, top .3s!important;
@@ -299,8 +398,8 @@ font-family: Raavi;
     transition:  left .3s, top .3s!important;
 }
 
-.gridster .dragging,
-.gridster .resizing {
+.grid .gridster .dragging,
+.grid .gridster .resizing {
     z-index: 10!important;
     -webkit-transition: all 0s !important;
     -moz-transition: all 0s !important;
@@ -363,6 +462,6 @@ base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pg08IS0tIEdlbmVyYXRvcjogQ
 }
 
 /* Uncomment this if you set helper : "clone" in draggable options */
-/*.gridster .player {
+/*.grid .gridster .player {
   opacity:0;
 }
