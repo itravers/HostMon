@@ -1,5 +1,6 @@
 <?php
 	include_once("functions.php");
+	include_once("db.php");
 
 	
 
@@ -14,6 +15,7 @@
 		
 		if(!count($resp)){
 			// Make a MySQL Connection
+			/*
 			$dbOptions = getDBOptions();
 			mysql_connect($dbOptions["IP"], $dbOptions["USER"], $dbOptions["PASS"]) or die(mysql_error());
 			mysql_select_db($dbOptions["DB"]) or die(mysql_error());
@@ -25,6 +27,12 @@
 			
 			$result = mysql_query($query) or die(mysql_error());  
 			$row = mysql_fetch_array( $result );
+			*/
+			$con = openDB();
+			$sql = "SELECT id,usr,admin_level FROM Users WHERE usr='{$_POST['username']}' AND pass='".md5($_POST['password'])."'";
+			$row = queryDB($con, $sql);
+			
+			//echo $row;
 			
 			if($row['usr']){
 				// If everything is OK login
