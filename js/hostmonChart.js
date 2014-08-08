@@ -117,6 +117,12 @@ function drawData(c, color, data){
 
 /** Translate a (time, latency) point to a (x, y) pixel*/ 
 function translateToPixels(point, c, minMaxTime, minMaxLatency){
+	if(point[0] == -1){
+		point[0] = 0;
+	}
+	if(point[1] == -1){
+		point[1] = 0;
+	}
 	//first we get the width and height of every section of the grid.
 	var gridWidth = (c.width/25); 
 	var gridHeight = c.height/20;
@@ -202,9 +208,12 @@ function drawXLabels(c, color, data){
 	//draw 23 labels
 	for(i = 0; i < 23; i++){
 		j = 23-i;
-		thisTime = minMaxTime[0] + (i * timeGap);
-		time = new Date(thisTime+i*1000);
-		timeDisplay = time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
+		var r_timeGap = Math.round(timeGap);
+		var itimes_timeGap = (i * r_timeGap);
+		var minplus_timeGap = (parseInt(minMaxTime[0]) + itimes_timeGap);
+		var thisTime = Math.round(minplus_timeGap);
+		var time = new Date(thisTime);
+		var timeDisplay = time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
 		ctx.fillText(timeDisplay,90,(gridWidth*i)-30);
 	}
 	//we do this to rotate the labels, coordinates get translated because of this.
@@ -216,7 +225,10 @@ function drawXLabels(c, color, data){
 /** Draw the Latency Labels. */
 function drawYLabels(c, color, data){
 	//calculate the difference in height based on 20 total sections
+	var minMaxLatency = getMinMaxLatency(data);
 	var gridHeight = c.height/20;
+	var latencyGap = (minMaxLatency[1] - minMaxLatency[0])/17;
+	
 	var ctx = c.getContext("2d");
 	ctx.font = "12px Raavi";
 	ctx.fillStyle = color;
@@ -224,8 +236,13 @@ function drawYLabels(c, color, data){
 	ctx.strokeStyle = color;
 	//draw 17 labels
 	for(i = 0; i < 17; i++){
+		var r_latencyGap = Math.round(latencyGap);
+		var itimes_latencyGap = (i * r_latencyGap);
+		var minplus_latencyGap = (parseInt(minMaxLatency[0]) + itimes_latencyGap);
+		var thisLatency = Math.round(minplus_latencyGap);
+		
 		j = 17-i;
-		ctx.strokeText((50*i),21,((gridHeight*j)));
+		ctx.strokeText((thisLatency),21,((gridHeight*j)));
 	}	
 }	
 
@@ -237,11 +254,11 @@ function getMinMaxTime(data){
 	}
 	for(i = 0; i < data.length; i++){
 		//find the higher numbers.
-		if(data[i][0] > maxTime){
+		if(parseInt(data[i][0]) > parseInt(maxTime)){
 			maxTime = data[i][0];
 		}
 		//look for lower numbers.
-		if(data[i][0] < minTime){
+		if(parseInt(data[i][0]) < parseInt(minTime)){
 			minTime = data[i][0];	
 		}
 	}
@@ -258,15 +275,17 @@ function getMinMaxLatency(data){
 	
 	for(i = 0; i < data.length; i++){
 		//look for higher numbers
-		if(data[i][1] > maxLatency){
-			maxLatency = data[i][1];	
+		var currentData = data[i][1];
+		if(parseInt(currentData) > parseInt(maxLatency)){
+			maxLatency = currentData;	
 		}
 		//look for lower numbers
-		if(data[i][1] < minLatency){
-			minLatency = data[i][1];	
+		if(parseInt(currentData) < parseInt(maxLatency)){
+			minLatency = currentData;	
 		}
 	}
-	var minMaxLatency = [minLatency, maxLatency];
+	//var minMaxLatency = [minLatency, maxLatency];
+	var minMaxLatency = [0, maxLatency];
 	return minMaxLatency;
 }
 	
