@@ -149,22 +149,22 @@
                       </li>     
                   <li data-row="2" data-col="1" data-sizex="6" data-sizey="5">
                   	<div id="accordion">
-                 		<h2 class="current">5 Minutes / 15 Seconds</h2>
-                  			<div class="pane" style="display:block"><canvas id="mainDeviceChart" width="600px" height="425px"></div>
-                 		<h2>1 Hour / 5 Minutes</h2>
-                  			<div class="pane"><canvas id="mainDeviceChart" width="600px" height="425px"></div>
-                 		<h2>1 Day / 1 Hour</h2>
-                 			<div class="pane"><canvas id="mainDeviceChart" width="600px" height="425px"></div>
+                 		<h2 class="current" onClick="setLineChart('FiveMinuteLine')">5 Minutes / 15 Seconds</h2>
+                  			<div class="pane" style="display:block"><canvas id="FiveMinuteLine" width="600px" height="425px"></div>
+                 		<h2 onClick="setLineChart('HourLine')">1 Hour / 5 Minutes</h2>
+                  			<div class="pane"><canvas id="HourLine" width="600px" height="425px"></div>
+                 		<h2 onClick="setLineChart('DayLine')">1 Day / 1 Hour</h2>
+                 			<div class="pane"><canvas id="DayLine" width="600px" height="425px"></div>
                 	</div>
 				 </li>
                   <li data-row="4" data-col="7" data-sizex="4" data-sizey="3">
                   	<div id="accordion2">
-                 		<h2 class="current">5 Minutes / 15 Seconds</h2>
-                  			<div class="pane" style="display:block"><canvas id="polormin" width="440px" height="280px"></div>
-                 		<h2>1 Hour / 5 Minutes</h2>
-                  			<div class="pane"><canvas id="polorhour" width="430px" height="255px"></div>
-                 		<h2>1 Day / 1 Hour</h2>
-                 			<div class="pane"><canvas id="polorday" width="420px" height="230px"></div>
+                 		<h2 class="current" onClick="setPolarChart('FiveMinutePolar')">5 Minutes / 15 Seconds</h2>
+                  			<div class="pane" style="display:block"><canvas id="FiveMinutePolar" width="440px" height="280px"></div>
+                 		<h2 onClick="setPolarChart('HourPolar')">1 Hour / 5 Minutes</h2>
+                  			<div class="pane"><canvas id="HourPolar" width="430px" height="255px"></div>
+                 		<h2 onClick="setPolarChart('DayPolar')">1 Day / 1 Hour</h2>
+                 			<div class="pane"><canvas id="DayPolar" width="420px" height="230px"></div>
                 	</div>
                     
                   </li>      
@@ -179,12 +179,13 @@
       <script type="text/javascript" src="js/jquery.tools.min.js"></script>
       <script type="text/javascript" src="js/jquery.gridster.min.js" charster="utf-8"></script>
       <script src="js/hostmonChart.js"></script>
+      <script src="js/Chart.min.js"></script>
       <script type="text/javascript">
 	      var gridster;
 		  var dragged = 0;
 		  
 		  var demoData = getMinuteDemoData();
-	   		var mainDeviceChart = getMainDeviceChart("mainDeviceChart", "#51bbff", demoData);
+	   		var mainDeviceChart = getMainDeviceChart("FiveMinuteLine", "#51bbff", demoData);
 		  
 		  $("#accordion").tabs(
 			"#accordion div.pane",
@@ -201,251 +202,33 @@
 			{tabs: 'h2', effect: 'slide', initialIndex: null}
 		  );
 		  
+		  function setLineChart(name){
+			 currentLineChart = name; 
+			 quickUpdateGraph(); 
+		  }
+		  
+		  function setPolarChart(name){
+			  var c = document.getElementById(name);
+			  currentPolarChart = name;
+			  if(currentPolarChart == "MinutePolar"){
+				 polarChart = minPolarChart; 
+			  }else if(currentPolarChart == "HourPolar"){
+				 polarChart = hourPolarChart; 
+			  }else if(currentPolarChart == "DayPolar"){
+				  polarChart = dayPolarChart;
+			  }
+			  
+			 // alert(name);
+			  quickUpdateGraph();
+		  }
+		  
 		  $( document ).ready(function() {
 			console.log( "ready!" );
+			
+			setupCharts();
+			
+			setTimeout('updateGraph()',5000);
 
-	
-			var datamin = {
-				labels : ["18:40.0","18:40.15","18:40.30",
-							"18:40.45","18:41.00","18:41.15",
-							"18:41.30","18:41.45","18:42.00",
-							"18:42.15","18:42.30","18:42.45",
-							"18:43.00","18:43.15","18:43.30",
-							"18:43.45","18:44.0","18:44.15",
-							"18:44.30","18:44.45","18:45.00"],
-				datasets : [
-					{
-						fillColor : "#FF0000",
-						//strokeColor : "#ACC26D",
-						//pointColor : "#fff",
-						//pointStrokeColor : "#9DB86D",
-						data : [203,15,99,251,305,247,88,88,88,70,
-								203,156,99,251,305,247,88,88,88,70, 70]
-					},
-					{
-						fillColor : "#ff8400",
-						//strokeColor : "#ACC26D",
-						//pointColor : "#fff",
-						//pointStrokeColor : "#9DB86D",
-						data : [200,15,99,200,200,200,88,88,88,70,
-								200,156,99,200,200,200,88,88,88,70, 70]
-					},
-					{
-						fillColor : "#30ff00",
-						//strokeColor : "#ACC26D",
-						//pointColor : "#fff",
-						//pointStrokeColor : "#9DB86D",
-						data : [100,15,99,100,100,100,88,88,88,70,
-								100,100,99,100,100,100,88,88,88,70, 70]
-					}
-					
-					
-					
-				]
-			}
-			
-			var datahour = {
-				labels : ["17:45.00","17:50.00","17:55.00",
-							"18:00.00","18:05.00","18:10.00",
-							"18:15.00","18:20.00","18:25.00",
-							"18:20.00","18:25.00","18:30.00",
-							"18:35.00","18:40.00","18:45.00"],
-				datasets : [
-					{
-						fillColor : "#FF0000",
-						strokeColor : "#ACC26D",
-						pointColor : "#fff",
-						pointStrokeColor : "#9DB86D",
-						data : [74,72,75,251,305,247,23,50,88,130,
-								107,95,99,120,142]
-					},
-					{
-						fillColor : "#ff8400",
-						strokeColor : "#ACC26D",
-						pointColor : "#fff",
-						pointStrokeColor : "#9DB86D",
-						data : [74,72,75,200,200,200,23,50,88,130,
-								107,95,99,120,142]
-					},
-					{
-						fillColor : "#30ff00",
-						strokeColor : "#ACC26D",
-						pointColor : "#fff",
-						pointStrokeColor : "#9DB86D",
-						data : [74,72,75,100,100,100,23,50,88,100,
-								100,95,99,100,100]
-					}
-					
-					
-					
-				]
-			}
-			
-			var dataday = {
-				labels : ["19:00.00", "20:00.00", "21:00.00", "22:00.00", "23:00.00", "24:00.00", 
-						  "1:00.00", "2:00.00", "3:00.00", "4:00.00", "5:00.00", "6:00.00", 
-						  "7:00.00", "8:00.00", "9:00.00", "10:00.00", "11:00.00", "12:00.00", 
-						  "13:00.00", "14:00.00", "15:00.00", "16:00.00", "17:00.00", "18:00.00"],
-				datasets : [
-					{
-						fillColor : "#FF0000",
-						strokeColor : "#ACC26D",
-						pointColor : "#fff",
-						pointStrokeColor : "#9DB86D",
-						data : [100, 88, 75, 65, 70, 88, 
-								101, 100, 75, 88, 81, 15, 
-								75, 88, 100, 230, 107, 89, 
-								84, 99, 132, 117, 120, 122]
-					},
-					{
-						fillColor : "#ff8400",
-						strokeColor : "#ACC26D",
-						pointColor : "#fff",
-						pointStrokeColor : "#9DB86D",
-						data : [100, 88, 75, 65, 70, 88, 
-								101, 100, 75, 88, 81, 15, 
-								75, 88, 100, 200, 107, 89, 
-								84, 99, 132, 117, 120, 122]
-					},
-					{
-						fillColor : "#30ff00",
-						strokeColor : "#ACC26D",
-						pointColor : "#fff",
-						pointStrokeColor : "#9DB86D",
-						data : [100, 88, 75, 65, 70, 88, 
-								101, 100, 75, 88, 81, 15, 
-								75, 88, 100, 100, 100, 89, 
-								84, 99, 132, 100, 100, 100]
-					}
-				]
-			}
-			
-			var polormin = [
-				{
-					value: 300,
-					color:"#F7464A",
-					highlight: "#FF5A5E",
-					label: "500+"
-				},
-				{
-					value: 50,
-					color: "#46BFBD",
-					highlight: "#5AD3D1",
-					label: "300-500"
-				},
-				{
-					value: 100,
-					color: "#FDB45C",
-					highlight: "#FFC870",
-					label: "200-300"
-				},
-				{
-					value: 40,
-					color: "#949FB1",
-					highlight: "#A8B3C5",
-					label: "100-200"
-				},
-				{
-					value: 120,
-					color: "#4D5360",
-					highlight: "#616774",
-					label: "0-100"
-				}
-			
-			];
-			
-			var polorhour = [
-				{
-					value: 300,
-					color:"#F7464A",
-					highlight: "#FF5A5E",
-					label: "500+"
-				},
-				{
-					value: 50,
-					color: "#46BFBD",
-					highlight: "#5AD3D1",
-					label: "300-500"
-				},
-				{
-					value: 100,
-					color: "#FDB45C",
-					highlight: "#FFC870",
-					label: "200-300"
-				},
-				{
-					value: 40,
-					color: "#949FB1",
-					highlight: "#A8B3C5",
-					label: "100-200"
-				},
-				{
-					value: 120,
-					color: "#4D5360",
-					highlight: "#616774",
-					label: "0-100"
-				}
-			
-			];
-			
-			var polorday = [
-				{
-					value: 300,
-					color:"#F7464A",
-					highlight: "#FF5A5E",
-					label: "500+"
-				},
-				{
-					value: 50,
-					color: "#46BFBD",
-					highlight: "#5AD3D1",
-					label: "300-500"
-				},
-				{
-					value: 100,
-					color: "#FDB45C",
-					highlight: "#FFC870",
-					label: "200-300"
-				},
-				{
-					value: 40,
-					color: "#949FB1",
-					highlight: "#A8B3C5",
-					label: "100-200"
-				},
-				{
-					value: 120,
-					color: "#4D5360",
-					highlight: "#616774",
-					label: "0-100"
-				}
-			
-			];
-			/*
-			var cht = document.getElementById('linemin');
-			var ctx = cht.getContext('2d');
-			var lineChart = new Chart(ctx).Line(datamin, {pointDot: false});
-			
-			var cht = document.getElementById('linehour');
-			var ctx = cht.getContext('2d');
-			var lineChart = new Chart(ctx).Line(datahour, {pointDot: false});
-			
-			var cht = document.getElementById('lineday');
-			var ctx = cht.getContext('2d');
-			var lineChart = new Chart(ctx).Line(dataday, {pointDot: false});
-			
-			var cht = document.getElementById('polormin');
-			var ctx = cht.getContext('2d');
-			new Chart(ctx).PolarArea(polormin, {});
-			
-			var cht = document.getElementById('polorhour');
-			var ctx = cht.getContext('2d');
-			new Chart(ctx).PolarArea(polorhour, {});
-			
-			var cht = document.getElementById('polorday');
-			var ctx = cht.getContext('2d');
-			new Chart(ctx).PolarArea(polorday, {});
-			*/
 			
 
 		});
