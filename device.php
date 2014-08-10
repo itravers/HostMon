@@ -58,18 +58,18 @@ error_reporting(-1);
 		  var demoData = getMinuteDemoData();
 	   		var mainDeviceChart = getMainDeviceChart('FiveMinuteLine', '#51bbff', demoData);
 		  
-		  $('#accordion').tabs(
-			'#accordion div.pane',
+		  $(\"#accordion\").tabs(
+			\"#accordion div.pane\",
 			{tabs: 'h2', effect: 'slide', initialIndex: null}
 		  );
 		  
-		   $('#accordion2').tabs(
-			'#accordion2 div.pane',
+		   $(\"#accordion2\").tabs(
+			\"#accordion2 div.pane\",
 			{tabs: 'h2', effect: 'slide', initialIndex: null}
 		  );
 		  
-		   $('#accordion3').tabs(
-			'#accordion3 div.pane',
+		   $(\"#accordion3\").tabs(
+			\"#accordion3 div.pane\",
 			{tabs: 'h2', effect: 'slide', initialIndex: null}
 		  );
 		  
@@ -187,13 +187,13 @@ error_reporting(-1);
 					<!-- root element for the scrollable elements -->
 					<div class='items' id='accordion3'>
 						<!-- first element. contains three rows -->
-						<div>";
+						";
 		return $returnVal;	
 	}
 	
 	function buildNotesClosing(){
 		$returnVal = "
-						</div>
+						
 					</div>
 				</div>
 				<img src='images/up-arrow.png' class='prev'></img>
@@ -208,6 +208,9 @@ error_reporting(-1);
 		$i = 0;
 		$current = "";
 		$display = "";
+		$divHeader = "<div>";
+		$divFooter = "</div>";
+		$returnVal = $returnVal.$divHeader;
 		foreach ($notes as $note){
 			if($i == 0){
 				$current = "current";	
@@ -215,6 +218,12 @@ error_reporting(-1);
 			}else{
 				$current = "";
 				$display = "none";	
+			}
+			if($i % 3 == 0 && $i != 0){
+				//we group h2's by 3's in seperate divs
+				$divMedium = "</div><div>";
+			}else{
+				$divMedium = "";
 			}
 			$returnVal = $returnVal."
 				<h2 class='item ".$current."'>
@@ -224,9 +233,10 @@ error_reporting(-1);
 					<div id='notetime'>".$note['time']."</div>
 					<img class='minus' src='images/minus.png'></img>
 				</h2>
-				<div class='pane' style='display:".$display."'>".$note['content']."</div>";	
+				<div class='pane' style='display:".$display."'>".$note['content']."</div>".$divMedium;	
 			$i++;
 		}
+		$returnVal = $returnVal.$divFooter;
 		
 		return $returnVal;	
 	}
