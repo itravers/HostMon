@@ -65,14 +65,14 @@
   <!-- the external content is loaded inside this tag -->
   <div class="contentWrap"></div>
        <script src="js/jquery.tools.min.js"></script>
-       <script src="js/canvas.js"></script>
+       <script src="js/hostmonChart.js"></script>
       <script type="text/javascript" src="js/jquery.gridster.min.js" charster="utf-8"></script>
       
       <script type="text/javascript">
           var gridster;
 		  var dragged = 0;
 		  
-		  c = initializeCanvas();
+		  c = initializeCanvas("can1");
           for(i = 0; i < c.length; i++){
           	canvas = c[i];
 			 canvas.height = canvas.width/3;

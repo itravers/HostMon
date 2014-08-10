@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>gridster test</title>
+  </head>
+  <body bgcolor="#51bbff">
+  <img onClick="changeCharts()" src="images/plus.png"></img>
+ <div>
+  <canvas id="FiveMinutePolar" width="440px" height="280px">
+  </div>
+  <div>
+   <canvas id="FiveMinuteLine" width="600px" height="425px">
+  </div>
+  
+  
+       <script src="js/jquery.tools.min.js"></script>
+       <script src="js/hostmonChart.js"></script> 
+       <script src="js/Chart.min.js"></script>
+       <script type="text/javascript">
+	   		
+		
+		
+				$(document).ready(function()
+				{
+					//initialize the polor chart
+					setupCharts();
+					setTimeout('updateGraph()',5000);
+				});
+				
+				
+			
+		
+		  
+      </script>   
+  </body>
+</html>
