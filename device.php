@@ -3,7 +3,8 @@
 error_reporting(-1);
 	include_once("php/db.php");
 	$loggedIn = true;
-	$_GET['ip'] = "earlhart.com";
+	if(!$_GET['ip'])$_GET['ip'] = "digitalpath.com";
+	//$_GET['ip'] = "earlhart.com";
 	$ip = $_GET['ip'];
 	$deviceID = getDeviceID($ip);
 	$deviceName = getDeviceName($deviceID);
