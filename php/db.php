@@ -12,6 +12,7 @@ function openDB(){
 	
 	$con = mysqli_connect($dbOptions["IP"], $dbOptions["USER"], $dbOptions["PASS"], $dbOptions["DB"]);
 		if (!$con) {
+			echo getCWD();
 		  die('Could not connect: ' . mysqli_error($con));
 		}
 	mysqli_select_db($con,"HostMon");
@@ -27,7 +28,13 @@ function queryDB($con, $sql){
 
 function getDBOptions(){
 	$dbOptions = array();
-	$lines = file('../cfg/db.cfg');
+	if (strpos(getCWD(), 'php') !== FALSE){
+		$lines = file('../cfg/db.cfg');
+	}else{
+		$lines = file('cfg/db.cfg');
+	}
+	
+	
 	foreach ($lines as $line_num => $line) {
 		if (strpos($line, 'DB:') !== FALSE){
 			$end = strpos($line, ';');

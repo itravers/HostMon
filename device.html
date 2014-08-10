@@ -6,7 +6,7 @@
       <link rel="stylesheet" type="text/css" href="css/styles.css">
       
   </head>
-  <body onload="createChart();">
+  <body>
    <nav class="left">
                         <ul>
                         <li>
@@ -225,9 +225,9 @@
 		  $( document ).ready(function() {
 			console.log( "ready!" );
 			
-			setupCharts();
+			setupCharts("digitalpath.com");
 			
-			setTimeout('updateGraph()',5000);
+			setTimeout('updateGraph()',10);
 
 			
 

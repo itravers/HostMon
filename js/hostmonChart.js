@@ -524,11 +524,11 @@ var lineChart;
 			return newData;
 		}
 		
-		function setupCharts(){
+		function setupCharts(newIP){
 			
 					currentPolarChart = "FiveMinutePolar";
 					currentLineChart = "FiveMinuteLine";
-					currentIP = "digitalpath.com"
+					currentIP = newIP
 					minPolarChart = initializePolarChart(currentPolarChart);
 					hourPolarChart = initializePolarChart("HourPolar");
 					dayPolarChart = initializePolarChart("DayPolar");
@@ -549,14 +549,6 @@ var lineChart;
 					return newpolarChart;
 				}
 
-
-
-
-
-
-
-	
-	
 	
 /** Functions Used for Graphing on the "Grid" page.*/	
 
