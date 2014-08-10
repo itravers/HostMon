@@ -304,8 +304,251 @@ function drawYName(c, color, labelName){
 	ctx.rotate(Math.PI / 2);
 	ctx.translate(-c.width / 2, -c.height / 2);	
 }
-	
-	
+
+function getPolarTestData(){
+	var polormin = [{
+			value: 75,
+			color:"#F7464A",
+			highlight: "#FF5A5E",
+			label: "500+"
+		},{
+			value: 75,
+			color: "#46BFBD",
+			highlight: "#5AD3D1",
+			label: "300-500"
+		},{
+			value: 75,
+			color: "#FDB45C",
+			highlight: "#FFC870",
+			label: "200-300"
+		},{
+			value: 75,
+			color: "#949FB1",
+			highlight: "#A8B3C5",
+			label: "100-200"
+		},{
+			value: 75,
+			color: "#4D5360",
+			highlight: "#616774",
+			label: "0-100"
+		}
+	];
+	return polormin;			
+}
+
+var lineChart;
+			var polarChart;
+			var minPolarChart;
+			var hourPolarChart;
+			var dayPolarChart;
+	   		var currentLineChart;
+			var currentPolarChart;
+			var currentIP;
+		
+		function updateGraph(){
+			//alert("update graph");
+			(function worker() {
+				var postData = {ip:currentIP,
+								LineChart:currentLineChart,
+								PolarChart:currentPolarChart};
+					$.ajax({
+						type:"POST",
+						data : postData,
+						url: 'php/device-backend.php', 
+						success: function(result,status,xhr) {
+						  var lineChartData = translateIncomingLineData(result); 
+						  var mainDeviceChart = getMainDeviceChart(currentLineChart, "#51bbff", lineChartData);
+						  
+						  var newData = translateIncomingPolarData(result); 
+						  //alert(currentPolarChart);
+						  updatePolarChart(polarChart, newData);
+						  setTimeout(updateGraph, 15000);
+						},
+						complete: function() {
+						  // Schedule the next request when the current one's complete
+						  alert("complete" + data);
+						  
+						},
+						error: function(xhr,status,error){
+							alert("error" + data);
+						}
+					  });
+				})();
+			
+			
+		}
+		
+		function quickUpdateGraph(){
+			//alert("update graph");
+			(function worker() {
+				var postData = {ip:currentIP,
+								LineChart:currentLineChart,
+								PolarChart:currentPolarChart};
+					$.ajax({
+						type:"POST",
+						data : postData,
+						url: 'php/device-backend.php', 
+						success: function(result,status,xhr) {
+						  var lineChartData = translateIncomingLineData(result); 
+						  var mainDeviceChart = getMainDeviceChart(currentLineChart, "#51bbff", lineChartData);
+						  
+						  var newData = translateIncomingPolarData(result); 
+						 // alert(currentPolarChart);
+						  updatePolarChart(polarChart, newData);
+						 // setTimeout(updateGraph, 15000);
+						},
+						complete: function() {
+						  // Schedule the next request when the current one's complete
+						  alert("complete" + data);
+						  
+						},
+						error: function(xhr,status,error){
+							alert("error" + data);
+						}
+					  });
+				})();
+			
+			
+		}
+		
+		function changeCharts(){
+				    currentPolarChart = "HourPolar";
+					currentLineChart = "HourLine";
+					updateGraph();
+		}
+		
+		function updatePolarChart(apolarChart, newData){
+			//alert(newData.length);	
+			for(i = 0; i < newData.length; i++){
+				var dataItem = newData[i];
+				//alert(dataItem['value']);
+				apolarChart.segments[i].value = dataItem['value'];
+				apolarChart.segments[i].color = dataItem['color'];
+				apolarChart.segments[i].highlight = dataItem['highlight'];
+				apolarChart.segments[i].label = dataItem['label'];
+				apolarChart.update();
+				//polarChart.addData(newData[i], i);	
+			}
+			
+		}
+		
+		function translateIncomingPolarData(data){
+			var polarsplitData = data.split("-");
+			var polarData = polarsplitData[1];
+			var records = polarData.split(" ");
+			//alert(polarData);
+			var limit1 =records[0].split(":")[0];
+			var limit2 =records[1].split(":")[0];
+			var limit3 =records[2].split(":")[0];
+			var limit4 =records[3].split(":")[0];
+			var limit5 =records[4].split(":")[0];
+			var val1s = records[0].split(":")[1];
+			var val2s = records[1].split(":")[1];
+			var val3s = records[2].split(":")[1];
+			var val4s = records[3].split(":")[1];
+			var val5s = records[4].split(":")[1];
+			var val1 = parseFloat(val1s);
+			var val2 = parseFloat(val2s);
+			var val3 = parseFloat(val3s);
+			var val4 = parseFloat(val4s);
+			var val5 = parseFloat(val5s);
+			var total = val1+val2+val3+val4+val5;
+			val1 = (val1/total)*100;
+			val2 = (val2/total)*100;
+			val3 = (val3/total)*100;
+			val4 = (val4/total)*100;
+			val5 = (val5/total)*100;
+			//alert("total "+ total);
+			if(val1 > 75) val1 = 75;
+			if(val2 > 75) val2 = 75;
+			if(val3 > 75) val3 = 75;
+			if(val4 > 75) val4 = 75;
+			if(val5 > 75) val5 = 75;
+			if(val1 < 10) val1 = 10+val1*3;
+			if(val2 < 10) val2 = 10+val2*3;
+			if(val3 < 10) val3 = 10+val3*3;
+			if(val4 < 10) val4 = 10+val4*3;
+			if(val5 < 10) val5 = 10+val5*3;
+			var newPolarData = [
+				{
+					value: val1,
+					color:"#F7464A",
+					highlight: "#FF5A5E",
+					label: "0 - "+limit1
+				},
+				{
+					value: val2,
+					color: "#46BFBD",
+					highlight: "#5AD3D1",
+					label: limit1+"-"+limit2
+				},
+				{
+					value: val3,
+					color: "#FDB45C",
+					highlight: "#FFC870",
+					label: limit2+"-"+limit3
+				},
+				{
+					value: val4,
+					color: "#949FB1",
+					highlight: "#A8B3C5",
+					label: limit3+"-"+limit4
+				},
+				{
+					value: val5,
+					color: "#4D5360",
+					highlight: "#616774",
+					label: limit4+"-"+limit5
+				}
+			
+			];
+			//alert(records[0].split(":")[1]);
+			return newPolarData;
+		}
+		
+		function translateIncomingLineData(data){
+			//alert("data: " +data);
+			var splitData = data.split("-");
+			var lineData = splitData[0];
+			//alert("lineData: " +lineData);
+			
+			var records = lineData.split(" ");
+			var newData = new Array(records.length-1);
+			
+			for(i = 0; i < records.length-1; i++){
+				var intRecord = records[i];
+				var record = intRecord.split(":");
+				newData[i] = record;
+			}
+			//alert(newData);
+			return newData;
+		}
+		
+		function setupCharts(newIP){
+			
+					currentPolarChart = "FiveMinutePolar";
+					currentLineChart = "FiveMinuteLine";
+					currentIP = newIP
+					minPolarChart = initializePolarChart(currentPolarChart);
+					hourPolarChart = initializePolarChart("HourPolar");
+					dayPolarChart = initializePolarChart("DayPolar");
+					polarChart = minPolarChart;
+					lineChart = initializeLineChart(currentLineChart);	
+				}
+				
+				function initializeLineChart(chart){
+					var demoData = getMinuteDemoData();
+	   				var mainDeviceChart = getMainDeviceChart(chart, "#51bbff", demoData);
+					return mainDeviceChart;
+				}
+					
+				function initializePolarChart(chart){
+					var cht = document.getElementById(chart);
+					var ctx = cht.getContext('2d');
+					var newpolarChart = new Chart(ctx).PolarArea(getPolarTestData(), {});
+					return newpolarChart;
+				}
+
 	
 /** Functions Used for Graphing on the "Grid" page.*/	
 
