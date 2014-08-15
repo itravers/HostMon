@@ -137,9 +137,6 @@ function buildScripts($ip, $deviceID, $notes){
 		//alert(paneToHide.text());
 		paneToHide.css('display', 'none');
 		divToHide.toggleClass('current');
-		
-
-	
 			var toPrepend = \"<h2 class='item current'> \
 				<div id='notenum'>".getNewCount($newCount)."</div> \
 				<div id='notename'>".$_SESSION['username']."</div> \
@@ -147,7 +144,7 @@ function buildScripts($ip, $deviceID, $notes){
 				<div id='notetime'>".$time."</div> \
 				<img class='minus' src='images/minus.png'></img> \
 			</h2> \
-			<div class='pane' style='display:block'><button id='noteSubmitButton' onclick='clickNoteSubmitButton();'>Submit</button><textarea id='noteInputText'></textarea></div>\";
+			<div class='pane' style='display:block'><button id='noteSubmitButton' onclick='clickNoteSubmitButton();'>Submit</button><textarea id='noteInputText'></textarea></div><div style='display:none'>".$millitime."</div> \";
 		divToAddTo.prepend(toPrepend);
 		
 	}
@@ -186,7 +183,7 @@ function buildScripts($ip, $deviceID, $notes){
 				//replaceElementText.replaceWith(result);
 				var translatedResult = result.replace(\"<li data-row='1' data-col='7' data-sizex='4' data-sizey='3' id='actions'>\", \" \"); 
 				translatedResult = translatedResult.replace(\"</li>\", \" \");
-				alert(translatedResult);
+				//alert(translatedResult);
 				$('#actions').empty().append(translatedResult);  
 				bindAccordion();
 				bindScrollable();
@@ -214,6 +211,44 @@ function buildScripts($ip, $deviceID, $notes){
 	function plusClicked(){
 		createEditableNote();
 	}
+	
+	//user clicks the minus sign to delete a note.
+	function minusClicked(){
+		var currentNote = $('#accordion3 h2.current');
+		currentNote.hide();
+		currentNote.next().hide();
+		var timestamp = currentNote.next().next().text();
+		
+		var postData = {RemoveNote:'true',
+						timestamp:timestamp,
+						deviceID:".$deviceID."};
+		$.ajax({
+			type:\"POST\",
+			data : postData,
+			url: 'php/device-backend.php', 
+			success: function(result,status,xhr) {
+				
+				//strip of the first and last line of result.
+				
+				var translatedResult = result.replace(\"<li data-row='1' data-col='7' data-sizex='4' data-sizey='3' id='actions'>\", \" \"); 
+				translatedResult = translatedResult.replace(\"</li>\", \" \");
+				//alert(translatedResult);
+				$('#actions').empty().append(translatedResult);  
+				bindAccordion();
+				bindScrollable();
+				
+				//alert(result);
+			},
+			complete: function(result,status,xhr) {
+				// Schedule the next request when the current one's complete
+				//alert(\"complete\" + result);
+			},
+			error: function(xhr,status,error){
+				alert(\"error\" + error);
+			}
+		});
+		
+	}
 
 	//setup menu scroll section, and grids
 	$(function() {
@@ -230,6 +265,7 @@ function buildScripts($ip, $deviceID, $notes){
 		});
 		//make the add note plus sign clickable. Even if it is replaced
 		$(document).on('click', '.plus', plusClicked);
+		$(document).on('click', '.minus', minusClicked);
 		
 		
 		

@@ -54,7 +54,8 @@ function buildNoteItems($notes){
 				<div id='notetime'>".$note['time']."</div>
 				<img class='minus' src='images/minus.png'></img>
 			</h2>
-			<div class='pane' style='display:".$display."'>".$note['content']."</div>".$divMedium;	
+			<div class='pane' style='display:".$display."'>".$note['content']."</div>
+			<div style='display:none'>".$note['timestamp']."</div>".$divMedium;	
 		$i++;
 		$j--;
 	}
@@ -137,6 +138,7 @@ function getNotes($deviceID){
 		$note = array("username" => getUserName($item['userID']), 
 					  "date" => getFormattedDate($item['timestamp']), 
 					  "time" => getFormattedTime($item['timestamp']), 
+					  "timestamp" => $item['timestamp'],
 					  "content" => $item['content']);
 		array_push($notes, $note);
 	}
