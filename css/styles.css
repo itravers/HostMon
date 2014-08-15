@@ -395,7 +395,12 @@ nav.open.top {
     margin-left:175px;
 }
 
+.minus{
+	cursor: pointer;	
+}
+
 .plus{
+	cursor: pointer;
 	position:absolute;
 	margin-top:-290px;
     margin-left:350px;
@@ -441,13 +446,55 @@ nav.open.top {
 /* accordion pane */
 #accordion3 .pane {
     display:none;
-    height:80px;
+    height:110px;
+	line-height: 100%;
 	width:370px;
     color:#fff;
-    font-size:18px;
+    font-size:14px;
     font-weight:bold;
     padding-left:40px;
 }
+
+#noteInputText{
+	background:#51bbff;
+	line-height: 100%;
+	color:#fff;
+	width:360px;
+	height:100px;
+	font-family: Raavi;
+    font-size:14px;
+    font-weight:bold;
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+	border-color:#51bbff;
+}
+
+#noteSubmitButton {
+	position:absolute;
+	background-color:#51bbff;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	border-right:0px;
+	border-bottom:0px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family: Raavi;
+	font-size:14px;
+	padding:0px 0px;
+	margin-left: 315px;
+	margin-top: 72px;
+	text-decoration:none;
+}
+#noteSubmitButton:hover {
+	background-color:#009cff;
+}
+#noteSubmitButton:active {
+		
+}
+
 
 /* a title inside pane */
 #accordion3 .pane h3 {
