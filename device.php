@@ -2,11 +2,13 @@
 /* Renders the device page and delivers it to user */
 	error_reporting(-1);
 	include_once("php/db.php");	
+	include_once("php/functions.php");
 	$loggedIn = true; //later we will check this in the session variable.
 	$_SESSION['username'] = "itravers";
 	if(!$_GET['ip'])$_GET['ip'] = "earlhart.com"; //default to earlhart if no ip is given to page.
 	//$_GET['ip'] = "earlhart.com";
 	$ip = $_GET['ip'];
+	$newCount = 0;
 	$deviceID = getDeviceID($ip); //db query get device id from device ip
 	$deviceName = getDeviceName($deviceID); // db query get device name from device id.
 	$notes = getNotes($deviceID); //db query get array of notes from device id.
@@ -44,19 +46,29 @@ function buildBody($deviceID, $deviceName, $ip, $notes){
 	$openTag = "<body>";
 	$menu = buildMenu();
 	$grid = buildGrid($deviceID, $deviceName, $ip, $notes);
-	$scripts = buildScripts($ip, $notes);
+	$scripts = buildScripts($ip, $deviceID, $notes);
 	$closingTag = "</body>";
 	$returnVal = $openTag.$menu.$grid.$scripts.$closingTag;
 	return $returnVal;
 }
+
+/** returns the newcount*/
+function getNewCount($newCount){
+	$newCount++;
+	return $newCount;
+}
+
+function getIncrementCount($newCount){
+	$newCount++;
+}
 	
 /** Builds the javascript functionality into a string for output. */
-function buildScripts($ip, $notes){
+function buildScripts($ip, $deviceID, $notes){
 	$millitime = round(microtime(true) * 1000);
 	$date = getFormattedDate($millitime);
 	$time = getFormattedTime($millitime);
 	
-	$newCount = count($notes)+1;
+	$newCount = count($notes);
 	$returnVal = "
 <script type='text/javascript' src='js/jquery.tools.min.js'></script>
 <script type='text/javascript' src='js/jquery.gridster.min.js' charster='utf-8'></script>
@@ -80,10 +92,19 @@ function buildScripts($ip, $notes){
 		{tabs: 'h2', effect: 'slide', initialIndex: null}
 	);
 		  
-	$(\"#accordion3\").tabs(
-		\"#accordion3 div.pane\",
-		{tabs: 'h2', effect: 'slide', initialIndex: null}
-	);
+	bindAccordion();
+	bindScrollable();
+	
+	function bindScrollable(){
+		$('.scrollable').scrollable({ vertical: true, mousewheel: true });	
+	}
+	
+	function bindAccordion(){
+		$(\"#accordion3\").tabs(
+			\"#accordion3 div.pane\",
+			{tabs: 'h2', effect: 'slide', initialIndex: null}
+		);
+	}
 	
 	//keeps track of the line chart that is currently updating.	  
 	function setLineChart(name){
@@ -120,13 +141,13 @@ function buildScripts($ip, $notes){
 
 	
 			var toPrepend = \"<h2 class='item current'> \
-				<div id='notenum'>".$newCount."</div> \
+				<div id='notenum'>".getNewCount($newCount)."</div> \
 				<div id='notename'>".$_SESSION['username']."</div> \
 				<div id='notedate'>".$date."</div> \
 				<div id='notetime'>".$time."</div> \
 				<img class='minus' src='images/minus.png'></img> \
 			</h2> \
-			<div class='pane' style='display:block'><button id='noteSubmitButton'>Submit</button><textarea id='noteInputText'></textarea></div>\";
+			<div class='pane' style='display:block'><button id='noteSubmitButton' onclick='clickNoteSubmitButton();'>Submit</button><textarea id='noteInputText'></textarea></div>\";
 		divToAddTo.prepend(toPrepend);
 		
 	}
@@ -137,6 +158,48 @@ function buildScripts($ip, $notes){
 		setupCharts('".$ip."');
 		setTimeout('updateGraph()',10);
 	});
+	
+	function clickNoteSubmitButton(){
+		var noteNumElement = $('#notenum:first');
+		var noteNameElement = $('#notename:first');
+		var noteContentElement = $('#noteInputText:first');
+		var noteNum = noteNumElement.text();
+		var noteName = noteNameElement.text();
+		var noteContent = noteContentElement.val();
+		var time = '".$millitime."';
+		var deviceID = '".$deviceID."';
+		//alert(noteContent);
+		var postData = {SubmitNote:'true',
+						noteNum:noteNum,
+						noteName:noteName,
+						noteContent:noteContent,
+						time:time,
+						deviceID:deviceID};
+		$.ajax({
+			type:\"POST\",
+			data : postData,
+			url: 'php/device-backend.php', 
+			success: function(result,status,xhr) {
+				
+				//strip of the first and last line of result.
+				//var replaceElementText = $('#actions');
+				//replaceElementText.replaceWith(result);
+				var translatedResult = result.replace(\"<li data-row='1' data-col='7' data-sizex='4' data-sizey='3' id='actions'>\", \" \"); 
+				translatedResult = translatedResult.replace(\"</li>\", \" \");
+				alert(translatedResult);
+				$('#actions').empty().append(translatedResult);  
+				bindAccordion();
+				bindScrollable();
+			},
+			complete: function(result,status,xhr) {
+				// Schedule the next request when the current one's complete
+				//alert(\"complete\" + result);
+			},
+			error: function(xhr,status,error){
+				alert(\"error\" + error);
+			}
+		});
+	}
 		
 	//sets the dragged variable to 0 when a device is loaded.  
 	function loadDevice(id) {
@@ -145,6 +208,11 @@ function buildScripts($ip, $notes){
 		}	
 		// RESET DRAGGED SINCE CLICK EVENT IS FIRED AFTER drag stop
 			dragged = 0;
+	}
+	
+	//user clicks the plus sign to add new note
+	function plusClicked(){
+		createEditableNote();
 	}
 
 	//setup menu scroll section, and grids
@@ -155,18 +223,16 @@ function buildScripts($ip, $notes){
 			$('body').addClass('menu-open');
 			return false;
 		});	
-		//make the menu clickable. Set it to open menu.
-		$('.plus').click(function() {
-			
-			createEditableNote();
-			return false;
-		});	
 		//make menu close when document is clicked.
 		$(document).click(function() {
 			$('body').removeClass('menu-open');
 			$('nav').removeClass('open');
 		});
-		$('.scrollable').scrollable({ vertical: true, mousewheel: true });
+		//make the add note plus sign clickable. Even if it is replaced
+		$(document).on('click', '.plus', plusClicked);
+		
+		
+		
 		gridtster = $('.device .gridster > ul').gridster({
 			widget_margins: [5, 5],
 			widget_base_dimensions: [95, 95],
@@ -214,77 +280,7 @@ function buildMenuGrid(){
 	return $returnVal;	
 }
 
-/** Builds the opening tags for the notes grid section. */
-function buildNotesOpening(){
-	$returnVal = "
-		<li data-row='1' data-col='7' data-sizex='4' data-sizey='3' id='actions'>    
-			<!-- root element for scrollable -->
-			<div class='scrollable vertical'>
-				<!-- root element for the scrollable elements -->
-				<div class='items' id='accordion3'>
-					<!-- first element. contains three rows -->";
-	return $returnVal;	
-}
 
-/** Builds the closing tags for the notes grid section. */
-function buildNotesClosing(){
-	$returnVal = "
-				</div>
-			</div>
-			<img src='images/up-arrow.png' class='prev'></img>
-			<img src='images/down-arrow.png' class='next'></img>
-			<img class='plus' src='images/plus.png'></img>
-		</li>";
-	return $returnVal;	
-}
-
-/** Builds the individual note items, only 3 per individual div to keep scrolling working. */
-function buildNoteItems($notes){
-	$returnVal = "";
-	$i = 0;
-	$current = "";
-	$display = "";
-	$divHeader = "<div>";
-	$divFooter = "</div>";
-	$returnVal = $returnVal.$divHeader;
-	$j = count($notes);
-	foreach (array_reverse($notes) as $note){
-		if($i == 0){ // decides which note is the currently displaying one.
-			$current = "current";	
-			$display = "block";
-		}else{
-			$current = "";
-			$display = "none";	
-		}
-		if($i % 3 == 0 && $i != 0){//insert a div seperator every 3 notes, but not on the first one.
-			$divMedium = "</div><div>";
-		}else{
-			$divMedium = "";
-		}
-		$returnVal = $returnVal."
-			<h2 class='item ".$current."'>
-				<div id='notenum'>".($j)."</div>
-				<div id='notename'>".$note['username']."</div>
-				<div id='notedate'>".$note['date']."</div>
-				<div id='notetime'>".$note['time']."</div>
-				<img class='minus' src='images/minus.png'></img>
-			</h2>
-			<div class='pane' style='display:".$display."'>".$note['content']."</div>".$divMedium;	
-		$i++;
-		$j--;
-	}
-	$returnVal = $returnVal.$divFooter;
-	return $returnVal;	
-}
-
-/** Build the Notes section grid. */
-function buildNotesGrid($notes){
-	$notesOpening = buildNotesOpening();
-	$noteItems = buildNoteItems($notes);
-	$noteClosing = buildNotesClosing();
-	$returnVal = $notesOpening.$noteItems.$noteClosing;
-	return $returnVal;
-}
 
 /* Build the Grid the line Chart is in. */
 function buildLineChartGrid(){
@@ -371,75 +367,7 @@ function printPage($page){
 	echo $page;
 }
 
-/** Fetches the Device ID from the database, uses the ip. */
-function getDeviceID($ip){
-	$con = openDB();
-	mysqli_select_db($con,"HostMon");
-	$sql="SELECT id FROM `Devices` WHERE ip = '".$ip."'";
-	$result = mysqli_query($con,$sql);
-	$id = '';
-	while($row = mysqli_fetch_array($result)) {
-		$id = $row['id'];
-	}
-	return $id;	
-}
 
-/** Query's the database for the devices name, using the ID. */
-function getDeviceName($deviceID){
-	$con = openDB();
-	mysqli_select_db($con,"HostMon");
-	$sql="SELECT name FROM `Devices` WHERE id = '".$deviceID."'";
-	$result = mysqli_query($con,$sql);
-	$name = '';
-	while($row = mysqli_fetch_array($result)) {
-		$name = $row['name'];
-	}
-	return $name;
-}
-
-/** Query's the database for a users name, from their ID. */
-function getUserName($id){
-	$con = openDB();
-	mysqli_select_db($con,"HostMon");
-	$sql="SELECT usr FROM `Users` WHERE id = '".$id."'";
-	$result = mysqli_query($con,$sql);
-	$name = '';
-	while($row = mysqli_fetch_array($result)) {
-		$name = $row['usr'];
-	}
-	return $name;
-}
-
-/** Returns a formatted date, based on a timestamp in millis. */
-function getFormattedDate($timestamp){
-	$returnVal = date("M d Y", ($timestamp/1000));
-	return $returnVal;	
-}
 	
-/** Returns a formatted time, based on a timestamp in millis. */
-function getFormattedTime($timestamp){
-	$returnVal = date("g i A", ($timestamp/1000));
-	return $returnVal;	
-}
-	
-/** Returns an Array of notes from the DB, based on deviceID. */
-function getNotes($deviceID){
-	$con = openDB();
-	mysqli_select_db($con,"HostMon");
-	$sql="SELECT * FROM `notes` WHERE deviceID = '".$deviceID."'";
-	$result = mysqli_query($con,$sql);
-	$returnArray = Array();
-	while($row = mysqli_fetch_array($result)) {
-		array_push($returnArray, $row);
-	}
-	$notes = Array();
-	foreach($returnArray as $item){
-		$note = array("username" => getUserName($item['userID']), 
-					  "date" => getFormattedDate($item['timestamp']), 
-					  "time" => getFormattedTime($item['timestamp']), 
-					  "content" => $item['content']);
-		array_push($notes, $note);
-	}
-	return $notes;	
-}
+
 ?>
