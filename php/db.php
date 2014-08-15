@@ -1,31 +1,26 @@
 <?php
 
-
-			
-			
-			
+/** Create and return the DB connection. */	
 function openDB(){
-	// Make a MySQL Connection
 	$dbOptions = getDBOptions();
-	//mysql_connect($dbOptions["IP"], $dbOptions["USER"], $dbOptions["PASS"]) or die(mysql_error());
-	//mysql_select_db($dbOptions["DB"]) or die(mysql_error());
-	
 	$con = mysqli_connect($dbOptions["IP"], $dbOptions["USER"], $dbOptions["PASS"], $dbOptions["DB"]);
-		if (!$con) {
-			echo getCWD();
-		  die('Could not connect: ' . mysqli_error($con));
-		}
+	if (!$con) {
+		echo getCWD();
+		die('Could not connect: ' . mysqli_error($con));
+	}
 	mysqli_select_db($con,"HostMon");
 	return $con;
 }
 
+/** Send A Query to The DB, looking for a single result. */
 function queryDB($con, $sql){
 	mysqli_select_db($con,"HostMon");
-			$result = mysqli_query($con,$sql);
-			$row = mysqli_fetch_array($result);
-			return $row;
+	$result = mysqli_query($con,$sql);
+	$row = mysqli_fetch_array($result);
+	return $row;
 }
 
+/** Get the options to connect to the DB from the config file. */
 function getDBOptions(){
 	$dbOptions = array();
 	if (strpos(getCWD(), 'php') !== FALSE){
@@ -33,8 +28,7 @@ function getDBOptions(){
 	}else{
 		$lines = file('cfg/db.cfg');
 	}
-	
-	
+	//parse through the config line finding the settings and adding them to the return array.	
 	foreach ($lines as $line_num => $line) {
 		if (strpos($line, 'DB:') !== FALSE){
 			$end = strpos($line, ';');

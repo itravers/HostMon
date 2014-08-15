@@ -2,8 +2,8 @@
 	include_once("functions.php");
 	include_once("db.php");
 	$postResult = "";
-	$con = openDB();
-	
+	//$SESSION['userID'] = 1;
+	$con = openDB(); //we know we are going to be querying from the db even if nothing was posted.
 	//decide which line graph should be displayed and pull the appropriate data from db
 	if($_POST['LineChart']){
 		$table = '';
@@ -25,10 +25,7 @@
 		while($row = mysqli_fetch_array($result)) {
 			$postResult = $postResult."".$row['time'].":".$row['latency']." ";
 		}
-	}else{
-		//echo(print_r($_POST));
 	}
-	
 	//decide which polor graph to use, pull the data from db and append to results
 	if($_POST['PolarChart']){
 		$table = '';
@@ -43,21 +40,21 @@
 		}else if($_POST['PolarChart']=="YearPolar"){
 			$table = "year";
 		}
-		$latencyList = Array();
+		$latencyList = Array(); //the structure we are reading latency results to.
 		mysqli_select_db($con,"HostMon");
 		$sql="SELECT latency FROM `".$table."` WHERE ip = '".$_POST['ip']."'";
 		$result2 = mysqli_query($con,$sql);
-		
+		//Record the latency results to the latency list.
 		while($row2 = mysqli_fetch_array($result2)) {
-			//$postResult = "".$row['time'].":".$row['latency']." ";
 			array_push($latencyList, $row2['latency']);
 		}
-		//echo print_r($latencyList);
+		//we need to know the min and max of items in the list.
 		$minimum = min($latencyList);
 		$maximum = max($latencyList);
-		$range = $maximum - $minimum;
-		$num = count($latencyList);
-		$itemLimit = $range / 5;
+		$range = $maximum - $minimum; //the range of items in the list
+		$num = count($latencyList); // the number of items in the list.
+		$itemLimit = $range / 5; // The number of items in the polar chart.
+		//calculate the limit for each item in the polar chart.
 		$item1Limit = $minimum+$itemLimit;
 		$item2Limit = $minimum+$itemLimit*2;
 		$item3Limit = $minimum+$itemLimit*3;
@@ -69,6 +66,7 @@
 		$item4Array = Array();
 		$item5Array = Array();
 		
+		//push each item to it's respective section of the polar chart.
 		for($i = 0; $i < $num; $i++){
 			if($latencyList[$i] <= $item1Limit){
 				array_push($item1Array, $latencyList[$i]);
@@ -82,40 +80,62 @@
 				array_push($item5Array, $latencyList[$i]);
 			}
 		}
-		/*
-		echo print_r($item1Array);
-		echo '<br><br>';
-		echo print_r($item2Array);
-		echo '<br><br>';
-		echo print_r($item3Array);
-		echo '<br><br>';
-		echo print_r($item4Array);
-		echo '<br><br>';
-		echo print_r($item5Array);
-		echo '<br><br>';
-		echo 'range: '.$range;
-		echo '<br><br>';
-		echo 'item1limit: '.$item1Limit;
-		echo '<br><br>';
-		echo 'item2limit: '.$item2Limit;
-		echo '<br><br>';
-		echo 'item3limit: '.$item3Limit;
-		echo '<br><br>';
-		echo 'item4limit: '.$item4Limit;
-		echo '<br><br>';
-		echo 'item5limit: '.$item5Limit;
-		*/
 		
+		//Build the result of the page to return to the front end for parsing.
 		$postResult = $postResult."-".$item1Limit.":".count($item1Array)." ".
 		$item2Limit.":".count($item2Array)." ". 
 		$item3Limit.":".count($item3Array)." ".
 		$item4Limit.":".count($item4Array)." ".
 		$item5Limit.":".count($item5Array);
+	}
+	
+	/* If SubmitNote has been posted, we want to get the note info from the post, submit a new note to
+	 * The database. Then we want to read and parse the notes into a new note section that jquery
+	 * will replace on the frontend. */
+	// $_POST['SubmitNote'] = true;
+	// $_POST['deviceID'] = 12;
+	// $_POST['time'] = '1409619912000';
+	// $_POST['noteName'] = 'itravers';
+	// $_POST['noteContent'] = 'this is the content';
+	 
+	 
+	if($_POST['SubmitNote']){
+		$deviceID = $_POST['deviceID'];
+		$time = $_POST['time'];
+		$noteName = $_POST['noteName'];
+		$noteContent = $_POST['noteContent'];
+		$userID = 1;
+		//mysqli_real_escape_string
+		$sanitizedContent = mysqli_real_escape_string($con, $noteContent);
+		//submit note to database
+		$resultList = Array(); //the structure we are reading latency results to.
+		mysqli_select_db($con,"HostMon");
+		$sql="INSERT INTO `HostMon`.`notes` (`id` ,`deviceID` ,`userID` ,`timestamp` ,`content`) VALUES (NULL , '".$deviceID."', '".$userID."', '".$time."', '".$sanitizedContent."');";
+		$result2 = mysqli_query($con,$sql);
+		//Record the latency results to the latency list.
 		
-		
+	    $notes = getNotes($deviceID); //db query get array of notes from device id.
+		$postResult = buildNotesGrid($notes);
+		//$postResult = "test";
 		
 	}
 	
-	echo $postResult;
+	//user decides to remove a specific note, referenced by it's timestamp and deviceId
+	if($_POST['RemoveNote']){
+		$deviceID = $_POST['deviceID'];
+		$timestamp = $_POST['timestamp'];
+		
+		mysqli_select_db($con,"HostMon");
+		$sql="DELETE FROM `HostMon`.`notes` WHERE `notes`.`timestamp` = ".$timestamp." AND `notes`.`deviceID` = ".$deviceID.";";
+		$result2 = mysqli_query($con,$sql);
+		
+		$notes = getNotes($deviceID); //db query get array of notes from device id.
+		$postResult = buildNotesGrid($notes);
+		
+		
+		//echo print_r($_POST);
+		
+	}
 	
-	?>
+	echo $postResult; //sends result to front end.
+?>
