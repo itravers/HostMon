@@ -558,19 +558,19 @@ function translateIncomingPolarData(data){
 		var w = canvas.width/widthSections; 
 		var h = canvas.height/heightSections;
 		
-		drawLine(canvas, w*1, h*100, w*2, h*20);
-		drawLine(canvas, w*2, h*20, w*3, h*1);
-		drawLine(canvas, w*3, h*1, w*4, h*20);
-		drawLine(canvas, w*4, h*20, w*5, h*30);
-		drawLine(canvas, w*5, h*30, w*6, h*35);
-		drawLine(canvas, w*6, h*35, w*7, h*25);
-		drawLine(canvas, w*7, h*25, w*8, h*50);
-		drawLine(canvas, w*8, h*50, w*9, h*40);
-		drawLine(canvas, w*9, h*40, w*10, h*45);
-		drawLine(canvas, w*10, h*45, w*11, h*80);
-		drawLine(canvas, w*11, h*80, w*12, h*90);
-		drawLine(canvas, w*12, h*90, w*13, h*95);
-		drawLine(canvas, w*13, h*95, w*14, h*75);
+		drawLine(canvas, w*1, h*100, w*2, h*20, 1, "#ffffff");
+		drawLine(canvas, w*2, h*20, w*3, h*1, 1, "#ffffff");
+		drawLine(canvas, w*3, h*1, w*4, h*20, 1, "#ffffff");
+		drawLine(canvas, w*4, h*20, w*5, h*30, 1, "#ffffff");
+		drawLine(canvas, w*5, h*30, w*6, h*35, 1, "#ffffff");
+		drawLine(canvas, w*6, h*35, w*7, h*25, 1, "#ffffff");
+		drawLine(canvas, w*7, h*25, w*8, h*50, 1, "#ffffff");
+		drawLine(canvas, w*8, h*50, w*9, h*40, 1, "#ffffff");
+		drawLine(canvas, w*9, h*40, w*10, h*45, 1, "#ffffff");
+		drawLine(canvas, w*10, h*45, w*11, h*80, 1, "#ffffff");
+		drawLine(canvas, w*11, h*80, w*12, h*90, 1, "#ffffff");
+		drawLine(canvas, w*12, h*90, w*13, h*95, 1, "#ffffff");
+		drawLine(canvas, w*13, h*95, w*14, h*75, 1, "#ffffff");
 		
 		drawPoint(canvas, w*1, h*100, "#ffffff");
 		drawPoint(canvas, w*2, h*20, "#ffffff");
