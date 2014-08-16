@@ -146,6 +146,7 @@ function buildScripts($ip, $deviceID, $notes){
 			</h2> \
 			<div class='pane' style='display:block'><button id='noteSubmitButton' onclick='clickNoteSubmitButton();'>Submit</button><textarea id='noteInputText'></textarea></div><div style='display:none'>".$millitime."</div> \";
 		divToAddTo.prepend(toPrepend);
+		toPrepend = '';
 		
 	}
 	
