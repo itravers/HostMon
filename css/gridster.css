@@ -14,7 +14,6 @@
     box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
 
-
 .device .gridster > * {
     margin: 0 auto;
     -webkit-transition: height .4s, width .4s;
@@ -55,6 +54,7 @@
 
 .device .gridster li h1{
     position:absolute;
+    
     font-size:30px;
     margin-top:-10px;
     
@@ -171,6 +171,22 @@ font-family: Raavi;
     content: "\00a0";
 }
 
+.grid .gridster li[data-sizex="4"] .grow{
+	 position:absolute;
+    cursor:pointer;
+    margin-left:178px;
+    margin-top:167px;
+	z-index:20;
+}
+
+.grid .gridster li[data-sizex="4"] .shrink{
+	position:absolute;
+    cursor:pointer;
+     margin-left:178px;
+    margin-top:183px;
+	z-index:20;	
+}
+
 .grid .gridster li[data-sizex="4"] div h1{
     font-size:28px;
 }
@@ -193,6 +209,14 @@ font-family: Raavi;
 
 .grid .gridster li[data-sizex="4"][data-sizey="4"] div h3{
     margin-top:300px;
+}
+
+.grid .gridster li[data-sizex="4"][data-sizey="4"]  .grow{
+    margin-top:376px;
+}
+
+.grid .gridster li[data-sizex="4"][data-sizey="4"]  .shrink{
+    margin-top:392px;
 }
 
 .grid .gridster li[data-sizex="4"] div canvas{
@@ -257,6 +281,22 @@ font-family: Raavi;
     content: "\00a0";
 }
 
+.grid .gridster li[data-sizex="2"] .grow{
+	 position:absolute;
+    cursor:pointer;
+    margin-left:80px;
+    margin-top:167px;
+	z-index:20;
+}
+
+.grid .gridster li[data-sizex="2"] .shrink{
+	position:absolute;
+    cursor:pointer;
+     margin-left:80px;
+    margin-top:183px;
+	z-index:20;	
+}
+
 .grid .gridster li[data-sizex="2"] div h1{
     font-size:22px;
     padding-top:5px;
@@ -308,24 +348,49 @@ font-family: Raavi;
     background-size: 18px 12px;
      background-position: left center;
     background-repeat: no-repeat;
-    margin-left:-15px;
+    
+   
     padding-right:18px;
     padding-bottom:20px;
     content: "\00a0";
     margin-right:-18px;
 }
 
+
+
 .grid .gridster li[data-sizex="1"] div h1{
+    text-align: left;
+     white-space: nowrap;
     font-size:12px;
     padding-top:13px;
+    
 }
 
 .grid .gridster li[data-sizex="1"] div h2{
+    
     position:relative;
     margin-top:-12px;
     margin-left:20px;
     color:white;
     font-size:10px;
+}
+
+.grid .gridster li[data-sizex="1"] .grow{
+	 position:absolute;
+    cursor:pointer;
+    width:20px;
+    margin-left:45px;
+    margin-top:78px;
+	z-index:20;
+}
+
+.grid .gridster li[data-sizex="1"] .shrink{
+	position:absolute;
+    cursor:pointer;
+     width:20px;
+    margin-left:45px;
+    margin-top:85px;
+	z-index:20;	
 }
 
 .grid .gridster li[data-sizex="1"] div h3{
