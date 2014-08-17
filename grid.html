@@ -27,7 +27,7 @@
   </head>
   <body>
       <section class="grid">
-          <div class="gridster">
+          <div class="gridster" id="frontGrid">
               <ul class='gridlist'>
                   <li href="device.php?ip=earlhart.com"  id="first" rel="#overlay" data-row="1" data-col="1" data-sizex="4" data-sizey="2" onclick="loadDevice('0');"><img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
                   	<div class="device_record" ><h1>Earlhart Soap Works</h1><h2>Earlhart.com</h2><h3>1ms</h3><canvas class="can1"></canvas><div id="statusmark"></div></div>	</li>
@@ -72,11 +72,27 @@
       <script type="text/javascript" src="js/jquery.gridster.min.js" charster="utf-8"></script>
       
       <script type="text/javascript">
-          var gridster;
+          var gridster = 0;//$("#frontGrid ul").gridster().data('gridster');
 		  var dragged = 0;
 		  //var cancelOverlay = false;
 		  
-		  
+		  $(function() {
+              gridster = $("#frontGrid > ul").gridster({
+                  widget_margins: [5, 5],
+                  widget_base_dimensions: [95, 95],
+                  min_cols: 8,
+				  draggable: {
+					start: function(event, ui) {
+			
+						dragged = 1;
+						// DO SEOMETHING
+					}
+				}
+				
+				 
+              }).data('gridster');
+			  
+			  
 		  
 		  c = initializeCanvas("can1");
           for(i = 0; i < c.length; i++){
@@ -96,48 +112,10 @@
 			dragged = 0;
 		  }
 
-          $(function() {
-              gridtster = $(".gridster > ul").gridster({
-                  widget_margins: [5, 5],
-                  widget_base_dimensions: [95, 95],
-                  min_cols: 8,
-				  draggable: {
-					start: function(event, ui) {
-			
-						dragged = 1;
-						// DO SEOMETHING
-					}
-				}
-				 
-              }).data('gridster');
-			  
-		$('.shrink').on('click', function(event) {
-			event.stopImmediatePropagation(); 
-            var grid = $(".gridster ul").gridster().data('gridster');
-			var widget = $(this).parent();
-			var xSize = widget.attr("data-sizex");
-			var ySize = widget.attr("data-sizey");
-			var x = 0;
-			var y = 0;
-			if(xSize == 1 && ySize == 1){ //we are as small as we get, keep this size.
-				x = xSize;
-				y = ySize;	
-			}else if(xSize == 2 && ySize == 2){
-				x = 1;
-				y = 1;	
-			}else if(xSize == 4 && ySize == 2){
-				x = 2;
-				y = 2;
-			}else{ // do nothing, we are as big as we get.
-				x = 4;
-				y = 2;	
-			}
-			grid.resize_widget(widget, x, y, true);
-      	 });
-		 
-		 $('.grow').on('click', function(event) {
+           $('.grow').on('click', function(event) {
 			 event.stopImmediatePropagation(); // this stops the overlay from popping up.
-            var grid = $(".gridster ul").gridster().data('gridster');
+            //var grid = $("#frontGrid ul").gridster().data('gridster');
+			var grid = gridster;
 			var widget = $(this).parent();
 			var xSize = widget.attr("data-sizex");
 			var ySize = widget.attr("data-sizey");
@@ -159,6 +137,32 @@
 			grid.resize_widget(widget, x, y, true);
 			
       	 });
+			  
+		$('.shrink').on('click', function(event) {
+			event.stopImmediatePropagation(); 
+            var grid = $("#frontGrid ul").gridster().data('gridster');
+			var widget = $(this).parent();
+			var xSize = widget.attr("data-sizex");
+			var ySize = widget.attr("data-sizey");
+			var x = 0;
+			var y = 0;
+			if(xSize == 1 && ySize == 1){ //we are as small as we get, keep this size.
+				x = xSize;
+				y = ySize;	
+			}else if(xSize == 2 && ySize == 2){
+				x = 1;
+				y = 1;	
+			}else if(xSize == 4 && ySize == 2){
+				x = 2;
+				y = 2;
+			}else{ // do nothing, we are as big as we get.
+				x = 4;
+				y = 2;	
+			}
+			grid.resize_widget(widget, x, y, true);
+      	 });
+		 
+		
 			  
 			  //$.noConflict();
 			  // if the function argument is given to overlay,
@@ -185,6 +189,21 @@
 					},
 					onClose: function() {
 						$('.menu').fadeIn();
+						gridster = $("#frontGrid > ul").gridster({
+                 			 widget_margins: [5, 5],
+                 			 widget_base_dimensions: [95, 95],
+							min_cols: 8,
+				  draggable: {
+					start: function(event, ui) {
+			
+						dragged = 1;
+						// DO SEOMETHING
+					}
+				}
+				
+				 
+              }).data('gridster');
+						
 					}
 			
 				});
