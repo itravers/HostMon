@@ -140,7 +140,7 @@
 			  
 		$('.shrink').on('click', function(event) {
 			event.stopImmediatePropagation(); 
-            var grid = $("#frontGrid ul").gridster().data('gridster');
+            var grid = gridster;
 			var widget = $(this).parent();
 			var xSize = widget.attr("data-sizex");
 			var ySize = widget.attr("data-sizey");
