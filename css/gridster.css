@@ -298,6 +298,8 @@ font-family: Raavi;
 }
 
 .grid .gridster li[data-sizex="2"] div h1{
+	 text-align: left;
+     white-space: nowrap;
     font-size:22px;
     padding-top:5px;
 }
