@@ -146,6 +146,7 @@ function buildScripts($ip, $deviceID, $notes){
 			</h2> \
 			<div class='pane' style='display:block'><button id='noteSubmitButton' onclick='clickNoteSubmitButton();'>Submit</button><textarea id='noteInputText'></textarea></div><div style='display:none'>".$millitime."</div> \";
 		divToAddTo.prepend(toPrepend);
+		toPrepend = '';
 		
 	}
 	
@@ -269,7 +270,7 @@ function buildScripts($ip, $deviceID, $notes){
 		
 		
 		
-		gridtster = $('.device .gridster > ul').gridster({
+		gridster = $('.device .gridster > ul').gridster({
 			widget_margins: [5, 5],
 			widget_base_dimensions: [95, 95],
 			min_cols: 10,
