@@ -4,6 +4,7 @@
 		<title>gridster test</title>
 		<link rel="stylesheet" type="text/css" href="css/gridster.css">
 		<link rel="stylesheet" type="text/css" href="css/styles.css">
+        <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
 		<a class="menu" href="#">
 			<div class="bar"></div>
 			<div class="bar"></div>
@@ -83,7 +84,26 @@
 					</li>
 				</ul>
 			</div>
-			<div class="close"></div>     
+			<div class="close"></div>   
+            
+           <div id="newDeviceDialog" title="Monitor New Device">
+ 
+  <form>
+    <fieldset>
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" value="Jane Smith" class="text ui-widget-content ui-corner-all">
+      <label for="email">Email</label>
+      <input type="text" name="email" id="email" value="jane@smith.com" class="text ui-widget-content ui-corner-all">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" value="xxxxxxx" class="text ui-widget-content ui-corner-all">
+ 
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+ 
+<button id="newDeviceOpener">Open Dialog</button>
 		</section>
      
 		<!-- overlayed element -->
@@ -93,6 +113,7 @@
 		<div class="contentWrap"></div>
         
 <script src="js/jquery.tools.min.js"></script>
+<script src="js/jquery-ui.js"></script>
 <script src="js/hostmonChart.js"></script>
 <script type="text/javascript" src="js/jquery.gridster.min.js" charster="utf-8"></script>
 <script type="text/javascript">
@@ -109,7 +130,9 @@
 					dragged = 1; //keeps overlay from loading while we are dragging.
 				}
 			} 
-		}).data('gridster');	  
+		}).data('gridster');	
+		
+		 
 		  
 		c = initializeCanvas("can1");
 		for(i = 0; i < c.length; i++){
@@ -205,6 +228,24 @@
 				}).data('gridster');
 			}
 		});
+		
+		//add new device dialogue.
+		$( "#newDeviceDialog" ).dialog({
+			  autoOpen: false,
+			  show: {
+				effect: "blind",
+				duration: 1000
+			  },
+			  hide: {
+				effect: "explode",
+				duration: 1000
+			  }
+			});
+		 
+			$( "#newDeviceOpener" ).click(function() {
+				alert("newDeviceOpening");
+			  $( "#newDeviceDialog" ).dialog( "open" );
+			}); 
 
 		$('.menu').click(function() {
 			$('nav').addClass('open');
