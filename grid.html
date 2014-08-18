@@ -137,8 +137,32 @@
 		}
 		
 		function addNewDevice(newDeviceDialog){
-			alert("adding new Device");
-			$( newDeviceDialog ).dialog( "close" ); 	
+			var deviceName = $("#deviceName").val();
+			var deviceIP = $("#deviceIP").val();
+			var deviceNote = $("#deviceNote").val();
+			//alert(deviceName + deviceIP + deviceNote);	
+			
+			var postData = {deviceName:deviceName,
+							deviceIP:deviceIP,
+							deviceNote:deviceNote};
+		$.ajax({
+			type:"POST",
+			data : postData,
+			url: 'php/grid-backend.php', 
+			success: function(result,status,xhr) {
+				alert("result: " + result);
+			},
+			complete: function(result,status,xhr) {
+				//alert("complete: " + result);
+			},
+			error: function(xhr,status,error){
+				alert("error: " + error);
+			}
+		});
+			
+			
+			$( newDeviceDialog ).dialog( "close" ); 
+			
 		}
 		  
 		function loadDevice(id) {
