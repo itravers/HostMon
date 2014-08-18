@@ -119,6 +119,7 @@
 	cursor: default;
 }
 .ui-button {
+	
 	display: inline-block;
 	position: relative;
 	padding: 0;
@@ -128,6 +129,7 @@
 	vertical-align: middle;
 	text-align: center;
 	overflow: visible; /* removes extra width in IE */
+
 }
 .ui-button,
 .ui-button:link,
@@ -434,10 +436,9 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-dialog .ui-dialog-buttonpane {
 	text-align: left;
-	border-width: 1px 0 0 0;
+	margin-top:-87px;
+	margin-right:14px;
 	background-image: none;
-	margin-top: .5em;
-	padding: .3em 1em .5em .4em;
 }
 .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
 	float: right;
@@ -841,10 +842,12 @@ body .ui-tooltip {
 .ui-widget {
 	font-family: Verdana,Arial,sans-serif;
 	font-size: 1.1em;
+
 	
 }
 .ui-widget .ui-widget {
 	font-size: 1em;
+	
 	
 }
 .ui-widget input,
@@ -855,6 +858,7 @@ body .ui-tooltip {
 	font-weight:bold;
 	color:white;
 	background-color:#51bbff;
+	
 	font-size: 1em;
 }
 .ui-widget-content {
@@ -862,6 +866,7 @@ body .ui-tooltip {
 	font-family: Raavi;
 	font-weight:bold;
 	color: white;
+	
 }
 .ui-widget-content a {
 	color: #222222;
@@ -880,10 +885,15 @@ body .ui-tooltip {
 .ui-state-default,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
-	border: 1px solid #d3d3d3;
-	background: #e6e6e6 url("../images/ui-bg_glass_75_e6e6e6_1x400.png") 50% 50% repeat-x;
-	font-weight: normal;
-	color: #555555;
+	
+	border: 1px solid white;
+	border-bottom:none;
+	border-right:none;
+	/*background: #e6e6e6 url("../images/ui-bg_glass_75_e6e6e6_1x400.png") 50% 50% repeat-x;*/
+	font-weight: bold;
+	font-family: Raavi;
+	color: white;
+	
 }
 .ui-state-default a,
 .ui-state-default a:link,
@@ -897,10 +907,7 @@ body .ui-tooltip {
 .ui-state-focus,
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
-	border: 1px solid #999999;
-	background: #dadada url("../images/ui-bg_glass_75_dadada_1x400.png") 50% 50% repeat-x;
-	font-weight: normal;
-	color: #212121;
+	color: white;
 }
 .ui-state-hover a,
 .ui-state-hover a:hover,
@@ -916,10 +923,10 @@ body .ui-tooltip {
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
-	border: 1px solid #aaaaaa;
-	background: #ffffff url("../images/ui-bg_glass_65_ffffff_1x400.png") 50% 50% repeat-x;
-	font-weight: normal;
-	color: #212121;
+	border-top: 4px solid white;
+	border-left: 4px solid white;
+	
+	color: white;
 }
 .ui-state-active a,
 .ui-state-active a:link,

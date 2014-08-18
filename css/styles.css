@@ -36,7 +36,15 @@ header {
 #deviceNote{
 }
 
+#newDeviceForm{
+	height:190px;
+}
 
+#newDeviceForm fieldset{
+	height:150px;
+}
+
+/*
 #newDeviceSubmit{
 	position:relative;
 	border-color:#009cff;
@@ -44,7 +52,7 @@ header {
 	width:60px;
 	height:35px;
 	margin-left:90px;
-}
+}*/
 
 #overlay {
 	margin-top:-30px;

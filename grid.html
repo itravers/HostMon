@@ -88,14 +88,14 @@
             
            <div id="newDeviceDialog" title="Monitor New Device">
  
-  <form>
+  <form id="newDeviceForm">
     <fieldset>
       <input type="text" name="deviceName" id="deviceName" placeholder="Device Name" class="text ui-widget-content ui-corner-all">
       <input type="text" name="deviceIP" id="deviceIP" placeholder="Device IP" class="text ui-widget-content ui-corner-all">
       <input type="textarea" name="deviceNote" id="deviceNote" placeholder="Initial Note" class="textarea ui-widget-content ui-corner-all">
  
       <!-- Allow form submission with keyboard without duplicating the dialog button -->
-      <input type="submit" id="newDeviceSubmit">
+      <!--<input type="submit" id="newDeviceSubmit">-->
     </fieldset>
   </form>
 </div>
@@ -236,7 +236,9 @@
 			  hide: {
 				effect: "explode",
 				duration: 1000
-			  }
+			  },
+			  buttons: [ { text: "Add Device", click: function() { $( this ).dialog( "close" ); } } ]
+			  
 			});
 		 
 			$( "#newDeviceOpener" ).click(function() {
