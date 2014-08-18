@@ -136,13 +136,25 @@
             drawGraph(canvas);
 		}
 		
+		function getMessage(result){
+			var message = result.substring(0, result.indexOf("|"));	
+			return message;
+		}
+		
+		function getDisplay(result){
+			var display = "display";
+			return display;	
+		}
+		
 		function addNewDevice(newDeviceDialog){
 			var deviceName = $("#deviceName").val();
 			var deviceIP = $("#deviceIP").val();
 			var deviceNote = $("#deviceNote").val();
+			
 			//alert(deviceName + deviceIP + deviceNote);	
 			
-			var postData = {deviceName:deviceName,
+			var postData = {addNewDevice:'true',
+							deviceName:deviceName,
 							deviceIP:deviceIP,
 							deviceNote:deviceNote};
 		$.ajax({
@@ -150,7 +162,13 @@
 			data : postData,
 			url: 'php/grid-backend.php', 
 			success: function(result,status,xhr) {
-				alert("result: " + result);
+				var message = getMessage(result);
+				var display = getDisplay(result);
+				if(message.indexOf("DeviceExists") != -1){
+					//$(".ui-dialog-title").html("holy crap")
+					//alert();
+				}
+				alert("message: " + message);
 			},
 			complete: function(result,status,xhr) {
 				//alert("complete: " + result);
