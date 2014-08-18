@@ -397,12 +397,12 @@ button.ui-button::-moz-focus-inner {
 	padding: .2em;
 	outline: 0;
 	
+	
 }
 .ui-dialog .ui-dialog-titlebar {
 	padding: .4em 1em;
 	position: relative;
 	background-color:#51bbff;
-	border:0px;
 }
 .ui-dialog .ui-dialog-title {
 	float: left;
@@ -428,11 +428,12 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-dialog .ui-dialog-content {
 	position: relative;
-	border: 0;
+	border: 3;
 	padding: .5em 1em;
 	background: none;
 	overflow: hidden;
 	background-color:#51bbff;
+	
 }
 .ui-dialog .ui-dialog-buttonpane {
 	text-align: left;
@@ -842,6 +843,7 @@ body .ui-tooltip {
 .ui-widget {
 	font-family: Verdana,Arial,sans-serif;
 	font-size: 1.1em;
+	
 
 	
 }
@@ -862,7 +864,9 @@ body .ui-tooltip {
 	font-size: 1em;
 }
 .ui-widget-content {
+	
 	border: 0px solid #aaaaaa;
+	
 	font-family: Raavi;
 	font-weight:bold;
 	color: white;
