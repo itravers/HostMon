@@ -135,6 +135,11 @@
             colorCanvas(canvas, "#51bbff");
             drawGraph(canvas);
 		}
+		
+		function addNewDevice(newDeviceDialog){
+			alert("adding new Device");
+			$( newDeviceDialog ).dialog( "close" ); 	
+		}
 		  
 		function loadDevice(id) {
 			if(!dragged){
@@ -234,12 +239,12 @@
 				effect: "explode",
 				duration: 1000
 			  },
-			  buttons: [ { text: "Add Device", click: function() { $( this ).dialog( "close" ); } } ]
+			  buttons: [ { text: "Add Device", click: function() { addNewDevice(this); } } ]
 			  
 			});
 		 
 			$( "#newDeviceOpener" ).click(function() {
-				alert("newDeviceOpening");
+				//alert("newDeviceOpening");
 			  $( "#newDeviceDialog" ).dialog( "open" );
 			}); 
 
