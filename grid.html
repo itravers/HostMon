@@ -109,7 +109,7 @@
 	var gridster = 0;
 	var dragged = 0;
 		  
-	$(function() {
+//	$(function() {
 		gridster = $("#frontGrid > ul").gridster({
 			widget_margins: [5, 5],
 			widget_base_dimensions: [95, 95],
@@ -168,7 +168,7 @@
 				widget = widget.get(0);
 				var grow = $(widget).find(".grow");
 			
-				alert("abouttowidget");
+				//alert("abouttowidget");
 				//alert("widgethtml: " + $(widget).('first-child'));
 				/*$('.grow').on('click', function(event) {
 			event.stopImmediatePropagation(); // this stops the overlay from popping up.
@@ -226,8 +226,11 @@
 			}	// RESET DRAGGED SINCE CLICK EVENT IS FIRED AFTER drag stop
 			dragged = 0;
 		}
+		
+		
 	
-		$('li').on('click', '.grow', function(event) {
+		$('.grow').on('click', function(event) {
+			alert("grow");
 			event.stopImmediatePropagation(); // this stops the overlay from popping up.
 			var grid = gridster;
 			var widget = $(this).parent();
@@ -293,6 +296,7 @@
 			},
 			onClose: function() {
 				$('.menu').fadeIn();
+				
 				gridster = $("#frontGrid > ul").gridster({
 					widget_margins: [5, 5],
 					widget_base_dimensions: [95, 95],
@@ -303,6 +307,7 @@
 						}
 					}
 				}).data('gridster');
+				
 			}
 		});
 		
@@ -321,7 +326,7 @@
 			  
 			});
 		 
-			$( "#newDeviceOpener" ).click(function() {
+			$( "#newDeviceOpener" ).click( function(event) {
 				//alert("newDeviceOpening");
 			  $( "#newDeviceDialog" ).dialog( "open" );
 			}); 
@@ -336,7 +341,7 @@
 			$('body').removeClass('menu-open');
 			$('nav').removeClass('open');
 		});		
-	});	  
+//	});	  
 </script>  
 	</body>
 </html>
