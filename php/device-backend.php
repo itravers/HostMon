@@ -1,4 +1,5 @@
 <?php
+	/* Provides a backend for the device page to interact with the server.*/
 	include_once("functions.php");
 	include_once("db.php");
 	$postResult = "";
