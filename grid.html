@@ -4,6 +4,7 @@
 		<title>gridster test</title>
 		<link rel="stylesheet" type="text/css" href="css/gridster.css">
 		<link rel="stylesheet" type="text/css" href="css/styles.css">
+        <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
 		<a class="menu" href="#">
 			<div class="bar"></div>
 			<div class="bar"></div>
@@ -69,21 +70,29 @@
                         	<h1>Plesk</h1><h2>plesk.com</h2><h3>1ms</h3><canvas class="can1"></canvas><div id="statusmark"></div>
 						</div>
 					</li>
-					<li href="device.php?ip=one.com" class="red" rel="#overlay" data-row="6" data-col="7" data-sizex="1" data-sizey="1" onclick="loadDevice('0');">
-                    	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
-						<div class="device_record">
-                    		<h1>One</h1><h2>one.com</h2><h3>1ms</h3><canvas class="can1"></canvas><div id="statusmark"></div>
-						</div>
-                    </li>
-					<li href="device.php?ip=two.com" rel="#overlay" data-row="6" data-col="8" data-sizex="1" data-sizey="1" onclick="loadDevice('0');">
-                    	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
-                  		<div class="device_record">
-                        	<h1>Two</h1><h2>two.com</h2><h3>1ms</h3><canvas class="can1"></canvas><div id="statusmark"></div>
-						</div>
+					 <li data-row="6" data-col="7" data-sizex="1" data-sizey="1" id="newDeviceOpener">
+                    	<div id="addNewDeviceImageContainer">
+                    		<img src="images/plus.png" id="addNewDeviceImage">
+                        </div>
 					</li>
+                   
 				</ul>
 			</div>
-			<div class="close"></div>     
+			<div class="close"></div>   
+            
+           <div id="newDeviceDialog" title="Monitor New Device">
+ 
+  <form id="newDeviceForm">
+    <fieldset>
+      <input type="text" name="deviceName" id="deviceName" placeholder="Device Name" class="text ui-widget-content ui-corner-all">
+      <input type="text" name="deviceIP" id="deviceIP" placeholder="Device IP" class="text ui-widget-content ui-corner-all">
+      <input type="textarea" name="deviceNote" id="deviceNote" placeholder="Initial Note" class="textarea ui-widget-content ui-corner-all">
+ 
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <!--<input type="submit" id="newDeviceSubmit">-->
+    </fieldset>
+  </form>
+</div>
 		</section>
      
 		<!-- overlayed element -->
@@ -93,13 +102,14 @@
 		<div class="contentWrap"></div>
         
 <script src="js/jquery.tools.min.js"></script>
+<script src="js/jquery-ui.js"></script>
 <script src="js/hostmonChart.js"></script>
 <script type="text/javascript" src="js/jquery.gridster.min.js" charster="utf-8"></script>
 <script type="text/javascript">
 	var gridster = 0;
 	var dragged = 0;
 		  
-	$(function() {
+//	$(function() {
 		gridster = $("#frontGrid > ul").gridster({
 			widget_margins: [5, 5],
 			widget_base_dimensions: [95, 95],
@@ -109,7 +119,9 @@
 					dragged = 1; //keeps overlay from loading while we are dragging.
 				}
 			} 
-		}).data('gridster');	  
+		}).data('gridster');	
+		
+		 
 		  
 		c = initializeCanvas("can1");
 		for(i = 0; i < c.length; i++){
@@ -117,6 +129,94 @@
 			canvas.height = canvas.width/3;
             colorCanvas(canvas, "#51bbff");
             drawGraph(canvas);
+		}
+		
+		function getMessage(result){
+			var message = result.substring(0, result.indexOf("|"));	
+			return message;
+		}
+		
+		function getDisplay(result){
+			var display = result.substring(result.indexOf("|")+1, result.length);
+			return display;	
+		}
+		
+		function addNewDevice(newDeviceDialog){
+			var deviceName = $("#deviceName").val();
+			var deviceIP = $("#deviceIP").val();
+			var deviceNote = $("#deviceNote").val();
+			
+			//alert(deviceName + deviceIP + deviceNote);	
+			
+			var postData = {addNewDevice:'true',
+							deviceName:deviceName,
+							deviceIP:deviceIP,
+							deviceNote:deviceNote};
+		$.ajax({
+			type:"POST",
+			data : postData,
+			url: 'php/grid-backend.php', 
+			success: function(result,status,xhr) {
+				var message = getMessage(result);
+				var display = getDisplay(result);
+				if(message.indexOf("DeviceExists") != -1){
+					//$(".ui-dialog-title").html("holy crap")
+					//alert();
+				}
+				var ps = getNewGridPositionAndSize();
+				var widget = gridster.add_widget( display, ps[0], ps[1], ps[2], ps[3]);
+				widget = widget.get(0);
+				var grow = $(widget).find(".grow");
+			
+				//alert("abouttowidget");
+				//alert("widgethtml: " + $(widget).('first-child'));
+				/*$('.grow').on('click', function(event) {
+			event.stopImmediatePropagation(); // this stops the overlay from popping up.
+			var grid = gridster;
+			var widget = $(this).parent();
+			var xSize = widget.attr("data-sizex");
+			var ySize = widget.attr("data-sizey");
+			var x = 0;
+			var y = 0;
+			if(xSize == 1 && ySize == 1){
+				x = 2;
+				y = 2;
+			}else if(xSize == 2 && ySize == 2){
+				x = 4;
+				y = 2;	
+			}else if(xSize == 4 && ySize == 2){
+				x = 4;
+				y = 4;
+			}else{ // do nothing, we are as big as we get.
+				x = xSize;
+				y = ySize;	
+			}
+			grid.resize_widget(widget, x, y, true);
+		});*/
+				alert("message: " + message);
+				alert("display: " + display);
+			},
+			complete: function(result,status,xhr) {
+				//alert("complete: " + result);
+			},
+			error: function(xhr,status,error){
+				alert("error: " + error);
+			}
+		});
+			
+			
+			$( newDeviceDialog ).dialog( "close" ); 
+			
+		}
+		
+		function getNewGridPositionAndSize(){
+			//finds the last grid position, and positions a device	at the position of the newDeviceOpener
+			var sizeX = $("#newDeviceOpener").attr("data-sizex");
+			var sizeY = $("#newDeviceOpener").attr("data-sizey");
+			var posX = $("#newDeviceOpener").attr("data-col");
+			var posY = $("#newDeviceOpener").attr("data-row");
+			var returnVal = [sizeX, sizeY, posX, posY];
+			return returnVal;
 		}
 		  
 		function loadDevice(id) {
@@ -126,8 +226,11 @@
 			}	// RESET DRAGGED SINCE CLICK EVENT IS FIRED AFTER drag stop
 			dragged = 0;
 		}
+		
+		
 	
 		$('.grow').on('click', function(event) {
+			alert("grow");
 			event.stopImmediatePropagation(); // this stops the overlay from popping up.
 			var grid = gridster;
 			var widget = $(this).parent();
@@ -193,6 +296,7 @@
 			},
 			onClose: function() {
 				$('.menu').fadeIn();
+				
 				gridster = $("#frontGrid > ul").gridster({
 					widget_margins: [5, 5],
 					widget_base_dimensions: [95, 95],
@@ -203,8 +307,29 @@
 						}
 					}
 				}).data('gridster');
+				
 			}
 		});
+		
+		//add new device dialogue.
+		$( "#newDeviceDialog" ).dialog({
+			  autoOpen: false,
+			  show: {
+				effect: "blind",
+				duration: 1000
+			  },
+			  hide: {
+				effect: "explode",
+				duration: 1000
+			  },
+			  buttons: [ { text: "Add Device", click: function() { addNewDevice(this); } } ]
+			  
+			});
+		 
+			$( "#newDeviceOpener" ).click( function(event) {
+				//alert("newDeviceOpening");
+			  $( "#newDeviceDialog" ).dialog( "open" );
+			}); 
 
 		$('.menu').click(function() {
 			$('nav').addClass('open');
@@ -216,7 +341,7 @@
 			$('body').removeClass('menu-open');
 			$('nav').removeClass('open');
 		});		
-	});	  
+//	});	  
 </script>  
 	</body>
 </html>
