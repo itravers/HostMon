@@ -142,7 +142,7 @@
 		}
 		
 		function getDisplay(result){
-			var display = "display";
+			var display = result.substring(result.indexOf("|")+1, result.length);
 			return display;	
 		}
 		
@@ -169,6 +169,7 @@
 					//alert();
 				}
 				alert("message: " + message);
+				alert("display: " + display);
 			},
 			complete: function(result,status,xhr) {
 				//alert("complete: " + result);
