@@ -70,17 +70,12 @@
                         	<h1>Plesk</h1><h2>plesk.com</h2><h3>1ms</h3><canvas class="can1"></canvas><div id="statusmark"></div>
 						</div>
 					</li>
-					<li href="device.php?ip=one.com" class="red" rel="#overlay" data-row="6" data-col="7" data-sizex="1" data-sizey="1" onclick="loadDevice('0');">
-                    	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
-						<div class="device_record">
-                    		<h1>One</h1><h2>one.com</h2><h3>1ms</h3><canvas class="can1"></canvas><div id="statusmark"></div>
-						</div>
-                    </li>
-                    <li data-row="6" data-col="8" data-sizex="1" data-sizey="1" id="newDeviceOpener">
+					 <li data-row="6" data-col="7" data-sizex="1" data-sizey="1" id="newDeviceOpener">
                     	<div id="addNewDeviceImageContainer">
                     		<img src="images/plus.png" id="addNewDeviceImage">
                         </div>
 					</li>
+                   
 				</ul>
 			</div>
 			<div class="close"></div>   
@@ -168,7 +163,8 @@
 					//$(".ui-dialog-title").html("holy crap")
 					//alert();
 				}
-				gridster.add_widget( display, 1, 1, 1, 1 );
+				var ps = getNewGridPositionAndSize();
+				gridster.add_widget( display, ps[0], ps[1], ps[2], ps[3]);
 				alert("message: " + message);
 				alert("display: " + display);
 			},
@@ -183,6 +179,16 @@
 			
 			$( newDeviceDialog ).dialog( "close" ); 
 			
+		}
+		
+		function getNewGridPositionAndSize(){
+			//finds the last grid position, and positions a device	at the position of the newDeviceOpener
+			var sizeX = $("#newDeviceOpener").attr("data-sizex");
+			var sizeY = $("#newDeviceOpener").attr("data-sizey");
+			var posX = $("#newDeviceOpener").attr("data-col");
+			var posY = $("#newDeviceOpener").attr("data-row");
+			var returnVal = [sizeX, sizeY, posX, posY];
+			return returnVal;
 		}
 		  
 		function loadDevice(id) {
