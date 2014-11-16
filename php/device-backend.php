@@ -6,7 +6,7 @@
 	//$SESSION['userID'] = 1;
 	$con = openDB(); //we know we are going to be querying from the db even if nothing was posted.
 	//decide which line graph should be displayed and pull the appropriate data from db
-	if($_POST['LineChart']){
+	if(isset($_POST['LineChart'])){
 		$table = '';
 		if($_POST['LineChart']=="FiveMinuteLine"){
 			$table = "minute";
@@ -28,7 +28,7 @@
 		}
 	}
 	//decide which polor graph to use, pull the data from db and append to results
-	if($_POST['PolarChart']){
+	if(isset($_POST['PolarChart'])){
 		$table = '';
 		if($_POST['PolarChart']=="FiveMinutePolar"){
 			$table = "minute";
@@ -122,7 +122,7 @@
 	}
 	
 	//user decides to remove a specific note, referenced by it's timestamp and deviceId
-	if($_POST['RemoveNote']){
+	if(isset($_POST['RemoveNote'])){
 		$deviceID = $_POST['deviceID'];
 		$timestamp = $_POST['timestamp'];
 		
