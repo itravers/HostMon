@@ -356,8 +356,10 @@ function updateGridGraphs(){
 		var parent = c.parentElement;
 		var grandparent = parent.parentElement;
 		var height = grandparent.scrollHeight;
+		var h2 = c.siblings();
+		var id = h2.text;
 		//c.attr("width", "500px");
-		c.height = height / 2;
+		c.height = height / 2 + height / 5;
 		alert(height);
 	//}
 	
