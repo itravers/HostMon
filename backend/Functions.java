@@ -16,7 +16,6 @@ public class Functions {
 	}
 
 	public static String getDBConfigFileName() {
-		// TODO Auto-generated method stub
-		return "../cfg/db.cfg";
+		return "cfg/db.cfg";
 	}
 }
