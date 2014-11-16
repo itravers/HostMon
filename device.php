@@ -5,7 +5,7 @@
 	include_once("php/functions.php");
 	$loggedIn = true; //later we will check this in the session variable.
 	$_SESSION['username'] = "itravers";
-	if(!$_GET['ip'])$_GET['ip'] = "earlhart.com"; //default to earlhart if no ip is given to page.
+	if(!isset($_GET['ip']))$_GET['ip'] = "earlhart.com"; //default to earlhart if no ip is given to page.
 	//$_GET['ip'] = "earlhart.com";
 	$ip = $_GET['ip'];
 	$newCount = 0;

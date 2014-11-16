@@ -428,9 +428,9 @@ public class DataBase {
 					immediateResults.put("ip", res.getString("ip"));
 					immediateResults.put("time", res.getString("time"));
 					immediateResults.put("latency", res.getString("latency"));
-				}else if(tableName.equals("Active_Devices")){
+				}else if(tableName.equals("active_devices")){
 					immediateResults.put("id", res.getString("deviceid"));;
-				}else if(tableName.equals("Devices")){
+				}else if(tableName.equals("devices")){
 					immediateResults.put("id", res.getString("id"));;
 					immediateResults.put("ip", res.getString("ip"));;
 					immediateResults.put("name", res.getString("name"));;

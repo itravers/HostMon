@@ -360,10 +360,11 @@ function updateGraph(){
 				var newData = translateIncomingPolarData(result); 
 				updatePolarChart(polarChart, newData);
 				setTimeout(updateGraph, 15000);
+				//alert("success" + result);
 			},
-			complete: function() {
+			complete: function(result) {
 				// Schedule the next request when the current one's complete
-				alert("complete" + result);
+				//alert("complete" + result);
 			},
 			error: function(xhr,status,error){
 				alert("error" + data);

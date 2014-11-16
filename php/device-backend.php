@@ -100,7 +100,7 @@
 	// $_POST['noteContent'] = 'this is the content';
 	 
 	 
-	if($_POST['SubmitNote']){
+	if(isset($_POST['SubmitNote'])){
 		$deviceID = $_POST['deviceID'];
 		$time = $_POST['time'];
 		$noteName = $_POST['noteName'];
