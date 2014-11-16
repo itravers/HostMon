@@ -341,8 +341,41 @@
 		$(document).click(function() {
 			$('body').removeClass('menu-open');
 			$('nav').removeClass('open');
+		});	
+		
+		$(document).ready(function() {
+			setTimeout('updateGridGraphs()',10);
 		});		
-//	});	  
+//	});	 
+
+/** Updates the line graph and polar chart from info retrieved from the device-backend. */
+function updateGridGraphs(){
+	(function worker() {
+		var postData = {ip:currentIP,
+						LineChart:currentLineChart,
+						PolarChart:currentPolarChart};
+		$.ajax({
+			type:"POST",
+			data : postData,
+			url: 'php/device-backend.php', 
+			success: function(result,status,xhr) {
+				var lineChartData = translateIncomingLineData(result); 
+				var mainDeviceChart = getMainDeviceChart(currentLineChart, "#51bbff", lineChartData);	  
+				var newData = translateIncomingPolarData(result); 
+				updatePolarChart(polarChart, newData);
+				setTimeout(updateGraph, 15000);
+				//alert("success" + result);
+			},
+			complete: function(result) {
+				// Schedule the next request when the current one's complete
+				//alert("complete" + result);
+			},
+			error: function(xhr,status,error){
+				alert("error" + data);
+			}
+		});
+	})();			
+} 
 </script>  
 	</body>
 </html>
