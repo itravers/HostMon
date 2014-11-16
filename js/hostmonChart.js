@@ -360,10 +360,11 @@ function updateGraph(){
 				var newData = translateIncomingPolarData(result); 
 				updatePolarChart(polarChart, newData);
 				setTimeout(updateGraph, 15000);
+				//alert("success" + result);
 			},
-			complete: function() {
+			complete: function(result) {
 				// Schedule the next request when the current one's complete
-				alert("complete" + result);
+				//alert("complete" + result);
 			},
 			error: function(xhr,status,error){
 				alert("error" + data);
@@ -390,7 +391,7 @@ function quickUpdateGraph(){
 			},
 			complete: function() {
 				// Schedule the next request when the current one's complete
-				alert("complete" + data);
+				//alert("complete" + data);
 			},
 			error: function(xhr,status,error){
 				alert("error" + data);
@@ -408,6 +409,7 @@ function changeCharts(){
 
 /** Updates the specified polar chart with the specified data. */
 function updatePolarChart(apolarChart, newData){
+//echo newData;
 	for(i = 0; i < newData.length; i++){
 		var dataItem = newData[i];
 		apolarChart.segments[i].value = dataItem['value'];
@@ -420,10 +422,12 @@ function updatePolarChart(apolarChart, newData){
 
 /** Translate incoming data for a polar chart. */
 function translateIncomingPolarData(data){
+
 	var polarsplitData = data.split("-"); //split the line data from the polar data
 	var polarData = polarsplitData[1]; //this is the polar data.
 	var records = polarData.split(" "); //split off individual records from the polar data
 	//get our limit and value settings based on our records.
+
 	var limit1 =records[0].split(":")[0];
 	var limit2 =records[1].split(":")[0];
 	var limit3 =records[2].split(":")[0];
@@ -489,6 +493,7 @@ function translateIncomingPolarData(data){
 			
 			];
 			//alert(records[0].split(":")[1]);
+			
 			return newPolarData;
 		}
 		

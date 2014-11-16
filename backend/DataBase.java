@@ -227,6 +227,7 @@ public class DataBase {
 	public ArrayList<HashMap<String, String>> getActivePings() {
 		String command = "SELECT * FROM `Active_Devices`";
 		ArrayList<HashMap<String, String>> activePings = read(command);
+		System.out.println("Active Device:" + activePings.size());
 		return activePings;
 	}
 	
@@ -240,8 +241,9 @@ public class DataBase {
 		ArrayList<String>newActiveIPs = new ArrayList<String>();
 		for(int i = 0; i < activePings.size(); i++){
 			String command = "SELECT * FROM `Devices` WHERE Devices.id="+activePings.get(i).get("id")+"";
+			System.out.println(activePings.get(i).get("id"));
 			ArrayList<HashMap<String, String>> activeIPs = read(command);
-			newActiveIPs.add(activeIPs.get(0).get("ip"));
+			if(!activeIPs.isEmpty())newActiveIPs.add(activeIPs.get(0).get("ip"));
 		}
 		return newActiveIPs;
 	}
@@ -426,9 +428,9 @@ public class DataBase {
 					immediateResults.put("ip", res.getString("ip"));
 					immediateResults.put("time", res.getString("time"));
 					immediateResults.put("latency", res.getString("latency"));
-				}else if(tableName.equals("Active_Devices")){
+				}else if(tableName.equals("active_devices")){
 					immediateResults.put("id", res.getString("deviceid"));;
-				}else if(tableName.equals("Devices")){
+				}else if(tableName.equals("devices")){
 					immediateResults.put("id", res.getString("id"));;
 					immediateResults.put("ip", res.getString("ip"));;
 					immediateResults.put("name", res.getString("name"));;
