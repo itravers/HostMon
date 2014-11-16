@@ -391,7 +391,7 @@ function quickUpdateGraph(){
 			},
 			complete: function() {
 				// Schedule the next request when the current one's complete
-				alert("complete" + data);
+				//alert("complete" + data);
 			},
 			error: function(xhr,status,error){
 				alert("error" + data);
@@ -427,7 +427,7 @@ function translateIncomingPolarData(data){
 	var polarData = polarsplitData[1]; //this is the polar data.
 	var records = polarData.split(" "); //split off individual records from the polar data
 	//get our limit and value settings based on our records.
-	alert(data);
+
 	var limit1 =records[0].split(":")[0];
 	var limit2 =records[1].split(":")[0];
 	var limit3 =records[2].split(":")[0];
