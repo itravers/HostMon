@@ -350,9 +350,19 @@
 
 function drawGridGraph(c, widthLimit, heightLimit){
 	var context = c.getContext('2d');
+	var sections = widthLimit / 10;
 		context.beginPath();
 		context.moveTo(0, 0);
-		context.lineTo(widthLimit, heightLimit);
+		context.lineTo(sections * 1, heightLimit/4);
+		context.lineTo(sections * 2, heightLimit/2);
+		context.lineTo(sections * 3, heightLimit/5);
+		context.lineTo(sections * 4, heightLimit/1);
+		context.lineTo(sections * 5, heightLimit/8);
+		context.lineTo(sections * 6, heightLimit/6);
+		context.lineTo(sections * 7, heightLimit/5);
+		context.lineTo(sections * 8, heightLimit/1);
+		context.lineTo(sections * 9, heightLimit/8);
+		context.lineTo(sections * 10, heightLimit/6);
 		context.lineWidth = 2;
 		// set line color
 		context.strokeStyle = "#FFFFFF";
