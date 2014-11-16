@@ -26,7 +26,7 @@
 					<li href="device.php?ip=earlhart.com"  id="first" rel="#overlay" data-row="1" data-col="1" data-sizex="4" data-sizey="2" onclick="loadDevice('0');">
                     	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
                   		<div class="device_record" >
-                        	<h1>Earlhart Soap Works</h1><h2>Earlhart.com</h2><h3>1ms</h3><canvas class="graph1"></canvas><div id="statusmark"></div>
+                        	<h1>Earlhart Soap Works</h1><h2>Earlhart.com</h2><h3>1ms</h3><canvas id="earlhart.com"></canvas><div id="statusmark"></div>
 						</div>
 					</li>
 					<li href="device.php?ip=gmail.com" rel="#overlay" data-row="1" data-col="5" data-sizex="4" data-sizey="4" onclick="loadDevice('0');">
@@ -348,20 +348,59 @@
 		});		
 //	});	 
 
+function drawGridGraph(c, widthLimit, heightLimit){
+	var context = c.getContext('2d');
+		context.beginPath();
+		context.moveTo(0, 0);
+		context.lineTo(widthLimit, heightLimit);
+		context.lineWidth = 2;
+		// set line color
+		context.strokeStyle = "#FFFFFF";
+		context.stroke();	
+}
+
 /** Updates the line graph and polar chart from info retrieved from the device-backend. */
 function updateGridGraphs(){
 	var canvases = $("canvas");
-	//for(var i = 0; i<8; i++){
-		var c = canvases.get(0);
+	for(var i = 0; i< canvases.size(); i++){
+		var c = canvases.get(i);
 		var parent = c.parentElement;
 		var grandparent = parent.parentElement;
-		var height = grandparent.scrollHeight;
-		var h2 = c.siblings();
-		var id = h2.text;
-		//c.attr("width", "500px");
-		c.height = height / 2 + height / 5;
-		alert(height);
-	//}
+		var col = $(grandparent).attr("data-sizex");
+		var row = $(grandparent).attr("data-sizey");
+		var width = grandparent.scrollWidth;
+		var height = grandparent.scrollHeight
+		var heightLimit = height;
+		var widthLimit = width;
+		
+		if(row == 1){
+			height = 150;
+			heightLimit = 50;
+		}else if(row == 2){
+			height = 130;
+			heightLimit = 130;
+		}
+		
+		if(col == 1){
+			width = 150;
+			widthLimit = 120;
+		}else if(col == 2){
+			width = 400;
+			widthLimit = 400;
+		}
+
+		if(col == 4 && row == 4){
+			width = 400;
+			widthLimit = 400;
+			height = 120;
+			heightLimit = 120;
+		}
+		c.height = height;
+		c.width = width;
+		var id = c.id;
+		drawGridGraph(c, widthLimit, heightLimit);
+		
+	}
 	
 /*
 	(function worker() {
