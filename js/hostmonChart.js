@@ -409,6 +409,7 @@ function changeCharts(){
 
 /** Updates the specified polar chart with the specified data. */
 function updatePolarChart(apolarChart, newData){
+//echo newData;
 	for(i = 0; i < newData.length; i++){
 		var dataItem = newData[i];
 		apolarChart.segments[i].value = dataItem['value'];
@@ -421,10 +422,12 @@ function updatePolarChart(apolarChart, newData){
 
 /** Translate incoming data for a polar chart. */
 function translateIncomingPolarData(data){
+
 	var polarsplitData = data.split("-"); //split the line data from the polar data
 	var polarData = polarsplitData[1]; //this is the polar data.
 	var records = polarData.split(" "); //split off individual records from the polar data
 	//get our limit and value settings based on our records.
+	alert(data);
 	var limit1 =records[0].split(":")[0];
 	var limit2 =records[1].split(":")[0];
 	var limit3 =records[2].split(":")[0];
@@ -490,6 +493,7 @@ function translateIncomingPolarData(data){
 			
 			];
 			//alert(records[0].split(":")[1]);
+			
 			return newPolarData;
 		}
 		
