@@ -360,23 +360,22 @@ function drawGridGraph(c, col, row){
 		var widthLimit = width;
 		var heightLimit = height;
 		
-		if(row == 1){
+		if(col == 1 && row == 1){
 			height = 150;
 			heightLimit = 50;
-		}else if(row == 2){
-			height = 130;
-			heightLimit = 130;
-		}
-		
-		if(col == 1){
 			width = 150;
 			widthLimit = 120;
-		}else if(col == 2){
+		}else if(col == 2 && row == 2){
+			height = 130;
+			heightLimit = 130;
 			width = 400;
 			widthLimit = 400;
-		}
-
-		if(col == 4 && row == 4){
+		}else if(col == 4 && row == 2){
+			width = 400;
+			widthLimit = 400;
+			height = 130;
+			heightLimit = 130;
+		}else if(col == 4 && row == 4){
 			width = 400;
 			widthLimit = 400;
 			height = 120;
