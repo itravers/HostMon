@@ -29,7 +29,7 @@
                         	<h1>Earlhart Soap Works</h1>
 							<h2>Earlhart.com</h2>
 							<h3>1ms</h3>
-							<canvas id="earlhart.com"></canvas><canvas class="graph secondImage" id="earlhart.com"></canvas>
+							<canvas id="earlhart.com"></canvas><canvas class="graph secondImage" id="earlhart.com" style="display:none;"></canvas>
 							<div id="statusmark"></div>
 						</div>
 					</li>
@@ -49,7 +49,7 @@
                         	<h1>Hotmail Service</h1>
 							<h2>hotmail.com</h2>
 							<h3>1ms</h3>
-							<canvas class="graph" id="hotmail.com"></canvas><canvas class="graph secondImage" id="hotmail.com"></canvas>
+							<canvas class="graph" id="hotmail.com"></canvas><canvas class="graph secondImage" id="hotmail.com" style="display:none;"></canvas>
 							<div id="statusmark"></div>
 						</div>
 					</li>
@@ -59,7 +59,7 @@
                         	<h1>DigitalPath Net</h1>
 							<h2>digitalpath.net</h2>
 							<h3>1ms</h3>
-							<canvas class="graph" id="digitalpath.net"></canvas><canvas class="graph secondImage" id="digitalpath.net"></canvas>
+							<canvas class="graph" id="digitalpath.net"></canvas><canvas class="graph secondImage" id="digitalpath.net" style="display:none;"></canvas>
 							<div id="statusmark"></div>
 						</div>
 					</li>
@@ -79,7 +79,7 @@
                         	<h1>News</h1>
 							<h2>news.com</h2>
 							<h3>1ms</h3>
-							<canvas class="graph" id="news.com"></canvas><canvas class="graph secondImage" id="news.com"></canvas>
+							<canvas class="graph" id="news.com"></canvas><canvas class="graph secondImage" id="news.com" style="display:none;"></canvas>
 							<div id="statusmark"></div>
 						</div>
 					</li>
@@ -99,7 +99,7 @@
                         	<h1>Plesk</h1>
 							<h2>plesk.com</h2>
 							<h3>1ms</h3>
-							<canvas class="graph" id="plesk.com"></canvas><canvas class="graph secondImage" id="plesk.com"></canvas>
+							<canvas class="graph" id="plesk.com"></canvas><canvas class="graph secondImage" id="plesk.com" style="display:none;"></canvas>
 							<div id="statusmark"></div>
 						</div>
 					</li>
@@ -285,8 +285,10 @@
 				y = ySize;	
 			}
 			var can = $(widget).children(".device_record").children("canvas");
-			var data = getGridGraphData(can);
+			var data = updateGridGraphData(can);
 			drawGridGraph(can[0], data, x, y);
+			
+			
 			if(y == 4){ //second graph should be visible
 				drawGridGraph(can[1], data, x, y); //draw it
 				$(can[1]).show(); //make sure it's visible
@@ -318,7 +320,7 @@
 				y = 2;	
 			} 
 			var can = $(widget).children(".device_record").children("canvas");
-			var data = getGridGraphData(can);
+			var data = updateGridGraphData(can);
 			drawGridGraph(can[0], data, x, y);
 			if(y == 4){ //second graph should be visible
 				drawGridGraph(can[1], data, x, y); //draw it
@@ -478,8 +480,8 @@ function updateGridGraphData(canvas){
 			success: function(result,status,xhr) {
 				data = result;
 				//setTimeout(updateGridGraphs, 15000);
-				alert("success" + result);
-				alert("id" + $(canvas).attr("id"));
+				//alert("success" + result);
+				//alert("id" + $(canvas).attr("id"));
 			},
 			complete: function(result) {
 				// Schedule the next request when the current one's complete
