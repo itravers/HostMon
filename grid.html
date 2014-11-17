@@ -440,10 +440,11 @@ function drawGridGraph(c, data, col, row){
 	var sections = widthLimit / 10;
 		context.beginPath();
 		for(var i = 0; i <= array_data.length; i++){
+			var newValue = map(array_data[i], Math.min.apply(Math, array_data), Math.max.apply(Math, array_data), 0, heightLimit);
 			if(i == 0){
-				context.moveTo(sections * i, heightLimit-array_data[i]);
+				context.moveTo(sections * i, heightLimit-newValue);
 			}else{
-				context.lineTo(sections * i, heightLimit-array_data[i]);
+				context.lineTo(sections * i, heightLimit-newValue);
 			}
 			
 		}
@@ -465,6 +466,8 @@ function drawGridGraph(c, data, col, row){
 		context.strokeStyle = "#FFFFFF";
 		context.stroke();	
 }
+
+
 
 //function colorCanvas(canvas, color){
 //		var ctx = canvas.getContext("2d");
