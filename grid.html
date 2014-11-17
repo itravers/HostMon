@@ -26,19 +26,31 @@
 					<li href="device.php?ip=earlhart.com"  id="first" rel="#overlay" data-row="1" data-col="1" data-sizex="4" data-sizey="2" onclick="loadDevice('0');">
                     	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
                   		<div class="device_record" >
-                        	<h1>Earlhart Soap Works</h1><h2>Earlhart.com</h2><h3>1ms</h3><canvas id="earlhart.com"></canvas><div id="statusmark"></div>
+                        	<h1>Earlhart Soap Works</h1>
+							<h2>Earlhart.com</h2>
+							<h3>1ms</h3>
+							<canvas id="earlhart.com"></canvas><canvas class="graph secondImage" id="earlhart.com"></canvas>
+							<div id="statusmark"></div>
 						</div>
 					</li>
 					<li href="device.php?ip=gmail.com" rel="#overlay" data-row="1" data-col="5" data-sizex="4" data-sizey="4" onclick="loadDevice('0');">
                     	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
 						<div class="device_record">
-                        	<h1>Gmail Service</h1><h2>gmail.com</h2><h3>1ms</h3><canvas class="graph"></canvas><canvas class="graph secondImage"></canvas><div id="statusmark"></div>
+                        	<h1>Gmail Service</h1>
+							<h2>gmail.com</h2>
+							<h3>1ms</h3>
+							<canvas class="graph" id="gmail.com"></canvas><canvas class="graph secondImage" id="gmail.com"></canvas>
+							<div id="statusmark"></div>
                         </div>
 					</li>
 					<li href="device.php?ip=hotmail.com" class="yellow" rel="#overlay" data-row="1" data-col="9" data-sizex="2" data-sizey="2" onclick="loadDevice('0');">
                     	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
 						<div class="device_record">
-                        	<h1>Hotmail Service</h1><h2>hotmail.com</h2><h3>1ms</h3><canvas class="graph"></canvas><div id="statusmark"></div>
+                        	<h1>Hotmail Service</h1>
+							<h2>hotmail.com</h2>
+							<h3>1ms</h3>
+							<canvas class="graph" id="hotmail.com"></canvas><canvas class="graph secondImage" id="hotmail.com"></canvas>
+							<div id="statusmark"></div>
 						</div>
 					</li>
 					<li href="device.php?ip=digitalpath.net" class="red" rel="#overlay" data-row="1" data-col="10" data-sizex="2" data-sizey="2" onclick="loadDevice('0');">
@@ -277,7 +289,7 @@
 			}else{ // do nothing, we are as big as we get.
 				x = 4;
 				y = 2;	
-			}
+			} 
 			var can = $(widget).children(".device_record").children("canvas");
 			drawGridGraph(can[0], x, y);
 			grid.resize_widget(widget, x, y, true);
