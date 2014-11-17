@@ -3,6 +3,11 @@
 	$userName = "Isaac T.";
 	$pageTitle = "Hostmon - ".$userName;
 	
+	$gmail = array(
+		"name" => "Gmail",
+		"ip" => "gmail.com",
+	);
+	
 	$earlhart = array(
 		"name" => "Earlhart Soap Works",
 		"ip" => "earlhart.com",
@@ -13,8 +18,23 @@
 		"ip" => "digitalpath.net",
 	);
 	
-	$devices = array($earlhart, $digitalpath);
-	echo print_r($devices);
+	$hotmail = array(
+		"name" => "Hotmail Webservices",
+		"ip" => "hotmail.com",
+	);
+	
+	$chicosystems = array(
+		"name" => "Chico Systems",
+		"ip" => "chicosystems.com",
+	);
+	
+	$plesk = array(
+		"name" => "PLESK",
+		"ip" => "plesk.com",
+	);
+	
+	$devices = array($gmail, $earlhart, $digitalpath, $hotmail, $chicosystems, $plesk);
+	//echo print_r($devices);
 ?>
 
 <html class="main_grid">
