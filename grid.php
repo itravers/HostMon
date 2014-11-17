@@ -8,7 +8,7 @@
 	$devices = getActiveDevices($userName);
 	$gridPositions = getGridPositions(count($devices));
 	
-	echo print_r($gridPositions)."<br><br>";
+	//echo print_r($gridPositions)."<br><br>";
 ?>
 
 <html class="main_grid">
