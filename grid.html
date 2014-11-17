@@ -141,6 +141,7 @@
 <script type="text/javascript">
 	var gridster = 0;
 	var dragged = 0;
+	var gridGraphTimeOut;
 	
 		  
 //	$(function() {
@@ -412,23 +413,25 @@ function drawGridGraph(c, data, col, row){
 		c.height = height;
 		c.width = width;
 		var context = c.getContext('2d');
-		var sections = widthLimit / array_data.length;
+		var sections = widthLimit / array_data.length-1;
 		context.beginPath();
 		if(arrayIsZero(array_data)){ // if array only has zero's in it, draw a single dead line
 			//alert("drawing zero line")
 			context.moveTo(0, heightLimit-0);
-			context.lineTo(sections * 21, heightLimit-0);
+			context.lineTo(sections * 22, heightLimit-0);
 			context.strokeStyle = "#FF0000";
 		}else{ // if array has data in it, draw that
-			for(var i = 0; i <= array_data.length; i++){
-				var newValue = map(array_data[i], Math.min.apply(Math, array_data), Math.max.apply(Math, array_data), 0, heightLimit);
+			var newValue;
+			for(var i = 0; i < array_data.length-1; i++){
+				newValue = map(array_data[i], Math.min.apply(Math, array_data), Math.max.apply(Math, array_data), 0, heightLimit);
 				if(i == 0){
-					context.moveTo(sections * i, heightLimit-newValue);
+					context.moveTo(widthLimit-(sections * i), heightLimit-newValue);
 				}else{
-					context.lineTo(sections * i, heightLimit-newValue);
+					context.lineTo(widthLimit-(sections * i), heightLimit-newValue);
 				}
 			
 			}
+			//alert(newValue);
 			context.strokeStyle = "#FFFFFF";
 		}
 		
@@ -513,7 +516,8 @@ function updateGridGraphs(){
 			//drawGridGraph(c, gridData, col, row);
 		}
 	}
-	setTimeout(updateGridGraphs, 15000);
+	clearTimeout(gridGraphTimeOut);
+	gridGraphTimeOut = setTimeout(updateGridGraphs, 5000);
 	
 /*
 	(function worker() {
