@@ -317,16 +317,18 @@
 			onBeforeLoad: function() {
 				if(!dragged){
 					$('.menu').fadeOut();
+					clearTimeout(gridGraphTimeOut); // disable updating of the main page, when second page is open.
 					// grab wrapper element inside content
 					var wrap = this.getOverlay().find(".contentWrap");
 					console.log(wrap);
 					// load the page specified in the trigger
 					wrap.load(this.getTrigger().attr("href"));
+					
 				}
 			},
 			onClose: function() {
 				$('.menu').fadeIn();
-				
+				gridGraphTimeOut = setTimeout(updateGridGraphs, 5000); //reallow updating of main page when second page closes
 				gridster = $("#frontGrid > ul").gridster({
 					widget_margins: [5, 5],
 					widget_base_dimensions: [95, 95],
