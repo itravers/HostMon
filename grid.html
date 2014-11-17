@@ -380,67 +380,70 @@
 //	});	 
 
 function drawGridGraph(c, data, col, row){
-		var array_data = String(data).split(" ");
-		//alert("arraydata: " + array_data.length);
-		var parent = $(c).parent();
-		var grandparent = $(parent).parent();
-		var width = $(grandparent).width();
-		var height = $(grandparent).height();
-		var widthLimit = width;
-		var heightLimit = height;
-		
-		
-		
-		if(col == 1 && row == 1){
-			height = 150;
-			heightLimit = 50;
-			width = 150;
-			widthLimit = 120;
-		}else if(col == 2 && row == 2){
-			height = 130;
-			heightLimit = 130;
-			width = 400;
-			widthLimit = 400;
-		}else if(col == 4 && row == 2){
-			width = 400;
-			widthLimit = 400;
-			height = 130;
-			heightLimit = 130;
-		}else if(col == 4 && row == 4){
-			width = 400;
-			widthLimit = 400;
-			height = 120;
-			heightLimit = 120;
+	var array_data = String(data).split(" ");
+	var parent = $(c).parent();
+	var grandparent = $(parent).parent();
+	var width = $(grandparent).width();
+	var height = $(grandparent).height();
+	var widthLimit = width;
+	var heightLimit = height;
+	
+	updateMSDisplay(c, array_data[0]);
+	
+	if(col == 1 && row == 1){
+		height = 150;
+		heightLimit = 50;
+		width = 150;
+		widthLimit = 120;
+	}else if(col == 2 && row == 2){
+		height = 130;
+		heightLimit = 130;
+		width = 400;
+		widthLimit = 400;
+	}else if(col == 4 && row == 2){
+		width = 400;
+		widthLimit = 400;
+		height = 130;
+		heightLimit = 130;
+	}else if(col == 4 && row == 4){
+		width = 400;
+		widthLimit = 400;
+		height = 120;
+		heightLimit = 120;
+	}
+	
+	c.height = height;
+	c.width = width;
+	
+	var context = c.getContext('2d');
+	var sections = widthLimit / array_data.length-1;
+	context.beginPath();
+	if(arrayIsZero(array_data)){ // if array only has zero's in it, draw a single dead line
+		//alert("drawing zero line")
+		context.moveTo(0, heightLimit-0);
+		context.lineTo(sections * 22, heightLimit-0);
+		context.strokeStyle = "#FF0000";
+	}else{ // if array has data in it, draw that
+		var newValue;
+		for(var i = 0; i < array_data.length-1; i++){
+			newValue = map(array_data[i], Math.min.apply(Math, array_data), Math.max.apply(Math, array_data), 0, heightLimit);
+			if(i == 0){
+				context.moveTo(widthLimit-(sections * i), heightLimit-newValue);
+			}else{
+				context.lineTo(widthLimit-(sections * i), heightLimit-newValue);
+			}	
 		}
-		c.height = height;
-		c.width = width;
-		var context = c.getContext('2d');
-		var sections = widthLimit / array_data.length-1;
-		context.beginPath();
-		if(arrayIsZero(array_data)){ // if array only has zero's in it, draw a single dead line
-			//alert("drawing zero line")
-			context.moveTo(0, heightLimit-0);
-			context.lineTo(sections * 22, heightLimit-0);
-			context.strokeStyle = "#FF0000";
-		}else{ // if array has data in it, draw that
-			var newValue;
-			for(var i = 0; i < array_data.length-1; i++){
-				newValue = map(array_data[i], Math.min.apply(Math, array_data), Math.max.apply(Math, array_data), 0, heightLimit);
-				if(i == 0){
-					context.moveTo(widthLimit-(sections * i), heightLimit-newValue);
-				}else{
-					context.lineTo(widthLimit-(sections * i), heightLimit-newValue);
-				}
-			
-			}
-			//alert(newValue);
-			context.strokeStyle = "#FFFFFF";
-		}
-		
-		context.lineWidth = 2;
-		// set line color
-		
-		context.stroke();	
+		context.strokeStyle = "#FFFFFF";
+	}
+	context.lineWidth = 2;
+	context.stroke();	
+}
+
+//updates the ms display on a grid
+function updateMSDisplay(canvas, newPing){
+	var h3 = $(canvas).siblings("h3");
+	$(h3).text(newPing+"ms")
+	//alert($(h3).text(newPing));
 }
 
 function arrayIsZero(a){
