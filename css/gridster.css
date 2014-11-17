@@ -116,15 +116,21 @@
     box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
 
-.grid .gridster > * {
-    margin: 0 auto;
-    
+@media screen and (max-width: 1300px) {
+	  .grid .gridster > * {
+		margin: 0 auto;
+	}
+}
+
+  .grid .gridster > * {
     -webkit-transition: height .4s, width .4s;
     -moz-transition: height .4s, width .4s;
     -o-transition: height .4s, width .4s;
     -ms-transition: height .4s, width .4s;
     transition: height .4s, width .4s;
 }
+
+
 
 .grid .gridster li {
     cursor: default;
