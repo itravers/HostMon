@@ -2,11 +2,25 @@
 <?php   
 	$userName = "Isaac T.";
 	$pageTitle = "Hostmon - ".$userName;
+	
+	$earlhart = array(
+		"name" => "Earlhart Soap Works",
+		"ip" => "earlhart.com",
+	);
+	
+	$digitalpath = array(
+		"name" => "DigitalPath INC.",
+		"ip" => "digitalpath.net",
+	);
+	
+	$devices = array($earlhart, $digitalpath);
+	echo print_r($devices);
 ?>
+
 <html class="main_grid">
 <!-- Grid.html is currently having issues with event listeners. -->
 	<head>
-		<title>gridster test</title>
+		<title><?php echo $pageTitle ?></title>
 		<link rel="stylesheet" type="text/css" href="css/gridster.css">
 		<link rel="stylesheet" type="text/css" href="css/styles.css">
         <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
@@ -27,16 +41,19 @@
 		<section class="grid">
 			<div class="gridster" id="frontGrid">
 				<ul class='gridlist'>
-					<li href="device.php?ip=earlhart.com"  id="first" rel="#overlay" data-row="1" data-col="1" data-sizex="4" data-sizey="2" onclick="loadDevice('0');">
+					<?php for($i=0;$i<count($devices);$i++) : ?>
+					<li href="device.php?ip=<?php echo $devices[$i]['ip'];?>"  id="first" rel="#overlay" data-row="1" data-col="1" data-sizex="4" data-sizey="2" onclick="loadDevice('0');">
                     	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
                   		<div class="device_record" >
-                        	<h1>Earlhart Soap Works</h1>
-							<h2>Earlhart.com</h2>
+                        	<h1><?php echo $devices[$i]['name']; ?></h1>
+							<h2><?php echo $devices[$i]['ip']; ?></h2>
 							<h3>1ms</h3>
-							<canvas id="earlhart.com"></canvas><canvas class="graph secondImage" id="earlhart.com" style="display:none;"></canvas>
+							<canvas id="<?php echo $devices[$i]['ip'];?>"></canvas><canvas class="graph secondImage" id="<?php echo $devices[$i]['ip'];?>" style="display:none;"></canvas>
 							<div id="statusmark"></div>
 						</div>
 					</li>
+					<?php endfor; ?>
+					<!--
 					<li href="device.php?ip=gmail.com" rel="#overlay" data-row="1" data-col="5" data-sizex="4" data-sizey="4" onclick="loadDevice('0');">
                     	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
 						<div class="device_record">
@@ -107,6 +124,7 @@
 							<div id="statusmark"></div>
 						</div>
 					</li>
+					-->
 					 <li data-row="7" data-col="12" data-sizex="1" data-sizey="1" id="newDeviceOpener">
                     	<div id="addNewDeviceImageContainer">
                     		<img src="images/plus.png" id="addNewDeviceImage">
