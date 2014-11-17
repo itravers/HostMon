@@ -389,6 +389,7 @@ function drawGridGraph(c, data, col, row){
 	var heightLimit = height;
 	
 	updateMSDisplay(c, array_data[0]);
+	updateGridColor(c, array_data[0]);
 	
 	if(col == 1 && row == 1){
 		height = 150;
@@ -444,6 +445,22 @@ function updateMSDisplay(canvas, newPing){
 	var h3 = $(canvas).siblings("h3");
 	$(h3).text(newPing+"ms")
 	//alert($(h3).text(newPing));
+}
+
+function updateGridColor(canvas, newPing){
+	var newClass;
+	if(newPing == 0 || newPing > 2000){
+		newClass = 'red';
+	}else if(newPing < 500){
+		newClass = '';
+	}else if(newPing <= 2000){
+		newClass = 'yellow';
+	}
+	var grandParent = $(canvas).parent().parent();
+	$(grandParent).removeClass("red");
+	$(grandParent).removeClass("yellow");
+	$(grandParent).addClass(newClass);
+	alert($(grandParent).attr("class"));
 }
 
 function arrayIsZero(a){
