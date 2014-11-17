@@ -52,8 +52,8 @@ error_reporting(-1);
 			//$averagePoints = "100 100 200 200 400 300 400 400 500 500 1000 90 800 70 600 50 400 30 200 10";
 			$averagePoints = getFiveMinuteAverage($_POST['ip']);
 		}else if($timeRange == "hour"){
-			$averagePoints = "1000 90 800 70 600 50 400 30 200 10 100 100 200 200 400 300 400 400 500 500";
-			//$averagePoints = getHourAverage($_POST['ip']);
+			//$averagePoints = "1000 90 800 70 600 50 400 30 200 10 100 100 200 200 400 300 400 400 500 500";
+			$averagePoints = getHourAverage($_POST['ip']);
 		}
 		return $averagePoints;
 	}
@@ -66,17 +66,22 @@ error_reporting(-1);
 		$result = mysqli_query($con,$sql);
 		$answer = '';
 		while($row = mysqli_fetch_array($result)) {
-			//$answer += " ";
-			//$answer += $row['latency'];
 			$answer = $answer.$row['latency']." ";
-			
 		}
 		return $answer;
-	
 	}
 	
-	function getHourAverage(){
-	
+	function getHourAverage($ip){
+		$limit = 21;
+		$con = openDB();
+		mysqli_select_db($con,"HostMon");
+		$sql="SELECT * FROM hour WHERE ip = '".$ip."' ORDER BY time DESC LIMIT ".$limit;
+		$result = mysqli_query($con,$sql);
+		$answer = '';
+		while($row = mysqli_fetch_array($result)) {
+			$answer = $answer.$row['latency']." ";
+		}
+		return $answer;
 	}
 	
 	function makeDeviceActive($id){
