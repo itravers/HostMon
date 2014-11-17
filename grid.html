@@ -448,19 +448,21 @@ function updateMSDisplay(canvas, newPing){
 }
 
 function updateGridColor(canvas, newPing){
+	var blueLimit = 620;
+	var yellowLimit = 2000;
 	var newClass;
-	if(newPing == 0 || newPing > 2000){
+	if(newPing == 0 || newPing > yellowLimit){
 		newClass = 'red';
-	}else if(newPing < 500){
+	}else if(newPing < blueLimit){
 		newClass = '';
-	}else if(newPing <= 2000){
+	}else if(newPing <= yellowLimit){
 		newClass = 'yellow';
 	}
 	var grandParent = $(canvas).parent().parent();
 	$(grandParent).removeClass("red");
 	$(grandParent).removeClass("yellow");
 	$(grandParent).addClass(newClass);
-	alert($(grandParent).attr("class"));
+	//alert($(grandParent).attr("class"));
 }
 
 function arrayIsZero(a){
