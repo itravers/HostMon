@@ -1,3 +1,5 @@
+import java.io.File;
+
 /**
  * Class used to aggregrate certain functions.
  * @author Isaac Assegai
@@ -16,6 +18,12 @@ public class Functions {
 	}
 
 	public static String getDBConfigFileName() {
-		return "cfg/db.cfg";
+		String filename = "cfg/db.cfg";
+		File f = new File(filename);
+
+	      if(!f.exists()){
+	          filename = "../cfg/db.cfg";
+	      }
+		return filename;
 	}
 }
