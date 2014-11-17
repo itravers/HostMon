@@ -1,3 +1,5 @@
+import java.io.File;
+
 /**
  * Class used to aggregrate certain functions.
  * @author Isaac Assegai
