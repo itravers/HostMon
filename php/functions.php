@@ -151,59 +151,31 @@ function getActiveDevices($username){
 	mysqli_select_db($con,"HostMon");
 	$sql="SELECT * FROM `active_devices`";
 	$result = mysqli_query($con,$sql);
-	$activeDeviceNumbers = Array();
+	$activeDeviceNumbers = Array(); // a 2d array where the first d is different devices, and the 2nd d has the number at 0
 	$activeDevices = Array();
 	while($row = mysqli_fetch_array($result)) {
 		array_push($activeDeviceNumbers, $row);
 	}
 	
-	for($i = 0; $i < count($dev); $i++){
-		echo " ".$dev[$i]["name"]." ";
+	for($i = 0; $i < count($activeDeviceNumbers); $i++){  //go through each active device number, build an activeDevice array with the name and ip
+		$sql="SELECT * FROM `devices` WHERE id = '".$activeDeviceNumbers[$i][0]."'";
+		$result = mysqli_query($con,$sql);
+		$dev = Array();
+		while($row = mysqli_fetch_array($result)) {
+			array_push($dev, $row);
+		}
+		//echo " ".$dev[$i]["name"]." ";
+		//echo print_r($dev)." <br><br>";
+		//add items here
+		if(!empty($dev)){
+			$array = array( // will represent a device in grid.php
+				"name" => $dev[0]["name"],
+				"ip" => $dev[0]["ip"]
+			);
+		array_push($activeDevices, $array); // push this device to the list of active Devices.
+		}
+		
 	}
-	
-	$sql="SELECT * FROM `devices` WHERE id = '6'";
-	$result = mysqli_query($con,$sql);
-	$dev = Array();
-	while($row = mysqli_fetch_array($result)) {
-		array_push($dev, $row);
-	}
-	echo print_r($dev);
-	
-	
-	
-	
-
-	$gmail = array(
-		"name" => "Gmail",
-		"ip" => "gmail.com",
-	);
-	
-	$earlhart = array(
-		"name" => "Earlhart Soap Works",
-		"ip" => "earlhart.com",
-	);
-	
-	$digitalpath = array(
-		"name" => "DigitalPath INC.",
-		"ip" => "digitalpath.net",
-	);
-	
-	$hotmail = array(
-		"name" => "Hotmail Webservices",
-		"ip" => "hotmail.com",
-	);
-	
-	$chicosystems = array(
-		"name" => "Chico Systems",
-		"ip" => "chicosystems.com",
-	);
-	
-	$plesk = array(
-		"name" => "PLESK",
-		"ip" => "plesk.com",
-	);
-	
-	$devices = array($gmail, $earlhart, $digitalpath, $hotmail, $chicosystems, $plesk);
-	return $devices;
+	return $activeDevices;
 }
 ?>
