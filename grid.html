@@ -286,6 +286,12 @@
 			}
 			var can = $(widget).children(".device_record").children("canvas");
 			drawGridGraph(can[0], x, y);
+			if(y == 4){ //second graph should be visible
+				drawGridGraph(can[1], x, y); //draw it
+				$(can[1]).show(); //make sure it's visible
+			}else{
+				$(can[1]).hide();	//make sure it's invisible
+			}
 			grid.resize_widget(widget, x, y, true);
 		});
 			  
@@ -312,6 +318,12 @@
 			} 
 			var can = $(widget).children(".device_record").children("canvas");
 			drawGridGraph(can[0], x, y);
+			if(y == 4){ //second graph should be visible
+				drawGridGraph(can[1], x, y); //draw it
+				$(can[1]).show(); //make sure it's visible
+			}else{
+				$(can[1]).hide();	//make sure it's invisible
+			}
 			grid.resize_widget(widget, x, y, true);
       	 });
 			  
