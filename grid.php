@@ -36,13 +36,14 @@
 			<div class="gridster" id="frontGrid">
 				<ul class='gridlist'>
 					<?php for($i=0;$i<count($devices);$i++) : ?>
-					<li href="device.php?ip=<?php echo $devices[$i]['ip'];?>"  id="first" rel="#overlay" data-row="<?php echo $gridPositions[$i]['yp'] ?>" data-col="<?php echo $gridPositions[$i]['xp'] ?>" data-sizex="<?php echo $gridPositions[$i]['xs'] ?>" data-sizey="<?php echo $gridPositions[$i]['ys'] ?>" onclick="loadDevice('0');">
+					<li href="device.php?ip=<?php echo $devices[$i]['ip'];?>"  id="first" rel="#overlay" data-row="<?php echo $gridPositions[$i]['yp'] ?>" data-col="<?php echo $gridPositions[$i]['xp'] ?>"
+																										 data-sizex="<?php echo $gridPositions[$i]['xs'] ?>" data-sizey="<?php echo $gridPositions[$i]['ys'] ?>" onclick="loadDevice('0');">
                     	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
                   		<div class="device_record" >
                         	<h1><?php echo $devices[$i]['name']; ?></h1>
 							<h2><?php echo $devices[$i]['ip']; ?></h2>
 							<h3>1ms</h3>
-							<canvas id="<?php echo $devices[$i]['ip'];?>"></canvas><canvas class="graph  <?php if($gridPositions[$i]['ys'] == 4) echo 'secondImage'?> " id="<?php echo $devices[$i]['ip'];?>" style="display:<?php if($gridPositions[$i]['ys'] != 4){ echo 'none';}else{echo 'block';}?>;"></canvas>
+							<canvas id="<?php echo $devices[$i]['ip'];?>"></canvas><canvas class="graph secondImage" id="<?php echo $devices[$i]['ip'];?>" style="display:<?php if($gridPositions[$i]['ys'] != 4){ echo 'none';}else{echo 'block';}?>;"></canvas>
 							<div id="statusmark"></div>
 						</div>
 					</li>
