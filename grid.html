@@ -252,6 +252,8 @@
 				x = xSize;
 				y = ySize;	
 			}
+			var can = $(widget).children(".device_record").children("canvas");
+			drawGridGraph(can[0], x, y);
 			grid.resize_widget(widget, x, y, true);
 		});
 			  
