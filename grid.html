@@ -276,6 +276,8 @@
 				x = 4;
 				y = 2;	
 			}
+			var can = $(widget).children(".device_record").children("canvas");
+			drawGridGraph(can[0], x, y);
 			grid.resize_widget(widget, x, y, true);
       	 });
 			  
@@ -348,7 +350,38 @@
 		});		
 //	});	 
 
-function drawGridGraph(c, widthLimit, heightLimit){
+function drawGridGraph(c, col, row){
+		var parent = $(c).parent();
+		var grandparent = $(parent).parent();
+		var width = $(grandparent).width();
+		var height = $(grandparent).height();
+		var widthLimit = width;
+		var heightLimit = height;
+		
+		if(row == 1){
+			height = 150;
+			heightLimit = 50;
+		}else if(row == 2){
+			height = 130;
+			heightLimit = 130;
+		}
+		
+		if(col == 1){
+			width = 150;
+			widthLimit = 120;
+		}else if(col == 2){
+			width = 400;
+			widthLimit = 400;
+		}
+
+		if(col == 4 && row == 4){
+			width = 400;
+			widthLimit = 400;
+			height = 120;
+			heightLimit = 120;
+		}
+		c.height = height;
+		c.width = width;
 	var context = c.getContext('2d');
 	var sections = widthLimit / 10;
 		context.beginPath();
@@ -378,37 +411,8 @@ function updateGridGraphs(){
 		var grandparent = parent.parentElement;
 		var col = $(grandparent).attr("data-sizex");
 		var row = $(grandparent).attr("data-sizey");
-		var width = grandparent.scrollWidth;
-		var height = grandparent.scrollHeight
-		var heightLimit = height;
-		var widthLimit = width;
-		
-		if(row == 1){
-			height = 150;
-			heightLimit = 50;
-		}else if(row == 2){
-			height = 130;
-			heightLimit = 130;
-		}
-		
-		if(col == 1){
-			width = 150;
-			widthLimit = 120;
-		}else if(col == 2){
-			width = 400;
-			widthLimit = 400;
-		}
-
-		if(col == 4 && row == 4){
-			width = 400;
-			widthLimit = 400;
-			height = 120;
-			heightLimit = 120;
-		}
-		c.height = height;
-		c.width = width;
 		var id = c.id;
-		drawGridGraph(c, widthLimit, heightLimit);
+		drawGridGraph(c, col, row);
 		
 	}
 	
