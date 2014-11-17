@@ -6,7 +6,7 @@ error_reporting(-1);
 	//$postResult = $_POST;
 	
 	//deviceName
-	//if($_POST['addNewDevice']){
+	if(isset($_POST['addNewDevice'])){
 		//$postResult = $postResult.$_POST['addNewDevice'];
 		/*first we check the db to see if a device of this ip has already been added
 		  if it has, then we pull the info for that device from the db,
@@ -37,7 +37,52 @@ error_reporting(-1);
 			makeDeviceActive($id);
 			$postResult = $postResult.renderDevice($id);
 		}
-	//}
+	}else if(isset($_POST['getGridGraphData'])){
+		$ip = $_POST['ip'];
+	    $timeRange = $_POST['timeRange'];
+		$data = getTenAveragePointsInTimeRange($timeRange);
+		$postResult = $data;
+	}
+	
+	//gets the last $timeRange of pings from the database
+	//gives us 10 even spaced averages.
+	function getTenAveragePointsInTimeRange($timeRange){
+		$averagePoints = "";
+		if($timeRange == "fiveMinute"){
+			//$averagePoints = "100 100 200 200 400 300 400 400 500 500 1000 90 800 70 600 50 400 30 200 10";
+			$averagePoints = getFiveMinuteAverage($_POST['ip']);
+		}else if($timeRange == "hour"){
+			//$averagePoints = "1000 90 800 70 600 50 400 30 200 10 100 100 200 200 400 300 400 400 500 500";
+			$averagePoints = getHourAverage($_POST['ip']);
+		}
+		return $averagePoints;
+	}
+	
+	function getFiveMinuteAverage($ip){
+		$limit = 21;
+		$con = openDB();
+		mysqli_select_db($con,"HostMon");
+		$sql="SELECT * FROM minute WHERE ip = '".$ip."' ORDER BY time DESC LIMIT ".$limit;
+		$result = mysqli_query($con,$sql);
+		$answer = '';
+		while($row = mysqli_fetch_array($result)) {
+			$answer = $answer.$row['latency']." ";
+		}
+		return $answer;
+	}
+	
+	function getHourAverage($ip){
+		$limit = 21;
+		$con = openDB();
+		mysqli_select_db($con,"HostMon");
+		$sql="SELECT * FROM hour WHERE ip = '".$ip."' ORDER BY time DESC LIMIT ".$limit;
+		$result = mysqli_query($con,$sql);
+		$answer = '';
+		while($row = mysqli_fetch_array($result)) {
+			$answer = $answer.$row['latency']." ";
+		}
+		return $answer;
+	}
 	
 	function makeDeviceActive($id){
 		
@@ -58,17 +103,6 @@ error_reporting(-1);
 		return false;	
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	echo $postResult;
-
+	//echo print_r($_POST);
 ?>
