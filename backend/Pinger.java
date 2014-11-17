@@ -32,7 +32,7 @@ public class Pinger {
 	 */
 	public String ping(String ip) {
 		String pingCommand = getPingCommand(ip);
-		String pingResult = "-1";
+		String pingResult = "0";
 		try {
 			Runtime r = Runtime.getRuntime();
 			Process p = r.exec(pingCommand);
@@ -49,14 +49,14 @@ public class Pinger {
 					|| pingResult.contains("100% packet loss")
 					|| pingResult == null) {
 				// don't know if request timed out is correct form in linux
-				return "-1";
+				return "0";
 			}
 			pingResult = pingResult.substring(pingResult.indexOf("time=") + 5,
 					pingResult.length() - 1);
 			pingResult = pingResult.substring(0, pingResult.indexOf("ms"));
 		} catch (Exception e) {
 			System.err.println(e);
-			pingResult = "-1";
+			pingResult = "0";
 		}
 		return pingResult;
 	}
