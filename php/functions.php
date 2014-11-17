@@ -152,13 +152,24 @@ function getActiveDevices($username){
 	$sql="SELECT * FROM `active_devices`";
 	$result = mysqli_query($con,$sql);
 	$activeDeviceNumbers = Array();
+	$activeDevices = Array();
 	while($row = mysqli_fetch_array($result)) {
 		array_push($activeDeviceNumbers, $row);
 	}
 	
-	for($i = 0; $i < count($activeDeviceNumbers); $i++){
-		echo " ".$activeDeviceNumbers[$i][0]." ";
+	for($i = 0; $i < count($dev); $i++){
+		echo " ".$dev[$i]["name"]." ";
 	}
+	
+	$sql="SELECT * FROM `devices` WHERE id = '6'";
+	$result = mysqli_query($con,$sql);
+	$dev = Array();
+	while($row = mysqli_fetch_array($result)) {
+		array_push($dev, $row);
+	}
+	echo print_r($dev);
+	
+	
 	
 	
 
