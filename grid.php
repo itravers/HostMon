@@ -42,7 +42,7 @@
                         	<h1><?php echo $devices[$i]['name']; ?></h1>
 							<h2><?php echo $devices[$i]['ip']; ?></h2>
 							<h3>1ms</h3>
-							<canvas id="<?php echo $devices[$i]['ip'];?>"></canvas><canvas class="graph secondImage" id="<?php echo $devices[$i]['ip'];?>" style="display:none;"></canvas>
+							<canvas id="<?php echo $devices[$i]['ip'];?>"></canvas><canvas class="graph  <?php if($gridPositions[$i]['yp'] != 4) echo 'secondImage'?> " id="<?php echo $devices[$i]['ip'];?>" style="display:<?php if($gridPositions[$i]['yp'] == 4){ echo 'none';}else{echo 'block';}?>;"></canvas>
 							<div id="statusmark"></div>
 						</div>
 					</li>
