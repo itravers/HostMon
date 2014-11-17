@@ -49,9 +49,9 @@ error_reporting(-1);
 	function getTenAveragePointsInTimeRange($timeRange){
 		$averagePoints = "";
 		if($timeRange == "fiveMinute"){
-			$averagePoints = "100 200 50 35 15 55 56 45 99 201";
+			$averagePoints = "10 10 20 20 1400 30 40 40 50 500";
 		}else if($timeRange == "hour"){
-			$averagePoints = "10 20 5 3 1 5 5 4 9 20";
+			$averagePoints = "100 90 80 70 60 50 40 30 20 10";
 		}
 		return $averagePoints;
 	}

@@ -141,6 +141,7 @@
 <script type="text/javascript">
 	var gridster = 0;
 	var dragged = 0;
+	
 		  
 //	$(function() {
 		gridster = $("#frontGrid > ul").gridster({
@@ -285,12 +286,12 @@
 				y = ySize;	
 			}
 			var can = $(widget).children(".device_record").children("canvas");
-			var data = updateGridGraphData(can);
-			drawGridGraph(can[0], data, x, y);
+			var data = updateGridGraphData(can, x, y);
+			//drawGridGraph(can[0], data, x, y);
 			
 			
 			if(y == 4){ //second graph should be visible
-				drawGridGraph(can[1], data, x, y); //draw it
+				//drawGridGraph(can[1], data, x, y); //draw it
 				$(can[1]).show(); //make sure it's visible
 			}else{
 				$(can[1]).hide();	//make sure it's invisible
@@ -320,10 +321,10 @@
 				y = 2;	
 			} 
 			var can = $(widget).children(".device_record").children("canvas");
-			var data = updateGridGraphData(can);
-			drawGridGraph(can[0], data, x, y);
+			var data = updateGridGraphData(can, x, y);
+			//drawGridGraph(can[0], data, x, y);
 			if(y == 4){ //second graph should be visible
-				drawGridGraph(can[1], data, x, y); //draw it
+				//drawGridGraph(can[1], data, x, y); //draw it
 				$(can[1]).show(); //make sure it's visible
 			}else{
 				$(can[1]).hide();	//make sure it's invisible
@@ -401,12 +402,16 @@
 //	});	 
 
 function drawGridGraph(c, data, col, row){
+		var array_data = String(data).split(" ");
+		//alert("arraydata: " + array_data.length);
 		var parent = $(c).parent();
 		var grandparent = $(parent).parent();
 		var width = $(grandparent).width();
 		var height = $(grandparent).height();
 		var widthLimit = width;
 		var heightLimit = height;
+		
+		
 		
 		if(col == 1 && row == 1){
 			height = 150;
@@ -434,7 +439,16 @@ function drawGridGraph(c, data, col, row){
 	var context = c.getContext('2d');
 	var sections = widthLimit / 10;
 		context.beginPath();
-		context.moveTo(0, 0);
+		for(var i = 0; i <= array_data.length; i++){
+			if(i == 0){
+				context.moveTo(sections * i, heightLimit-array_data[i]);
+			}else{
+				context.lineTo(sections * i, heightLimit-array_data[i]);
+			}
+			
+		}
+		/*
+		context.moveTo(sections * 0, 0);
 		context.lineTo(sections * 1, heightLimit/4);
 		context.lineTo(sections * 2, heightLimit/2);
 		context.lineTo(sections * 3, heightLimit/5);
@@ -445,6 +459,7 @@ function drawGridGraph(c, data, col, row){
 		context.lineTo(sections * 8, heightLimit/1);
 		context.lineTo(sections * 9, heightLimit/8);
 		context.lineTo(sections * 10, heightLimit/6);
+		*/
 		context.lineWidth = 2;
 		// set line color
 		context.strokeStyle = "#FFFFFF";
@@ -458,9 +473,9 @@ function drawGridGraph(c, data, col, row){
 //	}
 
 /** Uses ajax to get our grid graph data from the server. */
-function updateGridGraphData(canvas){
-	var data;
-	(function worker() {
+function updateGridGraphData(canvas, x, y){
+	var returnVal = "";
+	returnVal = (function worker() {
 		var currentIP = $(canvas).attr("id");
 		var curClass = $(canvas).attr("class");
 		//if(curClass == undefined)//return 0;
@@ -482,11 +497,7 @@ function updateGridGraphData(canvas){
 			data : postData,
 			url: 'php/grid-backend.php', 
 			success: function(result,status,xhr) {
-				data = result;
-				//alert(result);
-				//setTimeout(updateGridGraphs, 15000);
-				//alert("success" + result);
-				//alert("id" + $(canvas).attr("id"));
+				drawGridGraph(canvas, result, x, y);
 			},
 			complete: function(result) {
 				// Schedule the next request when the current one's complete
@@ -496,10 +507,7 @@ function updateGridGraphData(canvas){
 				alert("error" + error);
 			}
 		});
-		return data;
-	})(canvas, data);
-	
-	
+	})(canvas, x, y);
 }
 
 /** Updates the line graph and polar chart from info retrieved from the device-backend. */
@@ -514,8 +522,8 @@ function updateGridGraphs(){
 		var id = c.id;
 		var isVisible = $(c).is(":visible")
 		if(isVisible){
-			var data = updateGridGraphData(c);
-			drawGridGraph(c, data, col, row);
+			var gridData = updateGridGraphData(c, col, row);
+			//drawGridGraph(c, gridData, col, row);
 		}
 	}
 	
