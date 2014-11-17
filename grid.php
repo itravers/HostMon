@@ -1,39 +1,12 @@
 <!DOCTYPE html>
 <?php   
+	include_once("php/functions.php");
+	include_once("php/db.php");
+	
 	$userName = "Isaac T.";
 	$pageTitle = "Hostmon - ".$userName;
+	$devices = getActiveDevices($userName);
 	
-	$gmail = array(
-		"name" => "Gmail",
-		"ip" => "gmail.com",
-	);
-	
-	$earlhart = array(
-		"name" => "Earlhart Soap Works",
-		"ip" => "earlhart.com",
-	);
-	
-	$digitalpath = array(
-		"name" => "DigitalPath INC.",
-		"ip" => "digitalpath.net",
-	);
-	
-	$hotmail = array(
-		"name" => "Hotmail Webservices",
-		"ip" => "hotmail.com",
-	);
-	
-	$chicosystems = array(
-		"name" => "Chico Systems",
-		"ip" => "chicosystems.com",
-	);
-	
-	$plesk = array(
-		"name" => "PLESK",
-		"ip" => "plesk.com",
-	);
-	
-	$devices = array($gmail, $earlhart, $digitalpath, $hotmail, $chicosystems, $plesk);
 	//echo print_r($devices);
 ?>
 

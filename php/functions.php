@@ -144,4 +144,55 @@ function getNotes($deviceID){
 	}
 	return $notes;	
 }
+
+/* Will Return an array of active devices for the specified username. */
+function getActiveDevices($username){
+	$con = openDB();
+	mysqli_select_db($con,"HostMon");
+	$sql="SELECT * FROM `active_devices`";
+	$result = mysqli_query($con,$sql);
+	$activeDeviceNumbers = Array();
+	while($row = mysqli_fetch_array($result)) {
+		array_push($activeDeviceNumbers, $row);
+	}
+	
+	for($i = 0; $i < count($activeDeviceNumbers); $i++){
+		echo " ".$activeDeviceNumbers[$i][0]." ";
+	}
+	
+	
+
+	$gmail = array(
+		"name" => "Gmail",
+		"ip" => "gmail.com",
+	);
+	
+	$earlhart = array(
+		"name" => "Earlhart Soap Works",
+		"ip" => "earlhart.com",
+	);
+	
+	$digitalpath = array(
+		"name" => "DigitalPath INC.",
+		"ip" => "digitalpath.net",
+	);
+	
+	$hotmail = array(
+		"name" => "Hotmail Webservices",
+		"ip" => "hotmail.com",
+	);
+	
+	$chicosystems = array(
+		"name" => "Chico Systems",
+		"ip" => "chicosystems.com",
+	);
+	
+	$plesk = array(
+		"name" => "PLESK",
+		"ip" => "plesk.com",
+	);
+	
+	$devices = array($gmail, $earlhart, $digitalpath, $hotmail, $chicosystems, $plesk);
+	return $devices;
+}
 ?>
