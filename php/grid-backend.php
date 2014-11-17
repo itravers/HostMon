@@ -41,7 +41,7 @@ error_reporting(-1);
 		$ip = $_POST['ip'];
 	    $timeRange = $_POST['timeRange'];
 		$data = getTenAveragePointsInTimeRange($timeRange);
-		$postResult = $data;
+		$postResult = $_POST['timeRange'];
 	}
 	
 	//gets the last $timeRange of pings from the database

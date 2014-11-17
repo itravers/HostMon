@@ -460,10 +460,14 @@ function drawGridGraph(c, data, col, row){
 /** Uses ajax to get our grid graph data from the server. */
 function updateGridGraphData(canvas){
 	var data;
-	var currentIP = $(canvas).attr("id");
-	var whichImage = $(canvas).attr("class");
 	(function worker() {
-		if(whichImage == "secondImage"){
+		var currentIP = $(canvas).attr("id");
+		var curClass = $(canvas).attr("class");
+		//if(curClass == undefined)//return 0;
+		//alert("curClass" +curClass);
+		var s_curClass = String(curClass);
+		//alert(s_curClass);
+		if(s_curClass.indexOf("secondImage") == -1){
 			postData = {getGridGraphData:true,
 						ip:currentIP,
 						timeRange:"fiveMinute"};
@@ -472,13 +476,14 @@ function updateGridGraphData(canvas){
 						ip:currentIP,
 						timeRange:"hour"};
 		}
-		 
+		 alert(postData['timeRange']);
 		$.ajax({
 			type:"POST",
 			data : postData,
 			url: 'php/grid-backend.php', 
 			success: function(result,status,xhr) {
 				data = result;
+				
 				//setTimeout(updateGridGraphs, 15000);
 				//alert("success" + result);
 				//alert("id" + $(canvas).attr("id"));
