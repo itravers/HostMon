@@ -6,7 +6,7 @@ error_reporting(-1);
 	//$postResult = $_POST;
 	
 	//deviceName
-	//if($_POST['addNewDevice']){
+	if(isset($_POST['addNewDevice'])){
 		//$postResult = $postResult.$_POST['addNewDevice'];
 		/*first we check the db to see if a device of this ip has already been added
 		  if it has, then we pull the info for that device from the db,
@@ -37,7 +37,9 @@ error_reporting(-1);
 			makeDeviceActive($id);
 			$postResult = $postResult.renderDevice($id);
 		}
-	//}
+	}else if(isset($_POST['getGridGraphData'])){
+		$postResult = $_POST[0];
+	}
 	
 	function makeDeviceActive($id){
 		
@@ -70,5 +72,5 @@ error_reporting(-1);
 	
 	
 	echo $postResult;
-
+	//echo print_r($_POST);
 ?>
