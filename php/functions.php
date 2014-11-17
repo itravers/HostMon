@@ -178,4 +178,51 @@ function getActiveDevices($username){
 	}
 	return $activeDevices;
 }
+
+/* gets the correct array of grid positions, based on how many grids there are. */
+function getGridPositions($numGrids){
+	$gridPositions = Array();
+	if($numGrids <= 6){
+		array_push($gridPositions, array("yp" => 1,"xp" => 1,"xs" => 4,"ys" => 4));
+		array_push($gridPositions, array("yp" => 1,"xp" => 5,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 1,"xp" => 9,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 5,"xp" => 1,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 5,"xp" => 5,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 5,"xp" => 9,"xs" => 4,"ys" => 2));
+	}else if($numGrids <= 11){
+		array_push($gridPositions, array("yp" => 1,"xp" => 1,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 1,"xp" => 5,"xs" => 4,"ys" => 4));
+		array_push($gridPositions, array("yp" => 1,"xp" => 9,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 1,"xp" => 10,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 3,"xp" => 1,"xs" => 4,"ys" => 4));
+		array_push($gridPositions, array("yp" => 5,"xp" => 5,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 3,"xp" => 9,"xs" => 4,"ys" => 4));
+		array_push($gridPositions, array("yp" => 7,"xp" => 1,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 7,"xp" => 3,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 7,"xp" => 5,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 7,"xp" => 7,"xs" => 4,"ys" => 2));
+	}else if($numGrids <= 20){
+		array_push($gridPositions, array("yp" => 1,"xp" => 1,"xs" => 4,"ys" => 4));
+		array_push($gridPositions, array("yp" => 1,"xp" => 5,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 1,"xp" => 9,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 5,"xp" => 1,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 5,"xp" => 5,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 5,"xp" => 9,"xs" => 4,"ys" => 2));
+	}else if($numGrids <= 41 || $numGrids >= 41){
+		array_push($gridPositions, array("yp" => 1,"xp" => 1,"xs" => 4,"ys" => 4));
+		array_push($gridPositions, array("yp" => 1,"xp" => 5,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 1,"xp" => 9,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 5,"xp" => 1,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 5,"xp" => 5,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 5,"xp" => 9,"xs" => 4,"ys" => 2));
+	}
+	return $gridPositions;
+}
+
+
+
+
+
+
+
 ?>

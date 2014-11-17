@@ -6,8 +6,9 @@
 	$userName = "Isaac T.";
 	$pageTitle = "Hostmon - ".$userName;
 	$devices = getActiveDevices($userName);
+	$gridPositions = getGridPositions(count($devices));
 	
-	//echo print_r($devices);
+	echo print_r($gridPositions)."<br><br>";
 ?>
 
 <html class="main_grid">
@@ -35,7 +36,7 @@
 			<div class="gridster" id="frontGrid">
 				<ul class='gridlist'>
 					<?php for($i=0;$i<count($devices);$i++) : ?>
-					<li href="device.php?ip=<?php echo $devices[$i]['ip'];?>"  id="first" rel="#overlay" data-row="1" data-col="1" data-sizex="4" data-sizey="2" onclick="loadDevice('0');">
+					<li href="device.php?ip=<?php echo $devices[$i]['ip'];?>"  id="first" rel="#overlay" data-row="<?php echo $gridPositions[$i]['yp'] ?>" data-col="<?php echo $gridPositions[$i]['xp'] ?>" data-sizex="<?php echo $gridPositions[$i]['xs'] ?>" data-sizey="<?php echo $gridPositions[$i]['ys'] ?>" onclick="loadDevice('0');">
                     	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
                   		<div class="device_record" >
                         	<h1><?php echo $devices[$i]['name']; ?></h1>
