@@ -38,7 +38,22 @@ error_reporting(-1);
 			$postResult = $postResult.renderDevice($id);
 		}
 	}else if(isset($_POST['getGridGraphData'])){
-		$postResult = $_POST[0];
+		$ip = $_POST['ip'];
+	    $timeRange = $_POST['timeRange'];
+		$data = getTenAveragePointsInTimeRange($timeRange);
+		$postResult = $data;
+	}
+	
+	//gets the last $timeRange of pings from the database
+	//gives us 10 even spaced averages.
+	function getTenAveragePointsInTimeRange($timeRange){
+		$averagePoints;
+		if($timeRange == "fiveMinutes"){
+			$averagePoints = "100 200 50 35 15 55 56 45 99 201";
+		}else if($timeRange == "hour"){
+			$averagePoints = "10 20 5 3 1 5 5 4 9 20";
+		}
+		return $averagePoints;
 	}
 	
 	function makeDeviceActive($id){

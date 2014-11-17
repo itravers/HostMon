@@ -456,20 +456,19 @@ function drawGridGraph(c, data, col, row){
 //	}
 
 /** Uses ajax to get our grid graph data from the server. */
-function getGridGraphData(canvas){
+function updateGridGraphData(canvas){
 	var data;
 	var currentIP = $(canvas).attr("id");
 	var whichImage = $(canvas).attr("class");
-	(function worker(data) {
-		var postData;
+	(function worker() {
 		if(whichImage == "secondImage"){
 			postData = {getGridGraphData:true,
 						ip:currentIP,
-						timeRange:"fiveMinuteAverage"};
+						timeRange:"fiveMinute"};
 		}else{
 			postData = {getGridGraphData:true,
 						ip:currentIP,
-						timeRange:"hourAverage"};
+						timeRange:"hour"};
 		}
 		 
 		$.ajax({
@@ -480,6 +479,7 @@ function getGridGraphData(canvas){
 				data = result;
 				//setTimeout(updateGridGraphs, 15000);
 				alert("success" + result);
+				alert("id" + $(canvas).attr("id"));
 			},
 			complete: function(result) {
 				// Schedule the next request when the current one's complete
@@ -489,8 +489,8 @@ function getGridGraphData(canvas){
 				alert("error" + error);
 			}
 		});
-	})();
-	return data;
+		return data;
+	})(canvas, data);
 	
 	
 }
@@ -507,7 +507,7 @@ function updateGridGraphs(){
 		var id = c.id;
 		var isVisible = $(c).is(":visible")
 		if(isVisible){
-			var data;// = getGridGraphData(c);
+			var data = updateGridGraphData(c);
 			drawGridGraph(c, data, col, row);
 		}
 	}
