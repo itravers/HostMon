@@ -291,9 +291,10 @@
 			
 			
 			if(y == 4){ //second graph should be visible
-				//drawGridGraph(can[1], data, x, y); //draw it
+				updateGridGraphData(can[1], x, y);
 				$(can[1]).show(); //make sure it's visible
 			}else{
+			updateGridGraphData(can[1], x, y);
 				$(can[1]).hide();	//make sure it's invisible
 			}
 			grid.resize_widget(widget, x, y, true);
