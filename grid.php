@@ -36,19 +36,22 @@
 			<div class="gridster" id="frontGrid">
 				<ul class='gridlist'>
 					<?php for($i=0;$i<count($devices);$i++) : ?>
-					<li href="device.php?ip=<?php echo $devices[$i]['ip'];?>"  id="first" rel="#overlay" data-row="<?php echo $gridPositions[$i]['yp'] ?>" data-col="<?php echo $gridPositions[$i]['xp'] ?>"
-																										 data-sizex="<?php echo $gridPositions[$i]['xs'] ?>" data-sizey="<?php echo $gridPositions[$i]['ys'] ?>" onclick="loadDevice('0');">
+					<li href="device.php?ip=<?php echo $devices[$i]['ip'];?>"  id="first" rel="#overlay" 
+							data-row="<?php echo $gridPositions[$i]['yp'] ?>" data-col="<?php echo $gridPositions[$i]['xp'] ?>"
+							data-sizex="<?php echo $gridPositions[$i]['xs'] ?>" data-sizey="<?php echo $gridPositions[$i]['ys'] ?>" onclick="loadDevice('0');">
                     	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
                   		<div class="device_record" >
                         	<h1><?php echo $devices[$i]['name']; ?></h1>
 							<h2><?php echo $devices[$i]['ip']; ?></h2>
 							<h3>1ms</h3>
-							<canvas id="<?php echo $devices[$i]['ip'];?>"></canvas><canvas class="graph secondImage" id="<?php echo $devices[$i]['ip'];?>" style="display:<?php if($gridPositions[$i]['ys'] != 4){ echo 'none';}else{echo 'block';}?>;"></canvas>
+							<canvas id="<?php echo $devices[$i]['ip'];?>"></canvas>
+							<canvas class="graph secondImage" id="<?php echo $devices[$i]['ip'];?>" 
+								    style="display:<?php if($gridPositions[$i]['ys'] != 4){ echo 'none';}else{echo 'block';}?>;"></canvas>
 							<div id="statusmark"></div>
 						</div>
 					</li>
 					<?php endfor; ?>
-					<!--
+					<!-- embedded php based on the following code
 					<li href="device.php?ip=gmail.com" rel="#overlay" data-row="1" data-col="5" data-sizex="4" data-sizey="4" onclick="loadDevice('0');">
                     	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
 						<div class="device_record">
@@ -58,68 +61,7 @@
 							<canvas class="graph" id="gmail.com"></canvas><canvas class="graph secondImage" id="gmail.com"></canvas>
 							<div id="statusmark"></div>
                         </div>
-					</li>
-					<li href="device.php?ip=hotmail.com" class="yellow" rel="#overlay" data-row="1" data-col="9" data-sizex="2" data-sizey="2" onclick="loadDevice('0');">
-                    	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
-						<div class="device_record">
-                        	<h1>Hotmail Service</h1>
-							<h2>hotmail.com</h2>
-							<h3>1ms</h3>
-							<canvas class="graph" id="hotmail.com"></canvas><canvas class="graph secondImage" id="hotmail.com" style="display:none;"></canvas>
-							<div id="statusmark"></div>
-						</div>
-					</li>
-					<li href="device.php?ip=digitalpath.net" class="red" rel="#overlay" data-row="1" data-col="10" data-sizex="2" data-sizey="2" onclick="loadDevice('0');">
-                    	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
-						<div class="device_record">
-                        	<h1>DigitalPath Net</h1>
-							<h2>digitalpath.net</h2>
-							<h3>1ms</h3>
-							<canvas class="graph" id="digitalpath.net"></canvas><canvas class="graph secondImage" id="digitalpath.net" style="display:none;"></canvas>
-							<div id="statusmark"></div>
-						</div>
-					</li>
-					<li href="device.php?ip=chicosystems.com" rel="#overlay" data-row="3" data-col="1" data-sizex="4" data-sizey="4" onclick="loadDevice('0');">
-                    	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
-						<div class="device_record">
-                        	<h1>Chico Systems</h1>
-							<h2>chicosystems.com</h2>
-							<h3>1ms</h3>
-							<canvas class="graph" id="chicosystems.com"></canvas><canvas class="graph secondImage" id="chicosystems.com"></canvas>
-							<div id="statusmark"></div>
-						</div>
-					</li>
-					<li href="device.php?ip=news.com" rel="#overlay" data-row="5" data-col="5" data-sizex="4" data-sizey="2" onclick="loadDevice('0');">
-                    	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
-						<div class="device_record">
-                        	<h1>News</h1>
-							<h2>news.com</h2>
-							<h3>1ms</h3>
-							<canvas class="graph" id="news.com"></canvas><canvas class="graph secondImage" id="news.com" style="display:none;"></canvas>
-							<div id="statusmark"></div>
-						</div>
-					</li>
-					<li href="device.php?ip=digg.com" class="yellow" rel="#overlay" data-row="3" data-col="9" data-sizex="4" data-sizey="4" onclick="loadDevice('0');">
-                    	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
-                  		<div class="device_record">
-                        	<h1>Digg</h1>
-							<h2>digg.com</h2>
-							<h3>1ms</h3>
-							<canvas class="graph" id="digg.com"></canvas><canvas class="graph secondImage" id="digg.com"></canvas>
-							<div id="statusmark"></div>
-						</div>
-					</li>
-					<li href="device.php?ip=plesk.com" rel="#overlay" data-row="7" data-col="1" data-sizex="1" data-sizey="1" onclick="loadDevice('0');">
-                    	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
-						<div class="device_record">
-                        	<h1>Plesk</h1>
-							<h2>plesk.com</h2>
-							<h3>1ms</h3>
-							<canvas class="graph" id="plesk.com"></canvas><canvas class="graph secondImage" id="plesk.com" style="display:none;"></canvas>
-							<div id="statusmark"></div>
-						</div>
-					</li>
-					-->
+					</li> -->
 					 <li data-row="7" data-col="12" data-sizex="1" data-sizey="1" id="newDeviceOpener">
                     	<div id="addNewDeviceImageContainer">
                     		<img src="images/plus.png" id="addNewDeviceImage">
@@ -495,13 +437,6 @@ function arrayIsZero(a){
 }
 
 
-
-//function colorCanvas(canvas, color){
-//		var ctx = canvas.getContext("2d");
-//		ctx.fillStyle = color;
-//		ctx.fillRect(0,0,c.width,c.height);
-//	}
-
 /** Uses ajax to get our grid graph data from the server. */
 function updateGridGraphData(canvas, x, y){
 	var returnVal = "";
@@ -559,34 +494,6 @@ function updateGridGraphs(){
 	}
 	clearTimeout(gridGraphTimeOut);
 	gridGraphTimeOut = setTimeout(updateGridGraphs, 5000);
-	
-/*
-	(function worker() {
-		var postData = {ip:currentIP,
-						LineChart:currentLineChart,
-						PolarChart:currentPolarChart};
-		$.ajax({
-			type:"POST",
-			data : postData,
-			url: 'php/device-backend.php', 
-			success: function(result,status,xhr) {
-				var lineChartData = translateIncomingLineData(result); 
-				var mainDeviceChart = getMainDeviceChart(currentLineChart, "#51bbff", lineChartData);	  
-				var newData = translateIncomingPolarData(result); 
-				updatePolarChart(polarChart, newData);
-				setTimeout(updateGridGraphs, 15000);
-				//alert("success" + result);
-			},
-			complete: function(result) {
-				// Schedule the next request when the current one's complete
-				//alert("complete" + result);
-			},
-			error: function(xhr,status,error){
-				alert("error" + data);
-			}
-		});
-	})();	
-*/	
 } 
 </script>  
 	</body>
