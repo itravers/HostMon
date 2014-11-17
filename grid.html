@@ -201,32 +201,6 @@
 				var widget = gridster.add_widget( display, ps[0], ps[1], ps[2], ps[3]);
 				widget = widget.get(0);
 				var grow = $(widget).find(".grow");
-			
-				//alert("abouttowidget");
-				//alert("widgethtml: " + $(widget).('first-child'));
-				/*$('.grow').on('click', function(event) {
-			event.stopImmediatePropagation(); // this stops the overlay from popping up.
-			var grid = gridster;
-			var widget = $(this).parent();
-			var xSize = widget.attr("data-sizex");
-			var ySize = widget.attr("data-sizey");
-			var x = 0;
-			var y = 0;
-			if(xSize == 1 && ySize == 1){
-				x = 2;
-				y = 2;
-			}else if(xSize == 2 && ySize == 2){
-				x = 4;
-				y = 2;	
-			}else if(xSize == 4 && ySize == 2){
-				x = 4;
-				y = 4;
-			}else{ // do nothing, we are as big as we get.
-				x = xSize;
-				y = ySize;	
-			}
-			grid.resize_widget(widget, x, y, true);
-		});*/
 				alert("message: " + message);
 				alert("display: " + display);
 			},
@@ -539,6 +513,7 @@ function updateGridGraphs(){
 			//drawGridGraph(c, gridData, col, row);
 		}
 	}
+	setTimeout(updateGridGraphs, 15000);
 	
 /*
 	(function worker() {

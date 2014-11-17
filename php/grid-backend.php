@@ -103,17 +103,6 @@ error_reporting(-1);
 		return false;	
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	echo $postResult;
 	//echo print_r($_POST);
 ?>
