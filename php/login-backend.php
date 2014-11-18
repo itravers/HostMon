@@ -36,7 +36,9 @@
 			
 			if($row['usr']){
 				// If everything is OK login
-	
+				echo "starting session";
+				//if(!isset($_SESSION)) 
+				session_start(); // Start the session.
 				$_SESSION['usr']=$row['usr'];
 				$_SESSION['id'] = $row['id'];
 				$_SESSION['admin_level'] = $row['admin_level'];

@@ -2,13 +2,24 @@
 <?php   
 	include_once("php/functions.php");
 	include_once("php/db.php");
+	$userName;
 	
-	$userName = "Isaac T.";
+	if(isset($_GET['login'])){
+		$userName = $_GET['userName'];
+		session_start();
+		$_SESSION = $userName;
+		echo "logged in";
+	}else if(isset($_SESSION)){
+		$userName = $_SESSION['userName'];
+		echo "logged in";
+	}else{
+		$userName = "NOT LOGGED IN";
+	}
+	
+	
 	$pageTitle = "Hostmon - ".$userName;
 	$devices = getActiveDevices($userName);
 	$gridPositions = getGridPositions(count($devices));
-	
-	//echo print_r($gridPositions)."<br><br>";
 ?>
 
 <html class="main_grid">
@@ -27,7 +38,7 @@
 			<ul>
 				<li><a href="#">Home</a></li>
 				<li><a href="#">Options</a></li>
-        		<li><a href="#">Logout</a></li>
+        		<li><a href="login.php?logout=true">Logout</a></li>
 			</ul>
 		</nav>
 	</head>
