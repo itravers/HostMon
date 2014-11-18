@@ -6,7 +6,7 @@
 
 	session_start();
 	if($_POST['submit']=='Login'){
-		
+		$resp = Array();
 		if(!$_POST['username'] || !$_POST['password']){
 			$resp[] = 'ALL THE FIELDS MUST BE FILLED IN';
 		}
@@ -40,7 +40,7 @@
 				$_SESSION['usr']=$row['usr'];
 				$_SESSION['id'] = $row['id'];
 				$_SESSION['admin_level'] = $row['admin_level'];
-				$_SESSION['remember'] = $_POST['remember'];
+				//$_SESSION['remember'] = $_POST['remember'];
 				
 				//if admin_level is 0 it means user has not been approved by admin yet
 				if($_SESSION['admin_level'] == 0){
