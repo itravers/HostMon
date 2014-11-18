@@ -4,6 +4,8 @@
 	include_once("php/db.php");
 	$userName;
 	
+	//this is really a bad idea to check if we are logged in with a get variable, 
+	//can't seem to get the session variable to set in login-backend.php like i was planning
 	if(isset($_GET['login'])){
 		$userName = $_GET['userName'];
 		session_start();

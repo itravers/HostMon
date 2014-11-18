@@ -1,3 +1,13 @@
+<?php 
+if(isset($_GET['logout'])){
+	// remove all session variables
+	//session_unset(); 
+
+	// destroy the session 
+	session_destroy(); 
+}
+ ?>
+
 <head>
 <link rel="stylesheet" type="text/css" href="css/styles.css">
 <script src="js/jquery.tools.min.js"></script>
@@ -78,6 +88,7 @@ $(document).ready(function() {
 	  //var pos = status.search("Success");
 	  if(data.indexOf("Success") != -1){
 		// alert("Data: " + data + "\nStatus: " + status); 
+		//will need to change this soon
 		 window.location.href = "grid.php?login=true&userName=itravers"; 
 	  }else{
 		 //  alert("Data: " + data + "\nStatus: " + status); 
