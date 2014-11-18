@@ -202,27 +202,69 @@ function getGridPositions($numGrids){
 		array_push($gridPositions, array("yp" => 7,"xp" => 5,"xs" => 2,"ys" => 2));
 		array_push($gridPositions, array("yp" => 7,"xp" => 7,"xs" => 4,"ys" => 2));
 	}else if($numGrids <= 20){
-		array_push($gridPositions, array("yp" => 1,"xp" => 1,"xs" => 4,"ys" => 4));
-		array_push($gridPositions, array("yp" => 1,"xp" => 5,"xs" => 4,"ys" => 2));
-		array_push($gridPositions, array("yp" => 1,"xp" => 9,"xs" => 4,"ys" => 2));
-		array_push($gridPositions, array("yp" => 5,"xp" => 1,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 1,"xp" => 1,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 1,"xp" => 3,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 1,"xp" => 5,"xs" => 4,"ys" => 4));
+		array_push($gridPositions, array("yp" => 1,"xp" => 9,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 1,"xp" => 11,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 3,"xp" => 1,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 3,"xp" => 3,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 3,"xp" => 9,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 3,"xp" => 11,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 5,"xp" => 1,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 5,"xp" => 3,"xs" => 2,"ys" => 2));
 		array_push($gridPositions, array("yp" => 5,"xp" => 5,"xs" => 4,"ys" => 2));
-		array_push($gridPositions, array("yp" => 5,"xp" => 9,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 5,"xp" => 9,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 5,"xp" => 11,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 7,"xp" => 1,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 7,"xp" => 3,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 7,"xp" => 5,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 7,"xp" => 7,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 7,"xp" => 9,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 7,"xp" => 11,"xs" => 2,"ys" => 2));
 	}else if($numGrids <= 41 || $numGrids >= 41){
-		array_push($gridPositions, array("yp" => 1,"xp" => 1,"xs" => 4,"ys" => 4));
-		array_push($gridPositions, array("yp" => 1,"xp" => 5,"xs" => 4,"ys" => 2));
-		array_push($gridPositions, array("yp" => 1,"xp" => 9,"xs" => 4,"ys" => 2));
-		array_push($gridPositions, array("yp" => 5,"xp" => 1,"xs" => 4,"ys" => 2));
-		array_push($gridPositions, array("yp" => 5,"xp" => 5,"xs" => 4,"ys" => 2));
-		array_push($gridPositions, array("yp" => 5,"xp" => 9,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 1,"xp" => 1,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 1,"xp" => 3,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 1,"xp" => 5,"xs" => 4,"ys" => 4));
+		array_push($gridPositions, array("yp" => 1,"xp" => 9,"xs" => 2,"ys" => 2));
+		array_push($gridPositions, array("yp" => 1,"xp" => 11,"xs" => 2,"ys" =>2));
+		array_push($gridPositions, array("yp" => 3,"xp" => 1,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 3,"xp" => 2,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 3,"xp" => 3,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 3,"xp" => 4,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 3,"xp" => 9,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 3,"xp" => 10,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 3,"xp" => 11,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 3,"xp" => 12,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 4,"xp" => 1,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 4,"xp" => 2,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 4,"xp" => 3,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 4,"xp" => 4,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 4,"xp" => 9,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 4,"xp" => 10,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 4,"xp" => 11,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 4,"xp" => 12,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 5,"xp" => 1,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 5,"xp" => 2,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 5,"xp" => 3,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 5,"xp" => 4,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 5,"xp" => 5,"xs" => 4,"ys" => 4));
+		array_push($gridPositions, array("yp" => 5,"xp" => 9,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 5,"xp" => 10,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 5,"xp" => 11,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 5,"xp" => 12,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 6,"xp" => 1,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 6,"xp" => 2,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 6,"xp" => 3,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 6,"xp" => 4,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 6,"xp" => 9,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 6,"xp" => 10,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 6,"xp" => 11,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 6,"xp" => 12,"xs" => 1,"ys" => 1));
+		array_push($gridPositions, array("yp" => 7,"xp" => 1,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 7,"xp" => 5,"xs" => 4,"ys" => 2));
+		array_push($gridPositions, array("yp" => 7,"xp" => 9,"xs" => 4,"ys" => 2));
 	}
 	return $gridPositions;
 }
-
-
-
-
-
-
-
 ?>
