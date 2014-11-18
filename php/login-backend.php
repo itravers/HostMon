@@ -6,7 +6,7 @@
 
 	session_start();
 	if($_POST['submit']=='Login'){
-		
+		$resp = Array();
 		if(!$_POST['username'] || !$_POST['password']){
 			$resp[] = 'ALL THE FIELDS MUST BE FILLED IN';
 		}
@@ -36,11 +36,13 @@
 			
 			if($row['usr']){
 				// If everything is OK login
-	
+				//echo "starting session";
+				if(!isset($_SESSION)) 
+				session_start(); // Start the session.
 				$_SESSION['usr']=$row['usr'];
 				$_SESSION['id'] = $row['id'];
 				$_SESSION['admin_level'] = $row['admin_level'];
-				$_SESSION['remember'] = $_POST['remember'];
+				//$_SESSION['remember'] = $_POST['remember'];
 				
 				//if admin_level is 0 it means user has not been approved by admin yet
 				if($_SESSION['admin_level'] == 0){
@@ -48,7 +50,7 @@
 					
 				}else{
 					//login has worked
-					$resp[]='Success';
+					$resp[]='Success '.$row['usr']; //after success we will also return the username
 				}
 			}
 			else{
