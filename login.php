@@ -1,10 +1,13 @@
 <?php 
 if(isset($_GET['logout'])){
+	if(!isset($_SESSION)){
+		session_unset();
+	}
 	// remove all session variables
 	//session_unset(); 
 
 	// destroy the session 
-	session_destroy(); 
+	//session_destroy(); 
 }
  ?>
 
@@ -85,11 +88,15 @@ $(document).ready(function() {
     },
     function(data,status){
      // alert("Data: " + data + "\nStatus: " + status);
-	  //var pos = status.search("Success");
+	  
 	  if(data.indexOf("Success") != -1){
-		// alert("Data: " + data + "\nStatus: " + status); 
+		var pos = data.indexOf("Success");
+		pos += 8; //account for the word success, and the space that will be after it.
+		var userName = data.substring(pos);
+		//alert("username: " + username + "\nStatus: " + status); 
+		//we need to add the username to the data, and then parse it out here
 		//will need to change this soon
-		 window.location.href = "grid.php?login=true&userName=itravers"; 
+		 window.location.href = "grid.php?login=true&userName="+userName; 
 	  }else{
 		 //  alert("Data: " + data + "\nStatus: " + status); 
 		$("#error_msg").text(data); 

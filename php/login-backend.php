@@ -36,8 +36,8 @@
 			
 			if($row['usr']){
 				// If everything is OK login
-				echo "starting session";
-				//if(!isset($_SESSION)) 
+				//echo "starting session";
+				if(!isset($_SESSION)) 
 				session_start(); // Start the session.
 				$_SESSION['usr']=$row['usr'];
 				$_SESSION['id'] = $row['id'];
@@ -50,7 +50,7 @@
 					
 				}else{
 					//login has worked
-					$resp[]='Success';
+					$resp[]='Success '.$row['usr']; //after success we will also return the username
 				}
 			}
 			else{

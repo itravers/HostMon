@@ -10,10 +10,10 @@
 		$userName = $_GET['userName'];
 		session_start();
 		$_SESSION = $userName;
-		echo "logged in";
+		//echo "logged in";
 	}else if(isset($_SESSION)){
 		$userName = $_SESSION['userName'];
-		echo "logged in";
+		//echo "logged in";
 	}else{
 		$userName = "NOT LOGGED IN";
 	}
