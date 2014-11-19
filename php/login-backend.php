@@ -37,16 +37,11 @@ if($_POST['submit']=='Login'){ // User is logging in to the application.
 				//login has worked
 				$resp[]='Success '.$row['usr']; //after success we will also return the username
 			}
-		}
-			else{
-				$resp[]='WRONG USERNAME/PASSWORD';
-			}
+		}else{
+			$resp[]='WRONG USERNAME/PASSWORD';
 		}
 	}
-	$response = implode(",", $resp);
-	echo $response;
-	
-		
-	
-	
+} // end of if login
+$response = implode(",", $resp);
+echo $response;	
 ?>
