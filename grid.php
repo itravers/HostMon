@@ -242,20 +242,18 @@ $('.grow').on('click', function(event) {
 		x = xSize;
 		y = ySize;	
 	}
-			var can = $(widget).children(".device_record").children("canvas");
-			var data = updateGridGraphData(can, x, y);
-			//drawGridGraph(can[0], data, x, y);
-			
-			
-			if(y == 4){ //second graph should be visible
-				updateGridGraphData(can[1], x, y);
-				$(can[1]).show(); //make sure it's visible
-			}else{
-			updateGridGraphData(can[1], x, y);
-				$(can[1]).hide();	//make sure it's invisible
-			}
-			grid.resize_widget(widget, x, y, true);
-		});
+	
+	var can = $(widget).children(".device_record").children("canvas");
+	var data = updateGridGraphData(can, x, y); // Redraw the Canvas charts in this grid.		
+	if(y == 4){ //If our grid is 4 rows high, we want to show the hourly graph as well.
+		updateGridGraphData(can[1], x, y); // Get info from server and draw the hourly graph.
+		$(can[1]).show(); //make sure it's visible
+	}else{
+		updateGridGraphData(can[1], x, y); //draw the hourly graph even if it's hidden in this case.
+		$(can[1]).hide();	//make sure it's invisible
+	}
+	grid.resize_widget(widget, x, y, true); // Resizes the grid itself. May want to do this before redrawing the graphs.
+}); // End of grow code.
 			  
 		$('.shrink').on('click', function(event) {
 			event.stopImmediatePropagation(); 
