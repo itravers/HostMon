@@ -1,7 +1,16 @@
 <!DOCTYPE html>
-<?php   
+<?php  
+	/**************************************************************
+	 * Hostmon - grid.php
+	 * Author - Isaac Assegai
+	 * This page allows the user to actively or passively monitor
+	 * Several devices at one time. The user has the ability to 
+	 * re-arrange the page and resize the interface to the different
+	 * devices being monitored.
+	 */
 	include_once("php/functions.php");
 	include_once("php/db.php");
+	
 	$userName;
 	
 	//this is really a bad idea to check if we are logged in with a get variable, 
@@ -20,8 +29,8 @@
 	
 	
 	$pageTitle = "Hostmon - ".$userName;
-	$devices = getActiveDevices($userName);
-	$gridPositions = getGridPositions(count($devices));
+	$devices = getActiveDevices($userName); // returns the initial active devices
+	$gridPositions = getGridPositions(count($devices)); // returns a 2d array with initial grid positions and sizes 
 ?>
 
 <html class="main_grid">
@@ -36,6 +45,7 @@
 			<div class="bar"></div>
 			<div class="bar"></div>
 		</a>
+		<!-- This is the Menu that is handled in Javascript -->
 		<nav class="left">
 			<ul>
 				<li><a href="#">Home</a></li>
@@ -45,13 +55,16 @@
 		</nav>
 	</head>
 	<body>
+		<!-- This is the entire page, where the grid can roam. -->
 		<section class="grid">
 			<div class="gridster" id="frontGrid">
 				<ul class='gridlist'>
+					<!-- each grid is parsed from the devices array, each grid is placed using the gridPositions array. -->
 					<?php for($i=0;$i<count($devices);$i++) : ?>
 					<li href="device.php?ip=<?php echo $devices[$i]['ip'];?>"  id="first" rel="#overlay" 
 							data-row="<?php echo $gridPositions[$i]['yp'] ?>" data-col="<?php echo $gridPositions[$i]['xp'] ?>"
 							data-sizex="<?php echo $gridPositions[$i]['xs'] ?>" data-sizey="<?php echo $gridPositions[$i]['ys'] ?>" onclick="loadDevice('0');">
+							
                     	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
                   		<div class="device_record" >
                         	<h1><?php echo $devices[$i]['name']; ?></h1>
@@ -86,18 +99,16 @@
 			<div class="close"></div>   
             
            <div id="newDeviceDialog" title="Monitor New Device">
- 
-  <form id="newDeviceForm">
-    <fieldset>
-      <input type="text" name="deviceName" id="deviceName" placeholder="Device Name" class="text ui-widget-content ui-corner-all">
-      <input type="text" name="deviceIP" id="deviceIP" placeholder="Device IP" class="text ui-widget-content ui-corner-all">
-      <input type="textarea" name="deviceNote" id="deviceNote" placeholder="Initial Note" class="textarea ui-widget-content ui-corner-all">
- 
-      <!-- Allow form submission with keyboard without duplicating the dialog button -->
-      <!--<input type="submit" id="newDeviceSubmit">-->
-    </fieldset>
-  </form>
-</div>
+			  <form id="newDeviceForm">
+				<fieldset>
+				  <input type="text" name="deviceName" id="deviceName" placeholder="Device Name" class="text ui-widget-content ui-corner-all">
+				  <input type="text" name="deviceIP" id="deviceIP" placeholder="Device IP" class="text ui-widget-content ui-corner-all">
+				  <input type="textarea" name="deviceNote" id="deviceNote" placeholder="Initial Note" class="textarea ui-widget-content ui-corner-all">
+				  <!-- Allow form submission with keyboard without duplicating the dialog button -->
+				  <!--<input type="submit" id="newDeviceSubmit">-->
+				</fieldset>
+			  </form>
+			</div>
 		</section>
      
 		<!-- overlayed element -->
@@ -112,12 +123,11 @@
 <script type="text/javascript" src="js/jquery.gridster.min.js" charster="utf-8"></script>
 <script type="text/javascript">
 	var gridster = 0;
-	var dragged = 0;
-	var gridGraphTimeOut;
+	var dragged = 0; // Used to keep the device.php overlay from loading when a grid is being dragged.
+	var gridGraphTimeOut; //Used to disable ajax updating of the page when device.php is overlayed.
 	
-		  
-//	$(function() {
-		gridster = $("#frontGrid > ul").gridster({
+	//Initialize Gridster
+	gridster = $("#frontGrid > ul").gridster({
 			widget_margins: [5, 5],
 			widget_base_dimensions: [95, 95],
 			min_cols: 8,
