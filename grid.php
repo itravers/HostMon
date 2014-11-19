@@ -291,41 +291,40 @@ $('.shrink').on('click', function(event) {
 	}
 	grid.resize_widget(widget, x, y, true); // Resize the widget itself. May want to put this before the drawing code above.
 }); //End of Shrink event.
-			  
-		$("li[rel]").overlay({
-			top:top,
-			mask: 'darkred',
-			effect: 'apple',
-			fixed: false,
-			top: '1%',
-			onBeforeLoad: function() {
-				if(!dragged){
-					$('.menu').fadeOut();
-					clearTimeout(gridGraphTimeOut); // disable updating of the main page, when second page is open.
-					// grab wrapper element inside content
-					var wrap = this.getOverlay().find(".contentWrap");
-					console.log(wrap);
-					// load the page specified in the trigger
-					wrap.load(this.getTrigger().attr("href"));
-					
+
+// Event Called when user opens a device.			  
+$("li[rel]").overlay({
+	top:top,
+	mask: 'darkred',
+	effect: 'apple',
+	fixed: false,
+	top: '1%',
+	onBeforeLoad: function() {
+		if(!dragged){
+			$('.menu').fadeOut(); // The menu button should fade out on the main page and appear on the second page.
+			clearTimeout(gridGraphTimeOut); // disable updating of the main page, when second page is open.
+			var wrap = this.getOverlay().find(".contentWrap"); // grab wrapper element inside content
+			console.log(wrap);
+			wrap.load(this.getTrigger().attr("href")); // load the page specified in the trigger (the device clicked) to the overlay		
+		}
+	},
+	onClose: function() {
+		$('.menu').fadeIn(); // Fade the menu button back in when the overlay is closed.
+		gridGraphTimeOut = setTimeout(updateGridGraphs, 5000); // Re-allow updating of main page when second page closes.
+		
+		// Are we re-initializing gridster here? Do we need to do this?
+		gridster = $("#frontGrid > ul").gridster({
+			widget_margins: [5, 5],
+			widget_base_dimensions: [95, 95],
+			min_cols: 8,
+			draggable: {
+				start: function(event, ui) {
+					dragged = 1;
 				}
-			},
-			onClose: function() {
-				$('.menu').fadeIn();
-				gridGraphTimeOut = setTimeout(updateGridGraphs, 5000); //reallow updating of main page when second page closes
-				gridster = $("#frontGrid > ul").gridster({
-					widget_margins: [5, 5],
-					widget_base_dimensions: [95, 95],
-					min_cols: 8,
-					draggable: {
-						start: function(event, ui) {
-							dragged = 1;
-						}
-					}
-				}).data('gridster');
-				
 			}
-		});
+		}).data('gridster');	
+	}// End onClose.
+}); // End overlay Event.
 		
 		//add new device dialogue.
 		$( "#newDeviceDialog" ).dialog({
