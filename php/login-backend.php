@@ -5,17 +5,15 @@
 * This script is utilized by login.php to handle logging into
 * the application.
 **************************************************************/
-	include_once("functions.php");
-	include_once("db.php");
-
+include_once("functions.php");
+include_once("db.php");
 	
-
-	session_start();
-	if($_POST['submit']=='Login'){
-		$resp = Array();
-		if(!$_POST['username'] || !$_POST['password']){
-			$resp[] = 'ALL THE FIELDS MUST BE FILLED IN';
-		}
+session_start();
+if($_POST['submit']=='Login'){ // User is logging in to the application. 
+	$resp = Array(); // Used to send the response back to the user.
+	if(!$_POST['username'] || !$_POST['password']){
+		$resp[] = 'ALL THE FIELDS MUST BE FILLED IN';
+	}
 		
 		
 		
