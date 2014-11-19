@@ -464,34 +464,31 @@ function arrayIsZero(a){
 	return answer;
 }
 
-
 /** Uses ajax to get our grid graph data from the server. */
 function updateGridGraphData(canvas, x, y){
 	var returnVal = "";
-	returnVal = (function worker() {
+	returnVal = (function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
 		var currentIP = $(canvas).attr("id");
 		var curClass = $(canvas).attr("class");
-		//if(curClass == undefined)//return 0;
-		//alert("curClass" +curClass);
 		var s_curClass = String(curClass);
-		//alert(s_curClass);
-		if(s_curClass.indexOf("secondImage") == -1){
+		
+		if(s_curClass.indexOf("secondImage") == -1){ //We don't need to get info for the hour graph, but the minute graph
 			postData = {getGridGraphData:true,
 						ip:currentIP,
 						timeRange:"fiveMinute"};
-		}else{
+		}else{ // We do need to get information from the hour graph.
 			postData = {getGridGraphData:true,
 						ip:currentIP,
 						timeRange:"hour"};
 		}
 		 
+		 // Send the request to the server.
 		$.ajax({
 			type:"POST",
 			data : postData,
 			url: 'php/grid-backend.php', 
 			success: function(result,status,xhr) {
-				//alert("result" + result);
-				drawGridGraph(canvas, result, x, y);
+				drawGridGraph(canvas, result, x, y); // We received our data, go head and draw the appropriate graph.
 			},
 			complete: function(result) {
 				// Schedule the next request when the current one's complete
@@ -500,27 +497,27 @@ function updateGridGraphData(canvas, x, y){
 			error: function(xhr,status,error){
 				alert("error" + error);
 			}
-		});
-	})(canvas, x, y);
-}
+		}); // End of ajax call.
+	})(canvas, x, y); //End of worker thread.
+} //End of updateGridGraphData
 
-/** Updates the line graph and polar chart from info retrieved from the device-backend. */
+/** Updates all the graphs on page from info retrieved from the device-backend. */
 function updateGridGraphs(){
 	var canvases = $("canvas");
-	for(var i = 0; i< canvases.size(); i++){
+	for(var i = 0; i< canvases.size(); i++){ //Loop through every canvas on the page.
 		var c = canvases.get(i);
 		var parent = c.parentElement;
 		var grandparent = parent.parentElement;
 		var col = $(grandparent).attr("data-sizex");
 		var row = $(grandparent).attr("data-sizey");
 		var id = c.id;
-		var isVisible = $(c).is(":visible")
-		if(isVisible){
+		var isVisible = $(c).is(":visible"); //may need to change this line to something else checking if it's hidden.
+		if(isVisible){ //If the device is visible, draw it.
 			var gridData = updateGridGraphData(c, col, row);
 			//drawGridGraph(c, gridData, col, row);
 		}
 	}
-	clearTimeout(gridGraphTimeOut);
+	clearTimeout(gridGraphTimeOut); // Remove the timer and re-add it. Why?
 	gridGraphTimeOut = setTimeout(updateGridGraphs, 5000);
 } 
 </script>  
