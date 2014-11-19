@@ -1,9 +1,14 @@
 <?php
+/**************************************************************
+* Hostmon - grid-backend.php
+* Author - Isaac Assegai
+* Used by grid.php to pull down all graph data from 
+* The database. Returns info back to ajax call.
+**************************************************************/
 //error_reporting(-1);
 include_once("functions.php");
 include_once("db.php");
 $postResult = "";
-//$postResult = $_POST;
 
 /** User is trying to add a new device to the system. */
 if(isset($_POST['addNewDevice'])){ //This function is not completely done yet.
