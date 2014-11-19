@@ -90,13 +90,13 @@ if(isset($_POST['PolarChart'])){
 		}
 	}
 		
-		//Build the result of the page to return to the front end for parsing.
-		$postResult = $postResult."-".$item1Limit.":".count($item1Array)." ".
-		$item2Limit.":".count($item2Array)." ". 
-		$item3Limit.":".count($item3Array)." ".
-		$item4Limit.":".count($item4Array)." ".
-		$item5Limit.":".count($item5Array);
-	}
+	//Build the result of the page to return to the front end for parsing.
+	$postResult = $postResult."-".$item1Limit.":".count($item1Array)." ".
+	$item2Limit.":".count($item2Array)." ". 
+	$item3Limit.":".count($item3Array)." ".
+	$item4Limit.":".count($item4Array)." ".
+	$item5Limit.":".count($item5Array);
+} // End ifset PolarChart
 	
 	/* If SubmitNote has been posted, we want to get the note info from the post, submit a new note to
 	 * The database. Then we want to read and parse the notes into a new note section that jquery
