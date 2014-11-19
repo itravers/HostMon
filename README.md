@@ -4,6 +4,6 @@ HostMon
 
 Hostmon is a multi-user latency &amp; uptime analytical tool.
 
-Version 0.0.2
+Version 0.1
 
 -Added ability to add new device. Not done yet.
