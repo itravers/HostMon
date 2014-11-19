@@ -119,22 +119,17 @@ if(isset($_POST['SubmitNote'])){
 	$postResult = buildNotesGrid($notes);	
 } // End ifset SubmitNote
 	
-	//user decides to remove a specific note, referenced by it's timestamp and deviceId
-	if(isset($_POST['RemoveNote'])){
-		$deviceID = $_POST['deviceID'];
-		$timestamp = $_POST['timestamp'];
-		
-		mysqli_select_db($con,"HostMon");
-		$sql="DELETE FROM `HostMon`.`notes` WHERE `notes`.`timestamp` = ".$timestamp." AND `notes`.`deviceID` = ".$deviceID.";";
-		$result2 = mysqli_query($con,$sql);
-		
-		$notes = getNotes($deviceID); //db query get array of notes from device id.
-		$postResult = buildNotesGrid($notes);
-		
-		
-		//echo print_r($_POST);
-		
-	}
+//user decides to remove a specific note, referenced by it's timestamp and deviceId
+if(isset($_POST['RemoveNote'])){
+	$deviceID = $_POST['deviceID'];
+	$timestamp = $_POST['timestamp'];
 	
-	echo $postResult; //sends result to front end.
+	mysqli_select_db($con,"HostMon");
+	$sql="DELETE FROM `HostMon`.`notes` WHERE `notes`.`timestamp` = ".$timestamp." AND `notes`.`deviceID` = ".$deviceID.";";
+	$result2 = mysqli_query($con,$sql);
+	
+	$notes = getNotes($deviceID); //db query get array of notes from device id.
+	$postResult = buildNotesGrid($notes);
+} // End if iset RemoveNote
+echo $postResult; //sends result to front end.
 ?>
