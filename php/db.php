@@ -1,4 +1,10 @@
 <?php
+/**************************************************************
+* Hostmon - db.php
+* Author - Isaac Assegai
+* This library interfaces with the db, several times
+* throughout the app, we skip this altogether.
+**************************************************************/
 
 /** Create and return the DB connection. */	
 function openDB(){

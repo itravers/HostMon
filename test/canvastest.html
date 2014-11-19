@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>gridster test</title>
+  </head>
+  <body bgcolor="#51bbff">
+  <img onClick="updateGraph()" src="images/plus.png"></img>
+  <canvas id="mainDeviceChart" width="600px" height="425px">
+  
+  
+  
+       <script src="js/jquery.tools.min.js"></script>
+       <script src="js/hostmonChart.js"></script> 
+       <script type="text/javascript">
+	   		var currentLineGraph = "FiveMinLine";
+	   		var demoData = getMinuteDemoData();
+	   		var mainDeviceChart = getMainDeviceChart("mainDeviceChart", "#51bbff", demoData);
+			
+		
+		function updateGraph(){
+			//alert("update graph");
+			//var demoData = getMinuteDemoData2();
+	   		//var mainDeviceChart = getMainDeviceChart("mainDeviceChart", "#51bbff", demoData);
+			
+			if(currentLineGraph == "FiveMinLine"){
+				/*	$.post("php/device-backend.php",
+						{
+							FiveMinLine:"RETRIEVE"
+						},
+						function(data,status){
+							if(status == "success"){
+								//alert(status);
+								var newData = translateIncomingData(data); 
+								var mainDeviceChart = getMainDeviceChart("mainDeviceChart", "#51bbff", newData);
+							}
+							
+							setTimeout(updateGraph(), 10000);
+							
+						}
+					);*/
+				
+				
+				
+				(function worker() {
+					var postData = {FiveMinLine:"RETRIEVE"};
+				  $.ajax({
+					type:"POST",
+					data : postData,
+					url: 'php/device-backend.php', 
+					success: function(result,status,xhr) {
+					  //alert("success" + result);
+					  var newData = translateIncomingData(result); 
+					  var mainDeviceChart = getMainDeviceChart("mainDeviceChart", "#51bbff", newData);
+					  setTimeout(updateGraph, 15000);
+					},
+					complete: function() {
+					  // Schedule the next request when the current one's complete
+					  alert("complete" + data);
+					  
+					},
+					error: function(xhr,status,error){
+						alert("error" + data);
+					}
+				  });
+				})();
+			}
+			
+		}
+		
+		function translateIncomingData(data){
+			
+			var records = data.split(" ");
+			
+			var newData = new Array(records.length-1);
+			
+			for(i = 0; i < records.length-1; i++){
+				var intRecord = records[i];
+				var record = intRecord.split(":");
+				newData[i] = record;
+			}
+			//alert(newData);
+			return newData;
+		}
+		
+		
+				$(document).ready(function()
+				{
+					setTimeout('updateGraph()',10000);
+				});
+			
+		
+		  
+      </script>   
+  </body>
+</html>
