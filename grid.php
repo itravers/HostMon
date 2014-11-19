@@ -433,10 +433,11 @@ function updateMSDisplay(canvas, newPing){
 	//alert($(h3).text(newPing));
 }
 
+/** Updates the grid's color based on the latest data received. */
 function updateGridColor(canvas, newPing){
-	var blueLimit = 700;
-	var yellowLimit = 2000;
-	var newClass;
+	var blueLimit = 700; // The limit below which the widget will display blue. We will later retrieve these values from a db.
+	var yellowLimit = 2000; // The limit below which the widget will display yellow. Above this it will display red.
+	var newClass; // The color we are adding to the widgets class.
 	if(newPing == 0 || newPing > yellowLimit){
 		newClass = 'red';
 	}else if(newPing < blueLimit){
@@ -444,22 +445,22 @@ function updateGridColor(canvas, newPing){
 	}else if(newPing <= yellowLimit){
 		newClass = 'yellow';
 	}
+	
+	//Find the widget this canvas is in, and add the correct class to it, turning it the correct color.
 	var grandParent = $(canvas).parent().parent();
 	$(grandParent).removeClass("red");
 	$(grandParent).removeClass("yellow");
 	$(grandParent).addClass(newClass);
-	//alert($(grandParent).attr("class"));
 }
 
+/** Returns true if every data value in the passed in array is 0, false if else. */
 function arrayIsZero(a){
 	var answer = true;
 	for(var i = 0; i < a.length; i++){
 		if(a[i] != 0){
 			answer = false;
-			//alert('a['+i+'] = '+a[i]+' : '+answer);
 		}			
 	}
-	
 	return answer;
 }
 
