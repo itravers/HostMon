@@ -292,7 +292,7 @@ $('.shrink').on('click', function(event) {
 	grid.resize_widget(widget, x, y, true); // Resize the widget itself. May want to put this before the drawing code above.
 }); //End of Shrink event.
 
-// Event Called when user opens a device.			  
+// Event Called when user opens a device. This load's and overlays the device.php page over grid.php.			  
 $("li[rel]").overlay({
 	top:top,
 	mask: 'darkred',
@@ -326,25 +326,25 @@ $("li[rel]").overlay({
 	}// End onClose.
 }); // End overlay Event.
 		
-		//add new device dialogue.
-		$( "#newDeviceDialog" ).dialog({
-			  autoOpen: false,
-			  show: {
-				effect: "blind",
-				duration: 1000
-			  },
-			  hide: {
-				effect: "explode",
-				duration: 1000
-			  },
-			  buttons: [ { text: "Add Device", click: function() { addNewDevice(this); } } ]
-			  
-			});
-		 
-			$( "#newDeviceOpener" ).click( function(event) {
-				//alert("newDeviceOpening");
-			  $( "#newDeviceDialog" ).dialog( "open" );
-			}); 
+// Contructs and adds a new device dialog to the screen.
+$( "#newDeviceDialog" ).dialog({
+	autoOpen: false,
+	show: {
+		effect: "blind",
+		duration: 1000
+	},
+	hide: {
+		effect: "explode",
+		duration: 1000
+	},
+	buttons: [ { text: "Add Device", click: function() { addNewDevice(this); } } ]
+}); //End of newDeviceDialog.
+
+// Handles when a user clicks on the new Device Button.
+$( "#newDeviceOpener" ).click( function(event) {
+	//alert("newDeviceOpening");
+	$( "#newDeviceDialog" ).dialog( "open" ); // Opens the new device dialog.
+}); // End of newDeviceOpener click handler
 
 		$('.menu').click(function() {
 			$('nav').addClass('open');
