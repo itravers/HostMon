@@ -63,54 +63,45 @@ $(document).ready(function() {
 		username = $("#username").val(); 
 		password = $("#password").val(); 
 		remember = $("#remember").val();
+		
+		// Post to login-backend.php to see if this is a good login.
 		$.post("php/login-backend.php",{
 			submit:"Login",
 			username:username,
-			password:password,
+			password:password, // We may want to take and hash this value.
 			remember:remember
     },
-    function(data,status){
-     // alert("Data: " + data + "\nStatus: " + status);
-	  
-	  if(data.indexOf("Success") != -1){
-		var pos = data.indexOf("Success");
-		pos += 8; //account for the word success, and the space that will be after it.
-		var userName = data.substring(pos);
-		//alert("username: " + username + "\nStatus: " + status); 
-		//we need to add the username to the data, and then parse it out here
-		//will need to change this soon
-		 window.location.href = "grid.php?login=true&userName="+userName; 
-	  }else{
-		 //  alert("Data: " + data + "\nStatus: " + status); 
-		$("#error_msg").text(data); 
-		$("#error_msg").fadeIn();
-		 $(".ajax-spinner-bars").hide();
-		 $("#submit").val(buttontext);
-	  }
-	 
-    });
-  });
+    function(data,status){ // Receiving data back from login-backend.php
+		if(data.indexOf("Success") != -1){
+			var pos = data.indexOf("Success");
+			pos += 8; //account for the word success, and the space that will be after it.
+			var userName = data.substring(pos);
+			//will need to change this soon, using GET here is a bad idea.
+			window.location.href = "grid.php?login=true&userName="+userName; 
+		}else{
+			$("#error_msg").text(data); 
+			$("#error_msg").fadeIn();
+			$(".ajax-spinner-bars").hide();
+			$("#submit").val(buttontext);
+		}
+    }); End function
+	}); // Submit Listener
+
+	// Check if JavaScript is enabled
+	$('body').addClass('js');
  
-    // Check if JavaScript is enabled
-    $('body').addClass('js');
- 
-    // Make the checkbox checked on load
-    $('.login-form span').addClass('checked').children('input').attr('checked', true);
- 
-    // Click function
-    $('.login-form span').on('click', function() {
- 
-        if ($(this).children('input').attr('checked')) {
-            $(this).children('input').attr('checked', false);
-            $(this).removeClass('checked');
-        }
- 
-        else {
-            $(this).children('input').attr('checked', true);
-            $(this).addClass('checked');
-        }
- 
-    });
- 
+	// Make the checkbox checked on load
+	$('.login-form span').addClass('checked').children('input').attr('checked', true);
+
+	// Click function
+	$('.login-form span').on('click', function() {
+		if($(this).children('input').attr('checked')) {
+			$(this).children('input').attr('checked', false);
+			$(this).removeClass('checked');
+		}else{
+			$(this).children('input').attr('checked', true);
+			$(this).addClass('checked');
+		}
+	}); // End login-form span click listener.
 });
 </script>
