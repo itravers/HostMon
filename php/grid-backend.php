@@ -20,24 +20,23 @@ if(isset($_POST['addNewDevice'])){ //This function is not completely done yet.
 	//$name = $_POST['deviceName'];
 	//$note = $_POST['deviceNote'];
 		
-		$ip = "chicosystems.com";
-		$name = "Chico Systems";
-		$note = "This is chico systems.";
+	// Demo Code
+	$ip = "chicosystems.com";
+	$name = "Chico Systems";
+	$note = "This is chico systems.";
 		
-		
-		if(deviceExists($ip)){
-			
-			$postResult = " DeviceExists |";
-			$id = getDeviceID($ip);
-			makeDeviceActive($id);
-			$postResult = $postResult.renderDevice($id);
-		}else{
-			$postResult = " AddedDevice | display";
-			$id = getDeviceID($ip);
-			makeDeviceActive($id);
-			$postResult = $postResult.renderDevice($id);
-		}
-	}else if(isset($_POST['getGridGraphData'])){
+	if(deviceExists($ip)){ // Is the device already in the system.		
+		$postResult = " DeviceExists |";
+		$id = getDeviceID($ip);
+		makeDeviceActive($id);
+		$postResult = $postResult.renderDevice($id);
+	}else{
+		$postResult = " AddedDevice | display";
+		$id = getDeviceID($ip);
+		makeDeviceActive($id);
+		$postResult = $postResult.renderDevice($id);
+	}
+}else if(isset($_POST['getGridGraphData'])){
 		$ip = $_POST['ip'];
 	    $timeRange = $_POST['timeRange'];
 		$data = getTenAveragePointsInTimeRange($timeRange);
