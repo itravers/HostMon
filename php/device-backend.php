@@ -34,60 +34,61 @@ if(isset($_POST['LineChart'])){
 		$postResult = $postResult."".$row['time'].":".$row['latency']." ";
 	}
 } // End if LineChart
-	//decide which polor graph to use, pull the data from db and append to results
-	if(isset($_POST['PolarChart'])){
-		$table = '';
-		if($_POST['PolarChart']=="FiveMinutePolar"){
-			$table = "minute";
-		}else if($_POST['PolarChart']=="HourPolar"){
-			$table = "hour";
-		}else if($_POST['PolarChart']=="DayPolar"){
-			$table = "day";
-		}else if($_POST['PolarChart']=="WeekPolar"){
-			$table = "week";
-		}else if($_POST['PolarChart']=="YearPolar"){
-			$table = "year";
+
+//decide which polor graph to use, pull the data from db and append to results
+if(isset($_POST['PolarChart'])){
+	$table = '';
+	if($_POST['PolarChart']=="FiveMinutePolar"){
+		$table = "minute";
+	}else if($_POST['PolarChart']=="HourPolar"){
+		$table = "hour";
+	}else if($_POST['PolarChart']=="DayPolar"){
+		$table = "day";
+	}else if($_POST['PolarChart']=="WeekPolar"){
+		$table = "week";
+	}else if($_POST['PolarChart']=="YearPolar"){
+		$table = "year";
+	}
+	$latencyList = Array(); //the structure we are reading latency results to.
+	mysqli_select_db($con,"HostMon");
+	$sql="SELECT latency FROM `".$table."` WHERE ip = '".$_POST['ip']."'";
+	$result2 = mysqli_query($con,$sql);
+	//Record the latency results to the latency list.
+	while($row2 = mysqli_fetch_array($result2)) {
+		array_push($latencyList, $row2['latency']);
+	}
+	//we need to know the min and max of items in the list.
+	$minimum = min($latencyList);
+	$maximum = max($latencyList);
+	$range = $maximum - $minimum; //the range of items in the list
+	$num = count($latencyList); // the number of items in the list.
+	$itemLimit = $range / 5; // The number of items in the polar chart.
+	//calculate the limit for each item in the polar chart.
+	$item1Limit = $minimum+$itemLimit;
+	$item2Limit = $minimum+$itemLimit*2;
+	$item3Limit = $minimum+$itemLimit*3;
+	$item4Limit = $minimum+$itemLimit*4;
+	$item5Limit = $minimum+$itemLimit*5;
+	$item1Array = Array();
+	$item2Array = Array();
+	$item3Array = Array();
+	$item4Array = Array();
+	$item5Array = Array();
+
+	//push each item to it's respective section of the polar chart.
+	for($i = 0; $i < $num; $i++){
+		if($latencyList[$i] <= $item1Limit){
+			array_push($item1Array, $latencyList[$i]);
+		}else if($latencyList[$i] <= $item2Limit){
+			array_push($item2Array, $latencyList[$i]);
+		}else if($latencyList[$i] <= $item3Limit){
+			array_push($item3Array, $latencyList[$i]);
+		}else if($latencyList[$i] <= $item4Limit){
+			array_push($item4Array, $latencyList[$i]);
+		}else if($latencyList[$i] <= $item5Limit){
+			array_push($item5Array, $latencyList[$i]);
 		}
-		$latencyList = Array(); //the structure we are reading latency results to.
-		mysqli_select_db($con,"HostMon");
-		$sql="SELECT latency FROM `".$table."` WHERE ip = '".$_POST['ip']."'";
-		$result2 = mysqli_query($con,$sql);
-		//Record the latency results to the latency list.
-		while($row2 = mysqli_fetch_array($result2)) {
-			array_push($latencyList, $row2['latency']);
-		}
-		//we need to know the min and max of items in the list.
-		$minimum = min($latencyList);
-		$maximum = max($latencyList);
-		$range = $maximum - $minimum; //the range of items in the list
-		$num = count($latencyList); // the number of items in the list.
-		$itemLimit = $range / 5; // The number of items in the polar chart.
-		//calculate the limit for each item in the polar chart.
-		$item1Limit = $minimum+$itemLimit;
-		$item2Limit = $minimum+$itemLimit*2;
-		$item3Limit = $minimum+$itemLimit*3;
-		$item4Limit = $minimum+$itemLimit*4;
-		$item5Limit = $minimum+$itemLimit*5;
-		$item1Array = Array();
-		$item2Array = Array();
-		$item3Array = Array();
-		$item4Array = Array();
-		$item5Array = Array();
-		
-		//push each item to it's respective section of the polar chart.
-		for($i = 0; $i < $num; $i++){
-			if($latencyList[$i] <= $item1Limit){
-				array_push($item1Array, $latencyList[$i]);
-			}else if($latencyList[$i] <= $item2Limit){
-				array_push($item2Array, $latencyList[$i]);
-			}else if($latencyList[$i] <= $item3Limit){
-				array_push($item3Array, $latencyList[$i]);
-			}else if($latencyList[$i] <= $item4Limit){
-				array_push($item4Array, $latencyList[$i]);
-			}else if($latencyList[$i] <= $item5Limit){
-				array_push($item5Array, $latencyList[$i]);
-			}
-		}
+	}
 		
 		//Build the result of the page to return to the front end for parsing.
 		$postResult = $postResult."-".$item1Limit.":".count($item1Array)." ".
