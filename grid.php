@@ -197,18 +197,17 @@ function addNewDevice(newDeviceDialog){
 		}
 	});
 	$( newDeviceDialog ).dialog( "close" ); //closes the add new device dialog.
-			
-		}
+}
 		
-		function getNewGridPositionAndSize(){
-			//finds the last grid position, and positions a device	at the position of the newDeviceOpener
-			var sizeX = $("#newDeviceOpener").attr("data-sizex");
-			var sizeY = $("#newDeviceOpener").attr("data-sizey");
-			var posX = $("#newDeviceOpener").attr("data-col");
-			var posY = $("#newDeviceOpener").attr("data-row");
-			var returnVal = [sizeX, sizeY, posX, posY];
-			return returnVal;
-		}
+//finds the last grid position, and positions a device	at the position of the newDeviceOpener
+function getNewGridPositionAndSize(){
+	var sizeX = $("#newDeviceOpener").attr("data-sizex");
+	var sizeY = $("#newDeviceOpener").attr("data-sizey");
+	var posX = $("#newDeviceOpener").attr("data-col");
+	var posY = $("#newDeviceOpener").attr("data-row");
+	var returnVal = [sizeX, sizeY, posX, posY];
+	return returnVal;
+}
 		  
 		function loadDevice(id) {
 			if(!dragged){
