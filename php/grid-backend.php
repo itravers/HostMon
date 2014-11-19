@@ -43,9 +43,9 @@ if(isset($_POST['addNewDevice'])){ //This function is not completely done yet.
 	$postResult = $data;
 }
 	
-	//gets the last $timeRange of pings from the database
-	//gives us 10 even spaced averages.
-	function getTenAveragePointsInTimeRange($timeRange){
+/**gets the last $timeRange of pings from the database
+   gives us 10 even spaced averages. */
+function getTenAveragePointsInTimeRange($timeRange){
 		$averagePoints = "";
 		if($timeRange == "fiveMinute"){
 			//$averagePoints = "100 100 200 200 400 300 400 400 500 500 1000 90 800 70 600 50 400 30 200 10";
