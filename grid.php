@@ -1,36 +1,35 @@
 <!DOCTYPE html>
 <?php  
-	/**************************************************************
-	 * Hostmon - grid.php
-	 * Author - Isaac Assegai
-	 * This page allows the user to actively or passively monitor
-	 * Several devices at one time. The user has the ability to 
-	 * re-arrange the page and resize the interface to the different
-	 * devices being monitored.
-	 **************************************************************/
-	include_once("php/functions.php");
-	include_once("php/db.php");
-	
-	$userName;
-	
-	//this is really a bad idea to check if we are logged in with a get variable, 
-	//can't seem to get the session variable to set in login-backend.php like i was planning
-	if(isset($_GET['login'])){
-		$userName = $_GET['userName'];
-		session_start();
-		$_SESSION = $userName;
-		//echo "logged in";
-	}else if(isset($_SESSION)){
-		$userName = $_SESSION['userName'];
-		//echo "logged in";
-	}else{
-		$userName = "NOT LOGGED IN";
-	}
-	
-	
-	$pageTitle = "Hostmon - ".$userName;
-	$devices = getActiveDevices($userName); // returns the initial active devices
-	$gridPositions = getGridPositions(count($devices)); // returns a 2d array with initial grid positions and sizes 
+/**************************************************************
+* Hostmon - grid.php
+* Author - Isaac Assegai
+* This page allows the user to actively or passively monitor
+* Several devices at one time. The user has the ability to 
+* re-arrange the page and resize the interface to the different
+* devices being monitored.
+**************************************************************/
+include_once("php/functions.php");
+include_once("php/db.php");
+
+$userName;
+
+//this is really a bad idea to check if we are logged in with a get variable, 
+//can't seem to get the session variable to set in login-backend.php like i was planning
+if(isset($_GET['login'])){
+	$userName = $_GET['userName'];
+	session_start();
+	$_SESSION = $userName;
+	//echo "logged in";
+}else if(isset($_SESSION)){
+	$userName = $_SESSION['userName'];
+	//echo "logged in";
+}else{
+	$userName = "NOT LOGGED IN";
+}
+
+$pageTitle = "Hostmon - ".$userName;
+$devices = getActiveDevices($userName); // returns the initial active devices
+$gridPositions = getGridPositions(count($devices)); // returns a 2d array with initial grid positions and sizes 
 ?>
 
 <html class="main_grid">
