@@ -159,46 +159,44 @@ function getDisplay(result){
 	var display = result.substring(result.indexOf("|")+1, result.length);
 	return display;	
 }
-		
-		function addNewDevice(newDeviceDialog){
-			var deviceName = $("#deviceName").val();
-			var deviceIP = $("#deviceIP").val();
-			var deviceNote = $("#deviceNote").val();
-			
-			//alert(deviceName + deviceIP + deviceNote);	
-			
-			var postData = {addNewDevice:'true',
-							deviceName:deviceName,
-							deviceIP:deviceIP,
-							deviceNote:deviceNote};
-		$.ajax({
-			type:"POST",
-			data : postData,
-			url: 'php/grid-backend.php', 
-			success: function(result,status,xhr) {
-				var message = getMessage(result);
-				var display = getDisplay(result);
-				if(message.indexOf("DeviceExists") != -1){
-					//$(".ui-dialog-title").html("holy crap")
-					//alert();
-				}
-				var ps = getNewGridPositionAndSize();
-				var widget = gridster.add_widget( display, ps[0], ps[1], ps[2], ps[3]);
-				widget = widget.get(0);
-				var grow = $(widget).find(".grow");
-				alert("message: " + message);
-				alert("display: " + display);
-			},
-			complete: function(result,status,xhr) {
-				//alert("complete: " + result);
-			},
-			error: function(xhr,status,error){
-				alert("error: " + error);
+
+//Sends an ajax call to the server to add a new device, then it displays it.	
+function addNewDevice(newDeviceDialog){
+	var deviceName = $("#deviceName").val();
+	var deviceIP = $("#deviceIP").val();
+	var deviceNote = $("#deviceNote").val();			
+	//alert(deviceName + deviceIP + deviceNote);	
+	var postData = {
+		addNewDevice:'true',
+		deviceName:deviceName,
+		deviceIP:deviceIP,
+		deviceNote:deviceNote};
+	$.ajax({
+		type:"POST",
+		data : postData,
+		url: 'php/grid-backend.php', 
+		success: function(result,status,xhr) {
+			var message = getMessage(result);
+			var display = getDisplay(result);
+			if(message.indexOf("DeviceExists") != -1){
+				//$(".ui-dialog-title").html("holy crap")
+				//alert();
 			}
-		});
-			
-			
-			$( newDeviceDialog ).dialog( "close" ); 
+			var ps = getNewGridPositionAndSize(); //Finds where we are supposed to place the new grid.
+			var widget = gridster.add_widget( display, ps[0], ps[1], ps[2], ps[3]); //adds a new grid to gridster
+			widget = widget.get(0);
+			var grow = $(widget).find(".grow");
+			alert("message: " + message);
+			alert("display: " + display);
+		},
+		complete: function(result,status,xhr) {
+			//alert("complete: " + result);
+		},
+		error: function(xhr,status,error){
+			alert("Error in addNewDevice ajax call: " + error);
+		}
+	});
+	$( newDeviceDialog ).dialog( "close" ); //closes the add new device dialog.
 			
 		}
 		
