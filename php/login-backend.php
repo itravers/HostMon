@@ -1,4 +1,10 @@
 <?php
+/**************************************************************
+* Hostmon - login-backend.php
+* Author - Isaac Assegai
+* This script is utilized by login.php to handle logging into
+* the application.
+**************************************************************/
 	include_once("functions.php");
 	include_once("db.php");
 
