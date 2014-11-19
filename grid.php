@@ -199,7 +199,7 @@ function addNewDevice(newDeviceDialog){
 	$( newDeviceDialog ).dialog( "close" ); //closes the add new device dialog.
 }
 		
-//finds the last grid position, and positions a device	at the position of the newDeviceOpener
+// Finds the last grid position, and positions a device	at the position of the newDeviceOpener
 function getNewGridPositionAndSize(){
 	var sizeX = $("#newDeviceOpener").attr("data-sizex");
 	var sizeY = $("#newDeviceOpener").attr("data-sizey");
@@ -208,39 +208,40 @@ function getNewGridPositionAndSize(){
 	var returnVal = [sizeX, sizeY, posX, posY];
 	return returnVal;
 }
-		  
-		function loadDevice(id) {
-			if(!dragged){
-				//loading the device now happens when user clicks the li[rel]
-				//this function only resets the dragged variable now.
-			}	// RESET DRAGGED SINCE CLICK EVENT IS FIRED AFTER drag stop
-			dragged = 0;
-		}
+
+// Used to be used to load the device, now it only makes sure that when a device is loaded, drag resets. 
+function loadDevice(id) {
+	if(!dragged){
+		//loading the device now happens when user clicks the li[rel]
+		//this function only resets the dragged variable now.
+	}	// RESET DRAGGED SINCE CLICK EVENT IS FIRED AFTER drag stop
+	dragged = 0;
+}
 		
-		
+// Resizes a grid when the user clicks on a "grow button".
+$('.grow').on('click', function(event) {
+	event.stopImmediatePropagation(); // this stops the overlay from popping up.
+	var grid = gridster;
+	var widget = $(this).parent();
+	var xSize = widget.attr("data-sizex");
+	var ySize = widget.attr("data-sizey");
 	
-		$('.grow').on('click', function(event) {
-			//alert("grow");
-			event.stopImmediatePropagation(); // this stops the overlay from popping up.
-			var grid = gridster;
-			var widget = $(this).parent();
-			var xSize = widget.attr("data-sizex");
-			var ySize = widget.attr("data-sizey");
-			var x = 0;
-			var y = 0;
-			if(xSize == 1 && ySize == 1){
-				x = 2;
-				y = 2;
-			}else if(xSize == 2 && ySize == 2){
-				x = 4;
-				y = 2;	
-			}else if(xSize == 4 && ySize == 2){
-				x = 4;
-				y = 4;
-			}else{ // do nothing, we are as big as we get.
-				x = xSize;
-				y = ySize;	
-			}
+	// We need to figure out the size to grow to, based on the current grid size.
+	var x = 0;
+	var y = 0;
+	if(xSize == 1 && ySize == 1){
+		x = 2;
+		y = 2;
+	}else if(xSize == 2 && ySize == 2){
+		x = 4;
+		y = 2;	
+	}else if(xSize == 4 && ySize == 2){
+		x = 4;
+		y = 4;
+	}else{ // do nothing, we are as big as we get.
+		x = xSize;
+		y = ySize;	
+	}
 			var can = $(widget).children(".device_record").children("canvas");
 			var data = updateGridGraphData(can, x, y);
 			//drawGridGraph(can[0], data, x, y);
