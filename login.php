@@ -1,26 +1,18 @@
 <?php 
-if(isset($_GET['logout'])){
+if(isset($_GET['logout'])){ // User is logging out.
 	if(!isset($_SESSION)){
 		session_unset();
 	}
-	// remove all session variables
-	//session_unset(); 
-
-	// destroy the session 
-	//session_destroy(); 
 }
  ?>
 
 <head>
-<link rel="stylesheet" type="text/css" href="css/styles.css">
-<script src="js/jquery.tools.min.js"></script>
-
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<script src="js/jquery.tools.min.js"></script>
 </head>
 <body class='main-body'>
-
-<div class='login-form'>
- 
-    <h1>Hostmon</h1>
+	<div class='login-form'>
+		<h1>Hostmon</h1>
     	<div class="input-wrapper">
             <div class="img-wrapper"><img src="images/username2.png" /></div>
             <input type="text" name="username" placeholder="username" id="username" class="pictureInput" />
@@ -35,35 +27,28 @@ if(isset($_GET['logout'])){
             <input type="checkbox" name="remember" id="remember"><br>
             <label for="checkbox">remember</label>
         </span> -->
-        
-       <input type="submit" value="LOG IN" id="submit">
-     
-   <div id="error_msg">
-</div>
+		<input type="submit" value="LOG IN" id="submit">
+		<div id="error_msg"> <!-- The Error message will be displayed here. --></div>
+	</div>
 
-</div>
-
-<div class="ajax-spinner-bars">
-  <div class="bar-1"></div>
-  <div class="bar-2"></div>
-  <div class="bar-3"></div>
-  <div class="bar-4"></div>
-  <div class="bar-5"></div>
-  <div class="bar-6"></div>
-  <div class="bar-7"></div>
-  <div class="bar-8"></div>
-  <div class="bar-9"></div>
-  <div class="bar-10"></div>
-  <div class="bar-11"></div>
-  <div class="bar-12"></div>
-  <div class="bar-13"></div>
-  <div class="bar-14"></div>
-  <div class="bar-15"></div>
-  <div class="bar-16"></div>
-</div>
-
- 
-
+	<div class="ajax-spinner-bars"> <!-- The loading animation displayed on the submit button. -->
+		<div class="bar-1"></div>
+		<div class="bar-2"></div>
+		<div class="bar-3"></div>
+		<div class="bar-4"></div>
+		<div class="bar-5"></div>
+		<div class="bar-6"></div>
+		<div class="bar-7"></div>
+		<div class="bar-8"></div>
+		<div class="bar-9"></div>
+		<div class="bar-10"></div>
+		<div class="bar-11"></div>
+		<div class="bar-12"></div>
+		<div class="bar-13"></div>
+		<div class="bar-14"></div>
+		<div class="bar-15"></div>
+		<div class="bar-16"></div>
+	</div>
 </body>
 <script>
 
