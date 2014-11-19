@@ -346,34 +346,38 @@ $( "#newDeviceOpener" ).click( function(event) {
 	$( "#newDeviceDialog" ).dialog( "open" ); // Opens the new device dialog.
 }); // End of newDeviceOpener click handler
 
-		$('.menu').click(function() {
-			$('nav').addClass('open');
-			$('body').addClass('menu-open');
-			return false;
-		});
-		
-		$(document).click(function() {
-			$('body').removeClass('menu-open');
-			$('nav').removeClass('open');
-		});	
-		
-		$(document).ready(function() {
-			setTimeout('updateGridGraphs()',10);
-		});		
-//	});	 
+// Event Handler when a user clicks on the menu. Opens the menu.
+$('.menu').click(function() {
+	$('nav').addClass('open');
+	$('body').addClass('menu-open');
+	return false;
+});
 
+// Event Handler when a user clicks anywhere but the menu, when the menu is open. Closes the menu.
+$(document).click(function() {
+	$('body').removeClass('menu-open');
+	$('nav').removeClass('open');
+});	
+
+// Event Handler called when document is first loaded. Intializes the update of the grid graphs.
+$(document).ready(function() {
+	setTimeout('updateGridGraphs()',10);
+});			 
+
+// Query the server and redraw a specific graphs data. 
 function drawGridGraph(c, data, col, row){
-	var array_data = String(data).split(" ");
-	var parent = $(c).parent();
-	var grandparent = $(parent).parent();
-	var width = $(grandparent).width();
+	var array_data = String(data).split(" "); // Seperate the data into an array.
+	var parent = $(c).parent(); // The Canvas' Parent
+	var grandparent = $(parent).parent(); //The Canvas' Grandparent.
+	var width = $(grandparent).width(); // We need the Grandparents dimensions to know the canvas' limits.
 	var height = $(grandparent).height();
 	var widthLimit = width;
 	var heightLimit = height;
 	
-	updateMSDisplay(c, array_data[0]);
-	updateGridColor(c, array_data[0]);
+	updateMSDisplay(c, array_data[0]); // Updates the Milli-seconds label in the widget.
+	updateGridColor(c, array_data[0]); // Updates the grid's color based on the latest millisecond reading.
 	
+	// Calculate the Graph/Canvas' limits from the widgets column and row sizes.
 	if(col == 1 && row == 1){
 		height = 150;
 		heightLimit = 50;
@@ -396,22 +400,21 @@ function drawGridGraph(c, data, col, row){
 		heightLimit = 120;
 	}
 	
-	c.height = height;
+	c.height = height; // Set the dimension of the graph to the calculated limits.
 	c.width = width;
 	
 	var context = c.getContext('2d');
-	var sections = widthLimit / array_data.length-1;
-	context.beginPath();
-	if(arrayIsZero(array_data)){ // if array only has zero's in it, draw a single dead line
-		//alert("drawing zero line")
-		context.moveTo(0, heightLimit-0);
+	var sections = widthLimit / array_data.length-1; // How many seconds the graph has is based on how much data we retrieve from server.
+	context.beginPath(); // Begin drawing the graph to the canvas.
+	if(arrayIsZero(array_data)){ // If array only has zero's in it, draw a single dead line, denoting a unreachable device.
+		context.moveTo(0, heightLimit-0); // We do heightLimit-0 to reverse the up/down orientation of the graph.
 		context.lineTo(sections * 22, heightLimit-0);
 		context.strokeStyle = "#FF0000";
-	}else{ // if array has data in it, draw that
+	}else{ // Ff array has data in it, draw that
 		var newValue;
-		for(var i = 0; i < array_data.length-1; i++){
+		for(var i = 0; i < array_data.length-1; i++){ // Loop through the data, drawing each line.
 			newValue = map(array_data[i], Math.min.apply(Math, array_data), Math.max.apply(Math, array_data), 0, heightLimit);
-			if(i == 0){
+			if(i == 0){ //First data point in the data set.
 				context.moveTo(widthLimit-(sections * i), heightLimit-newValue);
 			}else{
 				context.lineTo(widthLimit-(sections * i), heightLimit-newValue);
@@ -423,7 +426,7 @@ function drawGridGraph(c, data, col, row){
 	context.stroke();	
 }
 
-//updates the ms display on a grid
+// Updates the Millisecond display on a widget
 function updateMSDisplay(canvas, newPing){
 	var h3 = $(canvas).siblings("h3");
 	$(h3).text(newPing+"ms")
