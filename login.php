@@ -50,13 +50,12 @@ if(isset($_GET['logout'])){ // User is logging out.
 		<div class="bar-16"></div>
 	</div>
 </body>
+
 <script>
-
-
+/** Event called when document is loaded. */
 $(document).ready(function() {
-	
+	// Register an event listener on the submit id. 
 	$("#submit").click(function(){
-		
 		var buttontext = $("#submit").val();
 		$("#submit").val("");
 		$(".ajax-spinner-bars").show();
@@ -64,12 +63,11 @@ $(document).ready(function() {
 		username = $("#username").val(); 
 		password = $("#password").val(); 
 		remember = $("#remember").val();
-    $.post("php/login-backend.php",
-    {
-	  submit:"Login",
-      username:username,
-	  password:password,
-	  remember:remember
+		$.post("php/login-backend.php",{
+			submit:"Login",
+			username:username,
+			password:password,
+			remember:remember
     },
     function(data,status){
      // alert("Data: " + data + "\nStatus: " + status);
