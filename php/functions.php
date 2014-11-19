@@ -1,5 +1,10 @@
 <?php
-	/** Builds the opening tags for the notes grid section. */
+/**************************************************************
+* Hostmon - functions.php
+* Author - Isaac Assegai
+* Supplies functions that are used by several scripts.
+**************************************************************/
+/** Builds the opening tags for the notes grid section. */
 function buildNotesOpening(){
 	$returnVal = "
 		<li data-row='1' data-col='7' data-sizex='4' data-sizey='3' id='actions'>    
