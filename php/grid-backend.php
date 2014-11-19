@@ -46,62 +46,67 @@ if(isset($_POST['addNewDevice'])){ //This function is not completely done yet.
 /**gets the last $timeRange of pings from the database
    gives us 10 even spaced averages. */
 function getTenAveragePointsInTimeRange($timeRange){
-		$averagePoints = "";
-		if($timeRange == "fiveMinute"){
-			//$averagePoints = "100 100 200 200 400 300 400 400 500 500 1000 90 800 70 600 50 400 30 200 10";
-			$averagePoints = getFiveMinuteAverage($_POST['ip']);
-		}else if($timeRange == "hour"){
-			//$averagePoints = "1000 90 800 70 600 50 400 30 200 10 100 100 200 200 400 300 400 400 500 500";
-			$averagePoints = getHourAverage($_POST['ip']);
-		}
-		return $averagePoints;
+	$averagePoints = "";
+	if($timeRange == "fiveMinute"){
+		//$averagePoints = "100 100 200 200 400 300 400 400 500 500 1000 90 800 70 600 50 400 30 200 10";
+		$averagePoints = getFiveMinuteAverage($_POST['ip']);
+	}else if($timeRange == "hour"){
+		//$averagePoints = "1000 90 800 70 600 50 400 30 200 10 100 100 200 200 400 300 400 400 500 500";
+		$averagePoints = getHourAverage($_POST['ip']);
 	}
-	
-	function getFiveMinuteAverage($ip){
-		$limit = 21;
-		$con = openDB();
-		mysqli_select_db($con,"HostMon");
-		$sql="SELECT * FROM minute WHERE ip = '".$ip."' ORDER BY time DESC LIMIT ".$limit;
-		$result = mysqli_query($con,$sql);
-		$answer = '';
-		while($row = mysqli_fetch_array($result)) {
-			$answer = $answer.$row['latency']." ";
-		}
-		return $answer;
+	return $averagePoints;
+}
+
+/** Gets the last $limit of records from the minute table. */
+function getFiveMinuteAverage($ip){
+	$limit = 21;
+	$con = openDB();
+	mysqli_select_db($con,"HostMon");
+	$sql="SELECT * FROM minute WHERE ip = '".$ip."' ORDER BY time DESC LIMIT ".$limit;
+	$result = mysqli_query($con,$sql);
+	$answer = '';
+	while($row = mysqli_fetch_array($result)) {
+		$answer = $answer.$row['latency']." ";
 	}
+	return $answer;
+}
 	
-	function getHourAverage($ip){
-		$limit = 21;
-		$con = openDB();
-		mysqli_select_db($con,"HostMon");
-		$sql="SELECT * FROM hour WHERE ip = '".$ip."' ORDER BY time DESC LIMIT ".$limit;
-		$result = mysqli_query($con,$sql);
-		$answer = '';
-		while($row = mysqli_fetch_array($result)) {
-			$answer = $answer.$row['latency']." ";
-		}
-		return $answer;
+/** Gets the last $limit records from the hour table. */
+function getHourAverage($ip){
+	$limit = 21;
+	$con = openDB();
+	mysqli_select_db($con,"HostMon");
+	$sql="SELECT * FROM hour WHERE ip = '".$ip."' ORDER BY time DESC LIMIT ".$limit;
+	$result = mysqli_query($con,$sql);
+	$answer = '';
+	while($row = mysqli_fetch_array($result)) {
+		$answer = $answer.$row['latency']." ";
 	}
-	
-	function makeDeviceActive($id){
-		
-	}
-	
-	function renderDevice($id){
-		$returnVal ='	
-		<li href="device.php?ip=plesk.com" rel="#overlay" data-row="5" data-col="8" data-sizex="1" data-sizey="1" onclick="loadDevice(\'0\');">
-        	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
-			<div class="device_record">
-                <h1>Plesk</h1><h2>plesk.com</h2><h3>1ms</h3><canvas class="can1"></canvas><div id="statusmark"></div>
-			</div>
-		</li>';	
-		return $returnVal;
-	}
-	
-	function deviceExists($ip){
-		return false;	
-	}
-	
-	echo $postResult;
-	//echo print_r($_POST);
+	return $answer;
+}
+
+/** Used to make the device active in the db. */
+function makeDeviceActive($id){
+	// Not written yet.
+}
+
+/** Build the info to display a device. This isn't complete yet, using demo info. */
+function renderDevice($id){
+	$returnVal ='	
+	<li href="device.php?ip=plesk.com" rel="#overlay" data-row="5" data-col="8" data-sizex="1" data-sizey="1" onclick="loadDevice(\'0\');">
+       	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
+		<div class="device_record">
+               <h1>Plesk</h1><h2>plesk.com</h2><h3>1ms</h3><canvas class="can1"></canvas><div id="statusmark"></div>
+		</div>
+	</li>';	
+	return $returnVal;
+}
+
+/** Lets us know if a device exists in the db, not implemented yet. */	
+function deviceExists($ip){
+	return false;	
+}
+
+// The info returned back to the ajax script.
+echo $postResult;
 ?>
