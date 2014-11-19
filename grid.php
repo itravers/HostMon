@@ -254,39 +254,43 @@ $('.grow').on('click', function(event) {
 	}
 	grid.resize_widget(widget, x, y, true); // Resizes the grid itself. May want to do this before redrawing the graphs.
 }); // End of grow code.
-			  
-		$('.shrink').on('click', function(event) {
-			event.stopImmediatePropagation(); 
-            var grid = gridster;
-			var widget = $(this).parent();
-			var xSize = widget.attr("data-sizex");
-			var ySize = widget.attr("data-sizey");
-			var x = 0;
-			var y = 0;
-			if(xSize == 1 && ySize == 1){ //we are as small as we get, keep this size.
-				x = xSize;
-				y = ySize;	
-			}else if(xSize == 2 && ySize == 2){
-				x = 1;
-				y = 1;	
-			}else if(xSize == 4 && ySize == 2){
-				x = 2;
-				y = 2;
-			}else{ // do nothing, we are as big as we get.
-				x = 4;
-				y = 2;	
-			} 
-			var can = $(widget).children(".device_record").children("canvas");
-			var data = updateGridGraphData(can, x, y);
-			//drawGridGraph(can[0], data, x, y);
-			if(y == 4){ //second graph should be visible
-				//drawGridGraph(can[1], data, x, y); //draw it
-				$(can[1]).show(); //make sure it's visible
-			}else{
-				$(can[1]).hide();	//make sure it's invisible
-			}
-			grid.resize_widget(widget, x, y, true);
-      	 });
+	
+// Resizes a grid widget whenever a user clicks it's "shrink button"	
+$('.shrink').on('click', function(event) {
+	event.stopImmediatePropagation(); // Stop the device.php page from popping up when shrink button is clicked.
+    var grid = gridster;
+	var widget = $(this).parent();
+	var xSize = widget.attr("data-sizex");
+	var ySize = widget.attr("data-sizey");
+	
+	//Figure out what size to shrink the widget to based on its current size.
+	var x = 0;
+	var y = 0;
+	if(xSize == 1 && ySize == 1){ //we are as small as we get, keep this size.
+		x = xSize;
+		y = ySize;	
+	}else if(xSize == 2 && ySize == 2){
+		x = 1;
+		y = 1;	
+	}else if(xSize == 4 && ySize == 2){
+		x = 2;
+		y = 2;
+	}else{ // do nothing, we are as big as we get.
+		x = 4;
+		y = 2;	
+	} 
+	
+	// Get the graph on this widget and update it.
+	var can = $(widget).children(".device_record").children("canvas");
+	var data = updateGridGraphData(can, x, y); // Retrieve data from server and display on graph.
+	if(y == 4){ // A widget with 4 rows should display the hourly graph as well as the minute one.
+		updateGridGraphData(can[1], x, y); // Get info from server and draw the hourly graph.
+		$(can[1]).show(); //make sure it's visible
+	}else{
+		$(can[1]).hide();	//make sure it's invisible
+	}
+	grid.resize_widget(widget, x, y, true); // Resize the widget itself. May want to put this before the drawing code above.
+}); //End of Shrink event.
 			  
 		$("li[rel]").overlay({
 			top:top,
