@@ -1,41 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<title>TechRepublic.com Example</title>
-</head>
-
-<body onload="createChart();">
-<canvas id="trChart" width="400" height="400"></canvas>
-
-<script src="js/Chart.js"></script>
-<script type="text/javascript">
-
-function createChart() {
-	
-	var data = {
-		labels : ["1405646300","1405646315","1405646330",
-					"1405646345","1405646360","1405646375",
-					"1405646390","1405646405","1405646420",
-					"1405646435","1405646450","1405646465",
-					"1405646480","1405646495","1405646510",
-					"1405646515","1405646530","1405646545",
-					"1405646560","1405646575","1405646590",
-					"1405646605"],
-		datasets : [
-			{
-				fillColor : "rgba(172,194,132,0.4)",
-				strokeColor : "#ACC26D",
-				pointColor : "#fff",
-				pointStrokeColor : "#9DB86D",
-				data : [203,156,99,251,305,247,88,88,88,70,
-						203,156,99,251,305,247,88,88,88,70, 70, 70]
-			}
-		]
-	}
-	var cht = document.getElementById('trChart');
-	var ctx = cht.getContext('2d');
-	var lineChart = new Chart(ctx).Line(data);
-}
-
-</script>
-</body></html>
+<html>
+  <head>
+      <title>gridster test</title>
+  </head>
+  <body bgcolor="#51bbff">
+  <img onClick="changeCharts()" src="images/plus.png"></img>
+ <div>
+  <canvas id="FiveMinutePolar" width="440px" height="280px">
+  </div>
+  <div>
+   <canvas id="FiveMinuteLine" width="600px" height="425px">
+  </div>
+  
+  
+       <script src="js/jquery.tools.min.js"></script>
+       <script src="js/hostmonChart.js"></script> 
+       <script src="js/Chart.min.js"></script>
+       <script type="text/javascript">
+	   		
+		
+		
+				$(document).ready(function()
+				{
+					//initialize the polor chart
+					setupCharts();
+					setTimeout('updateGraph()',5000);
+				});
+				
+				
+			
+		
+		  
+      </script>   
+  </body>
+</html>

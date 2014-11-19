@@ -1,24 +1,173 @@
 <!DOCTYPE html>
-<html>
+<html class="main_device">
   <head>
-      <title>gridster test</title>
+      <title>DeviceName - 172.16.0.1</title>
       <link rel="stylesheet" type="text/css" href="css/gridster.css">
       <link rel="stylesheet" type="text/css" href="css/styles.css">
       
   </head>
   <body>
-      <section class="demo">
+   <nav class="left">
+                        <ul>
+                        <li>
+                        <a href="#">Home</a>
+                        </li>
+                        <li>
+                        <a href="#">Options</a>
+                        </li>
+                        <li>
+                        <a href="#">Logout</a>
+                        </li>
+                        </ul>
+                  </nav>
+      <section class="device">
           <div class="gridster">
               <ul class='gridlist'>
-                  <li data-row="1" data-col="1" data-sizex="4" data-sizey="1" onclick="loadDevice('0');"><h1>Device Name
-                  																						 <br>172.16.0.1</h1></li>
-                  <li data-row="1" data-col="5" data-sizex="2" data-sizey="1"><h1></h1></li>    
-                  <li data-row="1" data-col="7" data-sizex="4" data-sizey="2"><h1>Description</h1></li>     
+                  <li data-row="1" data-col="1" data-sizex="4" data-sizey="1" onclick="loadDevice('0');">
+                      <h1>Device Name</h1>
+                      <h2>172.16.0.1</h2>
+                  <li class="gridmenu" data-row="1" data-col="5" data-sizex="2" data-sizey="1">
+                   <a class="menu" href="#">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                   </a>
+                    
+                  </li>    
+                  <li data-row="1" data-col="7" data-sizex="4" data-sizey="3" id="actions">
+               
+                    <!--<a class="prev">&laquo; Back</a>
+                    <a class="next">Next &raquo;</a>-->
+                 
+                  	 <!-- root element for scrollable -->
+                      <div class="scrollable vertical">
+                     
+                        <!-- root element for the scrollable elements -->
+                        <div class="items" id="accordion3">
+                     		
+                          <!-- first element. contains three rows -->
+                         <!-- <div id="accordion3">-->
+                              <div>
+                                <h2 class="item current">
+                                	<div id="notenum">9</div>
+                                	<div id="notename">mearl</div>
+                                    <div id="notedate">July 18 2014</div>
+                                    <div id="notetime">6:05 PM</div>
+                                    <img class="minus" src="images/minus.png"></img>
+                                </h2>
+                                <div class="pane" style="display:block">I got it fixed because I am the awesome mearl.</div>
+                                
+                                <h2 class="item">
+                                	<div id="notenum">8</div>
+                                	<div id="notename">jbaratheon</div>
+                                    <div id="notedate">July 17 2014</div>
+                                    <div id="notetime">3:22PM</div>
+                                    <img class="minus" src="images/minus.png"></img>
+                                </h2>
+                                <div class="pane" style="display:none">FOOLS! This isn't working at all. Now I've got to work on this all day.</div>
+                                
+                                <h2 class="item">
+                                	<div id="notenum">7</div>
+                                	<div id="notename">itravers</div>
+                                    <div id="notedate">July 10 2014</div>
+                                    <div id="notetime">9:17 AM</div>
+                                    <img class="minus" src="images/minus.png"></img>
+                                </h2>
+                                <div class="pane" style="display:none">Yep looks like it's working fine now.</div>
+                                
+                              </div>
+                         	 <div>
+                                <h2 class="item">
+                                	<div id="notenum">6</div>
+                                	<div id="notename">itravers</div>
+                                    <div id="notedate">July 09 2014</div>
+                                    <div id="notetime">9:40 AM</div>
+                                    <img class="minus" src="images/minus.png"></img>
+                                </h2>
+                                <div class="pane" style="display:none">Think I got it fixed. I'll Check again tommorrow.</div>
+                                
+                                <h2 class="item">
+                                	<div id="notenum">5</div>
+                                	<div id="notename">itravers</div>
+                                    <div id="notedate">July 09 2014</div>
+                                    <div id="notetime">8:00 AM</div>
+                                    <img class="minus" src="images/minus.png"></img>
+                                </h2>
+                                <div class="pane" style="display:none">OMFG. It's broken again.</div>
+                                
+                                <h2 class="item">
+                                	<div id="notenum">4</div>
+                                	<div id="notename">nstark</div>
+                                    <div id="notedate">July 04 2014</div>
+                                    <div id="notetime">7:15 AM</div>
+                                    <img class="minus" src="images/minus.png"></img>
+                                </h2>
+                                <div class="pane" style="display:none">We must ALWAYS monitor this connection. Winter is Coming.</div>
+                                
+                              </div>
+                               <div>
+                                <h2 class="item">
+                                	<div id="notenum">3</div>
+                                	<div id="notename">dtargaryian</div>
+                                    <div id="notedate">June 30 2014</div>
+                                    <div id="notetime">7:45 PM</div>
+                                    <img class="minus" src="images/minus.png"></img>
+                                </h2>
+                                <div class="pane" style="display:none">Customer is very angry at connection. They do not realize that I am BLOOD OF THE DRAGON!</div>
+                                
+                                <h2 class="item">
+                                	<div id="notenum">2</div>
+                                	<div id="notename">jsnow</div>
+                                    <div id="notedate">June 21 2014</div>
+                                    <div id="notetime">1:22PM</div>
+                                    <img class="minus" src="images/minus.png"></img>
+                                </h2>
+                                <div class="pane" style="display:none">There are many problems with this connection. We must burn it!</div>
+                                
+                                <h2 class="item">
+                                	<div id="notenum">1</div>
+                                	<div id="notename">itravers</div>
+                                    <div id="notedate">June 09 2014</div>
+                                    <div id="notetime">9:40 AM</div>
+                                    <img class="minus" src="images/minus.png"></img>
+                                </h2> 
+                                <div class="pane" style="display:none">Customer has been experiencing intermittent problems connecting. I just want to monitor this for a while.</div>
+                                
+                              </div>
+                           <!--  </div>-->
+                    
+                        </div>
+                   
+                      </div>
                   
-                  <li data-row="2" data-col="6" data-sizex="6" data-sizey="5"><h1>Graphs</h1></li>
-                  <li data-row="2" data-col="7" data-sizex="4" data-sizey="2"><h1>Notes</h1></li>   
-                  
-                  <li data-row="3" data-col="7" data-sizex="4" data-sizey="2"><h1>Table</h1></li>      
+                    <!--<a class="prev">&laquo; Back</a>
+                    <a class="next">Next &raquo;</a>-->
+                    <img src="images/up-arrow.png" class="prev"></img>
+                     <img src="images/down-arrow.png" class="next"></img>
+                     <img class="plus" src="images/plus.png"></img>
+                 
+                      </li>     
+                  <li data-row="2" data-col="1" data-sizex="6" data-sizey="5">
+                  	<div id="accordion">
+                 		<h2 class="current" onClick="setLineChart('FiveMinuteLine')">5 Minutes / 15 Seconds</h2>
+                  			<div class="pane" style="display:block"><canvas id="FiveMinuteLine" width="600px" height="425px"></div>
+                 		<h2 onClick="setLineChart('HourLine')">1 Hour / 5 Minutes</h2>
+                  			<div class="pane"><canvas id="HourLine" width="600px" height="425px"></div>
+                 		<h2 onClick="setLineChart('DayLine')">1 Day / 1 Hour</h2>
+                 			<div class="pane"><canvas id="DayLine" width="600px" height="425px"></div>
+                	</div>
+				 </li>
+                  <li data-row="4" data-col="7" data-sizex="4" data-sizey="3">
+                  	<div id="accordion2">
+                 		<h2 class="current" onClick="setPolarChart('FiveMinutePolar')">5 Minutes / 15 Seconds</h2>
+                  			<div class="pane" style="display:block"><canvas id="FiveMinutePolar" width="440px" height="280px"></div>
+                 		<h2 onClick="setPolarChart('HourPolar')">1 Hour / 5 Minutes</h2>
+                  			<div class="pane"><canvas id="HourPolar" width="430px" height="255px"></div>
+                 		<h2 onClick="setPolarChart('DayPolar')">1 Day / 1 Hour</h2>
+                 			<div class="pane"><canvas id="DayPolar" width="420px" height="230px"></div>
+                	</div>
+                    
+                  </li>      
               </ul>
           </div>
           
@@ -28,11 +177,61 @@
       </section>
       
       <script type="text/javascript" src="js/jquery.tools.min.js"></script>
-      <script type="text/javascript" src="js/gridster.js" charster="utf-8"></script>
-      <script src="js/bPopup.js"></script>
+      <script type="text/javascript" src="js/jquery.gridster.min.js" charster="utf-8"></script>
+      <script src="js/hostmonChart.js"></script>
+      <script src="js/Chart.min.js"></script>
       <script type="text/javascript">
-          var gridster;
+	      var gridster;
 		  var dragged = 0;
+		  
+		  var demoData = getMinuteDemoData();
+	   		var mainDeviceChart = getMainDeviceChart("FiveMinuteLine", "#51bbff", demoData);
+		  
+		  $("#accordion").tabs(
+			"#accordion div.pane",
+			{tabs: 'h2', effect: 'slide', initialIndex: null}
+		  );
+		  
+		   $("#accordion2").tabs(
+			"#accordion2 div.pane",
+			{tabs: 'h2', effect: 'slide', initialIndex: null}
+		  );
+		  
+		   $("#accordion3").tabs(
+			"#accordion3 div.pane",
+			{tabs: 'h2', effect: 'slide', initialIndex: null}
+		  );
+		  
+		  function setLineChart(name){
+			 currentLineChart = name; 
+			 quickUpdateGraph(); 
+		  }
+		  
+		  function setPolarChart(name){
+			  var c = document.getElementById(name);
+			  currentPolarChart = name;
+			  if(currentPolarChart == "MinutePolar"){
+				 polarChart = minPolarChart; 
+			  }else if(currentPolarChart == "HourPolar"){
+				 polarChart = hourPolarChart; 
+			  }else if(currentPolarChart == "DayPolar"){
+				  polarChart = dayPolarChart;
+			  }
+			  
+			 // alert(name);
+			  quickUpdateGraph();
+		  }
+		  
+		  $( document ).ready(function() {
+			console.log( "ready!" );
+			
+			setupCharts("digitalpath.com");
+			
+			setTimeout('updateGraph()',10);
+
+			
+
+		});
 		  
 		  function loadDevice(id) {
 			   if(!dragged){
@@ -45,10 +244,25 @@
 		}
 
           $(function() {
-              gridtster = $(".gridster > ul").gridster({
-                  widget_margins: [10, 10],
-                  widget_base_dimensions: [90, 90],
-                  min_cols: 8,
+			  //make the menu clickable. Set it to open menu.
+			  $('.menu').click(function() {
+				$('nav').addClass('open');
+				$('body').addClass('menu-open');
+				return false;
+				});
+				
+				//make menu close when document is clicked.
+				$(document).click(function() {
+				$('body').removeClass('menu-open');
+				$('nav').removeClass('open');
+				});
+				
+			  $(".scrollable").scrollable({ vertical: true, mousewheel: true });
+			  
+              gridtster = $(".device .gridster > ul").gridster({
+                  widget_margins: [5, 5],
+                  widget_base_dimensions: [95, 95],
+                  min_cols: 10,
 				  draggable: {
 					start: function(event, ui) {
 			
@@ -59,6 +273,7 @@
 				 
               }).data('gridster');
           });
+		  
 		  
 		  
       </script>

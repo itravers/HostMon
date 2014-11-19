@@ -1,12 +1,19 @@
 <?php
-/* Renders the device page and delivers it to user */
-	error_reporting(-1);
+/**************************************************************
+	 * Hostmon - device.php
+	 * Author - Isaac Assegai
+	 * This page allows the user to actively or passively monitor
+	 * A single device. The user will have access to several
+	 * Graphs helping to monitor the device over several time frames
+	 * The user will also be able to add and share notes about it.
+	 * This page shows the HTML embedded in PHP technique.
+	 **************************************************************/
+	//error_reporting(-1);
 	include_once("php/db.php");	
 	include_once("php/functions.php");
 	$loggedIn = true; //later we will check this in the session variable.
 	$_SESSION['username'] = "itravers";
 	if(!isset($_GET['ip']))$_GET['ip'] = "earlhart.com"; //default to earlhart if no ip is given to page.
-	//$_GET['ip'] = "earlhart.com";
 	$ip = $_GET['ip'];
 	$newCount = 0;
 	$deviceID = getDeviceID($ip); //db query get device id from device ip
@@ -14,6 +21,7 @@
 	$notes = getNotes($deviceID); //db query get array of notes from device id.
 	$page = buildPage($deviceID, $deviceName, $ip, $notes); //build each section of the page for printing.
 	printPage($page); //output the page
+	
 	
 /* Helper Functions. */
 
@@ -76,7 +84,7 @@ function buildScripts($ip, $deviceID, $notes){
 <script src='js/Chart.min.js'></script>
 <script type='text/javascript'>
 	var gridster;
-	var dragged = 0;
+	var dragged = 0; // Used to let us know if the grid is being dragged or not.
 	
 	var demoData = getMinuteDemoData(); //demo data for the line chart.
 	var mainDeviceChart = getMainDeviceChart('FiveMinuteLine', '#51bbff', demoData);
@@ -95,6 +103,7 @@ function buildScripts($ip, $deviceID, $notes){
 	bindAccordion();
 	bindScrollable();
 	
+	// Allows the mouse wheel to scroll.
 	function bindScrollable(){
 		$('.scrollable').scrollable({ vertical: true, mousewheel: true });	
 	}
