@@ -121,42 +121,44 @@
 <script src="js/jquery-ui.js"></script>
 <script src="js/hostmonChart.js"></script>
 <script type="text/javascript" src="js/jquery.gridster.min.js" charster="utf-8"></script>
+
 <script type="text/javascript">
-	var gridster = 0;
-	var dragged = 0; // Used to keep the device.php overlay from loading when a grid is being dragged.
-	var gridGraphTimeOut; //Used to disable ajax updating of the page when device.php is overlayed.
+var gridster = 0;
+var dragged = 0; // Used to keep the device.php overlay from loading when a grid is being dragged.
+var gridGraphTimeOut; //Used to disable ajax updating of the page when device.php is overlayed.
 	
-	//Initialize Gridster
-	gridster = $("#frontGrid > ul").gridster({
-			widget_margins: [5, 5],
-			widget_base_dimensions: [95, 95],
-			min_cols: 8,
-			draggable: {
-				start: function(event, ui) {
-					dragged = 1; //keeps overlay from loading while we are dragging.
-				}
-			} 
-		}).data('gridster');	
-		
-		 
-		  
-		c = initializeCanvas("can1");
-		for(i = 0; i < c.length; i++){
-			canvas = c[i];
-			canvas.height = canvas.width/3;
-            colorCanvas(canvas, "#51bbff");
-            drawGraph(canvas);
+//Initialize Gridster
+gridster = $("#frontGrid > ul").gridster({
+	widget_margins: [5, 5],
+	widget_base_dimensions: [95, 95],
+	min_cols: 8,
+	draggable: {
+		start: function(event, ui) {
+			dragged = 1; //keeps overlay from loading while we are dragging.
 		}
-		
-		function getMessage(result){
-			var message = result.substring(0, result.indexOf("|"));	
-			return message;
-		}
-		
-		function getDisplay(result){
-			var display = result.substring(result.indexOf("|")+1, result.length);
-			return display;	
-		}
+	} 
+}).data('gridster');	
+
+//Initialize and draw every canvas on the page.		
+c = initializeCanvas("can1");
+for(i = 0; i < c.length; i++){
+	canvas = c[i];
+	canvas.height = canvas.width/3;
+    colorCanvas(canvas, "#51bbff");
+    drawGraph(canvas);
+}
+
+// Separates a string in ajax. Probably Used for adding a new device?		
+function getMessage(result){
+	var message = result.substring(0, result.indexOf("|"));	
+	return message;
+}
+
+// Separates a string in ajax. Probably Used for adding a new device?
+function getDisplay(result){
+	var display = result.substring(result.indexOf("|")+1, result.length);
+	return display;	
+}
 		
 		function addNewDevice(newDeviceDialog){
 			var deviceName = $("#deviceName").val();
