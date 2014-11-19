@@ -1,4 +1,12 @@
 <?php
+/**************************************************************
+	 * Hostmon - grid.php
+	 * Author - Isaac Assegai
+	 * This page allows the user to actively or passively monitor
+	 * Several devices at one time. The user has the ability to 
+	 * re-arrange the page and resize the interface to the different
+	 * devices being monitored.
+	 **************************************************************/
 /* Renders the device page and delivers it to user */
 	error_reporting(-1);
 	include_once("php/db.php");	

@@ -7,7 +7,7 @@
 	 * Several devices at one time. The user has the ability to 
 	 * re-arrange the page and resize the interface to the different
 	 * devices being monitored.
-	 */
+	 **************************************************************/
 	include_once("php/functions.php");
 	include_once("php/db.php");
 	
