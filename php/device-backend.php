@@ -1,32 +1,39 @@
 <?php
-	/* Provides a backend for the device page to interact with the server.*/
-	include_once("functions.php");
-	include_once("db.php");
-	$postResult = "";
-	//$SESSION['userID'] = 1;
-	$con = openDB(); //we know we are going to be querying from the db even if nothing was posted.
-	//decide which line graph should be displayed and pull the appropriate data from db
-	if(isset($_POST['LineChart'])){
-		$table = '';
-		if($_POST['LineChart']=="FiveMinuteLine"){
-			$table = "minute";
-		}else if($_POST['LineChart']=="HourLine"){
-			$table = "hour";
-		}else if($_POST['LineChart']=="DayLine"){
-			$table = "day";
-		}else if($_POST['LineChart']=="WeekLine"){
-			$table = "week";
-		}else if($_POST['LineChart']=="YearLine"){
-			$table = "year";
-		}
-		mysqli_select_db($con,"HostMon");
-		$sql="SELECT time, latency FROM `".$table."` WHERE ip = '".$_POST['ip']."'";
-		$result = mysqli_query($con,$sql);
-		
-		while($row = mysqli_fetch_array($result)) {
-			$postResult = $postResult."".$row['time'].":".$row['latency']." ";
-		}
+/**************************************************************
+* Hostmon - device-backend.php
+* Author - Isaac Assegai
+* Used by device.php to get information for all the graphs
+* and charts, as well as looking for new notes on the page.
+* Returns to an ajax script allowing updating of page without reload.
+**************************************************************/
+
+include_once("functions.php");
+include_once("db.php");
+$postResult = "";
+$con = openDB(); //we know we are going to be querying from the db even if nothing was posted.
+	
+//decide which line graph should be displayed and pull the appropriate data from db
+if(isset($_POST['LineChart'])){
+	$table = '';
+	if($_POST['LineChart']=="FiveMinuteLine"){
+		$table = "minute";
+	}else if($_POST['LineChart']=="HourLine"){
+		$table = "hour";
+	}else if($_POST['LineChart']=="DayLine"){
+		$table = "day";
+	}else if($_POST['LineChart']=="WeekLine"){
+		$table = "week";
+	}else if($_POST['LineChart']=="YearLine"){
+		$table = "year";
 	}
+	mysqli_select_db($con,"HostMon");
+	$sql="SELECT time, latency FROM `".$table."` WHERE ip = '".$_POST['ip']."'";
+	$result = mysqli_query($con,$sql);
+		
+	while($row = mysqli_fetch_array($result)) {
+		$postResult = $postResult."".$row['time'].":".$row['latency']." ";
+	}
+} // End if LineChart
 	//decide which polor graph to use, pull the data from db and append to results
 	if(isset($_POST['PolarChart'])){
 		$table = '';
