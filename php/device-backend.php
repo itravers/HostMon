@@ -98,36 +98,26 @@ if(isset($_POST['PolarChart'])){
 	$item5Limit.":".count($item5Array);
 } // End ifset PolarChart
 	
-	/* If SubmitNote has been posted, we want to get the note info from the post, submit a new note to
-	 * The database. Then we want to read and parse the notes into a new note section that jquery
-	 * will replace on the frontend. */
-	// $_POST['SubmitNote'] = true;
-	// $_POST['deviceID'] = 12;
-	// $_POST['time'] = '1409619912000';
-	// $_POST['noteName'] = 'itravers';
-	// $_POST['noteContent'] = 'this is the content';
-	 
-	 
-	if(isset($_POST['SubmitNote'])){
-		$deviceID = $_POST['deviceID'];
-		$time = $_POST['time'];
-		$noteName = $_POST['noteName'];
-		$noteContent = $_POST['noteContent'];
-		$userID = 1;
-		//mysqli_real_escape_string
-		$sanitizedContent = mysqli_real_escape_string($con, $noteContent);
-		//submit note to database
-		$resultList = Array(); //the structure we are reading latency results to.
-		mysqli_select_db($con,"HostMon");
-		$sql="INSERT INTO `HostMon`.`notes` (`id` ,`deviceID` ,`userID` ,`timestamp` ,`content`) VALUES (NULL , '".$deviceID."', '".$userID."', '".$time."', '".$sanitizedContent."');";
-		$result2 = mysqli_query($con,$sql);
-		//Record the latency results to the latency list.
-		
-	    $notes = getNotes($deviceID); //db query get array of notes from device id.
-		$postResult = buildNotesGrid($notes);
-		//$postResult = "test";
-		
-	}
+/* If SubmitNote has been posted, we want to get the note info from the post, submit a new note to
+ * The database. Then we want to read and parse the notes into a new note section that jquery
+ * will replace on the frontend. */ 	 
+if(isset($_POST['SubmitNote'])){
+	$deviceID = $_POST['deviceID'];
+	$time = $_POST['time'];
+	$noteName = $_POST['noteName'];
+	$noteContent = $_POST['noteContent'];
+	$userID = 1;
+	//mysqli_real_escape_string
+	$sanitizedContent = mysqli_real_escape_string($con, $noteContent);
+	//submit note to database
+	$resultList = Array(); //the structure we are reading latency results to.
+	mysqli_select_db($con,"HostMon");
+	$sql="INSERT INTO `HostMon`.`notes` (`id` ,`deviceID` ,`userID` ,`timestamp` ,`content`) VALUES (NULL , '".$deviceID."', '".$userID."', '".$time."', '".$sanitizedContent."');";
+	$result2 = mysqli_query($con,$sql);
+	//Record the latency results to the latency list.	
+    $notes = getNotes($deviceID); //db query get array of notes from device id.
+	$postResult = buildNotesGrid($notes);	
+} // End ifset SubmitNote
 	
 	//user decides to remove a specific note, referenced by it's timestamp and deviceId
 	if(isset($_POST['RemoveNote'])){
