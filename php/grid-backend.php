@@ -37,11 +37,11 @@ if(isset($_POST['addNewDevice'])){ //This function is not completely done yet.
 		$postResult = $postResult.renderDevice($id);
 	}
 }else if(isset($_POST['getGridGraphData'])){
-		$ip = $_POST['ip'];
-	    $timeRange = $_POST['timeRange'];
-		$data = getTenAveragePointsInTimeRange($timeRange);
-		$postResult = $data;
-	}
+	$ip = $_POST['ip'];
+    $timeRange = $_POST['timeRange'];
+	$data = getTenAveragePointsInTimeRange($timeRange);
+	$postResult = $data;
+}
 	
 	//gets the last $timeRange of pings from the database
 	//gives us 10 even spaced averages.
