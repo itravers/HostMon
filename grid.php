@@ -90,25 +90,29 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 					<input type="text" name="numPingRunsBeforeDBRecord" style="display:inline;">
 					<button name="numPingRunsBeforeDBRecord">SET</button><br>
 					
-					<h4 title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
-					>Avg. Goal Time (ms) </h4>
-					<input type="text" name="avgGoalTime" style="display:inline;">
-					<button name="avgGoalTime">SET</button><br>
+					<h4 style="right:112px;"
+						title="The age each record in the minute table should get before being deleted. In Milliseconds."
+					>Minute Age Limit </h4>
+					<input type="text" name="minuteRecordAgeLimit" style="display:inline; width:50px;">
+					<button name="minuteRecordAgeLimit">SET</button><br>
 					
-					<h4 title="The number of threads the backend starts with. The thread number will change as the backend runs."
-					>Starting Threads (ms)</h4>
-					<input type="text" name="startingThreads" style="display:inline;">
-					<button name="startingThreads">SET</button><br>
+					<h4 style="right:132px;"
+						title="The age each record in the hour table should get before being deleted. In Milliseconds."
+					>Hour Age Limit</h4>
+					<input type="text" name="hourRecordAgeLimit" style="display:inline; width:70px;">
+					<button name="hourRecordAgeLimit">SET</button><br>
 					
-					<h4 title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
-					>Avg. Goal Time (ms) </h4>
-					<input type="text" name="avgGoalTime" style="display:inline;">
-					<button name="avgGoalTime">SET</button><br>
+					<h4 style="right:140px;"
+						title="The age each record in the day table should get before being deleted. In Milliseconds."
+					>Day Age Limit</h4>
+					<input type="text" name="dayRecordAgeLimit" style="display:inline; width:80px;">
+					<button name="dayRecordAgeLimit">SET</button><br>
 					
-					<h4 title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
-					>Avg. Goal Time (ms) </h4>
-					<input type="text" name="avgGoalTime" style="display:inline;">
-					<button name="avgGoalTime">SET</button><br>
+					<h4 style="right:150px;"
+						title="The age each record in the week table should get before being deleted. In Milliseconds."
+					>Week Age Limit</h4>
+					<input type="text" name="weekRecordAgeLimit" style="display:inline; width:90px;">
+					<button name="weekRecordAgeLimit">SET</button><br>
 					
 					<h4 title="The number of threads the backend starts with. The thread number will change as the backend runs."
 					>Starting Threads (ms)</h4>
