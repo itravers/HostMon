@@ -53,7 +53,11 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 		<!-- This is the Menu that is handled in Javascript -->
 		<nav class="left">
 			<ul>
-				<li style="height: 90%;"><a href="#">Options</a></li>
+				<li style="height: 90%;">
+					<div class="menu_scrollable vertical">
+					
+					</div>
+				</li>
         		<li style="height: 10%;"><a href="login.php?logout=true">Logout</a></li>
 			</ul>
 		</nav>
@@ -121,7 +125,7 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 		<!-- the external content is loaded inside this tag -->
 		<div class="contentWrap"></div>
         
-<script src="js/jquery.tools.min.js"></script>
+<script type="text/javascript" src="js/jquery.tools.min.js"></script>
 <script src="js/jquery-ui.js"></script>
 <script src="js/hostmonChart.js"></script>
 <script type="text/javascript" src="js/jquery.gridster.min.js" charster="utf-8"></script>

@@ -11,6 +11,8 @@
       $('body').removeClass('menu-open');
       return $('nav').removeClass('open');
     });
+    
+    $(".scrollable").scrollable({ vertical: true, mousewheel: true });
   });
 
 }).call(this);
