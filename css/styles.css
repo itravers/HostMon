@@ -139,6 +139,7 @@ a.menu .bar {
 }
 
 nav {
+	cursor:default;
 	position: fixed;
 	top: 0;
 	z-index: 100;

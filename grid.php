@@ -53,10 +53,14 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 		<!-- This is the Menu that is handled in Javascript -->
 		<nav class="left">
 			<ul>
-				<li style="height: 90%;">
-					<div class="menu_scrollable vertical">
+				<li style="height: 90%; font-color="white";>
 					
-					</div>
+						aakksdflaskhdf laskdh flaksdhf laksh dflahs dfklasdfha ldsfh 
+							lsakdfh alskdhf alksdh flakshd flakshd falskdhfaslkdfh as
+								lsakhdf lakshd flakshd flaksh dflkahs dflkahs dlfkha sldfk
+							alsdkfh alskdhf lakshdf lakshd flaskhd flakhs dlfakhsdflakh 
+							lakshdf laskhd flakshd flkashdflaskf sa.
+					
 				</li>
         		<li style="height: 10%;"><a href="login.php?logout=true">Logout</a></li>
 			</ul>
