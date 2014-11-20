@@ -1,51 +1,49 @@
 <?php 
+/**************************************************************
+* Hostmon - login.php
+* Author - Isaac Assegai
+* Implements a secure login utilizing ajax
+**************************************************************/
 include_once("php/db.php");
-session_start();
+
+session_start(); // Need to start the session, to check session variables.
+
 if(isset($_GET['logout'])){ // User is logging out.
-	
-		session_unset();
-		session_destroy();
-	
-}else if(isset($_POST['submit'])){
-	if($_POST['submit']=='Login'){ // User is logging in to the application.
+	session_unset(); // Session variables ended.
+	session_destroy(); // Session ended.
+}else if(isset($_POST['submit'])){ // User has clicked the submit button to login.
+	if($_POST['submit']=='Login'){ // double check value
 		$resp = Array(); // Used to send the response back to the user.
-		if(!$_POST['username'] || !$_POST['password']){
-			$resp[] = 'ALL THE FIELDS MUST BE FILLED IN';
+		if(!$_POST['username'] || !$_POST['password']){ // One of the fields are not filled in.
+			$resp[] = 'ALL THE FIELDS MUST BE FILLED IN'; // Notification to user.
 		}
-		// If reponse hasn't been handled yet.
-		if(!count($resp)){
-			// Make a MySQL Connection
-			$con = openDB();
+		if(!count($resp)){ // If reponse hasn't been handled yet.
+			$con = openDB(); // Make a MySQL Connection
+			// Here we are querying the db for the username that comes with the md5 hashed password.
 			$sql = "SELECT id,usr,admin_level FROM Users WHERE usr='{$_POST['username']}' AND pass='".md5($_POST['password'])."'";
 			$row = queryDB($con, $sql);
+			if($row['usr']){ // The user with that password exists.
+				$_SESSION['admin_level'] = $row['admin_level']; // Set the users admin level, from db.
 	
-			if($row['usr']){
-				// If everything is OK login
-				//echo "starting session";
-				if(!isset($_SESSION)) session_start(); // Start the session. doesn't seem to work here.
-				$_SESSION['admin_level'] = $row['admin_level'];
-				//$_SESSION['remember'] = $_POST['remember'];
-	
-				//if admin_level is 0 it means user has not been approved by admin yet
+				// If admin_level is 0 it means user has not been approved by admin yet
 				if($_SESSION['admin_level'] == 0){
-					$resp[]='ACCOUNT HAS NOT BEEN APPROVED';
-				}else{
-					//login has worked
+					$resp[]='ACCOUNT HAS NOT BEEN APPROVED'; // Error user will see.
+				}else{ // Login has worked
 					$_SESSION['loggedIn']=true;
 					$_SESSION['id'] = $row['id'];
 					$_SESSION['usr']=$row['usr'];
-					$resp[]='Success '.$row['usr']; //after success we will also return the username
+					$resp[]='Success '; // Ajax will look for this string.  
 				}
-			}else{
-				$resp[]='WRONG USERNAME/PASSWORD';
+			}else{ // A user with that user/pass combo does not exist in the db.
+				$resp[]='WRONG USERNAME/PASSWORD'; // Error send to user.
 			}
 		}
 	} // end of if login
-	$response = implode(",", $resp);
-	echo $response;
+	$response = implode(",", $resp); // Convert the response to a string. We could use JSON here.
+	echo $response; // This is what the ajax call see's. This echo.
 }
- ?>
-<?php if(!isset($_POST['submit'])): //we don't want to send the whole file back to ajax?>
+?>
+<?php if(!isset($_POST['submit'])): // We don't want to send the whole file back to ajax ?>
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
@@ -58,25 +56,16 @@ if(isset($_GET['logout'])){ // User is logging out.
             <div class="img-wrapper"><img src="images/username2.png" /></div>
             <input type="text" name="username" placeholder="username" id="username" class="pictureInput" />
         </div>
-        
         <div class="input-wrapper">
             <div class="img-wrapper"><img src="images/password2.png" /></div>
             <input type="password" name="password" placeholder="password" id="password" class="pictureInput">
         </div>
         <input type="hidden" name="submit" value="Login">
-        <!--<span>
-            <input type="checkbox" name="remember" id="remember"><br>
-            <label for="checkbox">remember</label>
-        </span> -->
 		<input type="submit" value="LOG IN" id="submit">
 		<div id="error_msg"> <!-- The Error message will be displayed here. --></div>
 	</div>
-
 	<div class="ajax-spinner-bars"> <!-- The loading animation displayed on the submit button. -->
-		<div class="bar-1"></div>
-		<div class="bar-2"></div>
-		<div class="bar-3"></div>
-		<div class="bar-4"></div>
+		<div class="bar-1"></div><div class="bar-2"></div><div class="bar-3"></div><div class="bar-4"></div>
 		<div class="bar-5"></div>
 		<div class="bar-6"></div>
 		<div class="bar-7"></div>
