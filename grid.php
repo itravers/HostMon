@@ -14,11 +14,13 @@ include_once("php/db.php");
 $userName = "Guest";
 $adminLevel;
 $loggedIn = false;
+if(!isset($_SESSION)) session_start();
 
 //this is really a bad idea to check if we are logged in with a get variable, 
 //can't seem to get the session variable to set in login-backend.php like i was planning
 if(isset($_GET['login'])){ //if login has just logged us in
-	session_start();
+	
+	
 	if($_SESSION['loggedIn']){
 		
 		$userName = $_SESSION['usr'];

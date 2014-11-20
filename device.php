@@ -1,18 +1,22 @@
 <?php
 /**************************************************************
-	 * Hostmon - device.php
-	 * Author - Isaac Assegai
-	 * This page allows the user to actively or passively monitor
-	 * A single device. The user will have access to several
-	 * Graphs helping to monitor the device over several time frames
-	 * The user will also be able to add and share notes about it.
-	 * This page shows the HTML embedded in PHP technique.
-	 **************************************************************/
-	//error_reporting(-1);
-	include_once("php/db.php");	
-	include_once("php/functions.php");
-	$loggedIn = true; //later we will check this in the session variable.
-	$_SESSION['username'] = "itravers";
+* Hostmon - device.php
+* Author - Isaac Assegai
+* This page allows the user to actively or passively monitor
+* A single device. The user will have access to several
+* Graphs helping to monitor the device over several time frames
+* The user will also be able to add and share notes about it.
+* This page shows the HTML embedded in PHP technique.
+**************************************************************/
+//error_reporting(-1);
+include_once("php/db.php");
+include_once("php/functions.php");
+session_start();
+//$_SESSION['username'] = "itravers";
+
+if(!isset($_SESSION['loggedIn'])){ //User is not logged in, redirect to login.php
+	header("Location: login.php"); die();
+}else{
 	if(!isset($_GET['ip']))$_GET['ip'] = "earlhart.com"; //default to earlhart if no ip is given to page.
 	$ip = $_GET['ip'];
 	$newCount = 0;
@@ -21,8 +25,8 @@
 	$notes = getNotes($deviceID); //db query get array of notes from device id.
 	$page = buildPage($deviceID, $deviceName, $ip, $notes); //build each section of the page for printing.
 	printPage($page); //output the page
-	
-	
+}
+
 /* Helper Functions. */
 
 /** Builds the entire page into a string getting it ready for printing. */
@@ -148,7 +152,7 @@ function buildScripts($ip, $deviceID, $notes){
 		divToHide.toggleClass('current');
 			var toPrepend = \"<h2 class='item current'> \
 				<div id='notenum'>".getNewCount($newCount)."</div> \
-				<div id='notename'>".$_SESSION['username']."</div> \
+				<div id='notename'>".$_SESSION['usr']."</div> \
 				<div id='notedate'>".$date."</div> \
 				<div id='notetime'>".$time."</div> \
 				<img class='minus' src='images/minus.png'></img> \

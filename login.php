@@ -1,9 +1,11 @@
 <?php 
 include_once("php/db.php");
+session_start();
 if(isset($_GET['logout'])){ // User is logging out.
-	if(!isset($_SESSION)){
-		session_unset();
-	}
+	
+		//session_unset();
+		session_destroy();
+	
 }else if(isset($_POST['submit'])){
 	if($_POST['submit']=='Login'){ // User is logging in to the application.
 		$resp = Array(); // Used to send the response back to the user.
