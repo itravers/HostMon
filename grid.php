@@ -382,9 +382,15 @@ function drawGridGraph(c, data, col, row){
 	var height = $(grandparent).height();
 	var widthLimit = width;
 	var heightLimit = height;
-	
-	updateMSDisplay(c, array_data[0]); // Updates the Milli-seconds label in the widget.
-	updateGridColor(c, array_data[0]); // Updates the grid's color based on the latest millisecond reading.
+	// The problem is, we aren't checking if this is a 2nd image, it's taking
+	// the value from the hour table.
+	if(array_data[0] == "737"){
+		var hello = "hello";
+	} 
+	if(!$(c).hasClass("secondImage")){ // we don't want to update color when hour graph is processed
+		updateMSDisplay(c, array_data[0]); // Updates the Milli-seconds label in the widget.
+		updateGridColor(c, array_data[0]); // Updates the grid's color based on the latest millisecond reading.
+	}
 	
 	// Calculate the Graph/Canvas' limits from the widgets column and row sizes.
 	if(col == 1 && row == 1){

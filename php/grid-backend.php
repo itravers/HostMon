@@ -64,15 +64,18 @@ function getTenAveragePointsInTimeRange($timeRange){
 
 /** Gets the last $limit of records from the minute table. */
 function getFiveMinuteAverage($ip){
-	$limit = 21;
+	
+	$limit = 31; // Config Value, how many data points show on each graph, in grid.php
 	$con = openDB();
 	mysqli_select_db($con,"HostMon");
 	$sql="SELECT * FROM minute WHERE ip = '".$ip."' ORDER BY time DESC LIMIT ".$limit;
 	$result = mysqli_query($con,$sql);
 	$answer = '';
+	
 	while($row = mysqli_fetch_array($result)) {
 		$answer = $answer.$row['latency']." ";
 	}
+	
 	return $answer;
 }
 	
@@ -111,7 +114,6 @@ function renderDevice($id){
 function deviceExists($ip){
 	return false;	
 }
-
 // The info returned back to the ajax script.
 echo $postResult;
 ?>
