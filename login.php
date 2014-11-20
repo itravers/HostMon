@@ -45,6 +45,7 @@ if(isset($_GET['logout'])){ // User is logging out.
 	echo $response;
 }
  ?>
+<?php if(!isset($_POST['submit'])): //we don't want to send the whole file back to ajax?>
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
@@ -150,3 +151,4 @@ $(document).ready(function() {
 </script>
 </body>
 </html>
+<?php endif;?>
