@@ -75,20 +75,20 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 					<input type="text" name="threadRemovalCoefficient" style="display:inline;">
 					<button name="threadRemovalCoefficient">SET</button><br>
 					
-					<h4 title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
-					>Avg. Goal Time (ms) </h4>
-					<input type="text" name="avgGoalTime" style="display:inline;">
-					<button name="avgGoalTime">SET</button><br>
+					<h4 title="The Value that decides when threads are added. The Higher the value the sooner a needed thread is added."
+					>T. Add Co-Eff.</h4>
+					<input type="text" name="threadAddCoefficient" style="display:inline;">
+					<button name="threadAddCoefficient">SET</button><br>
 					
-					<h4 title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
-					>Avg. Goal Time (ms) </h4>
-					<input type="text" name="avgGoalTime" style="display:inline;">
-					<button name="avgGoalTime">SET</button><br>
+					<h4 title="Every x amount of times a thread is run we check if we need to add or remove a thread."
+					>Run / Thread Check</h4>
+					<input type="text" name="runPerThreadCheck" style="display:inline;">
+					<button name="runPerThreadCheck">SET</button><br>
 					
-					<h4 title="The number of threads the backend starts with. The thread number will change as the backend runs."
-					>Starting Threads (ms)</h4>
-					<input type="text" name="startingThreads" style="display:inline;">
-					<button name="startingThreads">SET</button><br>
+					<h4 title="The number of times we will ping before we make a call to the database."
+					># Pings B4 DB</h4>
+					<input type="text" name="numPingRunsBeforeDBRecord" style="display:inline;">
+					<button name="numPingRunsBeforeDBRecord">SET</button><br>
 					
 					<h4 title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
 					>Avg. Goal Time (ms) </h4>

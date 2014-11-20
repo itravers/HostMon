@@ -139,6 +139,7 @@ a.menu .bar {
 }
 
 nav {
+	
 	cursor:default;
 	position: fixed;
 	top: 0;
@@ -157,6 +158,7 @@ nav ul {
 }
 
 nav ul > li {
+	
 	display: table;
 	text-align: center;
 	float: left;
@@ -188,6 +190,7 @@ nav ul > li input{
 }
 
 nav ul > li button{
+	
 	height:20px;
 	display:inline;
 	font-family: Raavi;
@@ -231,7 +234,9 @@ nav ul > li:nth-child(5) {
 }
 
 nav ul > li > a {
+	text-decoration: none;
 	color: white;
+	font-family: Raavi;
 	text-transform: uppercase;
 	display: table-cell;
 	vertical-align: middle;
