@@ -54,13 +54,9 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 		<nav class="left">
 			<ul>
 				<li style="height: 90%; font-color="white";>
-					
-						aakksdflaskhdf laskdh flaksdhf laksh dflahs dfklasdfha ldsfh 
-							lsakdfh alskdhf alksdh flakshd flakshd falskdhfaslkdfh as
-								lsakhdf lakshd flakshd flaksh dflkahs dflkahs dlfkha sldfk
-							alsdkfh alskdhf lakshdf lakshd flaskhd flakhs dlfakhsdflakh 
-							lakshdf laskhd flakshd flkashdflaskf sa.
-					
+					<h4 title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
+					>Avg. Goal Time</h4>
+					<input type="text" name="fname" style="display:inline;">
 				</li>
         		<li style="height: 10%;"><a href="login.php?logout=true">Logout</a></li>
 			</ul>

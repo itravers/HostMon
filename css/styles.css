@@ -165,6 +165,20 @@ nav ul > li {
 	transition: all 0.4s;
 }
 
+nav ul > li h4{
+	display:inline;
+	font-family: Raavi;
+	color: white;
+}
+
+nav ul > li input{
+	display:inline;
+	background-color: red;
+	font-family: Raavi;
+	border: none;
+	width:20px;
+}
+
 nav ul > li:nth-child(1) {
 	background-color: #141517;
 }
