@@ -90,13 +90,13 @@ if(isset($_GET['logout'])){ // User is logging out.
 
 
 <script type="text/javascript">
-alert("ready");
+//alert("ready");
 /** Event called when document is loaded. */
 $(document).ready(function() {
 
 	// Register an event listener on the submit id. 
 	$("#submit").click(function(){
-		alert("posting");
+		//alert("posting");
 		var buttontext = $("#submit").val();
 		$("#submit").val("");
 		$(".ajax-spinner-bars").show();

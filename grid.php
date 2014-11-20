@@ -530,4 +530,5 @@ function updateGridGraphs(){
 </script>  
 	</body>
 </html>
+<?php else: header("Location: login.php"); die();	?>
 <?php endif;?>
