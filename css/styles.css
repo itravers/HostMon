@@ -270,7 +270,11 @@ nav.top ul > li {
 	transform: translate(0, -100%);
 }
 
-body.menu-open {
+body.menu-open .grid {
+	cursor: url("../images/close.png") 20 20, auto;
+}
+
+body.menu-open .grid li{
 	cursor: url("../images/close.png") 20 20, auto;
 }
 
