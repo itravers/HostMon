@@ -75,6 +75,7 @@ function getFiveMinuteAverage($ip){
 	while($row = mysqli_fetch_array($result)) {
 		$answer = $answer.$row['latency']." ";
 	}
+	
 	return $answer;
 }
 	
@@ -113,7 +114,6 @@ function renderDevice($id){
 function deviceExists($ip){
 	return false;	
 }
-
 // The info returned back to the ajax script.
 echo $postResult;
 ?>
