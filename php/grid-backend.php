@@ -64,15 +64,14 @@ function getTenAveragePointsInTimeRange($timeRange){
 
 /** Gets the last $limit of records from the minute table. */
 function getFiveMinuteAverage($ip){
-	if($ip == "earlhart.com"){
-		$test;
-	}
-	$limit = 21;
+	
+	$limit = 4;
 	$con = openDB();
 	mysqli_select_db($con,"HostMon");
 	$sql="SELECT * FROM minute WHERE ip = '".$ip."' ORDER BY time DESC LIMIT ".$limit;
 	$result = mysqli_query($con,$sql);
 	$answer = '';
+	
 	while($row = mysqli_fetch_array($result)) {
 		$answer = $answer.$row['latency']." ";
 	}
