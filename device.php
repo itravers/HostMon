@@ -273,7 +273,7 @@ function buildScripts($ip, $deviceID, $notes){
 			return false;
 		});	
 		//make menu close when document is clicked.
-		$(document).click(function() {
+		$(\".grid\").click(function() {
 			$('body').removeClass('menu-open');
 			$('nav').removeClass('open');
 		});

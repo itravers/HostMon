@@ -365,8 +365,11 @@ $('.menu').click(function() {
 	return false;
 });
 
+$(".scrollable").scrollable({ vertical: true, mousewheel: true });
+
 // Event Handler when a user clicks anywhere but the menu, when the menu is open. Closes the menu.
-$(document).click(function() {
+$(".grid").click(function() {
+	
 	$('body').removeClass('menu-open');
 	$('nav').removeClass('open');
 });	
