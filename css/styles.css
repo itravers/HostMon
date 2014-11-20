@@ -173,10 +173,20 @@ nav ul > li h4{
 
 nav ul > li input{
 	display:inline;
-	background-color: red;
 	font-family: Raavi;
 	border: none;
 	width:20px;
+	height:80%;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+nav ul > li button{
+	display:inline;
+	font-family: Raavi;
+	color: black;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 }
 
 nav ul > li:nth-child(1) {
