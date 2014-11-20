@@ -64,6 +64,9 @@ function getTenAveragePointsInTimeRange($timeRange){
 
 /** Gets the last $limit of records from the minute table. */
 function getFiveMinuteAverage($ip){
+	if($ip == "earlhart.com"){
+		$test;
+	}
 	$limit = 21;
 	$con = openDB();
 	mysqli_select_db($con,"HostMon");
