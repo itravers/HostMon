@@ -65,7 +65,7 @@ function getTenAveragePointsInTimeRange($timeRange){
 /** Gets the last $limit of records from the minute table. */
 function getFiveMinuteAverage($ip){
 	
-	$limit = 31;
+	$limit = 31; // Config Value, how many data points show on each graph, in grid.php
 	$con = openDB();
 	mysqli_select_db($con,"HostMon");
 	$sql="SELECT * FROM minute WHERE ip = '".$ip."' ORDER BY time DESC LIMIT ".$limit;
