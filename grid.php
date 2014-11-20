@@ -54,10 +54,82 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 		<nav class="left">
 			<ul>
 				<li style="height: 90%; font-color="white";>
+					<h4 style="right:112px;"
+						title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
+					>Avg. Goal Time (ms) </h4>
+					<input type="text" name="averageGoalTime" style="display:inline; width:42px;">
+					<button name="averageGoalTime">SET</button><br>
+					
+					<h4 title="The number of threads the backend starts with. The thread number will change as the backend runs."
+					>Starting Threads (ms)</h4>
+					<input type="text" name="startingThreads" style="display:inline;">
+					<button name="startingThreads">SET</button><br>
+					
+					<h4 title="The maximum number of threads the backend will be able to run."
+					>Max Threads </h4>
+					<input type="text" name="maxThreads" style="display:inline;">
+					<button name="avgGoalTime">SET</button><br>
+					
+					<h4 title="The Value that decides when threads are removed. The Lower the value the sooner an unneeded thread is removed."
+					>T. Removal Co-eff.</h4>
+					<input type="text" name="threadRemovalCoefficient" style="display:inline;">
+					<button name="threadRemovalCoefficient">SET</button><br>
+					
 					<h4 title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
-					>Avg. Goal Time</h4>
-					<input type="text" name="fname" style="display:inline;"><h4> ms</h4>
-					<button>SET</button>
+					>Avg. Goal Time (ms) </h4>
+					<input type="text" name="avgGoalTime" style="display:inline;">
+					<button name="avgGoalTime">SET</button><br>
+					
+					<h4 title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
+					>Avg. Goal Time (ms) </h4>
+					<input type="text" name="avgGoalTime" style="display:inline;">
+					<button name="avgGoalTime">SET</button><br>
+					
+					<h4 title="The number of threads the backend starts with. The thread number will change as the backend runs."
+					>Starting Threads (ms)</h4>
+					<input type="text" name="startingThreads" style="display:inline;">
+					<button name="startingThreads">SET</button><br>
+					
+					<h4 title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
+					>Avg. Goal Time (ms) </h4>
+					<input type="text" name="avgGoalTime" style="display:inline;">
+					<button name="avgGoalTime">SET</button><br>
+					
+					<h4 title="The number of threads the backend starts with. The thread number will change as the backend runs."
+					>Starting Threads (ms)</h4>
+					<input type="text" name="startingThreads" style="display:inline;">
+					<button name="startingThreads">SET</button><br>
+					
+					<h4 title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
+					>Avg. Goal Time (ms) </h4>
+					<input type="text" name="avgGoalTime" style="display:inline;">
+					<button name="avgGoalTime">SET</button><br>
+					
+					<h4 title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
+					>Avg. Goal Time (ms) </h4>
+					<input type="text" name="avgGoalTime" style="display:inline;">
+					<button name="avgGoalTime">SET</button><br>
+					
+					<h4 title="The number of threads the backend starts with. The thread number will change as the backend runs."
+					>Starting Threads (ms)</h4>
+					<input type="text" name="startingThreads" style="display:inline;">
+					<button name="startingThreads">SET</button><br>
+					
+					<h4 title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
+					>Avg. Goal Time (ms) </h4>
+					<input type="text" name="avgGoalTime" style="display:inline;">
+					<button name="avgGoalTime">SET</button><br>
+					
+					<h4 title="The number of threads the backend starts with. The thread number will change as the backend runs."
+					>Starting Threads (ms)</h4>
+					<input type="text" name="startingThreads" style="display:inline;">
+					<button name="startingThreads">SET</button><br>
+					
+					<h4 title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
+					>Avg. Goal Time (ms) </h4>
+					<input type="text" name="avgGoalTime" style="display:inline;">
+					<button name="avgGoalTime">SET</button><br>
+					
 				</li>
         		<li style="height: 10%;"><a href="login.php?logout=true">Logout</a></li>
 			</ul>

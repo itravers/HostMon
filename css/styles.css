@@ -166,9 +166,13 @@ nav ul > li {
 }
 
 nav ul > li h4{
+
 	display:inline;
 	font-family: Raavi;
 	color: white;
+	position:absolute;
+	right:90px;
+	margin-top:-3px;
 }
 
 nav ul > li input{
@@ -176,17 +180,22 @@ nav ul > li input{
 	font-family: Raavi;
 	border: none;
 	width:20px;
-	height:80%;
+	height:17px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
+	position:fixed;
+	right:50px;
 }
 
 nav ul > li button{
+	height:20px;
 	display:inline;
 	font-family: Raavi;
 	color: black;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
+	position:fixed;
+	right:3px;
 }
 
 nav ul > li:nth-child(1) {
