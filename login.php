@@ -1,11 +1,49 @@
 <?php 
+include_once("php/db.php");
 if(isset($_GET['logout'])){ // User is logging out.
 	if(!isset($_SESSION)){
 		session_unset();
 	}
+}else if(isset($_POST['submit'])){
+	if($_POST['submit']=='Login'){ // User is logging in to the application.
+		$resp = Array(); // Used to send the response back to the user.
+		if(!$_POST['username'] || !$_POST['password']){
+			$resp[] = 'ALL THE FIELDS MUST BE FILLED IN';
+		}
+		// If reponse hasn't been handled yet.
+		if(!count($resp)){
+			// Make a MySQL Connection
+			$con = openDB();
+			$sql = "SELECT id,usr,admin_level FROM Users WHERE usr='{$_POST['username']}' AND pass='".md5($_POST['password'])."'";
+			$row = queryDB($con, $sql);
+	
+			if($row['usr']){
+				// If everything is OK login
+				//echo "starting session";
+				if(!isset($_SESSION)) session_start(); // Start the session. doesn't seem to work here.
+				$_SESSION['admin_level'] = $row['admin_level'];
+				//$_SESSION['remember'] = $_POST['remember'];
+	
+				//if admin_level is 0 it means user has not been approved by admin yet
+				if($_SESSION['admin_level'] == 0){
+					$resp[]='ACCOUNT HAS NOT BEEN APPROVED';
+				}else{
+					//login has worked
+					$_SESSION['loggedIn']=true;
+					$_SESSION['id'] = $row['id'];
+					$_SESSION['usr']=$row['usr'];
+					$resp[]='Success '.$row['usr']; //after success we will also return the username
+				}
+			}else{
+				$resp[]='WRONG USERNAME/PASSWORD';
+			}
+		}
+	} // end of if login
+	$response = implode(",", $resp);
+	echo $response;
 }
  ?>
-
+<html>
 <head>
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<script src="js/jquery.tools.min.js"></script>
@@ -49,13 +87,16 @@ if(isset($_GET['logout'])){ // User is logging out.
 		<div class="bar-15"></div>
 		<div class="bar-16"></div>
 	</div>
-</body>
 
-<script>
+
+<script type="text/javascript">
+alert("ready");
 /** Event called when document is loaded. */
 $(document).ready(function() {
+
 	// Register an event listener on the submit id. 
 	$("#submit").click(function(){
+		alert("posting");
 		var buttontext = $("#submit").val();
 		$("#submit").val("");
 		$(".ajax-spinner-bars").show();
@@ -65,7 +106,7 @@ $(document).ready(function() {
 		remember = $("#remember").val();
 		
 		// Post to login-backend.php to see if this is a good login.
-		$.post("php/login-backend.php",{
+		$.post("login.php",{
 			submit:"Login",
 			username:username,
 			password:password, // We may want to take and hash this value.
@@ -77,14 +118,14 @@ $(document).ready(function() {
 			pos += 8; //account for the word success, and the space that will be after it.
 			var userName = data.substring(pos);
 			//will need to change this soon, using GET here is a bad idea.
-			window.location.href = "grid.php?login=true&userName="+userName; 
+			window.location.href = "grid.php?login=true"; 
 		}else{
 			$("#error_msg").text(data); 
 			$("#error_msg").fadeIn();
 			$(".ajax-spinner-bars").hide();
 			$("#submit").val(buttontext);
 		}
-    }); End function
+    }); //End function
 	}); // Submit Listener
 
 	// Check if JavaScript is enabled
@@ -105,3 +146,5 @@ $(document).ready(function() {
 	}); // End login-form span click listener.
 });
 </script>
+</body>
+</html>

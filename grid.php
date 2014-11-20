@@ -11,27 +11,35 @@
 include_once("php/functions.php");
 include_once("php/db.php");
 
-$userName;
+$userName = "Guest";
+$adminLevel;
+$loggedIn = false;
 
 //this is really a bad idea to check if we are logged in with a get variable, 
 //can't seem to get the session variable to set in login-backend.php like i was planning
-if(isset($_GET['login'])){
-	$userName = $_GET['userName'];
+if(isset($_GET['login'])){ //if login has just logged us in
 	session_start();
-	$_SESSION = $userName;
-	//echo "logged in";
-}else if(isset($_SESSION)){
-	$userName = $_SESSION['userName'];
-	//echo "logged in";
-}else{
-	$userName = "NOT LOGGED IN";
+	if($_SESSION['loggedIn']){
+		
+		$userName = $_SESSION['usr'];
+		$adminLevel = $_SESSION['admin_level'];
+		$loggedIn = true;
+		
+	}
+}else if(isset($_SESSION)){ //if we are already logged in but just updating the page.
+	if($_SESSION['loggedIn']){
+		$userName = $_SESSION['usr'];
+		$adminLevel = $_SESSION['admin_level'];
+		$loggedIn = true;
+	}
 }
-
 $pageTitle = "Hostmon - ".$userName;
 $devices = getActiveDevices($userName); // returns the initial active devices
 $gridPositions = getGridPositions(count($devices)); // returns a 2d array with initial grid positions and sizes 
 ?>
 
+
+<?php if($loggedIn):?>
 <html class="main_grid">
 <!-- Grid.html is currently having issues with event listeners. -->
 	<head>
@@ -522,3 +530,4 @@ function updateGridGraphs(){
 </script>  
 	</body>
 </html>
+<?php endif;?>
