@@ -19,14 +19,10 @@ if(!isset($_SESSION)) session_start();
 //this is really a bad idea to check if we are logged in with a get variable, 
 //can't seem to get the session variable to set in login-backend.php like i was planning
 if(isset($_GET['login'])){ //if login has just logged us in
-	
-	
 	if($_SESSION['loggedIn']){
-		
 		$userName = $_SESSION['usr'];
 		$adminLevel = $_SESSION['admin_level'];
 		$loggedIn = true;
-		
 	}
 }else if(isset($_SESSION)){ //if we are already logged in but just updating the page.
 	if($_SESSION['loggedIn']){
@@ -57,9 +53,8 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 		<!-- This is the Menu that is handled in Javascript -->
 		<nav class="left">
 			<ul>
-				<li><a href="#">Home</a></li>
-				<li><a href="#">Options</a></li>
-        		<li><a href="login.php?logout=true">Logout</a></li>
+				<li style="height: 90%;"><a href="#">Options</a></li>
+        		<li style="height: 10%;"><a href="login.php?logout=true">Logout</a></li>
 			</ul>
 		</nav>
 	</head>
