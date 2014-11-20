@@ -3,7 +3,7 @@ include_once("php/db.php");
 session_start();
 if(isset($_GET['logout'])){ // User is logging out.
 	
-		//session_unset();
+		session_unset();
 		session_destroy();
 	
 }else if(isset($_POST['submit'])){
