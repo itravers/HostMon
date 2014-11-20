@@ -2,10 +2,10 @@
 /**************************************************************
 * Hostmon - login.php
 * Author - Isaac Assegai
-* Implements a secure login utilizing ajax
+* Implements a secure login utilizing ajax to allow
+* user to see error codes.
 **************************************************************/
 include_once("php/db.php");
-
 session_start(); // Need to start the session, to check session variables.
 
 if(isset($_GET['logout'])){ // User is logging out.
@@ -73,13 +73,10 @@ if(isset($_GET['logout'])){ // User is logging out.
 
 
 <script type="text/javascript">
-//alert("ready");
 /** Event called when document is loaded. */
 $(document).ready(function() {
-
 	// Register an event listener on the submit id. 
 	$("#submit").click(function(){
-		//alert("posting");
 		var buttontext = $("#submit").val();
 		$("#submit").val("");
 		$(".ajax-spinner-bars").show();
@@ -100,7 +97,7 @@ $(document).ready(function() {
 			var pos = data.indexOf("Success");
 			pos += 8; //account for the word success, and the space that will be after it.
 			var userName = data.substring(pos);
-			//will need to change this soon, using GET here is a bad idea.
+			//we don't really need this here if we change the corresponding check in grid.php, sessions take care of it.
 			window.location.href = "grid.php?login=true"; 
 		}else{
 			$("#error_msg").text(data); 
