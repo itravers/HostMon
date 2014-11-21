@@ -2,7 +2,6 @@
  * Used by the slide out menu
  */
 var menuTimeout; // Will control if we are updating menu or not.
-var registered = false;
 
 //Event Handler when a user clicks on the menu. Opens the menu.
 $('.menu').click(function() {
@@ -20,10 +19,6 @@ $(".grid").click(function() {
 	$('nav').removeClass('open');
 });
 
-function setconfigValue2(){
-	alert("button pressed");
-}
-
 function setConfigValue(configToSet){
 	var newVal = $('.'+configToSet).val();
 	alert("setConfigValue: " + configToSet + " " + newVal);
@@ -38,12 +33,6 @@ function setMenuData(data){
 		var description = $(' '+jsonData[i].description);
 		$('.'+nameSelector).val(value.selector);
 	}	
-	//if(!registered) registerMenuEventHandlers(jsonData);
-}
-
-function registerMenuEventHandlers(jsonData){
-	
-		
 }
 
 /** Retrieves the several menu config settings
