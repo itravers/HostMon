@@ -98,3 +98,11 @@ function setMenuConfigInfo(norepeat){ // Called by grid.php and device.php docum
 	})(); //End of worker thread.
 	if(!norepeat) menuTimeout = setTimeout(setMenuConfigInfo, 5000);
 }
+
+function setMenuInputFocusIn(inputName){
+	alert(inputName + " has focus.");
+}
+
+function setMenuInputFocusOut(inputName){
+	alert(inputName + " lost focus.");
+}
