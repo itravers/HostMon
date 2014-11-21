@@ -114,25 +114,29 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 					<input type="text" name="weekRecordAgeLimit" style="display:inline; width:90px;">
 					<button name="weekRecordAgeLimit">SET</button><br>
 					
-					<h4 title="The number of threads the backend starts with. The thread number will change as the backend runs."
-					>Starting Threads (ms)</h4>
-					<input type="text" name="startingThreads" style="display:inline;">
-					<button name="startingThreads">SET</button><br>
+					<h4 style="right:112px;"
+						title="The amount of milliseconds we want to retrieve to average out new pings to add to hour table default was 5 minutes or 300000"
+					>New Ping Minutes</h4>
+					<input type="text" name="newestPingMinutes" style="display:inline; width:50px;">
+					<button name="newestPingMinutes">SET</button><br>
 					
-					<h4 title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
-					>Avg. Goal Time (ms) </h4>
-					<input type="text" name="avgGoalTime" style="display:inline;">
-					<button name="avgGoalTime">SET</button><br>
+					<h4 style="right:132px;"
+						title="The amount of milliseconds we want to retrieve in order to average out pings to add to the day table default is 1 hour or 3600000 millis"
+					>New Ping Hours</h4>
+					<input type="text" name="newestPingHours" style="display:inline; width:70px;">
+					<button name="newestPingHours">SET</button><br>
 					
-					<h4 title="The number of threads the backend starts with. The thread number will change as the backend runs."
-					>Starting Threads (ms)</h4>
-					<input type="text" name="startingThreads" style="display:inline;">
-					<button name="startingThreads">SET</button><br>
+					<h4 style="right:140px;"
+						title="The amount of milliseconds we want to retrieve in order to average out pings to add to the day table default is 1 day or 86400000 millis"
+					>New Ping Days</h4>
+					<input type="text" name="newestPingDays" style="display:inline; width:80px;">
+					<button name="newestPingDays">SET</button><br>
 					
-					<h4 title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
-					>Avg. Goal Time (ms) </h4>
-					<input type="text" name="avgGoalTime" style="display:inline;">
-					<button name="avgGoalTime">SET</button><br>
+					<h4 style="right:150px;"
+						title="The amount of milliseconds we want to retrieve in order to average out pings to add to the day table default is 1 week or 604800000 millis"
+					>New Ping Weeks</h4>
+					<input type="text" name="newestPingWeeks" style="display:inline; width:90px;">
+					<button name="newestPingWeeks">SET</button><br>
 					
 				</li>
         		<li style="height: 10%;"><a href="login.php?logout=true">Logout</a></li>
