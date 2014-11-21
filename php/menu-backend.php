@@ -40,6 +40,8 @@ if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data.
 	$config = array();
 	$config['name'] = $name;
 	$config['value'] = $value;
+}else if(isset($_POST['changePassword'])){
+	
 }
 $jencodeddata = json_encode($config);
 echo $jencodeddata;

@@ -117,6 +117,7 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
         
 <script type="text/javascript" src="js/jquery.tools.min.js"></script>
 <script src="js/jquery-ui.js"></script>
+<script src="js/jquery.md5.js"></script>
 <script src="js/menu.js"></script>
 <script src="js/hostmonChart.js"></script>
 <script type="text/javascript" src="js/jquery.gridster.min.js" charster="utf-8"></script>
