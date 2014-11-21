@@ -31,9 +31,15 @@ if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data.
 	mysqli_select_db($con,"HostMon");
 	$name = $_POST['name'];
 	$value = $_POST['value'];
+	$value = trim($value); // Problem with whitespace in value.
 	$sanitizedValue = mysqli_real_escape_string($con, $value); // Discourage some hackers.
+	$sanitizedValue = trim($sanitizedValue); // Get rid of leading and ending whitespace.
 	$sql = "UPDATE `hostmon`.`configuration` SET `value` = '".$sanitizedValue."' WHERE `configuration`.`name` = '".$name."';";
 	$result2 = mysqli_query($con,$sql);
+	// Pack up the name and value in a json object and send it back to the frontend.
+	$config = array();
+	$config['name'] = $name;
+	$config['value'] = $value;
 }
 $jencodeddata = json_encode($config);
 echo $jencodeddata;

@@ -22,7 +22,7 @@ $(".grid").click(function() {
 // A Set button was pressed on the config menu, we are setting that value in the db here.
 function setConfigValue(configToSet){
 	var newVal = $('.'+configToSet).val();
-	alert("setConfigValue: " + configToSet + " " + newVal);
+	//alert("setConfigValue: " + configToSet + " " + newVal);
 	(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
 		postData = {setConfigValue:true,
 					name:configToSet,
@@ -34,17 +34,30 @@ function setConfigValue(configToSet){
 			url: 'php/menu-backend.php', 
 			success: function(result,status,xhr) {
 				//setMenuData(result); we might not need to do anything at all if successful.
-				alert("sucess in sending value");
+				setMenuItemDisplay(result);
 			},
 			complete: function(result) {
 				// Schedule the next request when the current one's complete
 				//alert("complete" + result);
+				//setMenuItemDisplay(result);
+				
 			},
 			error: function(xhr,status,error){
 				alert("error" + error);
 			}
 		}); // End of ajax call.
 	})(); //End of worker thread.
+}
+
+/** Parses a single config value from json and updates the display on the menu. */
+function setMenuItemDisplay(data){
+	var jsonData = JSON.parse(data);
+	var name = jsonData.name;
+	var value = jsonData.value;
+	$('.' + name).val(value);
+	$('.' + name).stop().css("background-color", "#3366FF")
+    	.animate({ backgroundColor: "#FFFFFF"}, 1500); // Flashes a new color to the value changed.
+	//alert("menu item displayed");
 }
 
 /** Sets the menu's specific menu items, parses with json. */
