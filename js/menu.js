@@ -105,7 +105,12 @@ function setMenuConfigInfo(norepeat){ // Called by grid.php and device.php docum
   */
 function setMenuInputFocusIn(x){
 	//alert(inputName + " has focus.");
-	x.style.background = "yellow";
+	
+	if($(x).is(":focus")){
+		x.style.background = "yellow";
+	}else{
+		x.style.background = "white";
+	}
 	
 }
 
@@ -113,6 +118,6 @@ function setMenuInputFocusIn(x){
  *  between timer updates, and human input.
  * @param inputName The class name of the input we are focused off of.
  */
-function setMenuInputFocusOut(){
-	alert(inputName + " lost focus.");
+function setMenuInputFocusOut(x){
+	x.style.background = "white";
 }

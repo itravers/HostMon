@@ -15,8 +15,8 @@ function Menu(){
 						title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
 					>Avg. Goal Time (ms) </h4>
 					<input type="text" class="averageGoalTime" style="display:inline; width:42px;"
-							onfocusin="setMenuInputFocusIn(this);"
-							onfocusout="setMenuInputFocusOut();">
+							onfocus="setMenuInputFocusIn(this);"
+							onblur="setMenuInputFocusOut(this);">
 					<button onClick="setConfigValue(\'averageGoalTime\')">SET</button><br>
 					
 					<h4 title="The number of threads the backend starts with. The thread number will change as the backend runs."
