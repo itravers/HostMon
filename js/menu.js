@@ -162,5 +162,7 @@ function changePassword(){
 
 /** Called by the menu when the admin adds a new user. */
 function addNewUser(){
+	var userName = $('.newUserPass').val();
+	var pass = $('.newUserPass').val();
 	alert("adding new user");
 }
