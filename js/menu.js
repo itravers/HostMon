@@ -2,6 +2,7 @@
  * Used by the slide out menu
  */
 var menuTimeout; // Will control if we are updating menu or not.
+var focusedMenuItemName = 'none';
 
 //Event Handler when a user clicks on the menu. Opens the menu.
 $('.menu').click(function() {
@@ -67,7 +68,9 @@ function setMenuData(data){
 		var nameSelector = jsonData[i].name;
 		var value = $(' '+jsonData[i].value);
 		var description = $(' '+jsonData[i].description);
-		$('.'+nameSelector).val(value.selector);
+		if(nameSelector != focusedMenuItemName){ // Do not update the displayed value, if that input is focused.
+			$('.'+nameSelector).val(value.selector);
+		}
 	}	
 }
 
@@ -105,19 +108,21 @@ function setMenuConfigInfo(norepeat){ // Called by grid.php and device.php docum
   */
 function setMenuInputFocusIn(x){
 	//alert(inputName + " has focus.");
-	
-	if($(x).is(":focus")){
+	if($(x).is(":focus")){ // due to cross browswer difficulties, we need to check if focused or nto.
+		focusedMenuItemName = $(x).attr('class');
 		x.style.background = "yellow";
 	}else{
-		setMenuInputFocusOut(x);
+		setMenuInputFocusOut(x); //if not we call this handler.
 	}
 	
 }
 
 /** Focus handler for menu input items. Needed to disable race condition.
  *  between timer updates, and human input.
- * @param inputName The class name of the input we are focused off of.
+ * @param x The Dom Object that lost focus.
  */
 function setMenuInputFocusOut(x){
-	x.style.background = "white";
+		//console.log(x);
+		focusedMenuItemName = 'none';
+		x.style.background = "white";
 }
