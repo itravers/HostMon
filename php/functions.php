@@ -10,7 +10,7 @@ function Menu(){
 	<!-- This is the Menu that is handled in Javascript -->
 		<nav class="left">
 			<ul>
-				<li style="height: 90%; font-color="white";>
+				<li style="height: 90%; font-color="white"; class="config_list">
 					<h4 style="right:112px;"
 						title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
 					>Avg. Goal Time (ms) </h4>

@@ -21,10 +21,8 @@ $(".grid").click(function() {
  *  populates the values in the menu.
  */
 function setMenuConfigInfo(){ // Called by grid.php and device.php document ready.
-	var nav = $('nav');
-	var ul = $(nav).getChildren();
-	var li = $(ul).getChildren();
-	var tag_array = $(li).getChildren();
+	var list = $(".config_list");
+	var children = $(list).children();
 	var hello = "hello";
 	
 }
