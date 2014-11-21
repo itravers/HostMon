@@ -16,13 +16,10 @@ if(isset($_POST['getConfigData'])){
 			if(!((string)(int)$key == $key)){
 				$id[$key] = $value;
 			}
-			
 		}
 		array_push($config, $id);
-		//unset($value);
-		
 	}
-	
 }
-echo print_r($config);
+$jencodeddata = json_encode($config);
+echo $jencodeddata;
 ?>

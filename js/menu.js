@@ -16,11 +16,47 @@ $(".grid").click(function() {
 	$('nav').removeClass('open');
 });	
 
+/** Sets the menu's specific menu items, parses with json. */
+function setMenuData(data){
+	var jsonData = JSON.parse(data);
+	for(var i = 0; i < jsonData.length; i++){
+		var nameSelector = jsonData[i].name;
+		var name = $(' '+nameSelector);
+		var value = $(' '+jsonData[i].value);
+		var description = $(' '+jsonData[i].description);
+		$('.'+nameSelector).val(value.selector);
+	}	
+}
+
 /** Retrieves the several menu config settings
  *  from the backend through a ajax and php db call.
  *  populates the values in the menu.
  */
 function setMenuConfigInfo(){ // Called by grid.php and device.php document ready.
+	
+	(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
+	
+		
+		postData = {getConfigData:true};
+		 
+		 // Send the request to the server.
+		$.ajax({
+			type:"POST",
+			data : postData,
+			url: 'php/menu-backend.php', 
+			success: function(result,status,xhr) {
+				setMenuData(result);
+			},
+			complete: function(result) {
+				// Schedule the next request when the current one's complete
+				//alert("complete" + result);
+			},
+			error: function(xhr,status,error){
+				alert("error" + error);
+			}
+		}); // End of ajax call.
+	})(); //End of worker thread.
+	/*
 	var list = $(".config_list");
 	var children = $(list).children();
 	var averageGoalTime = $('.averageGoalTime');
@@ -54,6 +90,6 @@ function setMenuConfigInfo(){ // Called by grid.php and device.php document read
 	$(newestPingHours).val("10");
 	$(newestPingDays).val("10");
 	$(newestPingWeeks).val("10");
-	
+	*/
 	
 }

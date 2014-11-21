@@ -348,6 +348,7 @@ $( "#newDeviceOpener" ).click( function(event) {
 // Event Handler called when document is first loaded. Intializes the update of the grid graphs.
 $(document).ready(function() {
 	setTimeout('updateGridGraphs()',10);
+	//alert("about to set menu config info");
 	setMenuConfigInfo();
 });			 
 
