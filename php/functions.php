@@ -32,7 +32,23 @@ function Menu(){
 			';
 	if($_SESSION['admin_level'] == '10'){
 		$menu = $menu.'
-			<h4 style="right:112px;"
+					<h4 style="right:150px;"
+						title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
+					>New User</h4>
+					<input type="text" value="User Name" class="newUserName" style="display:inline; width:90px;"
+							onClick="$(this).val(\'\'); setMenuInputFocusIn(this);"
+							onfocus="setMenuInputFocusIn(this);" onblur="setMenuInputFocusOut(this);"
+							infocusin="setMenuInputFocusIn(this);" onfocusout="setMenuInputFocusOut(this);"><br>
+					<h4 style="right:150px;">Pass</h4>
+					<input type="text" value="New Pass" class="newUserPass1" style="display:inline; width:90px;"
+							onClick="$(this).val(\'\'); setMenuInputFocusIn(this);"
+							onfocus="setMenuInputFocusIn(this);" onblur="setMenuInputFocusOut(this);"
+							infocusin="setMenuInputFocusIn(this);" onfocusout="setMenuInputFocusOut(this);"><br>
+					<button onClick="addNewUser();">SET</button><br>
+					<h5 class="newUserErrorOutput" title="Shows the user an error message if change password is bad.">
+					-</h5>
+				
+					<h4 style="right:112px;"
 						title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
 					>Avg. Goal Time (ms) </h4>
 					<input type="text" class="averageGoalTime" style="display:inline; width:42px;"
