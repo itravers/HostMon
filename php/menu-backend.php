@@ -10,7 +10,7 @@
 include_once("db.php");
 include_once("functions.php");
 session_start(); //We'll end up needing to check for admin status.
-if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data.
+if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data. Any lvl can do this.
 	$con = openDB();
 	mysqli_select_db($con,"HostMon");
 	$sql = "SELECT * FROM configuration";
@@ -27,23 +27,25 @@ if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data.
 		array_push($config, $id);
 	}
 }else if(isset($_POST['setConfigValue'])){
-	$con = openDB();
-	mysqli_select_db($con,"HostMon");
-	$name = $_POST['name'];
-	$value = $_POST['value'];
-	$value = trim($value); // Problem with whitespace in value.
-	$sanitizedValue = mysqli_real_escape_string($con, $value); // Discourage some hackers.
-	$sanitizedValue = trim($sanitizedValue); // Get rid of leading and ending whitespace.
-	$sql = "UPDATE `hostmon`.`configuration` SET `value` = '".$sanitizedValue."' WHERE `configuration`.`name` = '".$name."';";
-	$result2 = mysqli_query($con,$sql);
-	// Pack up the name and value in a json object and send it back to the frontend.
-	$config = array();
-	$config['name'] = $name;
-	$config['value'] = $value;
+	if($_SESSION['admin_level'] == '10'){ // Make sure user is admin before changing config values
+		$con = openDB();
+		mysqli_select_db($con,"HostMon");
+		$name = $_POST['name'];
+		$value = $_POST['value'];
+		$value = trim($value); // Problem with whitespace in value.
+		$sanitizedValue = mysqli_real_escape_string($con, $value); // Discourage some hackers.
+		$sanitizedValue = trim($sanitizedValue); // Get rid of leading and ending whitespace.
+		$sql = "UPDATE `hostmon`.`configuration` SET `value` = '".$sanitizedValue."' WHERE `configuration`.`name` = '".$name."';";
+		$result2 = mysqli_query($con,$sql);
+		// Pack up the name and value in a json object and send it back to the frontend.
+		$config = array();
+		$config['name'] = $name;
+		$config['value'] = $value;
+	}
 }else if(isset($_POST['changePassword'])){
 	$con = openDB();
 	mysqli_select_db($con,"HostMon");
-	$userName = $_SESSION['usr'];
+	$userName = $_SESSION['usr']; // User is only setting his own password.
 	$newPass = $_POST['newPass'];
 	$userName = mysqli_real_escape_string($con, $userName); // Discourage some hackers.
 	$newPass = mysqli_real_escape_string($con, $newPass); // Discourage some hackers.
