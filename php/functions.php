@@ -33,7 +33,7 @@ function Menu(){
 	if($_SESSION['admin_level'] == '10'){
 		$menu = $menu.'
 					<h4 style="right:150px;"
-						title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
+						title="Allows the admin to add a new user account."
 					>New User</h4>
 					<input type="text" value="User Name" class="newUserName" style="display:inline; width:90px;"
 							onClick="$(this).val(\'\'); setMenuInputFocusIn(this);"
@@ -44,6 +44,12 @@ function Menu(){
 							onClick="$(this).val(\'\'); setMenuInputFocusIn(this);"
 							onfocus="setMenuInputFocusIn(this);" onblur="setMenuInputFocusOut(this);"
 							infocusin="setMenuInputFocusIn(this);" onfocusout="setMenuInputFocusOut(this);"><br>
+					<h4 style="right:150px;"
+						title="LVL 0: Unapproved Account, LVL 1: User Account, LVL 10: Admin Account">Admin LVL</h4>
+					<input type="text" value="Admin LVL" class="newUserPass1" style="display:inline; width:90px;"
+							onClick="$(this).val(\'\'); setMenuInputFocusIn(this);"
+							onfocus="setMenuInputFocusIn(this);" onblur="setMenuInputFocusOut(this);"
+							infocusin="setMenuInputFocusIn(this);" onfocusout="setMenuInputFocusOut(this);">
 					<button onClick="addNewUser();">SET</button><br>
 					<h5 class="newUserErrorOutput" title="Shows the user an error message if change password is bad.">
 					-</h5>

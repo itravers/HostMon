@@ -159,3 +159,8 @@ function changePassword(){
 		})(); //End of worker thread.
 	}
 }
+
+/** Called by the menu when the admin adds a new user. */
+function addNewUser(){
+	alert("adding new user");
+}
