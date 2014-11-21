@@ -33,7 +33,7 @@ function setConfigValue(configToSet){
 			data : postData,
 			url: 'php/menu-backend.php', 
 			success: function(result,status,xhr) {
-				//setMenuData(result); we might not need to do anything at all if sucessful.
+				//setMenuData(result); we might not need to do anything at all if successful.
 			},
 			complete: function(result) {
 				// Schedule the next request when the current one's complete

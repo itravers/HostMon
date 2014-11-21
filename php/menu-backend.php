@@ -1,9 +1,16 @@
 <?php 
+/**************************************************************
+* Hostmon - menu-backend.php
+* Author - Isaac Assegai
+* This script is used by the menu ajax calls
+* to query the database and return all configuration data.
+* It is also used to set individual pieces of configuration
+* data via the config set buttons on the front end.
+**************************************************************/
 include_once("db.php");
 include_once("functions.php");
-session_start();
-$_POST['getConfigData'] = true;
-if(isset($_POST['getConfigData'])){
+session_start(); //We'll end up needing to check for admin status.
+if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data.
 	$con = openDB();
 	mysqli_select_db($con,"HostMon");
 	$sql = "SELECT * FROM configuration";
@@ -19,6 +26,8 @@ if(isset($_POST['getConfigData'])){
 		}
 		array_push($config, $id);
 	}
+}else if(isset($_POST['setConfigValue'])){
+	
 }
 $jencodeddata = json_encode($config);
 echo $jencodeddata;
