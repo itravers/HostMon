@@ -10,8 +10,11 @@ function Menu(){
 	<!-- This is the Menu that is handled in Javascript -->
 		<nav class="left">
 			<ul>
-				<li style="height: 90%; font-color="white"; class="config_list">
-					<h4 style="right:150px;"
+				<li style="height: 90%; font-color="white"; class="config_list">		
+			';
+	
+	
+	$menu = $menu.'<h4 style="right:150px;"
 						title="Set a new password for your account."
 					>Change Password</h4>
 					<input text="NEW PASS" type="password" class="changePassword1" style="display:inline; width:90px;"
@@ -25,8 +28,11 @@ function Menu(){
 					<button onClick="changePassword()">SET</button><br>
 					<h5 class="errorOutput" title="Shows the user an error message if change password is bad.">
 					-</h5>
-			
-					<h4 style="right:112px;"
+				
+			';
+	if($_SESSION['admin_level'] == '10'){
+		$menu = $menu.'
+			<h4 style="right:112px;"
 						title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
 					>Avg. Goal Time (ms) </h4>
 					<input type="text" class="averageGoalTime" style="display:inline; width:42px;"
@@ -154,12 +160,13 @@ function Menu(){
 							onfocus="setMenuInputFocusIn(this);" onblur="setMenuInputFocusOut(this);"
 							infocusin="setMenuInputFocusIn(this);" onfocusout="setMenuInputFocusOut(this);">
 					<button onClick="setConfigValue(\'newestPingWeeks\');">SET</button><br>
-					
-				</li>
+				';
+	}
+	$menu = $menu .'
+			</li>
         		<li style="height: 10%;"><a href="login.php?logout=true">Logout</a></li>
 			</ul>
-		</nav>
-			';
+		</nav>';
 	return $menu;
 }
 /** Builds the opening tags for the notes grid section. */
