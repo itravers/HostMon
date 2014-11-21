@@ -56,7 +56,7 @@ function buildHeader($deviceName, $ip){
 function buildBody($deviceID, $deviceName, $ip, $notes){
 	$returnVal = "";
 	$openTag = "<body>";
-	$menu = buildMenu();
+	$menu = Menu();
 	$grid = buildGrid($deviceID, $deviceName, $ip, $notes);
 	$scripts = buildScripts($ip, $deviceID, $notes);
 	$closingTag = "</body>";
