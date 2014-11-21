@@ -2,8 +2,9 @@
  * Used by the slide out menu
  */
 var menuTimeout; // Will control if we are updating menu or not.
+var registered = false;
 
-// Event Handler when a user clicks on the menu. Opens the menu.
+//Event Handler when a user clicks on the menu. Opens the menu.
 $('.menu').click(function() {
 	setMenuConfigInfo();
 	//menuTimeout = setTimeout(setMenuConfigInfo, 5000);
@@ -17,18 +18,32 @@ $(".grid").click(function() {
 	clearTimeout(menuTimeout); // Remove the timer.
 	$('body').removeClass('menu-open');
 	$('nav').removeClass('open');
-});	
+});
+
+function setconfigValue2(){
+	alert("button pressed");
+}
+
+function setConfigValue(configToSet){
+	var newVal = $('.'+configToSet).val();
+	alert("setConfigValue: " + configToSet + " " + newVal);
+}
 
 /** Sets the menu's specific menu items, parses with json. */
 function setMenuData(data){
 	var jsonData = JSON.parse(data);
 	for(var i = 0; i < jsonData.length; i++){
 		var nameSelector = jsonData[i].name;
-		var name = $(' '+nameSelector);
 		var value = $(' '+jsonData[i].value);
 		var description = $(' '+jsonData[i].description);
 		$('.'+nameSelector).val(value.selector);
 	}	
+	//if(!registered) registerMenuEventHandlers(jsonData);
+}
+
+function registerMenuEventHandlers(jsonData){
+	
+		
 }
 
 /** Retrieves the several menu config settings
