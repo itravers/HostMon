@@ -345,18 +345,10 @@ $( "#newDeviceOpener" ).click( function(event) {
 	$( "#newDeviceDialog" ).dialog( "open" ); // Opens the new device dialog.
 }); // End of newDeviceOpener click handler
 
-
-
-// Event Handler when a user clicks anywhere but the menu, when the menu is open. Closes the menu.
-$(".grid").click(function() {
-	
-	$('body').removeClass('menu-open');
-	$('nav').removeClass('open');
-});	
-
 // Event Handler called when document is first loaded. Intializes the update of the grid graphs.
 $(document).ready(function() {
 	setTimeout('updateGridGraphs()',10);
+	setMenuConfigInfo();
 });			 
 
 // Query the server and redraw a specific graphs data. 

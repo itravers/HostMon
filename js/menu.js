@@ -9,10 +9,22 @@ $('.menu').click(function() {
 	return false;
 });
 
-
 //Event Handler when a user clicks anywhere but the menu, when the menu is open. Closes the menu.
 $(".grid").click(function() {
 	
 	$('body').removeClass('menu-open');
 	$('nav').removeClass('open');
 });	
+
+/** Retrieves the several menu config settings
+ *  from the backend through a ajax and php db call.
+ *  populates the values in the menu.
+ */
+function setMenuConfigInfo(){ // Called by grid.php and device.php document ready.
+	var nav = $('nav');
+	var ul = $(nav).getChildren();
+	var li = $(ul).getChildren();
+	var tag_array = $(li).getChildren();
+	var hello = "hello";
+	
+}
