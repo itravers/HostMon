@@ -1,6 +1,9 @@
 /**
  * Used by the slide out menu
  */
+var menuTimeout; // Will control if we are updating menu or not.
+clearTimeout(gridGraphTimeOut); // Remove the timer and re-add it. Why?
+gridGraphTimeOut = setTimeout(updateGridGraphs, 5000);
 
 // Event Handler when a user clicks on the menu. Opens the menu.
 $('.menu').click(function() {
@@ -33,12 +36,8 @@ function setMenuData(data){
  *  populates the values in the menu.
  */
 function setMenuConfigInfo(){ // Called by grid.php and device.php document ready.
-	
 	(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
-	
-		
 		postData = {getConfigData:true};
-		 
 		 // Send the request to the server.
 		$.ajax({
 			type:"POST",
