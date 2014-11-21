@@ -27,7 +27,13 @@ if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data.
 		array_push($config, $id);
 	}
 }else if(isset($_POST['setConfigValue'])){
-	
+	$con = openDB();
+	mysqli_select_db($con,"HostMon");
+	$name = $_POST['name'];
+	$value = $_POST['value'];
+	$sanitizedValue = mysqli_real_escape_string($con, $value); // Discourage some hackers.
+	$sql = "UPDATE `hostmon`.`configuration` SET `value` = '".$sanitizedValue."' WHERE `configuration`.`name` = '".$name."';";
+	$result2 = mysqli_query($con,$sql);
 }
 $jencodeddata = json_encode($config);
 echo $jencodeddata;
