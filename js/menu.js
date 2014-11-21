@@ -23,6 +23,37 @@ $(".grid").click(function() {
 function setMenuConfigInfo(){ // Called by grid.php and device.php document ready.
 	var list = $(".config_list");
 	var children = $(list).children();
-	var hello = "hello";
+	var averageGoalTime = $('.averageGoalTime');
+	var startingThreads = $('.startingThreads');
+	var maxThreads = $('.maxThreads');
+	var threadRemovalCoefficient = $('.threadRemovalCoefficient');
+	var threadAddCoefficient = $('.threadAddCoefficient');
+	var runPerThreadCheck = $('.runPerThreadCheck');
+	var numPingRunsBeforeDBRecord = $('.numPingRunsBeforeDBRecord');
+	var minuteRecordAgeLimit = $('.minuteRecordAgeLimit');
+	var hourRecordAgeLimit = $('.hourRecordAgeLimit');
+	var dayRecordAgeLimit = $('.dayRecordAgeLimit');
+	var weekRecordAgeLimit = $('.weekRecordAgeLimit');
+	var newestPingMinutes = $('.newestPingMinutes');
+	var newestPingHours = $('.newestPingHours');
+	var newestPingDays = $('.newestPingDays');
+	var newestPingWeeks = $('.newestPingWeeks');
+	
+	$(averageGoalTime).val("10");
+	$(startingThreads).val("10");
+	$(maxThreads).val("10");
+	$(threadRemovalCoefficient).val("10");
+	$(threadAddCoefficient).val("10");
+	$(runPerThreadCheck).val("10");
+	$(numPingRunsBeforeDBRecord).val("10");
+	$(minuteRecordAgeLimit).val("10");
+	$(hourRecordAgeLimit).val("10");
+	$(dayRecordAgeLimit).val("10");
+	$(weekRecordAgeLimit).val("10");
+	$(newestPingMinutes).val("10");
+	$(newestPingHours).val("10");
+	$(newestPingDays).val("10");
+	$(newestPingWeeks).val("10");
+	
 	
 }
