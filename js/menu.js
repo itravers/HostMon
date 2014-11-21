@@ -126,3 +126,35 @@ function setMenuInputFocusOut(x){
 		focusedMenuItemName = 'none';
 		x.style.background = "white";
 }
+
+/** Called When the users presses the password set button. */
+function changePassword(){
+	var pass1 = $('.changePassword1').val();
+	var pass2 = $('.changePassword2').val();
+	if(pass1 == '' || pass2 == ''){
+		$('.errorOutput').text("Both Fields Must Contain a Password.");
+	}else if(pass1 != pass2){
+		$('.errorOutput').text("Passwords Don't Match.");
+	}else{
+		$('.errorOutput').text("Changing Password.");
+		(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
+			postData = {changePassword:true,
+						newPassword:pass1};
+			 // Send the request to the server.
+			$.ajax({
+				type:"POST",
+				data : postData,
+				url: 'php/menu-backend.php', 
+				success: function(result,status,xhr) {
+					$('.errorOutput').text("Password Changed.");
+				},
+				complete: function(result) {
+					//$('.errorOutput').text("Password Changed.");
+				},
+				error: function(xhr,status,error){
+					$('.errorOutput').text("Error Changing Password.");
+				}
+			}); // End of ajax call.
+		})(); //End of worker thread.
+	}
+}

@@ -23,7 +23,7 @@ function Menu(){
 							onfocus="setMenuInputFocusIn(this);" onblur="setMenuInputFocusOut(this);"
 							infocusin="setMenuInputFocusIn(this);" onfocusout="setMenuInputFocusOut(this);">
 					<button onClick="changePassword()">SET</button><br>
-					<h5 title="Shows the user an error message if change password is bad.">
+					<h5 class="errorOutput" title="Shows the user an error message if change password is bad.">
 					-</h5>
 			
 					<h4 style="right:112px;"
