@@ -103,14 +103,16 @@ function setMenuConfigInfo(norepeat){ // Called by grid.php and device.php docum
   *  between timer updates, and human input.
   * @param inputName The class name of the input we are focused on.
   */
-function setMenuInputFocusIn(inputName){
-	alert(inputName + " has focus.");
+function setMenuInputFocusIn(x){
+	//alert(inputName + " has focus.");
+	x.style.background = "yellow";
+	
 }
 
 /** Focus handler for menu input items. Needed to disable race condition.
  *  between timer updates, and human input.
  * @param inputName The class name of the input we are focused off of.
  */
-function setMenuInputFocusOut(inputName){
+function setMenuInputFocusOut(){
 	alert(inputName + " lost focus.");
 }
