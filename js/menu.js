@@ -5,7 +5,8 @@ var menuTimeout; // Will control if we are updating menu or not.
 
 // Event Handler when a user clicks on the menu. Opens the menu.
 $('.menu').click(function() {
-	menuTimeout = setTimeout(setMenuConfigInfo, 5000);
+	setMenuConfigInfo();
+	//menuTimeout = setTimeout(setMenuConfigInfo, 5000);
 	$('nav').addClass('open');
 	$('body').addClass('menu-open');
 	return false;
@@ -35,7 +36,7 @@ function setMenuData(data){
  *  populates the values in the menu.
  */
 function setMenuConfigInfo(norepeat){ // Called by grid.php and device.php document ready.
-	alert("setMenuConfigInfo");
+	//alert("setMenuConfigInfo");
 	(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
 		postData = {getConfigData:true};
 		 // Send the request to the server.
@@ -55,5 +56,5 @@ function setMenuConfigInfo(norepeat){ // Called by grid.php and device.php docum
 			}
 		}); // End of ajax call.
 	})(); //End of worker thread.
-	if(!repeat) menuTimeout = setTimeout(setMenuConfigInfo, 5000);
+	if(!norepeat) menuTimeout = setTimeout(setMenuConfigInfo, 5000);
 }
