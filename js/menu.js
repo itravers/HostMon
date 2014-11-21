@@ -109,7 +109,7 @@ function setMenuInputFocusIn(x){
 	if($(x).is(":focus")){
 		x.style.background = "yellow";
 	}else{
-		x.style.background = "white";
+		setMenuInputFocusOut(x);
 	}
 	
 }
