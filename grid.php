@@ -349,7 +349,7 @@ $( "#newDeviceOpener" ).click( function(event) {
 $(document).ready(function() {
 	setTimeout('updateGridGraphs()',10);
 	//alert("about to set menu config info");
-	setMenuConfigInfo();
+	setMenuConfigInfo(true); //we don't want it to start repeating
 });			 
 
 // Query the server and redraw a specific graphs data. 

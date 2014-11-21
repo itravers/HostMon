@@ -34,7 +34,7 @@ function setMenuData(data){
  *  from the backend through a ajax and php db call.
  *  populates the values in the menu.
  */
-function setMenuConfigInfo(){ // Called by grid.php and device.php document ready.
+function setMenuConfigInfo(norepeat){ // Called by grid.php and device.php document ready.
 	alert("setMenuConfigInfo");
 	(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
 		postData = {getConfigData:true};
@@ -55,5 +55,5 @@ function setMenuConfigInfo(){ // Called by grid.php and device.php document read
 			}
 		}); // End of ajax call.
 	})(); //End of worker thread.
-	menuTimeout = setTimeout(setMenuConfigInfo, 5000);
+	if(!repeat) menuTimeout = setTimeout(setMenuConfigInfo, 5000);
 }
