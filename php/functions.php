@@ -35,18 +35,18 @@ function Menu(){
 					<h4 style="right:150px;"
 						title="Allows the admin to add a new user account."
 					>New User</h4>
-					<input type="text" value="User Name" class="newUserName" style="display:inline; width:90px;"
+					<input type="text" class="newUserName" style="display:inline; width:90px;"
 							onClick="$(this).val(\'\'); setMenuInputFocusIn(this);"
 							onfocus="setMenuInputFocusIn(this);" onblur="setMenuInputFocusOut(this);"
 							infocusin="setMenuInputFocusIn(this);" onfocusout="setMenuInputFocusOut(this);"><br>
 					<h4 style="right:150px;">Pass</h4>
-					<input type="text" value="New Pass" class="newUserPass1" style="display:inline; width:90px;"
+					<input type="text" class="newUserPass" style="display:inline; width:90px;"
 							onClick="$(this).val(\'\'); setMenuInputFocusIn(this);"
 							onfocus="setMenuInputFocusIn(this);" onblur="setMenuInputFocusOut(this);"
 							infocusin="setMenuInputFocusIn(this);" onfocusout="setMenuInputFocusOut(this);"><br>
 					<h4 style="right:150px;"
 						title="LVL 0: Unapproved Account, LVL 1: User Account, LVL 10: Admin Account">Admin LVL</h4>
-					<input type="text" value="Admin LVL" class="newUserPass" style="display:inline; width:90px;"
+					<input type="text" class="adminLvl" style="display:inline; width:90px;"
 							onClick="$(this).val(\'\'); setMenuInputFocusIn(this);"
 							onfocus="setMenuInputFocusIn(this);" onblur="setMenuInputFocusOut(this);"
 							infocusin="setMenuInputFocusIn(this);" onfocusout="setMenuInputFocusOut(this);">

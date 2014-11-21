@@ -162,7 +162,19 @@ function changePassword(){
 
 /** Called by the menu when the admin adds a new user. */
 function addNewUser(){
-	var userName = $('.newUserPass').val();
+	var userName = $('.newUserName').val();
 	var pass = $('.newUserPass').val();
-	alert("adding new user");
+	var adminLvl = $('.adminLvl').val();
+	
+	// Can't add a user if any field is empty
+	if(userName == '' || pass == '' || adminLvl == ''){ 
+		$('.newUserErrorOutput').text("All fields must be filled.");
+	}else if(isNaN(adminLvl)){
+		$('.newUserErrorOutput').text("Admin lvl must be between 0 and 10, inclusive.");
+	}else if(parseInt(adminLvl) > 10 || parseInt(adminLvl) < 0){
+		$('.newUserErrorOutput').text("Admin lvl must be between 0 and 10, inclusive.");
+	}else{
+		$('.newUserErrorOutput').text("Adding user " + userName + " " + pass + " " + adminLvl);
+	}
+	
 }
