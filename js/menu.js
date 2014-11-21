@@ -19,9 +19,31 @@ $(".grid").click(function() {
 	$('nav').removeClass('open');
 });
 
+// A Set button was pressed on the config menu, we are setting that value in the db here.
 function setConfigValue(configToSet){
 	var newVal = $('.'+configToSet).val();
 	alert("setConfigValue: " + configToSet + " " + newVal);
+	(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
+		postData = {setConfigValue:true,
+					name:configToSet,
+					value:newVal};
+		 // Send the request to the server.
+		$.ajax({
+			type:"POST",
+			data : postData,
+			url: 'php/menu-backend.php', 
+			success: function(result,status,xhr) {
+				//setMenuData(result); we might not need to do anything at all if sucessful.
+			},
+			complete: function(result) {
+				// Schedule the next request when the current one's complete
+				//alert("complete" + result);
+			},
+			error: function(xhr,status,error){
+				alert("error" + error);
+			}
+		}); // End of ajax call.
+	})(); //End of worker thread.
 }
 
 /** Sets the menu's specific menu items, parses with json. */
