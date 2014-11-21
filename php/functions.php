@@ -25,7 +25,7 @@ function Menu(){
 					<h4 title="The maximum number of threads the backend will be able to run."
 					>Max Threads </h4>
 					<input type="text" class="maxThreads" style="display:inline;">
-					<button class="avgGoalTimeButton">SET</button><br>
+					<button class="maxThreadsButton">SET</button><br>
 					
 					<h4 title="The Value that decides when threads are removed. The Lower the value the sooner an unneeded thread is removed."
 					>T. Removal Co-eff.</h4>
