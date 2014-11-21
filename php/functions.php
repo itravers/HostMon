@@ -11,6 +11,20 @@ function Menu(){
 		<nav class="left">
 			<ul>
 				<li style="height: 90%; font-color="white"; class="config_list">
+					<h4 style="right:150px;"
+						title="Set a new password for your account."
+					>Change Password</h4>
+					<input text="NEW PASS" type="password" class="changePassword1" style="display:inline; width:90px;"
+							onClick="setMenuInputFocusIn(this);"
+							onfocus="setMenuInputFocusIn(this);" onblur="setMenuInputFocusOut(this);"
+							infocusin="setMenuInputFocusIn(this);" onfocusout="setMenuInputFocusOut(this);"><br>
+					<input type="password" class="changePassword2" style="display:inline; width:90px;"
+							onClick="setMenuInputFocusIn(this);"
+							onfocus="setMenuInputFocusIn(this);" onblur="setMenuInputFocusOut(this);"
+							infocusin="setMenuInputFocusIn(this);" onfocusout="setMenuInputFocusOut(this);">
+					<button onClick="changePassword()">SET</button><br>
+			
+					<br>
 					<h4 style="right:112px;"
 						title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
 					>Avg. Goal Time (ms) </h4>
