@@ -137,7 +137,7 @@ function changePassword(){
 		$('.errorOutput').text("Passwords Don't Match.");
 	}else{
 		var newPassword = $.md5(pass1);
-		$('.errorOutput').text("Changing Password to " + newPassword);
+		$('.errorOutput').text("Changing Password");
 		(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
 			postData = {changePassword:true,
 						newPass:newPassword};
@@ -147,7 +147,7 @@ function changePassword(){
 				data : postData,
 				url: 'php/menu-backend.php', 
 				success: function(result,status,xhr) {
-					//$('.errorOutput').text("Password Changed.");
+					$('.errorOutput').text("Password Changed.");
 				},
 				complete: function(result) {
 					//$('.errorOutput').text("Password Changed.");
