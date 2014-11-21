@@ -136,17 +136,18 @@ function changePassword(){
 	}else if(pass1 != pass2){
 		$('.errorOutput').text("Passwords Don't Match.");
 	}else{
-		$('.errorOutput').text("Changing Password.");
+		var newPassword = $.md5(pass1);
+		$('.errorOutput').text("Changing Password to " + newPassword);
 		(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
 			postData = {changePassword:true,
-						newPassword:pass1};
+						newPass:newPassword};
 			 // Send the request to the server.
 			$.ajax({
 				type:"POST",
 				data : postData,
 				url: 'php/menu-backend.php', 
 				success: function(result,status,xhr) {
-					$('.errorOutput').text("Password Changed.");
+					//$('.errorOutput').text("Password Changed.");
 				},
 				complete: function(result) {
 					//$('.errorOutput').text("Password Changed.");

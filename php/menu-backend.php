@@ -41,7 +41,15 @@ if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data.
 	$config['name'] = $name;
 	$config['value'] = $value;
 }else if(isset($_POST['changePassword'])){
-	
+	$con = openDB();
+	mysqli_select_db($con,"HostMon");
+	$userName = $_SESSION['usr'];
+	$newPass = $_POST['newPass'];
+	$userName = mysqli_real_escape_string($con, $userName); // Discourage some hackers.
+	$newPass = mysqli_real_escape_string($con, $newPass); // Discourage some hackers.
+	$sql = "UPDATE `hostmon`.`users` SET `pass` = '".$newPass."' WHERE `users`.`usr` = '".$userName."';";
+	$result2 = mysqli_query($con,$sql);
+	$config = "hello";
 }
 $jencodeddata = json_encode($config);
 echo $jencodeddata;
