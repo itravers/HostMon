@@ -142,12 +142,21 @@ gridster = $("#frontGrid > ul").gridster({
 }).data('gridster');	
 
 var onMouseWheel = function(e) {
+	var browser = $.browser;
     e = e.originalEvent;
     var delta = e.wheelDelta>0||e.detail<0?1:-1;
     delta = 0 - delta;
    // alert(delta);
-   var scrollTop = $("html").scrollTop();
-    $("html").scrollTop(scrollTop+(delta*15));
+  
+    //scrolling only works on mozilla with an html tag
+    //scrolling only works on safari/opera with a body tag.
+    if ($.browser.mozilla && $.browser.version >= "1.8" ){ 
+    	var scrollTop = $("html").scrollTop();
+   	 	$("html").scrollTop(scrollTop+(delta*15));
+    }else{
+    	 var scrollTop = $("body").scrollTop();
+    	 $("body").scrollTop(scrollTop+(delta*15));
+    }
 }
 $("body").bind("mousewheel DOMMouseScroll", onMouseWheel);
 
