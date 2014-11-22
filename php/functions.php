@@ -53,6 +53,17 @@ function Menu(){
 					<button onClick="addNewUser();">SET</button><br>
 					<h5 class="newUserErrorOutput" title="Shows the user an error message if change password is bad.">
 					-</h5>
+					
+					<h4 style="right:150px;"
+						title="Allows the admin to remove a user by name."
+					>Remove User</h4>
+					<input type="text" class="removeUsername" style="display:inline; width:90px;"
+							onClick="$(this).val(\'\'); setMenuInputFocusIn(this);"
+							onfocus="setMenuInputFocusIn(this);" onblur="setMenuInputFocusOut(this);"
+							infocusin="setMenuInputFocusIn(this);" onfocusout="setMenuInputFocusOut(this);">
+					<button onClick="removeUser();">SET</button><br>
+					<h5 class="removeUserErrorOutput" title="Shows the user an error message if change password is bad.">
+					-</h5>
 				
 					<h4 style="right:112px;"
 						title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
