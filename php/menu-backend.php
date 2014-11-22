@@ -75,7 +75,19 @@ if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data. A
 			$config['returnVal'] = "Added User ".$newUsername;
 		}
 	}
+}else if(isset($_POST['removeUser'])){ // Admin clicked remove user.
+	if($_SESSION['admin_level'] == '10'){ // Make sure user is admin before changing config values
+	$removeUsername = $_POST['removeUsername'];
+	$con = openDB();
+	mysqli_select_db($con,"HostMon");
+	$config = array();
+	$removeUsername = mysqli_real_escape_string($con, $removeUsername); // Discourage some hackers.
+	$sql = "DELETE FROM `hostmon`.`users` WHERE `users`.`usr` = '".$removeUsername."'";
+	$result = mysqli_query($con,$sql);
+	$config['returnVal'] = "Removed ".$removeUsername;
+	}
 }
+
 $jencodeddata = json_encode($config);
 echo $jencodeddata;
 
