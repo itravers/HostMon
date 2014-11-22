@@ -56,11 +56,12 @@ function buildHeader($deviceName, $ip){
 function buildBody($deviceID, $deviceName, $ip, $notes){
 	$returnVal = "";
 	$openTag = "<body>";
-	$menu = Menu();
+	//$menu = Menu();
 	$grid = buildGrid($deviceID, $deviceName, $ip, $notes);
 	$scripts = buildScripts($ip, $deviceID, $notes);
 	$closingTag = "</body>";
-	$returnVal = $openTag.$menu.$grid.$scripts.$closingTag;
+	//$returnVal = $openTag.$menu.$grid.$scripts.$closingTag;
+	$returnVal = $openTag.$grid.$scripts.$closingTag;
 	return $returnVal;
 }
 
