@@ -175,6 +175,28 @@ function addNewUser(){
 		$('.newUserErrorOutput').text("Admin lvl must be between 0 and 10, inclusive.");
 	}else{
 		$('.newUserErrorOutput').text("Adding user " + userName + " " + pass + " " + adminLvl);
+		(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
+			postData = {addUser:true,
+						newUserName:userName,
+						newPassword:pass,
+						newAdminLvl:adminLvl};
+			 // Send the request to the server.
+			$.ajax({
+				type:"POST",
+				data : postData,
+				url: 'php/menu-backend.php', 
+				success: function(result,status,xhr) {
+					$('.errorOutput').text("User Added.");
+				},
+				complete: function(result) {
+					//$('.errorOutput').text("Password Changed.");
+				},
+				error: function(xhr,status,error){
+					$('.errorOutput').text("Error Adding User.");
+				}
+			}); // End of ajax call.
+		})(); //End of worker thread.
+		
 	}
 	
 }

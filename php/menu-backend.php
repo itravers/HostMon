@@ -51,8 +51,40 @@ if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data. A
 	$newPass = mysqli_real_escape_string($con, $newPass); // Discourage some hackers.
 	$sql = "UPDATE `hostmon`.`users` SET `pass` = '".$newPass."' WHERE `users`.`usr` = '".$userName."';";
 	$result2 = mysqli_query($con,$sql);
-	$config = "hello";
+	$config = array();
+		$config['returnVal'] = "Password Changed.";
+}else if(isset($_POST['addUser'])){
+	if($_SESSION['admin_level'] == '10'){ // Make sure user is admin before changing config values
+		$newUsername = $_POST['newUserName'];
+		$newPassword = $_POST['newPassword'];
+		$newAdminLvl = $_POST['newAdminLvl'];
+		
+		$con = openDB();
+		mysqli_select_db($con,"HostMon");
+		$config = array();
+		
+		$newUsername = mysqli_real_escape_string($con, $newUsername); // Discourage some hackers.
+		$newPassword = mysqli_real_escape_string($con, $newPassword); // Discourage some hackers.
+		$newAdminLvl = mysqli_real_escape_string($con, $newAdminLvl); // Discourage some hackers.
+		
+		if(userExists($newUsername, $con)){
+			$config['returnVal'] = "User Exists";
+		}else{
+			$sql = "INSERT INTO `hostmon`.`users` (`usr`, `admin_level`, `pass`) VALUES ('".$newUsername."', '".$newAdminLvl."', '".$newPassword."');";
+			$result = mysqli_query($con,$sql);
+			$config['returnVal'] = "Added User ".$newUsername;
+		}
+	}
 }
 $jencodeddata = json_encode($config);
 echo $jencodeddata;
+
+/** Returns true if $userName exists in db represented by $con
+  * @param unknown $userName The Username we are checking.
+  * @param unknown $con The db connection we are checking.*/
+function userExists($userName, $con){
+	$sql = "SELECT * FROM `users` WHERE `usr` = ".$userName;
+	$result = mysqli_query($con,$sql);
+	$hello = "hello";
+}
 ?>
