@@ -201,5 +201,37 @@ function addNewUser(){
 		})(); //End of worker thread.
 		
 	}
+}
+
+/** Called by frontend when admin removes a user. */
+function removeUser(){
+	var userName = $('.removeUsername').val();
+	if(userName == ''){
+		$('.removeUserErrorOutput').text("Username is Blank!");
+	}else{
+		$('.removeUserErrorOutput').text("Removing User " + userName);
+		(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
+			postData = {removeUser:true,
+						removeUsername:userName};
+			 // Send the request to the server.
+			$.ajax({
+				type:"POST",
+				data : postData,
+				url: 'php/menu-backend.php', 
+				success: function(result,status,xhr) {
+					var jsonData = JSON.parse(result);
+					$('.removeUserErrorOutput').text(jsonData['returnVal']);
+				},
+				complete: function(result) {
+					var jsonData = JSON.parse(result);
+					$('.removeUserErrorOutput').text(jsonData['returnVal']);
+				},
+				error: function(xhr,status,error){
+					$('.removeUserErrorOutput').text("Error Removing.");
+				}
+			}); // End of ajax call.
+		})(); //End of worker thread.
+	}
+	
 	
 }
