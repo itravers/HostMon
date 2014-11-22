@@ -1,7 +1,11 @@
 <?php 
-$mysql = 5.3;
+$mysql = 'false';
 $php = phpversion();
 $apache = substr(apache_get_version(), 0, 10);
+$ext = get_loaded_extensions();
+for($i = 0; $i < count($ext); $i++){
+	if($ext[$i] == 'mysqli')$mysql = 'true';
+}
 ?>
 <html>
 <head>
@@ -18,7 +22,7 @@ $apache = substr(apache_get_version(), 0, 10);
 				<td class='install_value' id='install_red'><?php echo $php?></td>
 			</tr>
 			<tr>
-				<td class='install_label'>MySQL Version</td>
+				<td class='install_label'>MySQLi Installed</td>
 				<td class='install_value' id='install_green'><?php echo $mysql?></td>
 			</tr>
 			<tr>
