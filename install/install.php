@@ -30,6 +30,26 @@ for($i = 0; $i < count($ext); $i++){
 				<td class='install_value' id='install_green'><?php echo $apache?></td>
 			</tr>
 		</table>
+		<br>
+		<table class='install_table'>
+		<caption>MySQL Settings</caption>
+			<tr>
+				<td class='install_label'>Address</td>
+				<td class='install_value'><input class="dbAddress" type="text"></td>
+			</tr>
+			<tr>
+				<td class='install_label'>DB Name</td>
+				<td class='install_value'><input class="dbName" type="text"></td>
+			</tr>
+			<tr>
+				<td class='install_label'>DB User</td>
+				<td class='install_value'><input class="dbUser" type="text"></td>
+			</tr>
+			<tr>
+				<td class='install_label'>DB User's Password</td>
+				<td class='install_value'><input class="dbPass" type="text"></td>
+			</tr>
+		</table>
 	</div>
 </body>
 </html>
