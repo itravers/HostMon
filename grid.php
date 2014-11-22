@@ -141,6 +141,16 @@ gridster = $("#frontGrid > ul").gridster({
 	} 
 }).data('gridster');	
 
+var onMouseWheel = function(e) {
+    e = e.originalEvent;
+    var delta = e.wheelDelta>0||e.detail<0?1:-1;
+    delta = 0 - delta;
+   // alert(delta);
+   var scrollTop = $("html").scrollTop();
+    $("html").scrollTop(scrollTop+(delta*15));
+}
+$("body").bind("mousewheel DOMMouseScroll", onMouseWheel);
+
 //Initialize and draw every canvas on the page.		
 c = initializeCanvas("can1");
 for(i = 0; i < c.length; i++){
