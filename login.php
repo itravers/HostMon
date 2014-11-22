@@ -50,6 +50,7 @@ if(isset($_GET['logout'])){ // User is logging out.
 	<script src="js/jquery.tools.min.js"></script>
 </head>
 <body class='main-body'>
+	<h5 class="version">V 0.2</h5>
 	<div class='login-form'>
 		<h1>Hostmon</h1>
     	<div class="input-wrapper">

@@ -4,6 +4,13 @@ html, body {
 	
  }
  
+ .version{
+ 	font-family: Raavi;
+ 	color: white;
+	 text-align: right;
+	 margin-right:20px;
+ }
+ 
 .main_grid{
 	background-color: #009cff;
 }
