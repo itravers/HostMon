@@ -5,10 +5,19 @@ html, body {
 	
  }
  
- .version{
+ .gridster .version{
  	font-family: Raavi;
  	color: white;
+	 margin-left:10px;
+	 position:absolute;
+	 top:-15px;
+ }
+
+ .main-body .version{
+ 	 font-family: Raavi;
+   color: white;
 	 text-align: right;
+	 position: relative;
 	 margin-right:20px;
  }
  

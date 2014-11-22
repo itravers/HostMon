@@ -55,7 +55,9 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 	<body>
 		<!-- This is the entire page, where the grid can roam. -->
 		<section class="grid">
+		
 			<div class="gridster" id="frontGrid">
+			<h5 class="version"><?php echo getCurrentVersion();?></h5>
 				<ul class='gridlist'>
 					<!-- each grid is parsed from the devices array, each grid is placed using the gridPositions array. -->
 					<?php for($i=0;$i<count($devices);$i++) : ?>
