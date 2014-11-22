@@ -1,7 +1,7 @@
 <?php 
 $mysql = 5.3;
-$php = 2.2;
-$apache = 5.5;
+$php = phpversion();
+$apache = substr(apache_get_version(), 0, 10);
 ?>
 <html>
 <head>
