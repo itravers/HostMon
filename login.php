@@ -6,6 +6,7 @@
 * user to see error codes.
 **************************************************************/
 include_once("php/db.php");
+include_once("php/functions.php");
 session_start(); // Need to start the session, to check session variables.
 
 if(isset($_GET['logout'])){ // User is logging out.
@@ -50,7 +51,7 @@ if(isset($_GET['logout'])){ // User is logging out.
 	<script src="js/jquery.tools.min.js"></script>
 </head>
 <body class='main-body'>
-	<h5 class="version">V 0.2</h5>
+	<h5 class="version"><?php  echo getCurrentVersion(); ?></h5>
 	<div class='login-form'>
 		<h1>Hostmon</h1>
     	<div class="input-wrapper">
