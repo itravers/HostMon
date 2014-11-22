@@ -4,6 +4,18 @@
 * Author - Isaac Assegai
 * Supplies functions that are used by several scripts.
 **************************************************************/
+/** Current Version of the app gets stored in
+  * cfg/version.txt. We need to read and parse this file.   
+  */
+function getCurrentVersion(){
+	$returnVal = "V 0.0.0";
+	$myfile = fopen("cfg/version.txt", "r") or die("Unable to open version file!");
+	$returnVal = fread($myfile,filesize("cfg/version.txt"));
+	fclose($myfile);
+	$returnVal = "V ".$returnVal;
+	return $returnVal;
+}
+
 /** Echo's the menu  */
 function Menu(){
 	$menu = '

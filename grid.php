@@ -55,7 +55,9 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 	<body>
 		<!-- This is the entire page, where the grid can roam. -->
 		<section class="grid">
+		
 			<div class="gridster" id="frontGrid">
+			<h5 class="version"><?php echo getCurrentVersion();?></h5>
 				<ul class='gridlist'>
 					<!-- each grid is parsed from the devices array, each grid is placed using the gridPositions array. -->
 					<?php for($i=0;$i<count($devices);$i++) : ?>
@@ -138,6 +140,25 @@ gridster = $("#frontGrid > ul").gridster({
 		}
 	} 
 }).data('gridster');	
+
+var onMouseWheel = function(e) {
+	var browser = $.browser;
+    e = e.originalEvent;
+    var delta = e.wheelDelta>0||e.detail<0?1:-1;
+    delta = 0 - delta;
+   // alert(delta);
+  
+    //scrolling only works on mozilla with an html tag
+    //scrolling only works on safari/opera with a body tag.
+    if ($.browser.mozilla && $.browser.version >= "1.8" ){ 
+    	var scrollTop = $("html").scrollTop();
+   	 	$("html").scrollTop(scrollTop+(delta*15));
+    }else{
+    	 var scrollTop = $("body").scrollTop();
+    	 $("body").scrollTop(scrollTop+(delta*15));
+    }
+}
+$("body").bind("mousewheel DOMMouseScroll", onMouseWheel);
 
 //Initialize and draw every canvas on the page.		
 c = initializeCanvas("can1");
