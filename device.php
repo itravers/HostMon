@@ -17,7 +17,7 @@ session_start();
 if(!isset($_SESSION['loggedIn'])){ //User is not logged in, redirect to login.php
 	header("Location: login.php"); die();
 }else{
-	if(!isset($_GET['ip']))$_GET['ip'] = "earlhart.com"; //default to earlhart if no ip is given to page.
+	if(!isset($_GET['ip']))$_GET['ip'] = "two.com"; //default to earlhart if no ip is given to page.
 	$ip = $_GET['ip'];
 	$newCount = 0;
 	$deviceID = getDeviceID($ip); //db query get device id from device ip

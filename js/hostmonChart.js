@@ -115,13 +115,32 @@ function drawData(c, color, data){
 	//we'll need the min, max latency and time to calculate positions
 	var minMaxLatency = getMinMaxLatency(data);
 	var minMaxTime = getMinMaxTime(data);
-	//we only loop to the second last element. The last line will include the last element.
-	for(i =0; i < data.length-1; i++){
-		//get the points for this line by translating data to pixels.
-		var p1 = translateToPixels(data[i], c, minMaxTime, minMaxLatency);
-		var p2 = translateToPixels(data[i+1], c, minMaxTime, minMaxLatency);
-		drawLine(c, p1[0], p1[1], p2[0], p2[1], 3, "#ffffff");			
-	} 
+	if(minMaxLatency[0] == '0' && minMaxLatency[1] == '0'){// All Data is 0
+		//draw an empty line at the bottom of the graph.
+		drawFlatLine(c, "#ff0000");
+	}else{ // Draw the normal graph
+		//we only loop to the second last element. The last line will include the last element.
+		for(i =0; i < data.length-1; i++){
+			//get the points for this line by translating data to pixels.
+			var p1 = translateToPixels(data[i], c, minMaxTime, minMaxLatency);
+			var p2 = translateToPixels(data[i+1], c, minMaxTime, minMaxLatency);
+			drawLine(c, p1[0], p1[1], p2[0], p2[1], 3, "#ffffff");			
+		}
+	}
+}
+
+/** Draws a flat line to the selected canvas graph.
+ * @param c The canvas we draw the line to.
+ * @param color The color of the line.
+ */
+function drawFlatLine(c, color){
+	var gridWidth = (c.width/25); 
+	var gridHeight = c.height/20;
+	var widthMinMax = [(gridWidth*2)+7, (gridWidth*24)+7];
+	var heightMinMax = [gridHeight*17-10, gridHeight*1-10];
+	//var tarX = map(point[0], minMaxTime[0], minMaxTime[1], widthMinMax[0], widthMinMax[1]);
+	//var tarY = 0;
+	drawLine(c, widthMinMax[0], heightMinMax[0], widthMinMax[1], heightMinMax[0], 3, "#ff0000");
 }
 
 /** Translate a (time, latency) point to a (x, y) pixel*/ 
