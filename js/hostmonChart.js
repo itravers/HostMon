@@ -255,7 +255,13 @@ function drawYLabels(c, color, data){
 	//calculate the difference in height based on 20 total sections
 	var minMaxLatency = getMinMaxLatency(data);
 	var gridHeight = c.height/20;
-	var latencyGap = (minMaxLatency[1] - minMaxLatency[0])/17;
+	var latencyGap;
+	if(minMaxLatency[0] == '0' && minMaxLatency[1] == '0'){ // If all data is 0
+		latencyGap = 10;
+	}else{
+		latencyGap = (minMaxLatency[1] - minMaxLatency[0])/17;
+	}
+	
 	
 	var ctx = c.getContext("2d");
 	ctx.font = "12px Raavi";
