@@ -164,6 +164,7 @@ function changePassword(){
 function addNewUser(){
 	var userName = $('.newUserName').val();
 	var pass = $('.newUserPass').val();
+	pass = $.md5(pass);
 	var adminLvl = $('.adminLvl').val();
 	
 	// Can't add a user if any field is empty
