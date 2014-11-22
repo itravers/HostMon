@@ -11,27 +11,33 @@
 include_once("php/functions.php");
 include_once("php/db.php");
 
-$userName;
+$userName = "Guest";
+$adminLevel;
+$loggedIn = false;
+if(!isset($_SESSION)) session_start();
 
 //this is really a bad idea to check if we are logged in with a get variable, 
 //can't seem to get the session variable to set in login-backend.php like i was planning
-if(isset($_GET['login'])){
-	$userName = $_GET['userName'];
-	session_start();
-	$_SESSION = $userName;
-	//echo "logged in";
-}else if(isset($_SESSION)){
-	$userName = $_SESSION['userName'];
-	//echo "logged in";
-}else{
-	$userName = "NOT LOGGED IN";
+if(isset($_GET['login'])){ //if login has just logged us in
+	if($_SESSION['loggedIn']){
+		$userName = $_SESSION['usr'];
+		$adminLevel = $_SESSION['admin_level'];
+		$loggedIn = true;
+	}
+}else if(isset($_SESSION)){ //if we are already logged in but just updating the page.
+	if($_SESSION['loggedIn']){
+		$userName = $_SESSION['usr'];
+		$adminLevel = $_SESSION['admin_level'];
+		$loggedIn = true;
+	}
 }
-
 $pageTitle = "Hostmon - ".$userName;
 $devices = getActiveDevices($userName); // returns the initial active devices
 $gridPositions = getGridPositions(count($devices)); // returns a 2d array with initial grid positions and sizes 
 ?>
 
+
+<?php if($loggedIn):?>
 <html class="main_grid">
 <!-- Grid.html is currently having issues with event listeners. -->
 	<head>
@@ -44,14 +50,7 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 			<div class="bar"></div>
 			<div class="bar"></div>
 		</a>
-		<!-- This is the Menu that is handled in Javascript -->
-		<nav class="left">
-			<ul>
-				<li><a href="#">Home</a></li>
-				<li><a href="#">Options</a></li>
-        		<li><a href="login.php?logout=true">Logout</a></li>
-			</ul>
-		</nav>
+		<?php echo Menu();?>
 	</head>
 	<body>
 		<!-- This is the entire page, where the grid can roam. -->
@@ -116,8 +115,10 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 		<!-- the external content is loaded inside this tag -->
 		<div class="contentWrap"></div>
         
-<script src="js/jquery.tools.min.js"></script>
+<script type="text/javascript" src="js/jquery.tools.min.js"></script>
 <script src="js/jquery-ui.js"></script>
+<script src="js/jquery.md5.js"></script>
+<script src="js/menu.js"></script>
 <script src="js/hostmonChart.js"></script>
 <script type="text/javascript" src="js/jquery.gridster.min.js" charster="utf-8"></script>
 
@@ -345,22 +346,11 @@ $( "#newDeviceOpener" ).click( function(event) {
 	$( "#newDeviceDialog" ).dialog( "open" ); // Opens the new device dialog.
 }); // End of newDeviceOpener click handler
 
-// Event Handler when a user clicks on the menu. Opens the menu.
-$('.menu').click(function() {
-	$('nav').addClass('open');
-	$('body').addClass('menu-open');
-	return false;
-});
-
-// Event Handler when a user clicks anywhere but the menu, when the menu is open. Closes the menu.
-$(document).click(function() {
-	$('body').removeClass('menu-open');
-	$('nav').removeClass('open');
-});	
-
 // Event Handler called when document is first loaded. Intializes the update of the grid graphs.
 $(document).ready(function() {
 	setTimeout('updateGridGraphs()',10);
+	//alert("about to set menu config info");
+	setMenuConfigInfo(true); //we don't want it to start repeating
 });			 
 
 // Query the server and redraw a specific graphs data. 
@@ -372,9 +362,15 @@ function drawGridGraph(c, data, col, row){
 	var height = $(grandparent).height();
 	var widthLimit = width;
 	var heightLimit = height;
-	
-	updateMSDisplay(c, array_data[0]); // Updates the Milli-seconds label in the widget.
-	updateGridColor(c, array_data[0]); // Updates the grid's color based on the latest millisecond reading.
+	// The problem is, we aren't checking if this is a 2nd image, it's taking
+	// the value from the hour table.
+	if(array_data[0] == "737"){
+		var hello = "hello";
+	} 
+	if(!$(c).hasClass("secondImage")){ // we don't want to update color when hour graph is processed
+		updateMSDisplay(c, array_data[0]); // Updates the Milli-seconds label in the widget.
+		updateGridColor(c, array_data[0]); // Updates the grid's color based on the latest millisecond reading.
+	}
 	
 	// Calculate the Graph/Canvas' limits from the widgets column and row sizes.
 	if(col == 1 && row == 1){
@@ -522,3 +518,5 @@ function updateGridGraphs(){
 </script>  
 	</body>
 </html>
+<?php else: header("Location: login.php"); die();	?>
+<?php endif;?>

@@ -139,6 +139,8 @@ a.menu .bar {
 }
 
 nav {
+	
+	cursor:default;
 	position: fixed;
 	top: 0;
 	z-index: 100;
@@ -156,12 +158,54 @@ nav ul {
 }
 
 nav ul > li {
+	
 	display: table;
 	text-align: center;
 	float: left;
 	-webkit-transition: all 0.4s;
 	-moz-transition: all 0.4s;
 	transition: all 0.4s;
+}
+
+nav ul > li h4{
+
+	display:inline;
+	font-family: Raavi;
+	color: white;
+	position:absolute;
+	right:90px;
+	margin-top:-3px;
+}
+
+nav ul > li h5{
+	font-family: Raavi;
+	color: red;
+	margin-top:1px;
+	margin-bottom:1px;
+}
+
+nav ul > li input{
+	display:inline;
+	font-family: Raavi;
+	border: none;
+	width:20px;
+	height:17px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	position:fixed;
+	right:50px;
+}
+
+nav ul > li button{
+	
+	height:20px;
+	display:inline;
+	font-family: Raavi;
+	color: black;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	position:fixed;
+	right:3px;
 }
 
 nav ul > li:nth-child(1) {
@@ -197,7 +241,9 @@ nav ul > li:nth-child(5) {
 }
 
 nav ul > li > a {
+	text-decoration: none;
 	color: white;
+	font-family: Raavi;
 	text-transform: uppercase;
 	display: table-cell;
 	vertical-align: middle;
@@ -269,7 +315,11 @@ nav.top ul > li {
 	transform: translate(0, -100%);
 }
 
-body.menu-open {
+body.menu-open .grid {
+	cursor: url("../images/close.png") 20 20, auto;
+}
+
+body.menu-open .grid li{
 	cursor: url("../images/close.png") 20 20, auto;
 }
 
