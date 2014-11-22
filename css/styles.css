@@ -9,48 +9,51 @@ body {
 	height: 100%;
  }
  
-div.install{
+.install{
 	margin-left: auto;
     margin-right: auto;
     width: 25%;
-    background-color: #b0e0e6;
+   // background-color: #b0e0e6;
+}
+
+.install_table{
+	margin-left: auto;
+    margin-right: auto;
+	color: white;
+	font-family: Raavi;
+	font-size: 18;
+	
+}
+
+
+
+.install_label{
+	//background-color: #b0e0e6;
+	width: 200px;
+	color:white;
+	font-family: Raavi;
+	float: right;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#install_red{
+	background-color: red;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#install_green{
+	background-color: green;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .install_value{
-	float:center;
-	background-color: yellow;
-	display: inline;
+	color:white;
+	font-family: Raavi;
+	text-align: right
 }
-
-.install_label{
-	float:center;
-	background-color: orange;
-	display: inline;
-}
-
-#h_label{
-	text-align: right;
-}
-
-#h_value{
-	text-align: left;
-}
- 
- .install h2{
- 	//text-align: center;
- 	font-family: Raavi;
- 	color: white;
- 	-webkit-border-radius: 5px;
-	border-radius: 5px;
- }
- 
-  .install h2.green{
- 	background-color: green;
- }
- 
- .install h2.red{
- 	background-color: red;
- }
  
  .gridster .version{
  	font-family: Raavi;
