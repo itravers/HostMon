@@ -267,23 +267,9 @@ function buildScripts($ip, $deviceID, $notes){
 
 	//setup menu scroll section, and grids
 	$(function() {
-		//make the menu clickable. Set it to open menu.
-		$('.menu').click(function() {
-			$('nav').addClass('open');
-			$('body').addClass('menu-open');
-			return false;
-		});	
-		//make menu close when document is clicked.
-		$(\".grid\").click(function() {
-			$('body').removeClass('menu-open');
-			$('nav').removeClass('open');
-		});
 		//make the add note plus sign clickable. Even if it is replaced
 		$(document).on('click', '.plus', plusClicked);
 		$(document).on('click', '.minus', minusClicked);
-		
-		
-		
 		gridster = $('.device .gridster > ul').gridster({
 			widget_margins: [5, 5],
 			widget_base_dimensions: [95, 95],
@@ -317,20 +303,6 @@ function buildNameGrid($deviceName, $ip){
 			<h2>".$ip."</h2></li>";	
 	return $returnVal;
 }
-
-/** Builds the grid section where the menu is shown. */
-function buildMenuGrid(){
-	$returnVal = "
-		<li class='gridmenu' data-row='1' data-col='5' data-sizex='2' data-sizey='1'>
-			<a class='menu' href='#'>
-				<div class='bar'></div>
-				<div class='bar'></div>
-				<div class='bar'></div>
-			</a>
-		</li>";
-	return $returnVal;	
-}
-
 
 
 /* Build the Grid the line Chart is in. */
@@ -379,12 +351,14 @@ function buildGrid($deviceID, $deviceName, $ip, $notes){
 	$returnVal = "";
 	$gridOpening = buildGridOpening();
 	$nameGrid = buildNameGrid($deviceName, $ip);
-	$menuGrid = buildMenuGrid();
+	//$menuGrid = buildMenuGrid();
 	$notesGrid = buildNotesGrid($notes);
 	$lineChartGrid = buildLineChartGrid();
 	$polarChartGrid = buildPolarChartGrid();
 	$gridClosing = buildGridClosing();
-	$returnVal = $gridOpening.$nameGrid.$menuGrid.$notesGrid.$lineChartGrid.$polarChartGrid.$gridClosing;
+	//$returnVal = $gridOpening.$nameGrid.$menuGrid.$notesGrid.$lineChartGrid.$polarChartGrid.$gridClosing;
+	$returnVal = $gridOpening.$nameGrid.$notesGrid.$lineChartGrid.$polarChartGrid.$gridClosing;
+	
 	return $returnVal;
 }
 	
