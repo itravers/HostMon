@@ -175,7 +175,7 @@ function addNewUser(){
 	}else if(parseInt(adminLvl) > 10 || parseInt(adminLvl) < 0){
 		$('.newUserErrorOutput').text("Admin lvl must be between 0 and 10, inclusive.");
 	}else{
-		$('.newUserErrorOutput').text("Adding user " + userName + " " + pass + " " + adminLvl);
+		//$('.newUserErrorOutput').text("Adding user " + userName + " " + pass + " " + adminLvl);
 		(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
 			postData = {addUser:true,
 						newUserName:userName,
@@ -187,13 +187,15 @@ function addNewUser(){
 				data : postData,
 				url: 'php/menu-backend.php', 
 				success: function(result,status,xhr) {
-					$('.errorOutput').text("User Added.");
+					var jsonData = JSON.parse(result);
+					$('.newUserErrorOutput').text(jsonData['returnVal']);
 				},
 				complete: function(result) {
-					//$('.errorOutput').text("Password Changed.");
+					var jsonData = JSON.parse(result);
+					$('.newUserErrorOutput').text(jsonData['returnVal']);
 				},
 				error: function(xhr,status,error){
-					$('.errorOutput').text("Error Adding User.");
+					$('.newUserErrorOutput').text("Error Adding User.");
 				}
 			}); // End of ajax call.
 		})(); //End of worker thread.

@@ -83,8 +83,16 @@ echo $jencodeddata;
   * @param unknown $userName The Username we are checking.
   * @param unknown $con The db connection we are checking.*/
 function userExists($userName, $con){
-	$sql = "SELECT * FROM `users` WHERE `usr` = ".$userName;
+	$sql = "SELECT * FROM `users` WHERE `usr` = '".$userName."'";
 	$result = mysqli_query($con,$sql);
-	$hello = "hello";
+	$array_result = array();
+	while($row = mysqli_fetch_array($result)) {
+		array_push($array_result, $row);
+	}
+	if(empty($array_result)){
+		return false;
+	}else{
+		return true;
+	}
 }
 ?>
