@@ -44,6 +44,10 @@ function Menu(){
 			';
 	if($_SESSION['admin_level'] == '10'){
 		$menu = $menu.'
+					<h4 style="right:150px;" ""
+						title="Allows the admin to stop or start the java backend."
+					>Start Backend</h4>
+					<button class = "startBackendButton" onClick="stopStartBacked();">START</button><br>
 					<h4 style="right:150px;"
 						title="Allows the admin to add a new user account."
 					>New User</h4>
