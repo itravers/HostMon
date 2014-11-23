@@ -367,7 +367,8 @@ public class DBMaintainer extends Thread{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				isRunning = db.shouldBackendContinueRunning(); // Check if user has turned off backend
+				//System.out.print("dbmaintainer");
+				//isRunning = db.shouldBackendContinueRunning(); // Check if user has turned off backend
 			}
 			
 		} catch (NumberFormatException e1) {

@@ -41,6 +41,20 @@ public class DataBase {
 	
 	/* Public Methods*/
 	
+	/** Called when the program is shutting down, sets
+	 *  configuration.value to false for config.name = backendRunning.
+	 */
+	public void informDBofShutdown(){
+		int val = 0;
+		String commandString = "UPDATE configuration SET `configuration`.`value`= 'false' WHERE `configuration`.`name` = 'backendRunning' ; ";
+		val = write(commandString);
+		if (val == 1) {
+			System.err.print("Telling DB about Shutdown.");
+		}else{
+			System.err.print("Failed To inform DB about shutdown.");
+		}
+	}
+	
 	/** Sets the DB's config.backendRunning to 'true'
 	 *  and updates the timestamp.
 	 */

@@ -119,9 +119,11 @@ public class LatencyChecker {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			System.out.print("latency checker");
 			running = db.shouldBackendContinueRunning();
 		}
 		System.err.println("latency checker no longer running");
+		db.informDBofShutdown();
 		System.exit(0);
 	}
 	
