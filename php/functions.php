@@ -16,6 +16,11 @@ function getCurrentVersion(){
 	return $returnVal;
 }
 
+/** Queries the db to see if the java backend is running. */
+function backendRunning(){
+	return true;
+}
+
 /** Echo's the menu  */
 function Menu(){
 	$menu = '
@@ -43,11 +48,20 @@ function Menu(){
 				
 			';
 	if($_SESSION['admin_level'] == '10'){
+		(backendRunning() ? $class = 'backendRunning' : $class = 'backendRunning'); //fancy if
 		$menu = $menu.'
-					<h4 style="right:150px;" ""
+					<h4 style="right:150px;"
 						title="Allows the admin to stop or start the java backend."
 					>Start Backend</h4>
-					<button class = "startBackendButton" onClick="stopStartBacked();">START</button><br>
+					<button class = "'.$class.'" 
+							onClick="stopStartBacked();"
+						>START</button>
+					<br><br>
+		';
+	}
+	
+	if($_SESSION['admin_level'] == '10'){
+		$menu = $menu.'
 					<h4 style="right:150px;"
 						title="Allows the admin to add a new user account."
 					>New User</h4>
