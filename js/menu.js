@@ -51,7 +51,13 @@ function stopStartBackend(){
 				data : postData,
 				url: 'php/menu-backend.php', 
 				success: function(result,status,xhr) {
-					$(".startBackendErrorOutput").text(result); // Report back
+					var jsonData = JSON.parse(result);
+					$("#stopStartButton").text(jsonData['newButtonVal']);
+					$("#stopStartButton").toggleClass('backendRunning'); // change the button class
+					$("#stopStartButton").toggleClass('backendStopped');
+					$("#stopStartButton")
+					$("#stopStartLabel").text(jsonData['newButtonVal'] + " Backend");
+					$('.startBackendErrorOutput').text(jsonData['returnVal']); // Report back
 				},
 				error: function(xhr,status,error){
 					$(".startBackendErrorOutput").text("Error in ajax call.");
