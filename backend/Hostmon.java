@@ -35,9 +35,16 @@ public class Hostmon {
 		HashMap<String, String> dbOptions = DataBase.getDBOptions();	
 		//Instantiate the database object we will use to talk to the db.
 		db = new DataBase(dbOptions);
-		//Instantiate the class that will be responsible for maintaining the db.
-		dbMaintainer = new DBMaintainer(db);
-		lChecker = new LatencyChecker(db);
+		boolean alreadyRunning = db.backendAlreadyRunning();
+		if(!alreadyRunning){ // Only start the program if it's determined we are not already running.
+			//Instantiate the class that will be responsible for maintaining the db.
+			dbMaintainer = new DBMaintainer(db);
+			lChecker = new LatencyChecker(db);
+		}else{ // We are already running, exit this program.
+			System.err.println("Error, program is already running, or has been started within the last minute.");
+			return;
+		}
+		
 	}
 	
 	/*Field Objects & Variables*/

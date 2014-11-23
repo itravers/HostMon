@@ -40,6 +40,55 @@ public class DataBase {
 	}
 	
 	/* Public Methods*/
+	
+	/**
+	 * Tells us if the backend is already running.
+	 * We check the configuration table to see if backendRunning
+	 * value is set to 'true' if it is, we check the timeStamp
+	 * to make sure it's not over a minute or so old.
+	 * @return True if backend is running, false otherwise.
+	 */
+	public boolean backendAlreadyRunning(){
+		boolean returnVal = false;
+		String sqlQuery = "SELECT * FROM `configuration` WHERE `configuration`.`name` = 'backendRunning'";
+		ResultSet res = null;
+		// we need to read from db
+		try {
+			String s_name = "";
+			String s_value = "";
+			String s_timeStamp = "";
+			long l_timeStamp;
+			long l_currentTime = System.currentTimeMillis() / 1000L;
+			this.open();
+			Statement st;
+			st = conn.createStatement();
+			res = st.executeQuery(sqlQuery);
+			while (res.next()) {
+				s_name = res.getString(2);
+				s_value = res.getString(3);
+				s_timeStamp = res.getString(5);
+	        }
+			//System.out.println(res.getRow());
+			this.close();
+			l_timeStamp = Long.valueOf(s_timeStamp);
+			if(s_value.equals("true")){ // Db Shows backend as running.
+				if(l_currentTime - l_timeStamp < 60){ // Less than a minute has passed.
+					returnVal = true;
+				}else{ // More than a minute has passed, backend isn't running.
+					returnVal = false;
+				}
+			}else{
+				returnVal = false;
+			}
+			System.out.println(l_currentTime);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return returnVal;
+	}
+	
 	/**
 	 * Records a HashMap<String, <HashMap<String, String>>> of records into the hour table
 	 * this hashmap has each record averaged
