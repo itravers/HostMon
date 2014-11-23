@@ -44,11 +44,27 @@ public class DataBase {
 	/** Sets the DB's config.backendRunning to 'true'
 	 *  and updates the timestamp.
 	 */
-	public void updateRunning() {
+	public void startRunning() {
 		int val = 0;
 		long l_timeStamp = System.currentTimeMillis() / 1000L;
 		String s_timeStamp = String.valueOf(l_timeStamp);
 		String commandString = "UPDATE configuration SET `configuration`.`value` = 'true', `configuration`.`timeStamp` = '"+s_timeStamp+"' WHERE `configuration`.`name` = 'backendRunning' ; ";
+		val = write(commandString);
+		if (val == 1) {
+			System.out.print("Informed DB Backend is running.");
+		}else{
+			System.err.print("Failed To inform DB Backend is running.");
+		}
+	}
+	
+	/**
+	 * updating running is like start running, but we never change the value to true
+	 */
+	public void updateRunning(){
+		int val = 0;
+		long l_timeStamp = System.currentTimeMillis() / 1000L;
+		String s_timeStamp = String.valueOf(l_timeStamp);
+		String commandString = "UPDATE configuration SET `configuration`.`timeStamp` = '"+s_timeStamp+"' WHERE `configuration`.`name` = 'backendRunning' ; ";
 		val = write(commandString);
 		if (val == 1) {
 			System.out.print("Informed DB Backend is running.");

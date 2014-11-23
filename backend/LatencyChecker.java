@@ -121,6 +121,8 @@ public class LatencyChecker {
 			}
 			running = db.shouldBackendContinueRunning();
 		}
+		System.err.println("latency checker no longer running");
+		System.exit(0);
 	}
 	
 	/**Initialize The Field Objects & Variables for the Class*/
