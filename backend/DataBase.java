@@ -57,6 +57,35 @@ public class DataBase {
 		}
 	}
 	
+	/** Lets the main loop & threads know if it should continue running, or if it should exit */
+	public boolean shouldBackendContinueRunning(){
+		boolean returnVal = true; //default to true
+		String sqlQuery = "SELECT * FROM `configuration` WHERE `configuration`.`name` = 'backendRunning'";
+		ResultSet res = null;
+		// we need to read from db
+		try {
+			String s_value = "";
+			this.open();
+			Statement st;
+			st = conn.createStatement();
+			res = st.executeQuery(sqlQuery);
+			while (res.next()) {
+				s_value = res.getString(3);
+	        }
+			//System.out.println(res.getRow());
+			this.close();
+			if(s_value.equals("true")){ // Db Shows backend as running.
+				returnVal = true;
+			}else{
+				returnVal = false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return returnVal;
+	}
+	
 	/**
 	 * Tells us if the backend is already running.
 	 * We check the configuration table to see if backendRunning
