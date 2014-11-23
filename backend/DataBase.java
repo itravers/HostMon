@@ -134,7 +134,7 @@ public class DataBase {
 			this.close();
 			l_timeStamp = Long.valueOf(s_timeStamp);
 			if(s_value.equals("true")){ // Db Shows backend as running.
-				if(l_currentTime - l_timeStamp < 60){ // Less than a minute has passed.
+				if(l_currentTime - l_timeStamp < 45){ // Less than a minute has passed.
 					returnVal = true;
 				}else{ // More than a minute has passed, backend isn't running.
 					returnVal = false;
