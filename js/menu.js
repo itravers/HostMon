@@ -55,7 +55,6 @@ function stopStartBackend(){
 					$("#stopStartButton").text(jsonData['newButtonVal']);
 					$("#stopStartButton").toggleClass('backendRunning'); // change the button class
 					$("#stopStartButton").toggleClass('backendStopped');
-					$("#stopStartButton")
 					$("#stopStartLabel").text(jsonData['newButtonVal'] + " Backend");
 					$('.startBackendErrorOutput').text(jsonData['returnVal']); // Report back
 				},
