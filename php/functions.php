@@ -56,9 +56,11 @@ function Menu(){
 					>Start Backend</h4>
 					<button id ="stopStartButton"
 							class = "'.$class.'" 
-							onClick="stopStartBacked();"
-						>START</button>
-					<br><br>
+							onClick="stopStartBackend();"
+						>START</button><br>
+					<h5 class="startBackendErrorOutput" 
+						title="Shows the user an error message if change password is bad.">
+					-</h5>
 		';
 		$hello = "hello";
 	}

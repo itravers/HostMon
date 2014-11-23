@@ -3,29 +3,78 @@
  */
 var menuTimeout; // Will control if we are updating menu or not.
 var focusedMenuItemName = 'none';
+var buttonLocked;
 
-//Event Handler when a user clicks on the menu. Opens the menu.
-$('.menu').click(function() {
-	setMenuConfigInfo();
-	//menuTimeout = setTimeout(setMenuConfigInfo, 5000);
-	$('nav').addClass('open');
-	$('body').addClass('menu-open');
-	return false;
-});
+//Event Handler called when document is first loaded.
+$(document).ready(function() {
+	//Event Handler when a user clicks on the menu. Opens the menu.
+	$('.menu').click(function() {
+		setMenuConfigInfo();
+		//menuTimeout = setTimeout(setMenuConfigInfo, 5000);
+		$('nav').addClass('open');
+		$('body').addClass('menu-open');
+		return false;
+	});
 
-//Event Handler when a user clicks anywhere but the menu, when the menu is open. Closes the menu.
-$(".grid").click(function() {
-	clearTimeout(menuTimeout); // Remove the timer.
-	$('body').removeClass('menu-open');
-	$('nav').removeClass('open');
-});
+	//Event Handler when a user clicks anywhere but the menu, when the menu is open. Closes the menu.
+	$(".grid").click(function() {
+		clearTimeout(menuTimeout); // Remove the timer.
+		$('body').removeClass('menu-open');
+		$('nav').removeClass('open');
+	});
+	
+	//We need to check the class of id stopStartButton. and set the buttons text
+	buttonLocked = false; // don't allow ajax calls to be sent if buttonLock is true
+	var buttonClass = $("#stopStartButton").attr('class');
+	var newButtonText = (buttonClass == 'backendRunning' ? 'STOP' : 'START');
+	var newErrorText = (buttonClass == 'backendRunning' ? 'Backend Running' : 'Backend Running');
+	$("#stopStartButton").text(newButtonText);
+	$("#stopStartLabel").text(newButtonText + " Backend");
+	$(".startBackendErrorOutput").text(newErrorText);
+});	
 
-//We need to check the class of id stopStartButton.
-var buttonClass = $("#stopStartButton").attr('class');
-var newButtonText = (buttonClass == 'backendRunning' ? 'STOP' : 'START');
-$("#stopStartButton").text(newButtonText);
-$("#stopStartLabel").text(newButtonText + " Backend");
+/** Will send an ajax call to stop the backend if it is already started,
+ *  or start the backend if it is stopped.
+ */
+function stopStartBackend(){
+	var buttonClass = $("#stopStartButton").attr('class');
+	//tells us if our backend is already running based on button class.
+	var backendRunning = (buttonClass == 'backendRunning' ? true : false); 
+	if(!buttonLocked){ // We don't want to allow the user to continuously push a dangerous button.
+		buttonLocked = true; // start lock
+		(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
+			var startOrStop = (buttonClass == 'backendRunning' ? 'stop' : 'start'); 
+			postData = {startStopBackend:startOrStop};
+			 // Send the request to the server.
+			$.ajax({
+				type:"POST",
+				data : postData,
+				url: 'php/menu-backend.php', 
+				success: function(result,status,xhr) {
+					var jsonData = JSON.parse(result);
+					$("#stopStartButton").text(jsonData['newButtonVal']);
+					$("#stopStartButton").toggleClass('backendRunning'); // change the button class
+					$("#stopStartButton").toggleClass('backendStopped');
+					$("#stopStartButton")
+					$("#stopStartLabel").text(jsonData['newButtonVal'] + " Backend");
+					$('.startBackendErrorOutput').text(jsonData['returnVal']); // Report back
+				},
+				error: function(xhr,status,error){
+					$(".startBackendErrorOutput").text("Error in ajax call.");
+				}
+			}); // End of ajax call.
+		})(); //End of worker thread.
+	}else{ // the button is currently locked
+		$(".startBackendErrorOutput").text("Don't Spam This Button."); //Scold the admin
+	}
+	setTimeout(clearButtonLock, 5000);
+}
 
+/** sets the buttonLocked variable to false. */
+function clearButtonLock(){
+	$(".startBackendErrorOutput").text("-"); // set text back to default when lock is reset
+	buttonLocked = false; //stop lock
+}
 
 // A Set button was pressed on the config menu, we are setting that value in the db here.
 function setConfigValue(configToSet){
