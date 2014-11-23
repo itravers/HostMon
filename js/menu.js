@@ -41,17 +41,33 @@ function stopStartBackend(){
 	//tells us if our backend is already running based on button class.
 	var backendRunning = (buttonClass == 'backendRunning' ? true : false); 
 	if(!buttonLocked){ // We don't want to allow the user to continuously push a dangerous button.
-		buttonLocked = true;
-	}else{
-		$(".startBackendErrorOutput").text("Don't Spam This Button.");
+		buttonLocked = true; // start lock
+		(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
+			var startOrStop = (buttonClass == 'backendRunning' ? 'stop' : 'start'); 
+			postData = {startStopBackend:startOrStop};
+			 // Send the request to the server.
+			$.ajax({
+				type:"POST",
+				data : postData,
+				url: 'php/menu-backend.php', 
+				success: function(result,status,xhr) {
+					$(".startBackendErrorOutput").text(result); // Report back
+				},
+				error: function(xhr,status,error){
+					$(".startBackendErrorOutput").text("Error in ajax call.");
+				}
+			}); // End of ajax call.
+		})(); //End of worker thread.
+	}else{ // the button is currently locked
+		$(".startBackendErrorOutput").text("Don't Spam This Button."); //Scold the admin
 	}
 	setTimeout(clearButtonLock, 5000);
 }
 
 /** sets the buttonLocked variable to false. */
 function clearButtonLock(){
-	$(".startBackendErrorOutput").text("-");
-	buttonLocked = false;	
+	$(".startBackendErrorOutput").text("-"); // set text back to default when lock is reset
+	buttonLocked = false; //stop lock
 }
 
 // A Set button was pressed on the config menu, we are setting that value in the db here.
