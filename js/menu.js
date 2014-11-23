@@ -3,6 +3,7 @@
  */
 var menuTimeout; // Will control if we are updating menu or not.
 var focusedMenuItemName = 'none';
+var buttonLocked;
 
 //Event Handler called when document is first loaded.
 $(document).ready(function() {
@@ -22,13 +23,36 @@ $(document).ready(function() {
 		$('nav').removeClass('open');
 	});
 	
-	//We need to check the class of id stopStartButton.
+	//We need to check the class of id stopStartButton. and set the buttons text
+	buttonLocked = false; // don't allow ajax calls to be sent if buttonLock is true
 	var buttonClass = $("#stopStartButton").attr('class');
 	var newButtonText = (buttonClass == 'backendRunning' ? 'STOP' : 'START');
+	var newErrorText = (buttonClass == 'backendRunning' ? 'Backend Running' : 'Backend Running');
 	$("#stopStartButton").text(newButtonText);
 	$("#stopStartLabel").text(newButtonText + " Backend");
+	$(".startBackendErrorOutput").text(newErrorText);
 });	
 
+/** Will send an ajax call to stop the backend if it is already started,
+ *  or start the backend if it is stopped.
+ */
+function stopStartBackend(){
+	var buttonClass = $("#stopStartButton").attr('class');
+	//tells us if our backend is already running based on button class.
+	var backendRunning = (buttonClass == 'backendRunning' ? true : false); 
+	if(!buttonLocked){ // We don't want to allow the user to continuously push a dangerous button.
+		buttonLocked = true;
+	}else{
+		$(".startBackendErrorOutput").text("Don't Spam This Button.");
+	}
+	setTimeout(clearButtonLock, 5000);
+}
+
+/** sets the buttonLocked variable to false. */
+function clearButtonLock(){
+	$(".startBackendErrorOutput").text("-");
+	buttonLocked = false;	
+}
 
 // A Set button was pressed on the config menu, we are setting that value in the db here.
 function setConfigValue(configToSet){
