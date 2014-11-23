@@ -100,7 +100,7 @@ public class DataBase {
 			st = conn.createStatement();
 			res = st.executeQuery(sqlQuery);
 			while (res.next()) {
-				s_value = res.getString(3);
+				s_value = res.getString("value");
 	        }
 			//System.out.println(res.getRow());
 			this.close();
@@ -140,9 +140,9 @@ public class DataBase {
 			st = conn.createStatement();
 			res = st.executeQuery(sqlQuery);
 			while (res.next()) {
-				s_name = res.getString(2);
-				s_value = res.getString(3);
-				s_timeStamp = res.getString(5);
+				s_name = res.getString("name");
+				s_value = res.getString("value");
+				s_timeStamp = res.getString("timeStamp");
 	        }
 			//System.out.println(res.getRow());
 			this.close();
