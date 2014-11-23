@@ -29,17 +29,21 @@ function backendRunning(){
 	}
 	if(isset($array_result[0]['name'])){ // Value was retrieved from db.
 		$s_isRunning = $array_result[0]['value'];
+		$s_lastRanTime = $array_result[0]['timeStamp'];
 		if($s_isRunning == 'true'){ // The Db says the backend is running.
-			$timeStamp =  time();
+			$currentTime =  time();
+			if($currentTime - $s_lastRanTime < 60){ // last time it updated was less then 60 secs.
+				$returnVal = true;
+			}else{
+				$returnVal = false;
+			}
 		}else{
-			
+			$returnVal = false;
 		}
 	}else{
 		$returnVal = false;
 	}
-	
-	
-	return false;
+	return $returnVal;
 }
 
 /** Echo's the menu  */
