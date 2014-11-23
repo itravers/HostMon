@@ -18,6 +18,27 @@ function getCurrentVersion(){
 
 /** Queries the db to see if the java backend is running. */
 function backendRunning(){
+	$returnVal = false;
+	$con = openDB();
+	mysqli_select_db($con,"HostMon");
+	$sql = "SELECT * FROM `configuration` WHERE `configuration`.`name` = 'backendRunning'";
+	$result = mysqli_query($con,$sql);
+	$array_result = array();
+	while($row = mysqli_fetch_array($result)) {
+		array_push($array_result, $row);
+	}
+	if(isset($array_result[0]['name'])){ // Value was retrieved from db.
+		$s_isRunning = $array_result[0]['value'];
+		if($s_isRunning == 'true'){ // The Db says the backend is running.
+			$timeStamp =  time();
+		}else{
+			
+		}
+	}else{
+		$returnVal = false;
+	}
+	
+	
 	return false;
 }
 
