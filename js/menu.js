@@ -20,6 +20,13 @@ $(".grid").click(function() {
 	$('nav').removeClass('open');
 });
 
+//We need to check the class of id stopStartButton.
+var buttonClass = $("#stopStartButton").attr('class');
+var newButtonText = (buttonClass == 'backendRunning' ? 'STOP' : 'START');
+$("#stopStartButton").text(newButtonText);
+$("#stopStartLabel").text(newButtonText + " Backend");
+
+
 // A Set button was pressed on the config menu, we are setting that value in the db here.
 function setConfigValue(configToSet){
 	var newVal = $('.'+configToSet).val();

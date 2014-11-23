@@ -18,7 +18,7 @@ function getCurrentVersion(){
 
 /** Queries the db to see if the java backend is running. */
 function backendRunning(){
-	return true;
+	return false;
 }
 
 /** Echo's the menu  */
@@ -48,16 +48,19 @@ function Menu(){
 				
 			';
 	if($_SESSION['admin_level'] == '10'){
-		(backendRunning() ? $class = 'backendRunning' : $class = 'backendRunning'); //fancy if
+		(backendRunning() ? $class = 'backendRunning' : $class = 'backendStopped'); //fancy if
 		$menu = $menu.'
 					<h4 style="right:150px;"
+						id="stopStartLabel"
 						title="Allows the admin to stop or start the java backend."
 					>Start Backend</h4>
-					<button class = "'.$class.'" 
+					<button id ="stopStartButton"
+							class = "'.$class.'" 
 							onClick="stopStartBacked();"
 						>START</button>
 					<br><br>
 		';
+		$hello = "hello";
 	}
 	
 	if($_SESSION['admin_level'] == '10'){
