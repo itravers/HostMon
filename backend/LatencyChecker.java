@@ -119,7 +119,12 @@ public class LatencyChecker {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			System.out.print("latency checker");
+			running = db.shouldBackendContinueRunning();
 		}
+		System.err.println("latency checker no longer running");
+		db.informDBofShutdown();
+		System.exit(0);
 	}
 	
 	/**Initialize The Field Objects & Variables for the Class*/
@@ -131,7 +136,7 @@ public class LatencyChecker {
 		String sThreads = db.getConfig("startingThreads");
 		int startingThreads = Integer.parseInt(sThreads);
 		pool = new ThreadPool(queue, startingThreads, tracker, db);
-		running = true;
+		running = db.shouldBackendContinueRunning();
 	}
 
 	/* Field Objects & Variables */
