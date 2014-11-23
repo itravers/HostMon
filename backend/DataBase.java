@@ -83,6 +83,7 @@ public class DataBase {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("shouldBackendContinueRunning: " + returnVal);
 		return returnVal;
 	}
 	
@@ -563,6 +564,8 @@ public class DataBase {
 			System.out.println("Inserted Latest Pings Into Minute Table");
 		}
 		pingRecord.clear();
+		//Everytime a list of pings is recorded we want to refresh configuration.backEndrunning
+		updateRunning();
 	}
 	
 	/* Static Methods */

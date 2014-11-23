@@ -27,7 +27,7 @@ public class DBMaintainer extends Thread{
 	 * @param db The database that this class will be working with.
 	 */
 	public DBMaintainer(DataBase db) {
-		isRunning = true;
+		isRunning = db.shouldBackendContinueRunning();
 		this.db = db;
 		Functions.debug("DBMaintainer DBMaintainer()");
 		start();
@@ -367,7 +367,9 @@ public class DBMaintainer extends Thread{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				isRunning = db.shouldBackendContinueRunning(); // Check if user has turned off backend
 			}
+			
 		} catch (NumberFormatException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

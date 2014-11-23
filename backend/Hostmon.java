@@ -46,7 +46,6 @@ public class Hostmon {
 			System.err.println("Error, program is already running, or has been started within the last minute.");
 			return;
 		}
-		
 	}
 	
 	/*Field Objects & Variables*/
