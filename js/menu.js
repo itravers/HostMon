@@ -26,6 +26,11 @@ var newButtonText = (buttonClass == 'backendRunning' ? 'STOP' : 'START');
 $("#stopStartButton").text(newButtonText);
 $("#stopStartLabel").text(newButtonText + " Backend");
 
+//Event Handler called when document is first loaded. Intializes the update of the grid graphs.
+$(document).ready(function() {
+	alert("document ready");
+});	
+
 
 // A Set button was pressed on the config menu, we are setting that value in the db here.
 function setConfigValue(configToSet){
