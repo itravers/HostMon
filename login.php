@@ -21,7 +21,7 @@ if(isset($_GET['logout'])){ // User is logging out.
 		if(!count($resp)){ // If reponse hasn't been handled yet.
 			$con = openDB(); // Make a MySQL Connection
 			// Here we are querying the db for the username that comes with the md5 hashed password.
-			$sql = "SELECT id,usr,admin_level FROM Users WHERE usr='{$_POST['username']}' AND pass='".md5($_POST['password'])."'";
+			$sql = "SELECT id,usr,admin_level FROM users WHERE usr='{$_POST['username']}' AND pass='".md5($_POST['password'])."'";
 			$row = queryDB($con, $sql);
 			if(isset($row['usr'])){ // The user with that password exists.
 				$_SESSION['admin_level'] = $row['admin_level']; // Set the users admin level, from db.
