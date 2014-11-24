@@ -2,6 +2,7 @@
  * Used by the slide out menu
  */
 var menuTimeout; // Will control if we are updating menu or not.
+var getBackendRunningTimeout;
 var focusedMenuItemName = 'none';
 var buttonLocked;
 
@@ -10,6 +11,7 @@ $(document).ready(function() {
 	//Event Handler when a user clicks on the menu. Opens the menu.
 	$('.menu').click(function() {
 		setMenuConfigInfo();
+		getBackendRunningTimeout = setTimeout(updateBackendRunning, 5000); //retrieve every 5 secs
 		//menuTimeout = setTimeout(setMenuConfigInfo, 5000);
 		$('nav').addClass('open');
 		$('body').addClass('menu-open');
@@ -18,6 +20,7 @@ $(document).ready(function() {
 
 	//Event Handler when a user clicks anywhere but the menu, when the menu is open. Closes the menu.
 	$(".grid").click(function() {
+		clearTimeout(getBackendRunningTimeout); // Remove the timer.
 		clearTimeout(menuTimeout); // Remove the timer.
 		$('body').removeClass('menu-open');
 		$('nav').removeClass('open');
@@ -27,7 +30,7 @@ $(document).ready(function() {
 	buttonLocked = false; // don't allow ajax calls to be sent if buttonLock is true
 	var buttonClass = $("#stopStartButton").attr('class');
 	var newButtonText = (buttonClass == 'backendRunning' ? 'STOP' : 'START');
-	var newErrorText = (buttonClass == 'backendRunning' ? 'Backend Running' : 'Backend Running');
+	var newErrorText = (buttonClass == 'backendRunning' ? 'Backend Running' : 'Backend Stopped');
 	$("#stopStartButton").text(newButtonText);
 	$("#stopStartLabel").text(newButtonText + " Backend");
 	$(".startBackendErrorOutput").text(newErrorText);
@@ -36,6 +39,7 @@ $(document).ready(function() {
 /** Ajax call used to put the current backend status, "backendRunning" or "backendStopped
  * 	in the startStopButton class" */
 function updateBackendRunning(){
+	clearTimeout(getBackendRunningTimeout); // Remove the timer.
 	(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
 		postData = {getBackendRunning:true};
 		 // Send the request to the server.
@@ -45,21 +49,29 @@ function updateBackendRunning(){
 			url: 'php/menu-backend.php', 
 			success: function(result,status,xhr) {
 				var jsonData = JSON.parse(result);
-				var newButtonText = (jsonData['backendStatus'] == 'backendRunning' ? 'STOP' : 'START');
-				var newErrorText = (jsonData['backendStatus'] == 'backendRunning' ? 'Backend Running' : 'Backend Running');
+				if(jsonData['success']){ // we succedded
+					var newButtonText = (jsonData['backendStatus'] == 'backendRunning' ? 'STOP' : 'START');
+					var newErrorText = (jsonData['backendStatus'] == 'backendRunning' ? 'Backend Running' : 'Backend Stopped');
+					
+					$("#stopStartButton").removeClass("backendRunning");
+					$("#stopStartButton").removeClass("backendStopped");
+					$("#stopStartButton").addClass(jsonData['backendStatus']);
+					$("#stopStartButton").text(newButtonText);
+					$("#stopStartLabel").text(newButtonText + " Backend");
+					$(".startBackendErrorOutput").text(newErrorText);
+					$(".startBackendErrorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
+				}else{ //Not an admin, tell the user
+					$(".startBackendErrorOutput").text(jsonData['err']);
+					$(".startBackendErrorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
+				}
 				
-				$("#stopStartButton").removeClass("backendRunning");
-				$("#stopStartButton").removeClass("backendStopped");
-				$("#stopStartButton").addClass(jsonData['backendStatus']);
-				$("#stopStartButton").text(newButtonText);
-				$("#stopStartLabel").text(newButtonText + " Backend");
-				$(".startBackendErrorOutput").text(newErrorText);
 			},
 			error: function(xhr,status,error){
 				$(".startBackendErrorOutput").text("Error in updateBackendRunning ajax call.");
 			}
 		}); // End of ajax call.
 	})(); //End of worker thread.
+	getBackendRunningTimeout = setTimeout(updateBackendRunning, 5000);
 }
 
 /** Will send an ajax call to stop the backend if it is already started,
@@ -86,9 +98,11 @@ function stopStartBackend(){
 					$("#stopStartButton").toggleClass('backendStopped');
 					$("#stopStartLabel").text(jsonData['newButtonVal'] + " Backend");
 					$('.startBackendErrorOutput').text(jsonData['returnVal']); // Report back
+					$(".startBackendErrorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 				},
 				error: function(xhr,status,error){
 					$(".startBackendErrorOutput").text("Error in ajax call.");
+					$(".startBackendErrorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 				}
 			}); // End of ajax call.
 		})(); //End of worker thread.
@@ -217,11 +231,14 @@ function changePassword(){
 	var pass2 = $('.changePassword2').val();
 	if(pass1 == '' || pass2 == ''){
 		$('.errorOutput').text("Both Fields Must Contain a Password.");
+		$(".errorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 	}else if(pass1 != pass2){
 		$('.errorOutput').text("Passwords Don't Match.");
+		$(".errorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 	}else{
 		var newPassword = $.md5(pass1);
 		$('.errorOutput').text("Changing Password");
+		$(".errorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 		(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
 			postData = {changePassword:true,
 						newPass:newPassword};
@@ -232,12 +249,14 @@ function changePassword(){
 				url: 'php/menu-backend.php', 
 				success: function(result,status,xhr) {
 					$('.errorOutput').text("Password Changed.");
+					$(".errorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 				},
 				complete: function(result) {
 					//$('.errorOutput').text("Password Changed.");
 				},
 				error: function(xhr,status,error){
 					$('.errorOutput').text("Error Changing Password.");
+					$(".errorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 				}
 			}); // End of ajax call.
 		})(); //End of worker thread.
@@ -254,10 +273,13 @@ function addNewUser(){
 	// Can't add a user if any field is empty
 	if(userName == '' || pass == '' || adminLvl == ''){ 
 		$('.newUserErrorOutput').text("All fields must be filled.");
+		$(".newUserErrorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 	}else if(isNaN(adminLvl)){
 		$('.newUserErrorOutput').text("Admin lvl must be between 0 and 10, inclusive.");
+		$(".newUserErrorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 	}else if(parseInt(adminLvl) > 10 || parseInt(adminLvl) < 0){
 		$('.newUserErrorOutput').text("Admin lvl must be between 0 and 10, inclusive.");
+		$(".newUserErrorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 	}else{
 		//$('.newUserErrorOutput').text("Adding user " + userName + " " + pass + " " + adminLvl);
 		(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
@@ -273,13 +295,16 @@ function addNewUser(){
 				success: function(result,status,xhr) {
 					var jsonData = JSON.parse(result);
 					$('.newUserErrorOutput').text(jsonData['returnVal']);
+					$(".newUserErrorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 				},
 				complete: function(result) {
 					var jsonData = JSON.parse(result);
 					$('.newUserErrorOutput').text(jsonData['returnVal']);
+					$(".newUserErrorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 				},
 				error: function(xhr,status,error){
 					$('.newUserErrorOutput').text("Error Adding User.");
+					$(".newUserErrorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 				}
 			}); // End of ajax call.
 		})(); //End of worker thread.
@@ -292,8 +317,10 @@ function removeUser(){
 	var userName = $('.removeUsername').val();
 	if(userName == ''){
 		$('.removeUserErrorOutput').text("Username is Blank!");
+		$(".removeUserErrorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 	}else{
 		$('.removeUserErrorOutput').text("Removing User " + userName);
+		$(".removeUserErrorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 		(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
 			postData = {removeUser:true,
 						removeUsername:userName};
@@ -305,17 +332,18 @@ function removeUser(){
 				success: function(result,status,xhr) {
 					var jsonData = JSON.parse(result);
 					$('.removeUserErrorOutput').text(jsonData['returnVal']);
+					$(".removeUserErrorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 				},
 				complete: function(result) {
 					var jsonData = JSON.parse(result);
 					$('.removeUserErrorOutput').text(jsonData['returnVal']);
+					$(".removeUserErrorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 				},
 				error: function(xhr,status,error){
 					$('.removeUserErrorOutput').text("Error Removing.");
+					$(".removeUserErrorOutput").stop().css("color", "#FFFFFF").animate({ color: "#FF0000"}, 1500);
 				}
 			}); // End of ajax call.
 		})(); //End of worker thread.
 	}
-	
-	
 }

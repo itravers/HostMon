@@ -100,6 +100,15 @@ if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data. A
 			$config['newButtonVal'] = "START";
 		}
 	}
+}else if(isset($_POST['getBackendRunning'])){
+	$config = array();
+	if($_SESSION['admin_level'] == '10'){ // Make sure user is admin before touching backend
+		$config['success'] = true;
+		(backendRunning() ? $config['backendStatus'] = 'backendRunning' : $config['backendStatus'] = 'backendStopped'); //fancy if
+	}else{
+		$config['success'] = false;
+		$config['err'] = "You are not an admin, why are you seeing this?";
+	}
 }
 
 $jencodeddata = json_encode($config);
