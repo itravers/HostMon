@@ -33,6 +33,35 @@ $(document).ready(function() {
 	$(".startBackendErrorOutput").text(newErrorText);
 });	
 
+/** Ajax call used to put the current backend status, "backendRunning" or "backendStopped
+ * 	in the startStopButton class" */
+function updateBackendRunning(){
+	(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
+		postData = {getBackendRunning:true};
+		 // Send the request to the server.
+		$.ajax({
+			type:"POST",
+			data : postData,
+			url: 'php/menu-backend.php', 
+			success: function(result,status,xhr) {
+				var jsonData = JSON.parse(result);
+				var newButtonText = (jsonData['backendStatus'] == 'backendRunning' ? 'STOP' : 'START');
+				var newErrorText = (jsonData['backendStatus'] == 'backendRunning' ? 'Backend Running' : 'Backend Running');
+				
+				$("#stopStartButton").removeClass("backendRunning");
+				$("#stopStartButton").removeClass("backendStopped");
+				$("#stopStartButton").addClass(jsonData['backendStatus']);
+				$("#stopStartButton").text(newButtonText);
+				$("#stopStartLabel").text(newButtonText + " Backend");
+				$(".startBackendErrorOutput").text(newErrorText);
+			},
+			error: function(xhr,status,error){
+				$(".startBackendErrorOutput").text("Error in updateBackendRunning ajax call.");
+			}
+		}); // End of ajax call.
+	})(); //End of worker thread.
+}
+
 /** Will send an ajax call to stop the backend if it is already started,
  *  or start the backend if it is stopped.
  */
