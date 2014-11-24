@@ -99,7 +99,7 @@ public class DataBase {
 			Statement st;
 			st = conn.createStatement();
 			res = st.executeQuery(sqlQuery);
-			while (res.next()) {
+			while(res.next()){
 				s_value = res.getString("value");
 	        }
 			//System.out.println(res.getRow());

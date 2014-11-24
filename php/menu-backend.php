@@ -96,6 +96,7 @@ if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data. A
 			$config['newButtonVal'] = "STOP";
 		}else{
 			//stop the backend.
+			stopBackend(); // Tells the db that the backend is stopped, it will stop it.
 			$config['returnVal'] = "Stopped the Backend";
 			$config['newButtonVal'] = "START";
 		}

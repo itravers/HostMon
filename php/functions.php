@@ -16,6 +16,16 @@ function getCurrentVersion(){
 	return $returnVal;
 }
 
+/** Sets backendRunning value in configuration table to false.
+ *  The backend will check this and stop itself.
+ */
+function stopBackend(){
+	$con = openDB();
+	mysqli_select_db($con,"HostMon");
+	$sql = "UPDATE `configuration` SET `configuration`.`value` = 'false' WHERE `configuration`.`name` = 'backendRunning'";
+	$result = mysqli_query($con,$sql);
+}
+
 /** Queries the db to see if the java backend is running. */
 function backendRunning(){
 	$returnVal = false;
