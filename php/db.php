@@ -12,7 +12,7 @@ function openDB(){
 	$con = mysqli_connect($dbOptions["IP"], $dbOptions["USER"], $dbOptions["PASS"], $dbOptions["DB"]);
 	if (!$con) {
 		echo getCWD();
-		die('Could not connect: ' . mysqli_error($con));
+		die(' Could not connect: ' . mysqli_error($con));
 	}
 	mysqli_select_db($con,"hostmon");
 	return $con;
