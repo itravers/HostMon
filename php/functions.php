@@ -30,7 +30,7 @@ function stopBackend(){
 function backendRunning(){
 	$returnVal = false;
 	$con = openDB();
-	mysqli_select_db($con,"HostMon");
+	mysqli_select_db($con,"hostmon");
 	$sql = "SELECT * FROM `configuration` WHERE `configuration`.`name` = 'backendRunning'";
 	$result = mysqli_query($con,$sql);
 	$array_result = array();
@@ -339,8 +339,8 @@ function buildNoteItems($notes){
 /** Fetches the Device ID from the database, uses the ip. */
 function getDeviceID($ip){
 	$con = openDB();
-	mysqli_select_db($con,"HostMon");
-	$sql="SELECT id FROM `Devices` WHERE ip = '".$ip."'";
+	mysqli_select_db($con,"hostmon");
+	$sql="SELECT id FROM `devices` WHERE ip = '".$ip."'";
 	$result = mysqli_query($con,$sql);
 	$id = '';
 	while($row = mysqli_fetch_array($result)) {
@@ -352,8 +352,8 @@ function getDeviceID($ip){
 /** Query's the database for the devices name, using the ID. */
 function getDeviceName($deviceID){
 	$con = openDB();
-	mysqli_select_db($con,"HostMon");
-	$sql="SELECT name FROM `Devices` WHERE id = '".$deviceID."'";
+	mysqli_select_db($con,"hostmon");
+	$sql="SELECT name FROM `devices` WHERE id = '".$deviceID."'";
 	$result = mysqli_query($con,$sql);
 	$name = '';
 	while($row = mysqli_fetch_array($result)) {
@@ -365,8 +365,8 @@ function getDeviceName($deviceID){
 /** Query's the database for a users name, from their ID. */
 function getUserName($id){
 	$con = openDB();
-	mysqli_select_db($con,"HostMon");
-	$sql="SELECT usr FROM `Users` WHERE id = '".$id."'";
+	mysqli_select_db($con,"hostmon");
+	$sql="SELECT usr FROM `users` WHERE id = '".$id."'";
 	$result = mysqli_query($con,$sql);
 	$name = '';
 	while($row = mysqli_fetch_array($result)) {
@@ -399,7 +399,7 @@ function buildNotesGrid($notes){
 /** Returns an Array of notes from the DB, based on deviceID. */
 function getNotes($deviceID){
 	$con = openDB();
-	mysqli_select_db($con,"HostMon");
+	mysqli_select_db($con,"hostmon");
 	$sql="SELECT * FROM `notes` WHERE deviceID = '".$deviceID."'";
 	$result = mysqli_query($con,$sql);
 	$returnArray = Array();
@@ -421,7 +421,7 @@ function getNotes($deviceID){
 /* Will Return an array of active devices for the specified username. */
 function getActiveDevices($username){
 	$con = openDB();
-	mysqli_select_db($con,"HostMon");
+	mysqli_select_db($con,"hostmon");
 	$sql="SELECT * FROM `active_devices`";
 	$result = mysqli_query($con,$sql);
 	$activeDeviceNumbers = Array(); // a 2d array where the first d is different devices, and the 2nd d has the number at 0
@@ -447,7 +447,6 @@ function getActiveDevices($username){
 			);
 		array_push($activeDevices, $array); // push this device to the list of active Devices.
 		}
-		
 	}
 	return $activeDevices;
 }
