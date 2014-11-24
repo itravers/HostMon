@@ -36,7 +36,7 @@ if(isset($_GET['logout'])){ // User is logging out.
 					$resp[]='Success '; // Ajax will look for this string.  
 				}
 			}else{ // A user with that user/pass combo does not exist in the db.
-				$resp[]='WRONG USERNAME/PASSWORD '.$_POST['password']; // Error send to user.
+				$resp[]='WRONG USERNAME/PASSWORD '.print_r($row); // Error send to user.
 			}
 		}
 	} // end of if login
