@@ -13,6 +13,7 @@ Version 0.3
 Version 0.2
 -grid.php is now working.
 -Added config/menu section.
+-Backend successfully ran for 100 days, 16 million pings, no issues detected.
 
 Version 0.1
 -Added ability to add new device. Not done yet.
