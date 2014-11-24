@@ -14,13 +14,13 @@ function openDB(){
 		echo getCWD();
 		die('Could not connect: ' . mysqli_error($con));
 	}
-	mysqli_select_db($con,"HostMon");
+	mysqli_select_db($con,"hostmon");
 	return $con;
 }
 
 /** Send A Query to The DB, looking for a single result. */
 function queryDB($con, $sql){
-	mysqli_select_db($con,"HostMon");
+	mysqli_select_db($con,"hostmon");
 	$result = mysqli_query($con,$sql);
 	$row = mysqli_fetch_array($result);
 	return $row;
