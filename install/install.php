@@ -55,11 +55,11 @@
 		<caption>Admin Settings</caption>
 			<tr>
 				<td class='install_label'>Admin Username</td>
-				<td class='install_value'><input class="dbAddress" type="text"></td>
+				<td class='install_value'><input class="adminUsername" type="text"></td>
 			</tr>
 			<tr>
 				<td class='install_label'>Password</td>
-				<td class='install_value'><input class="dbName" type="password"></td>
+				<td class='install_value'><input class="adminPassword" type="password"></td>
 			</tr>
 		</table>
 		<button id="installButton" onclick="install();">Install</button>
@@ -70,6 +70,12 @@
 <script>
 
 function install(){
+	var dbAddress = $('.dbAddress').val();
+	var dbName = $('.dbName').val();
+	var dbUsername = $('.dbUser').val();
+	var dbPassword = $('.dbPass').val();
+	var adminUsername = $('.adminUsername').val();
+	var adminPassword = $('.adminPassword').val();
 	(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
 		postData = {install:true};
 		 // Send the request to the server.
