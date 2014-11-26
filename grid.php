@@ -50,6 +50,7 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 			<div class="bar"></div>
 			<div class="bar"></div>
 		</a>
+		<div id="onlineDot"></div>
 		<?php echo Menu();?>
 	</head>
 	<body>
