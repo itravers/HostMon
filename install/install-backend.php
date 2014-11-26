@@ -5,8 +5,13 @@ if(isset($_POST['install'])){
 	if(install_testDB()){
 		recordDBSettings();
 		if(setupAdminAccount()){
-			$ajaxReturnVal['success'] = 'true';
-			$ajaxReturnVal['errorMessage'] = 'Install A Success.';
+			if(configureFilePermissions()){
+				$ajaxReturnVal['success'] = 'true';
+				$ajaxReturnVal['errorMessage'] = 'Install A Success.';
+			}else{
+				$ajaxReturnVal['success'] = 'false';
+				$ajaxReturnVal['errorMessage'] = 'Problem configuring file permissions.';
+			}
 		}else{
 			$ajaxReturnVal['success'] = 'false';
 			$ajaxReturnVal['errorMessage'] = 'Problem Setting up Admin Account.';
@@ -50,6 +55,13 @@ function setupAdminAccount(){
 /** Will record the db settings into cfg/db.cfg */
 function recordDBSettings(){
 	
+}
+
+/** Configurs the file permissions for the app, making sure web users can't access
+ *  secure files. Web users shouldn't be able to read cfg file or install files.
+ */
+function configureFilePermissions(){
+	return true;
 }
 
 /** Tests if the db is installed and available with the supplied credentials. */
