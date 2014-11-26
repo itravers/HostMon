@@ -10,7 +10,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="../css/styles.css">
-<script src="js/jquery.tools.min.js"></script>
+
 </head>
 <body class='main-body'>
 	<h1>Hostmon Installation</h1>
@@ -66,19 +66,18 @@
 	</div>
 	<h3 id="installErrorOutput"> Make sure all settings are correct, then press "Install"</h3>
 </body>
-
+<script type='text/javascript' src="../js/jquery.tools.min.js"></script>
 <script>
 
 function install(){
-	
 	(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
 		postData = {install:true};
 		 // Send the request to the server.
-		 
+		 alert("preping ajax");
 		 $.ajax({
 			type:"POST",
 			data : postData,
-			url: 'install-backend.php', 
+			url: 'http://localhost/install/install-backend.php', 
 			success: function(result,status,xhr) {
 				alert("success");
 				var jsonData = JSON.parse(result);
