@@ -88,7 +88,7 @@ function install(){
 					adminUsername:adminUsername,
 					adminPassword:adminPassword};
 		 // Send the request to the server.
-		 alert("preping ajax");
+		 //alert("preping ajax");
 		 $.ajax({
 			type:"POST",
 			data : postData,
@@ -97,7 +97,7 @@ function install(){
 				//alert("success");
 				var jsonData = JSON.parse(result);
 				if(jsonData['success']=='true'){
-					alert("success");
+					//alert("success");
 					$("#installErrorOutput").text(jsonData['errorMessage']);
 				}else{
 					$("#installErrorOutput").text(jsonData['errorMessage']);
