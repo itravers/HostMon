@@ -6,6 +6,7 @@ if(isset($_POST['install'])){
 		recordDBSettings();
 		if(setupAdminAccount()){
 			if(configureFilePermissions()){
+				setDBInstalled();
 				$ajaxReturnVal['success'] = 'true';
 				$ajaxReturnVal['errorMessage'] = 'Install A Success.';
 			}else{
@@ -22,6 +23,13 @@ if(isset($_POST['install'])){
 	}
 	$ajaxReturnVal = json_encode($ajaxReturnVal);
 	echo $ajaxReturnVal;
+}
+
+/** Tells the db that installation has completed. */
+function setDBInstalled(){
+	$con = openDB();
+	$sql = "UPDATE `configuration` SET `value` = '1' WHERE `configuration`.`name` = 'installed';";
+	$result = mysqli_query($con,$sql);
 }
 
 /** checks to see if the admin account is already set up, otherwise sets it up. */

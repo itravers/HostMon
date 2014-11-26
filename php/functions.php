@@ -27,7 +27,7 @@ function isInstalledAlready(){
 	while($row = mysqli_fetch_array($result)) {
 		array_push($array_result, $row);
 	}
-	if(isset($array_result['value']) && $array_result['value']=='1'){
+	if($array_result[0]['value']=='1'){
 		$returnVal = true;
 	}
 	return $returnVal;

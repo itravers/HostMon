@@ -27,7 +27,7 @@
 		<caption>Dependencies</caption>
 			<tr>
 				<td class='install_label'>PHP Version</td>
-				<td class='install_value' id='install_red'><?php echo $php?></td>
+				<td class='install_value' id='install_green'><?php echo $php?></td>
 			</tr>
 			<tr>
 				<td class='install_label'>MySQLi Installed</td>
@@ -60,7 +60,7 @@
 		</table>
 		<br>
 		<table class='install_table'>
-		<caption>Admin Settings</caption>
+		<caption>New Admin Settings</caption>
 			<tr>
 				<td class='install_label'>Admin Username</td>
 				<td class='install_value'><input class="adminUsername" type="text"></td>
@@ -107,6 +107,7 @@ function install(){
 				if(jsonData['success']=='true'){
 					//alert("success");
 					$("#installErrorOutput").text(jsonData['errorMessage']);
+					window.location.href = "../login.php"; 
 				}else{
 					$("#installErrorOutput").text(jsonData['errorMessage']);
 				}
