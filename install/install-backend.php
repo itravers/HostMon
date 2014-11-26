@@ -21,11 +21,25 @@ if(isset($_POST['install'])){
 
 /** checks to see if the admin account is already set up, otherwise sets it up. */
 function setupAdminAccount(){
+	$accountExists = false;
 	$con = openDB();
 	$dbOptions = getDBOptions();
 	mysqli_select_db($con, $dbOptions["DB"]);
 	$sql = "SELECT * FROM `users` WHERE `users`.`admin_level` = '10';";
-	$result2 = mysqli_query($con,$sql);
+	$result = mysqli_query($con,$sql);
+	while($row = mysqli_fetch_array($result)) {
+		array_push($array_result, $row);
+	}
+	if(empty($array_result)){
+		$accountExists = false;
+	}else{
+		$accountExists = true;
+	}
+	
+	if(!$accountExists){
+		// create account here
+		$hello = 'hello';
+	}
 }
 
 /** Will record the db settings into cfg/db.cfg */
