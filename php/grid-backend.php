@@ -46,6 +46,10 @@ if(isset($_POST['addNewDevice'])){ //This function is not completely done yet.
     $timeRange = $_POST['timeRange'];
 	$data = getTenAveragePointsInTimeRange($timeRange);
 	$postResult = $data;
+}else if(isset($_POST['getBackendRunning'])){
+	$postResult = array();
+	$postResult['success'] = true;
+	(backendRunning() ? $postResult['backendStatus'] = 'backendRunning' : $postResult['backendStatus'] = 'backendStopped'); //fancy if
 }
 	
 /**gets the last $timeRange of pings from the database
