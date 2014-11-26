@@ -1,11 +1,33 @@
 <?php 
-	$mysql = 'false';
-	$php = phpversion();
-	$apache = substr(apache_get_version(), 0, 10);
-	$ext = get_loaded_extensions();
-	for($i = 0; $i < count($ext); $i++){
-		if($ext[$i] == 'mysqli')$mysql = 'true';
+	include_once("../php/db.php");
+	if(isInstalledAlready()){ // forward user to login.php
+		header("Location: ../login.php"); die();
+	}else{
+		$mysql = 'false';
+		$php = phpversion();
+		$apache = substr(apache_get_version(), 0, 10);
+		$ext = get_loaded_extensions();
+		for($i = 0; $i < count($ext); $i++){
+			if($ext[$i] == 'mysqli')$mysql = 'true';
+		}
 	}
+	
+function isInstalledAlready(){
+	$returnVal = false;
+	$result = false;
+	$array_result = array();
+	$con = openDB();
+	$dbOptions = getDBOptions();mysqli_select_db($con, $dbOptions["DB"]);
+	$sql = "SELECT * FROM `configuration` WHERE `configuration`.`name` = 'installed';";
+	$result = mysqli_query($con,$sql);
+	while($row = mysqli_fetch_array($result)) {
+		array_push($array_result, $row);
+	}
+	if(isset($array_result['value']) && $array_result['value']=='1'){
+		$returnVal = true;
+	}
+	return $returnVal;
+}
 ?>
 <html>
 <head>
