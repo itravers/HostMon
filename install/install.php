@@ -1,5 +1,4 @@
 <?php 
-if(!isset($_POST['install'])){ // User loading page, hasn't installed yet.
 	$mysql = 'false';
 	$php = phpversion();
 	$apache = substr(apache_get_version(), 0, 10);
@@ -7,10 +6,6 @@ if(!isset($_POST['install'])){ // User loading page, hasn't installed yet.
 	for($i = 0; $i < count($ext); $i++){
 		if($ext[$i] == 'mysqli')$mysql = 'true';
 	}
-}else if(isset($_POST['install'])){ // User is trying to install.
-	
-}
-
 ?>
 <html>
 <head>
@@ -75,7 +70,36 @@ if(!isset($_POST['install'])){ // User loading page, hasn't installed yet.
 <script>
 
 function install(){
-	alert("Clicked Install");
+	
+	(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
+		postData = {install:true};
+		 // Send the request to the server.
+		 
+		 $.ajax({
+			type:"POST",
+			data : postData,
+			url: 'install-backend.php', 
+			success: function(result,status,xhr) {
+				alert("success");
+				var jsonData = JSON.parse(result);
+				if(jsonData['success']=='true'){
+					alert("success");
+					$("#installErrorOutput").setText("Installation was a success");
+				}else{
+					$("#installErrorOutput").setText("Installation was not a success");
+				}
+			},
+			complete: function(result) {
+				// Schedule the next request when the current one's complete
+				//alert("complete" + result);
+				//setMenuItemDisplay(result);
+				
+			},
+			error: function(xhr,status,error){
+				$("#installErrorOutput").setText("Error With Install");
+			}
+		}); // End of ajax call.
+	})(); //End of worker thread.
 }
 </script>
 </html>
