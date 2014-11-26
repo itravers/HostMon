@@ -14,18 +14,20 @@ body {
  
 #onlineDot{
 	position:absolute;
-	background-color: RED;
+	margin-top:-9.5px;
+	margin-left:45px;
+	background-color: YELLOW;
 	width: 10px;
 	height: 10px;
 	border-radius:5px;
 }
 
 .dotOffline{
-	
+	background-color: GREEN;
 }
 
 .dotOnline{
-	
+	background-color: RED;
 }
  
  .gridster .version{
