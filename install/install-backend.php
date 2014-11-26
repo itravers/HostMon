@@ -77,6 +77,16 @@ function recordDBSettings(){
  *  secure files. Web users shouldn't be able to read cfg file or install files.
  */
 function configureFilePermissions(){
+	$currentUser = get_current_user();
+	$chmodSuccess;
+	$chmodSuccess=chmod("../css/", 0755);
+	$chmodSuccess=chmod("../images/", 0755);
+	$chmodSuccess=chmod("../backend/", 0755);
+	$chmodSuccess=chmod("../js/", 0755);
+	$chmodSuccess=chmod("../php/", 0755);
+	$chmodSuccess=chmod("../test/", 0440);
+	$chmodSuccess=chmod("../cfg", 0400);
+	$chmodSuccess=chmod("../install/", 0440); //shouldn't be available over the web anymore
 	return true;
 }
 
