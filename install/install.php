@@ -50,6 +50,18 @@ for($i = 0; $i < count($ext); $i++){
 				<td class='install_value'><input class="dbPass" type="text"></td>
 			</tr>
 		</table>
+		<br>
+		<table class='install_table'>
+		<caption>Admin Settings</caption>
+			<tr>
+				<td class='install_label'>Admin Username</td>
+				<td class='install_value'><input class="dbAddress" type="text"></td>
+			</tr>
+			<tr>
+				<td class='install_label'>Password</td>
+				<td class='install_value'><input class="dbName" type="password"></td>
+			</tr>
+		</table>
 	</div>
 </body>
 </html>
