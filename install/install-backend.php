@@ -41,6 +41,8 @@ function setupAdminAccount(){
 		// create account here
 		$sql = "INSERT INTO `hostmon`.`users` (`usr`, `admin_level`, `pass`) VALUES ('".$_POST['adminUsername']."', '10', '".$_POST['adminPassword']."');";
 		$result = mysqli_query($con,$sql);
+	}else{
+		$result = false;
 	}
 	return $result;
 }
