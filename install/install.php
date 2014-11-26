@@ -95,9 +95,9 @@ function install(){
 				var jsonData = JSON.parse(result);
 				if(jsonData['success']=='true'){
 					alert("success");
-					$("#installErrorOutput").text("Installation was a success");
+					$("#installErrorOutput").text(jsonData['errorMessage']);
 				}else{
-					$("#installErrorOutput").text("Installation was not a success");
+					$("#installErrorOutput").text(jsonData['errorMessage']);
 				}
 			},
 			complete: function(result) {
