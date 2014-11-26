@@ -77,7 +77,12 @@ function install(){
 	var adminUsername = $('.adminUsername').val();
 	var adminPassword = $('.adminPassword').val();
 	(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
-		postData = {install:true};
+		postData = {install:true,
+					dbAddress:dbAddress,
+					dbUsername:dbUsername,
+					dbPassword:dbPassword,
+					adminUsername:adminUsername,
+					adminPassword:adminPassword};
 		 // Send the request to the server.
 		 alert("preping ajax");
 		 $.ajax({
