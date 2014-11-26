@@ -1,11 +1,16 @@
 <?php 
-$mysql = 'false';
-$php = phpversion();
-$apache = substr(apache_get_version(), 0, 10);
-$ext = get_loaded_extensions();
-for($i = 0; $i < count($ext); $i++){
-	if($ext[$i] == 'mysqli')$mysql = 'true';
+if(!isset($_POST['install'])){ // User loading page, hasn't installed yet.
+	$mysql = 'false';
+	$php = phpversion();
+	$apache = substr(apache_get_version(), 0, 10);
+	$ext = get_loaded_extensions();
+	for($i = 0; $i < count($ext); $i++){
+		if($ext[$i] == 'mysqli')$mysql = 'true';
+	}
+}else if(isset($_POST['install'])){ // User is trying to install.
+	
 }
+
 ?>
 <html>
 <head>
@@ -62,7 +67,15 @@ for($i = 0; $i < count($ext); $i++){
 				<td class='install_value'><input class="dbName" type="password"></td>
 			</tr>
 		</table>
-		<button id="installButton">Install</button>
+		<button id="installButton" onclick="install();">Install</button>
 	</div>
+	<h3 id="installErrorOutput"> Make sure all settings are correct, then press "Install"</h3>
 </body>
+
+<script>
+
+function install(){
+	alert("Clicked Install");
+}
+</script>
 </html>
