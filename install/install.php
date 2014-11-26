@@ -62,6 +62,7 @@ for($i = 0; $i < count($ext); $i++){
 				<td class='install_value'><input class="dbName" type="password"></td>
 			</tr>
 		</table>
+		<button id="installButton">Install</button>
 	</div>
 </body>
 </html>

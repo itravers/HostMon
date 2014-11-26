@@ -16,6 +16,11 @@ body {
    // background-color: #b0e0e6;
 }
 
+#installButton{
+	margin-left:148px;
+	border-radius:5px;
+}
+
 .install_table{
 	margin-left: auto;
     margin-right: auto;
