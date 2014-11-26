@@ -21,25 +21,28 @@ if(isset($_POST['install'])){
 
 /** checks to see if the admin account is already set up, otherwise sets it up. */
 function setupAdminAccount(){
+	$result = false;
 	$accountExists = false;
 	$con = openDB();
 	$dbOptions = getDBOptions();
 	mysqli_select_db($con, $dbOptions["DB"]);
-	$sql = "SELECT * FROM `users` WHERE `users`.`admin_level` = '10';";
+	$sql = "SELECT * FROM `users` WHERE `users`.`admin_level` = '10' AND `users`.`usr` = '".$_POST['adminUsername']."';";
 	$result = mysqli_query($con,$sql);
 	while($row = mysqli_fetch_array($result)) {
 		array_push($array_result, $row);
 	}
 	if(empty($array_result)){
-		$accountExists = false;
+		$result = false;
 	}else{
-		$accountExists = true;
+		$result = true;
 	}
 	
 	if(!$accountExists){
 		// create account here
-		$hello = 'hello';
+		$sql = "INSERT INTO `hostmon`.`users` (`usr`, `admin_level`, `pass`) VALUES ('".$_POST['adminUsername']."', '10', '".$_POST['adminPassword']."');";
+		$result = mysqli_query($con,$sql);
 	}
+	return $result;
 }
 
 /** Will record the db settings into cfg/db.cfg */

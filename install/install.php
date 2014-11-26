@@ -66,7 +66,9 @@
 	</div>
 	<h3 id="installErrorOutput"> Make sure all settings are correct, then press "Install"</h3>
 </body>
+
 <script type='text/javascript' src="../js/jquery.tools.min.js"></script>
+<script src="../js/jquery.md5.js"></script>
 <script>
 
 function install(){
@@ -76,6 +78,7 @@ function install(){
 	var dbPassword = $('.dbPass').val();
 	var adminUsername = $('.adminUsername').val();
 	var adminPassword = $('.adminPassword').val();
+	adminPassword = $.md5(adminPassword);
 	(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
 		postData = {install:true,
 					dbName:dbName,
