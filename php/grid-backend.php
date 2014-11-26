@@ -50,6 +50,7 @@ if(isset($_POST['addNewDevice'])){ //This function is not completely done yet.
 	$postResult = array();
 	$postResult['success'] = true;
 	(backendRunning() ? $postResult['backendStatus'] = 'backendRunning' : $postResult['backendStatus'] = 'backendStopped'); //fancy if
+	$postResult = json_encode($postResult);
 }
 	
 /**gets the last $timeRange of pings from the database

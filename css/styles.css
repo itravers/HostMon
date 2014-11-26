@@ -16,18 +16,21 @@ body {
 	position:absolute;
 	margin-top:-9.5px;
 	margin-left:45px;
-	background-color: YELLOW;
 	width: 10px;
 	height: 10px;
 	border-radius:5px;
 }
 
+.dotUnknown{
+	background-color: YELLOW;
+}
+
 .dotOffline{
-	background-color: GREEN;
+	background-color: RED;	
 }
 
 .dotOnline{
-	background-color: RED;
+	background-color: Lime;
 }
  
  .gridster .version{

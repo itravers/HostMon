@@ -50,7 +50,7 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 			<div class="bar"></div>
 			<div class="bar"></div>
 		</a>
-		<div id="onlineDot"></div>
+		<div id="onlineDot" class="dotUnknown"></div>
 		<?php echo Menu();?>
 	</head>
 	<body>
@@ -520,6 +520,8 @@ function updateGridGraphData(canvas, x, y){
 
 /** Updates all the graphs on page from info retrieved from the device-backend. */
 function updateGridGraphs(){
+	//update backendOnline.
+	updateBackendOnline();
 	var canvases = $("canvas");
 	for(var i = 0; i< canvases.size(); i++){ //Loop through every canvas on the page.
 		var c = canvases.get(i);
@@ -537,6 +539,42 @@ function updateGridGraphs(){
 	clearTimeout(gridGraphTimeOut); // Remove the timer and re-add it. Why?
 	gridGraphTimeOut = setTimeout(updateGridGraphs, 5000);
 } 
+
+function updateBackendOnline(){
+	(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
+		postData = {getBackendRunning:true};
+		 // Send the request to the server.
+		$.ajax({
+			type:"POST",
+			data : postData,
+			url: 'php/grid-backend.php', 
+			success: function(result,status,xhr) {
+				var jsonData = JSON.parse(result);
+				if(jsonData['success']){ // we succedded
+					if(jsonData['backendStatus'] == 'backendRunning'){
+						$("#onlineDot").removeClass("dotOffline");
+						$("#onlineDot").removeClass("dotUnknown");
+						$("#onlineDot").addClass("dotOnline");
+					}else{
+						$("#onlineDot").removeClass("dotOnline");
+						$("#onlineDot").removeClass("dotUnknown");
+						$("#onlineDot").addClass("dotOffline");
+					}
+				}else{ //Not an admin, tell the user
+					$("#onlineDot").removeClass("dotOnline");
+					$("#onlineDot").removeClass("dotOffline");
+					$("#onlineDot").addClass("dotUnknown");
+				}				
+				
+			},
+			error: function(xhr,status,error){
+				$("#onlineDot").removeClass("dotOnline");
+				$("#onlineDot").removeClass("dotOffline");
+				$("#onlineDot").addClass("dotUnknown");
+			}
+		}); // End of ajax call.
+	})(); //End of worker thread.
+}
 </script>  
 	</body>
 </html>
