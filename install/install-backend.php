@@ -30,8 +30,9 @@ function setupAdminAccount(){
 	$accountExists = false;
 	$con = openDB();
 	$dbOptions = getDBOptions();
+	$adminUsername = mysqli_real_escape_string($con, $_POST['adminUsername']); // Discourage some hackers.
 	mysqli_select_db($con, $dbOptions["DB"]);
-	$sql = "SELECT * FROM `users` WHERE `users`.`admin_level` = '10' AND `users`.`usr` = '".$_POST['adminUsername']."';";
+	$sql = "SELECT * FROM `users` WHERE `users`.`admin_level` = '10' AND `users`.`usr` = '".$adminUsername."';";
 	$result = mysqli_query($con,$sql);
 	while($row = mysqli_fetch_array($result)) {
 		array_push($array_result, $row);
@@ -44,7 +45,9 @@ function setupAdminAccount(){
 	
 	if(!$accountExists){
 		// create account here
-		$sql = "INSERT INTO `hostmon`.`users` (`usr`, `admin_level`, `pass`) VALUES ('".$_POST['adminUsername']."', '10', '".$_POST['adminPassword']."');";
+		$adminUsername = mysqli_real_escape_string($con, $_POST['adminUsername']); // Discourage some hackers.
+		$adminPassword = mysqli_real_escape_string($con, $_POST['adminPassword']); // Discourage some hackers.
+		$sql = "INSERT INTO `hostmon`.`users` (`usr`, `admin_level`, `pass`) VALUES ('".$adminUsername."', '10', '".$adminPassword."');";
 		$result = mysqli_query($con,$sql);
 	}else{
 		$result = false;
@@ -54,7 +57,20 @@ function setupAdminAccount(){
 
 /** Will record the db settings into cfg/db.cfg */
 function recordDBSettings(){
+	$myfile = fopen("../cfg/db.cfg", "w") or die("Unable to open file!");
+	$txt = "DB:".$_POST['dbName'].";\n";
+	fwrite($myfile, $txt);
 	
+	$txt = "USER:".$_POST['dbUsername'].";\n";
+	fwrite($myfile, $txt);
+	
+	$txt = "PASS:".$_POST['dbPassword'].";\n";
+	fwrite($myfile, $txt);
+	
+	$txt = "IP:".$_POST['dbAddress'].";\n";
+	fwrite($myfile, $txt);
+	
+	fclose($myfile);
 }
 
 /** Configurs the file permissions for the app, making sure web users can't access
