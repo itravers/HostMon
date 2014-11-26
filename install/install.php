@@ -77,15 +77,15 @@ function install(){
 		 $.ajax({
 			type:"POST",
 			data : postData,
-			url: 'http://localhost/install/install-backend.php', 
+			url: 'install-backend.php', 
 			success: function(result,status,xhr) {
-				alert("success");
+				//alert("success");
 				var jsonData = JSON.parse(result);
 				if(jsonData['success']=='true'){
 					alert("success");
-					$("#installErrorOutput").setText("Installation was a success");
+					$("#installErrorOutput").text("Installation was a success");
 				}else{
-					$("#installErrorOutput").setText("Installation was not a success");
+					$("#installErrorOutput").text("Installation was not a success");
 				}
 			},
 			complete: function(result) {

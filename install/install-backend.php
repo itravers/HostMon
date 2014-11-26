@@ -1,6 +1,5 @@
 <?php 
 include_once("../php/db.php");
-$_POST['install'] = 'true';
 if(isset($_POST['install'])){
 	$ajaxReturnVal = array();
 	if(install_testDB()){
