@@ -78,6 +78,7 @@ function install(){
 	var adminPassword = $('.adminPassword').val();
 	(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
 		postData = {install:true,
+					dbName:dbName,
 					dbAddress:dbAddress,
 					dbUsername:dbUsername,
 					dbPassword:dbPassword,

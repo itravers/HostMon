@@ -12,6 +12,13 @@ if(isset($_POST['install'])){
 }
 
 function install_testDB(){
-	return true;
+	$returnVal = false;
+	$con = mysqli_connect($_POST['dbAddress'], $_POST['dbUsername'], $_POST['dbPassword'], $_POST['dbName']);
+	if (!$con) {
+		$returnVal = false;
+	}else{
+		$returnVal = true;
+	}
+	return $returnVal;
 }
 ?>
