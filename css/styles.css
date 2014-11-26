@@ -12,6 +12,27 @@ body {
 	
  }
  
+#onlineDot{
+	position:absolute;
+	margin-top:-9.5px;
+	margin-left:45px;
+	width: 10px;
+	height: 10px;
+	border-radius:5px;
+}
+
+.dotUnknown{
+	background-color: YELLOW;
+}
+
+.dotOffline{
+	background-color: RED;	
+}
+
+.dotOnline{
+	background-color: Lime;
+}
+ 
  .gridster .version{
  	font-family: Raavi;
  	color: white;
