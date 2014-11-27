@@ -8,9 +8,7 @@ html{
 body {
 	width: 100%;
 	height: 100%;
-	//overflow: hidden;
-	
- }
+}
  
 #onlineDot{
 	position:absolute;
@@ -32,6 +30,62 @@ body {
 .dotOnline{
 	background-color: Lime;
 }
+
+.install{
+	margin-left: auto;
+    margin-right: auto;
+    width: 25%;
+   // background-color: #b0e0e6;
+}
+
+#installButton{
+	margin-left:148px;
+	border-radius:5px;
+}
+
+.install_table{
+	margin-left: auto;
+    margin-right: auto;
+	color: white;
+	font-family: Raavi;
+	font-size: 18;
+}
+
+#installErrorOutput{
+	color:white;
+	font-family: Raavi;
+	text-align: center;
+}
+
+
+
+.install_label{
+	//background-color: #b0e0e6;
+	width: 200px;
+	color:white;
+	font-family: Raavi;
+	float: right;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#install_red{
+	background-color: red;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#install_green{
+	background-color: green;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.install_value{
+	color:white;
+	font-family: Raavi;
+	text-align: right
+}
  
  .gridster .version{
  	font-family: Raavi;
@@ -43,7 +97,7 @@ body {
 
  .main-body .version{
  	 font-family: Raavi;
-   color: white;
+     color: white;
 	 text-align: right;
 	 position: relative;
 	 margin-right:20px;

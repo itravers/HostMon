@@ -52,8 +52,6 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 		</a>
 		<div id="onlineDot" class="dotUnknown"></div>
 		<?php echo Menu();?>
-	</head>
-	<body>
 		<!-- This is the entire page, where the grid can roam. -->
 		<section class="grid">
 		

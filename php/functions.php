@@ -16,6 +16,7 @@ function getCurrentVersion(){
 	return $returnVal;
 }
 
+<<<<<<< HEAD
 /** Sets backendRunning value in configuration table to false.
  *  The backend will check this and stop itself.
  */
@@ -52,6 +53,21 @@ function backendRunning(){
 		}
 	}else{
 		$returnVal = false;
+=======
+function isInstalledAlready(){
+	$returnVal = false;
+	$result = false;
+	$array_result = array();
+	$con = openDB();
+	$dbOptions = getDBOptions();mysqli_select_db($con, $dbOptions["DB"]);
+	$sql = "SELECT * FROM `configuration` WHERE `configuration`.`name` = 'installed';";
+	$result = mysqli_query($con,$sql);
+	while($row = mysqli_fetch_array($result)) {
+		array_push($array_result, $row);
+	}
+	if($array_result[0]['value']=='1'){
+		$returnVal = true;
+>>>>>>> develop
 	}
 	return $returnVal;
 }

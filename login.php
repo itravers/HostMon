@@ -44,6 +44,7 @@ if(isset($_GET['logout'])){ // User is logging out.
 	echo $response; // This is what the ajax call see's. This echo.
 }
 ?>
+<?php if(!isInstalledAlready()){header("Location: install/install.php"); die();}?>
 <?php if(!isset($_POST['submit'])): // We don't want to send the whole file back to ajax ?>
 <html>
 <head>

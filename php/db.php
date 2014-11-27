@@ -29,7 +29,7 @@ function queryDB($con, $sql){
 /** Get the options to connect to the DB from the config file. */
 function getDBOptions(){
 	$dbOptions = array();
-	if (strpos(getCWD(), 'php') !== FALSE){
+	if (strpos(getCWD(), 'php') !== FALSE || strpos(getCWD(), 'install') !== FALSE){
 		$lines = file('../cfg/db.cfg');
 	}else{
 		$lines = file('cfg/db.cfg');
