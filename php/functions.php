@@ -70,7 +70,7 @@ function isInstalledAlready(){
 	if($array_result[0]['value']=='1'){
 		$returnVal = true;
 	}
-	$returnVal;
+	return $returnVal;
 }
 
 /** Echo's the menu  */
