@@ -350,7 +350,7 @@ public class DataBase {
 	 * @return The ID's of our active devices, in our "special" format.
 	 */
 	public ArrayList<HashMap<String, String>> getActivePings() {
-		String command = "SELECT * FROM `Active_Devices`";
+		String command = "SELECT * FROM `active_devices`";
 		ArrayList<HashMap<String, String>> activePings = read(command);
 		//System.out.println("Active Device:" + activePings.size());
 		return activePings;
@@ -365,7 +365,7 @@ public class DataBase {
 		ArrayList<HashMap<String, String>> activePings = getActivePings();
 		ArrayList<String>newActiveIPs = new ArrayList<String>();
 		for(int i = 0; i < activePings.size(); i++){
-			String command = "SELECT * FROM `Devices` WHERE Devices.id="+activePings.get(i).get("id")+"";
+			String command = "SELECT * FROM `devices` WHERE devices.id="+activePings.get(i).get("id")+"";
 			//System.out.println(activePings.get(i).get("id"));
 			ArrayList<HashMap<String, String>> activeIPs = read(command);
 			if(!activeIPs.isEmpty())newActiveIPs.add(activeIPs.get(0).get("ip"));
