@@ -16,7 +16,6 @@ function getCurrentVersion(){
 	return $returnVal;
 }
 
-<<<<<<< HEAD
 /** Sets backendRunning value in configuration table to false.
  *  The backend will check this and stop itself.
  */
@@ -53,7 +52,10 @@ function backendRunning(){
 		}
 	}else{
 		$returnVal = false;
-=======
+	}
+	return $returnVal;
+}
+
 function isInstalledAlready(){
 	$returnVal = false;
 	$result = false;
@@ -67,9 +69,7 @@ function isInstalledAlready(){
 	}
 	if($array_result[0]['value']=='1'){
 		$returnVal = true;
->>>>>>> develop
 	}
-	return $returnVal;
 }
 
 /** Echo's the menu  */
