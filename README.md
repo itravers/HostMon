@@ -5,6 +5,9 @@ HostMon
 Hostmon is a multi-user latency &amp; uptime analytical tool.
 
 Version 0.3
+-Added Installation System
+
+Version 0.3
 -Fixed auto color updating bug in grid.php.
 -Fixed graph NaNing out bug in device.php.
 -Secured and finished login system.
