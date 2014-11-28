@@ -27,9 +27,9 @@ function startBackend(){
 	//$WshShell = new COM("WScript.Shell") or Die ("Did not connect");;
 	$output = "";
 	$return = "";
-	$cmd = 'start "Backend" '.$cmd;
+	$cmd = 'start /b "Backend" '.$cmd.' >NUL 2>NUL';
 	//$oExec = $WshShell->Run("cmd /C ".$cmd, 0, true);
-	exec($cmd, $output, $return);
+	exec($cmd);
 	$hello = "hello";
 	
 }
