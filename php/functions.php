@@ -16,6 +16,11 @@ function getCurrentVersion(){
 	return $returnVal;
 }
 
+/** Checks if we are on linux or windows and starts the backend accordingly*/
+function startBackend(){
+	
+}
+
 /** Sets backendRunning value in configuration table to false.
  *  The backend will check this and stop itself.
  */

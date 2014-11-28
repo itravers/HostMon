@@ -92,6 +92,7 @@ if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data. A
 		$startOrStop = $_POST['startStopBackend'];
 		if($startOrStop == 'start'){
 			//start the backend.
+			startBackend();
 			$config['returnVal'] = "Started the Backend";
 			$config['newButtonVal'] = "STOP";
 		}else{
