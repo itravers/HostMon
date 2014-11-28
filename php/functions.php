@@ -29,7 +29,8 @@ function startBackend(){
 	$return = "";
 	$cmd = 'start /b "Backend" '.$cmd.' >NUL 2>NUL';
 	//$oExec = $WshShell->Run("cmd /C ".$cmd, 0, true);
-	exec($cmd);
+	pclose(popen($cmd, "r"));
+	//exec($cmd);
 	$hello = "hello";
 	
 }
