@@ -20,9 +20,10 @@ function getCurrentVersion(){
 function startBackend(){
 	$javaDir = getJavaDir();
 	$backendDir = getBackendDir();
-	$cmd = 'START "'.$javaDir.'java" -Djava.awt.headless=true -cp "..\\backend\\;..\\backend\\mysql-connector-java-5.1.31-bin.jar" Hostmon';
+	$cmd = '"'.$javaDir.'java" -Djava.awt.headless=true -cp "..\\backend\\;..\\backend\\mysql-connector-java-5.1.31-bin.jar" Hostmon';
 	$result = array();
-	exec($cmd, $result);
+	pclose(popen("start /B ". $cmd, "r"));
+	//exec($cmd, $result);
 	$hello = "hello";
 }
 
