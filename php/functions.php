@@ -21,10 +21,17 @@ function startBackend(){
 	$javaDir = getJavaDir();
 	$backendDir = getBackendDir();
 	$cmd = '"'.$javaDir.'java" -Djava.awt.headless=true -cp "..\\backend\\;..\\backend\\mysql-connector-java-5.1.31-bin.jar" Hostmon';
-	$result = array();
-	pclose(popen("start /B ". $cmd, "r"));
+	//$result = array();
+	//pclose(popen("start /B ". $cmd, "r"));
 	//exec($cmd, $result);
+	//$WshShell = new COM("WScript.Shell") or Die ("Did not connect");;
+	$output = "";
+	$return = "";
+	$cmd = 'start "Backend" '.$cmd;
+	//$oExec = $WshShell->Run("cmd /C ".$cmd, 0, true);
+	exec($cmd, $output, $return);
 	$hello = "hello";
+	
 }
 
 /** Returns the installed backend dir. */
