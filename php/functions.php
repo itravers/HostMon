@@ -18,7 +18,24 @@ function getCurrentVersion(){
 
 /** Checks if we are on linux or windows and starts the backend accordingly*/
 function startBackend(){
-	
+	$javaDir = getJavaDir();
+	$backendDir = getBackendDir();
+	$cmd = '"'.$javaDir.'java" -Djava.awt.headless=true -cp ..\\backend\\ 2>&1 TestJava';
+	$result = array();
+	exec($cmd, $result);
+	$hello = "hello";
+}
+
+/** Returns the installed backend dir. */
+function getBackendDir(){
+	$backendDir = 'C:\\xampp\\htdocs\\backend\\';
+	return $backendDir;
+}
+
+/** Returns the installed java directory so we don't have to do classpaths. */
+function getJavaDir(){
+	$javaDir = 'C:\\Program Files\\Java\\jdk1.7.0_17\\bin\\';
+	return $javaDir;
 }
 
 /** Sets backendRunning value in configuration table to false.
