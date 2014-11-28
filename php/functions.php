@@ -18,32 +18,45 @@ function getCurrentVersion(){
 
 /** Checks if we are on linux or windows and starts the backend accordingly*/
 function startBackend(){
-	$javaDir = getJavaDir();
-	$backendDir = getBackendDir();
-	$cmd = '"'.$javaDir.'java" -Djava.awt.headless=true -cp "..\\backend\\;..\\backend\\mysql-connector-java-5.1.31-bin.jar" Hostmon';
-	//$result = array();
-	//pclose(popen("start /B ". $cmd, "r"));
-	//exec($cmd, $result);
-	//$WshShell = new COM("WScript.Shell") or Die ("Did not connect");;
-	$output = "";
-	$return = "";
-	$cmd = 'start /b "Backend" '.$cmd.' >NUL 2>NUL';
-	//$oExec = $WshShell->Run("cmd /C ".$cmd, 0, true);
-	pclose(popen($cmd, "r"));
-	//exec($cmd);
-	$hello = "hello";
+	$os = getOS();
+	$javaDir = getJavaDir($os);
+	$backendDir = getBackendDir($os);
+	if($os == 'Win'){ // start backend on windows
+		$cmd = '"'.$javaDir.'java" -Djava.awt.headless=true -cp "'.$backendDir.';'.$backendDir.'mysql-connector-java-5.1.31-bin.jar" Hostmon';
+		$cmd = 'start /b "Backend" '.$cmd.' >NUL 2>NUL';
+		pclose(popen($cmd, "r"));
+	}else if($os == 'Lin'){ // start backend on linux
+		$cmd = '"'.$javaDir.'java" -Djava.awt.headless=true -cp "'.$backendDir.':'.$backendDir.'mysql-connector-java-5.1.31-bin.jar" Hostmon';
+		$cmd = 'start /b "Backend" '.$cmd.' >NUL 2>NUL';
+		pclose(popen($cmd, "r"));
+	}
+	
 	
 }
 
+function getOS(){
+	$os = php_uname('s');
+	$os = substr($os, 0, 3);
+	return $os;
+}
+
 /** Returns the installed backend dir. */
-function getBackendDir(){
-	$backendDir = 'C:\\xampp\\htdocs\\backend\\';
+function getBackendDir($os){
+	$backendDir = "";
+	if($os == 'Win'){ // start backend on windows
+		$backendDir = '..\\backend\\';
+	}else if($os == 'Lin'){
+		$backendDir = '..\\backend\\';
+	}
 	return $backendDir;
 }
 
 /** Returns the installed java directory so we don't have to do classpaths. */
 function getJavaDir(){
-	$javaDir = 'C:\\Program Files\\Java\\jdk1.7.0_17\\bin\\';
+	$file = fopen("..\\cfg\\java.cfg","r");
+	$javaDir = fgets($file);
+	fclose($file);
+	//$javaDir = 'C:\\Program Files\\Java\\jdk1.7.0_17\\bin\\';
 	return $javaDir;
 }
 
