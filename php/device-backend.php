@@ -26,7 +26,7 @@ if(isset($_POST['LineChart'])){
 	}else if($_POST['LineChart']=="YearLine"){
 		$table = "year";
 	}
-	mysqli_select_db($con,"HostMon");
+	mysqli_select_db($con,"hostmon");
 	$sql="SELECT time, latency FROM `".$table."` WHERE ip = '".$_POST['ip']."'";
 	$result = mysqli_query($con,$sql);
 		
@@ -50,7 +50,7 @@ if(isset($_POST['PolarChart'])){
 		$table = "year";
 	}
 	$latencyList = Array(); //the structure we are reading latency results to.
-	mysqli_select_db($con,"HostMon");
+	mysqli_select_db($con,"hostmon");
 	$sql="SELECT latency FROM `".$table."` WHERE ip = '".$_POST['ip']."'";
 	$result2 = mysqli_query($con,$sql);
 	//Record the latency results to the latency list.
@@ -111,8 +111,8 @@ if(isset($_POST['SubmitNote'])){
 	$sanitizedContent = mysqli_real_escape_string($con, $noteContent);
 	//submit note to database
 	$resultList = Array(); //the structure we are reading latency results to.
-	mysqli_select_db($con,"HostMon");
-	$sql="INSERT INTO `HostMon`.`notes` (`id` ,`deviceID` ,`userID` ,`timestamp` ,`content`) VALUES (NULL , '".$deviceID."', '".$userID."', '".$time."', '".$sanitizedContent."');";
+	mysqli_select_db($con,"hostmon");
+	$sql="INSERT INTO `hostmon`.`notes` (`id` ,`deviceID` ,`userID` ,`timestamp` ,`content`) VALUES (NULL , '".$deviceID."', '".$userID."', '".$time."', '".$sanitizedContent."');";
 	$result2 = mysqli_query($con,$sql);
 	//Record the latency results to the latency list.	
     $notes = getNotes($deviceID); //db query get array of notes from device id.
@@ -124,8 +124,8 @@ if(isset($_POST['RemoveNote'])){
 	$deviceID = $_POST['deviceID'];
 	$timestamp = $_POST['timestamp'];
 	
-	mysqli_select_db($con,"HostMon");
-	$sql="DELETE FROM `HostMon`.`notes` WHERE `notes`.`timestamp` = ".$timestamp." AND `notes`.`deviceID` = ".$deviceID.";";
+	mysqli_select_db($con,"hostmon");
+	$sql="DELETE FROM `hostmon`.`notes` WHERE `notes`.`timestamp` = ".$timestamp." AND `notes`.`deviceID` = ".$deviceID.";";
 	$result2 = mysqli_query($con,$sql);
 	
 	$notes = getNotes($deviceID); //db query get array of notes from device id.

@@ -46,6 +46,11 @@ if(isset($_POST['addNewDevice'])){ //This function is not completely done yet.
     $timeRange = $_POST['timeRange'];
 	$data = getTenAveragePointsInTimeRange($timeRange);
 	$postResult = $data;
+}else if(isset($_POST['getBackendRunning'])){
+	$postResult = array();
+	$postResult['success'] = true;
+	(backendRunning() ? $postResult['backendStatus'] = 'backendRunning' : $postResult['backendStatus'] = 'backendStopped'); //fancy if
+	$postResult = json_encode($postResult);
 }
 	
 /**gets the last $timeRange of pings from the database
@@ -67,7 +72,7 @@ function getFiveMinuteAverage($ip){
 	
 	$limit = 31; // Config Value, how many data points show on each graph, in grid.php
 	$con = openDB();
-	mysqli_select_db($con,"HostMon");
+	mysqli_select_db($con,"hostmon");
 	$sql="SELECT * FROM minute WHERE ip = '".$ip."' ORDER BY time DESC LIMIT ".$limit;
 	$result = mysqli_query($con,$sql);
 	$answer = '';
@@ -83,7 +88,7 @@ function getFiveMinuteAverage($ip){
 function getHourAverage($ip){
 	$limit = 21;
 	$con = openDB();
-	mysqli_select_db($con,"HostMon");
+	mysqli_select_db($con,"hostmon");
 	$sql="SELECT * FROM hour WHERE ip = '".$ip."' ORDER BY time DESC LIMIT ".$limit;
 	$result = mysqli_query($con,$sql);
 	$answer = '';

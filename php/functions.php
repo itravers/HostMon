@@ -16,6 +16,90 @@ function getCurrentVersion(){
 	return $returnVal;
 }
 
+/** Checks if we are on linux or windows and starts the backend accordingly*/
+function startBackend(){
+	$os = getOS();
+	$javaDir = getJavaDir($os);
+	$backendDir = getBackendDir($os);
+echo "os is ".$os;
+	if($os == 'Win'){ // start backend on windows
+		$cmd = '"'.$javaDir.'java" -Djava.awt.headless=true -cp "'.$backendDir.';'.$backendDir.'mysql-connector-java-5.1.31-bin.jar" Hostmon';
+		$cmd = 'start /b "Backend" '.$cmd.' >NUL 2>NUL';
+		pclose(popen($cmd, "r"));
+	}else if($os == 'Lin'){ // start backend on linux
+		$cmd = $javaDir.'java -Djava.awt.headless=true -cp "../backend/:../backend/mysql-connector-java-5.1.31-bin.jar" Hostmon	> /dev/null 2>&1 &';
+		exec($cmd, $output);
+	}
+	
+	
+}
+
+function getOS(){
+	$os = php_uname('s');
+	$os = substr($os, 0, 3);
+	return $os;
+}
+
+/** Returns the installed backend dir. */
+function getBackendDir($os){
+	$backendDir = "";
+	if($os == 'Win'){ // start backend on windows
+		$backendDir = '..\\backend\\';
+	}else if($os == 'Lin'){
+		$backendDir = '../backend/';
+	}
+	return $backendDir;
+}
+
+/** Returns the installed java directory so we don't have to do classpaths. */
+function getJavaDir(){
+	$file = fopen("..\\cfg\\java.cfg","r");
+	$javaDir = fgets($file);
+	fclose($file);
+	//$javaDir = 'C:\\Program Files\\Java\\jdk1.7.0_17\\bin\\';
+	return $javaDir;
+}
+
+/** Sets backendRunning value in configuration table to false.
+ *  The backend will check this and stop itself.
+ */
+function stopBackend(){
+	$con = openDB();
+	mysqli_select_db($con,"HostMon");
+	$sql = "UPDATE `configuration` SET `configuration`.`value` = 'false' WHERE `configuration`.`name` = 'backendRunning'";
+	$result = mysqli_query($con,$sql);
+}
+
+/** Queries the db to see if the java backend is running. */
+function backendRunning(){
+	$returnVal = false;
+	$con = openDB();
+	mysqli_select_db($con,"hostmon");
+	$sql = "SELECT * FROM `configuration` WHERE `configuration`.`name` = 'backendRunning'";
+	$result = mysqli_query($con,$sql);
+	$array_result = array();
+	while($row = mysqli_fetch_array($result)) {
+		array_push($array_result, $row);
+	}
+	if(isset($array_result[0]['name'])){ // Value was retrieved from db.
+		$s_isRunning = $array_result[0]['value'];
+		$s_lastRanTime = $array_result[0]['timeStamp'];
+		if($s_isRunning == 'true'){ // The Db says the backend is running.
+			$currentTime =  time();
+			if($currentTime - $s_lastRanTime < 60){ // last time it updated was less then 60 secs.
+				$returnVal = true;
+			}else{
+				$returnVal = false;
+			}
+		}else{
+			$returnVal = false;
+		}
+	}else{
+		$returnVal = false;
+	}
+	return $returnVal;
+}
+
 function isInstalledAlready(){
 	$returnVal = false;
 	$result = false;
@@ -59,6 +143,24 @@ function Menu(){
 					-</h5>
 				
 			';
+	if($_SESSION['admin_level'] == '10'){
+		(backendRunning() ? $class = 'backendRunning' : $class = 'backendStopped'); //fancy if
+		$menu = $menu.'
+					<h4 style="right:150px;"
+						id="stopStartLabel"
+						title="Allows the admin to stop or start the java backend."
+					>Start Backend</h4>
+					<button id ="stopStartButton"
+							class = "'.$class.'" 
+							onClick="stopStartBackend();"
+						>START</button><br>
+					<h5 class="startBackendErrorOutput" 
+						title="Shows the user an error message if change password is bad.">
+					-</h5>
+		';
+		$hello = "hello";
+	}
+	
 	if($_SESSION['admin_level'] == '10'){
 		$menu = $menu.'
 					<h4 style="right:150px;"
@@ -298,8 +400,8 @@ function buildNoteItems($notes){
 /** Fetches the Device ID from the database, uses the ip. */
 function getDeviceID($ip){
 	$con = openDB();
-	mysqli_select_db($con,"HostMon");
-	$sql="SELECT id FROM `Devices` WHERE ip = '".$ip."'";
+	mysqli_select_db($con,"hostmon");
+	$sql="SELECT id FROM `devices` WHERE ip = '".$ip."'";
 	$result = mysqli_query($con,$sql);
 	$id = '';
 	while($row = mysqli_fetch_array($result)) {
@@ -311,8 +413,8 @@ function getDeviceID($ip){
 /** Query's the database for the devices name, using the ID. */
 function getDeviceName($deviceID){
 	$con = openDB();
-	mysqli_select_db($con,"HostMon");
-	$sql="SELECT name FROM `Devices` WHERE id = '".$deviceID."'";
+	mysqli_select_db($con,"hostmon");
+	$sql="SELECT name FROM `devices` WHERE id = '".$deviceID."'";
 	$result = mysqli_query($con,$sql);
 	$name = '';
 	while($row = mysqli_fetch_array($result)) {
@@ -324,8 +426,8 @@ function getDeviceName($deviceID){
 /** Query's the database for a users name, from their ID. */
 function getUserName($id){
 	$con = openDB();
-	mysqli_select_db($con,"HostMon");
-	$sql="SELECT usr FROM `Users` WHERE id = '".$id."'";
+	mysqli_select_db($con,"hostmon");
+	$sql="SELECT usr FROM `users` WHERE id = '".$id."'";
 	$result = mysqli_query($con,$sql);
 	$name = '';
 	while($row = mysqli_fetch_array($result)) {
@@ -358,7 +460,7 @@ function buildNotesGrid($notes){
 /** Returns an Array of notes from the DB, based on deviceID. */
 function getNotes($deviceID){
 	$con = openDB();
-	mysqli_select_db($con,"HostMon");
+	mysqli_select_db($con,"hostmon");
 	$sql="SELECT * FROM `notes` WHERE deviceID = '".$deviceID."'";
 	$result = mysqli_query($con,$sql);
 	$returnArray = Array();
@@ -380,7 +482,7 @@ function getNotes($deviceID){
 /* Will Return an array of active devices for the specified username. */
 function getActiveDevices($username){
 	$con = openDB();
-	mysqli_select_db($con,"HostMon");
+	mysqli_select_db($con,"hostmon");
 	$sql="SELECT * FROM `active_devices`";
 	$result = mysqli_query($con,$sql);
 	$activeDeviceNumbers = Array(); // a 2d array where the first d is different devices, and the 2nd d has the number at 0
@@ -406,7 +508,6 @@ function getActiveDevices($username){
 			);
 		array_push($activeDevices, $array); // push this device to the list of active Devices.
 		}
-		
 	}
 	return $activeDevices;
 }
