@@ -21,14 +21,14 @@ function startBackend(){
 	$os = getOS();
 	$javaDir = getJavaDir($os);
 	$backendDir = getBackendDir($os);
+echo "os is ".$os;
 	if($os == 'Win'){ // start backend on windows
 		$cmd = '"'.$javaDir.'java" -Djava.awt.headless=true -cp "'.$backendDir.';'.$backendDir.'mysql-connector-java-5.1.31-bin.jar" Hostmon';
 		$cmd = 'start /b "Backend" '.$cmd.' >NUL 2>NUL';
 		pclose(popen($cmd, "r"));
 	}else if($os == 'Lin'){ // start backend on linux
-		$cmd = '"'.$javaDir.'java" -Djava.awt.headless=true -cp "'.$backendDir.':'.$backendDir.'mysql-connector-java-5.1.31-bin.jar" Hostmon';
-		$cmd = 'start /b "Backend" '.$cmd.' >NUL 2>NUL';
-		pclose(popen($cmd, "r"));
+		$cmd = '/usr/bin/java -Djava.awt.headless=true -cp "../backend/:../backend/mysql-connector-java-5.1.31-bin.jar" Hostmon	> /dev/null 2>&1 &';
+		exec($cmd, $output);
 	}
 	
 	
