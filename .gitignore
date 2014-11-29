@@ -1,3 +1,4 @@
 *.class
 /bin
+/cfg/java.cfg
 *.log
