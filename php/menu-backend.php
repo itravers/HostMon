@@ -12,7 +12,7 @@ include_once("functions.php");
 session_start(); //We'll end up needing to check for admin status.
 if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data. Any lvl can do this.
 	$con = openDB();
-	mysqli_select_db($con,"HostMon");
+	mysqli_select_db($con,"hostmon");
 	$sql = "SELECT * FROM configuration";
 	$result = mysqli_query($con,$sql);
 	$config = array();
@@ -29,7 +29,7 @@ if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data. A
 }else if(isset($_POST['setConfigValue'])){
 	if($_SESSION['admin_level'] == '10'){ // Make sure user is admin before changing config values
 		$con = openDB();
-		mysqli_select_db($con,"HostMon");
+		mysqli_select_db($con,"hostmon");
 		$name = $_POST['name'];
 		$value = $_POST['value'];
 		$value = trim($value); // Problem with whitespace in value.
@@ -44,7 +44,7 @@ if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data. A
 	}
 }else if(isset($_POST['changePassword'])){
 	$con = openDB();
-	mysqli_select_db($con,"HostMon");
+	mysqli_select_db($con,"hostmon");
 	$userName = $_SESSION['usr']; // User is only setting his own password.
 	$newPass = $_POST['newPass'];
 	$userName = mysqli_real_escape_string($con, $userName); // Discourage some hackers.
@@ -60,7 +60,7 @@ if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data. A
 		$newAdminLvl = $_POST['newAdminLvl'];
 		
 		$con = openDB();
-		mysqli_select_db($con,"HostMon");
+		mysqli_select_db($con,"hostmon");
 		$config = array();
 		
 		$newUsername = mysqli_real_escape_string($con, $newUsername); // Discourage some hackers.
@@ -77,14 +77,39 @@ if(isset($_POST['getConfigData'])){ // Front end wants ALL configuration data. A
 	}
 }else if(isset($_POST['removeUser'])){ // Admin clicked remove user.
 	if($_SESSION['admin_level'] == '10'){ // Make sure user is admin before changing config values
-	$removeUsername = $_POST['removeUsername'];
-	$con = openDB();
-	mysqli_select_db($con,"HostMon");
+		$removeUsername = $_POST['removeUsername'];
+		$con = openDB();
+		mysqli_select_db($con,"hostmon");
+		$config = array();
+		$removeUsername = mysqli_real_escape_string($con, $removeUsername); // Discourage some hackers.
+		$sql = "DELETE FROM `hostmon`.`users` WHERE `users`.`usr` = '".$removeUsername."'";
+		$result = mysqli_query($con,$sql);
+		$config['returnVal'] = "Removed ".$removeUsername;
+	}
+}else if(isset($_POST['startStopBackend'])){ // User wants to stop, or start the java backend
+	if($_SESSION['admin_level'] == '10'){ // Make sure user is admin before touching backend
+		$config = array();
+		$startOrStop = $_POST['startStopBackend'];
+		if($startOrStop == 'start'){
+			//start the backend.
+			startBackend();
+			$config['returnVal'] = "Started the Backend";
+			$config['newButtonVal'] = "STOP";
+		}else{
+			//stop the backend.
+			stopBackend(); // Tells the db that the backend is stopped, it will stop it.
+			$config['returnVal'] = "Stopped the Backend";
+			$config['newButtonVal'] = "START";
+		}
+	}
+}else if(isset($_POST['getBackendRunning'])){
 	$config = array();
-	$removeUsername = mysqli_real_escape_string($con, $removeUsername); // Discourage some hackers.
-	$sql = "DELETE FROM `hostmon`.`users` WHERE `users`.`usr` = '".$removeUsername."'";
-	$result = mysqli_query($con,$sql);
-	$config['returnVal'] = "Removed ".$removeUsername;
+	if($_SESSION['admin_level'] == '10'){ // Make sure user is admin before touching backend
+		$config['success'] = true;
+		(backendRunning() ? $config['backendStatus'] = 'backendRunning' : $config['backendStatus'] = 'backendStopped'); //fancy if
+	}else{
+		$config['success'] = false;
+		$config['err'] = "You are not an admin, why are you seeing this?";
 	}
 }
 

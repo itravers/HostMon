@@ -40,6 +40,131 @@ public class DataBase {
 	}
 	
 	/* Public Methods*/
+	
+	/** Called when the program is shutting down, sets
+	 *  configuration.value to false for config.name = backendRunning.
+	 */
+	public void informDBofShutdown(){
+		int val = 0;
+		String commandString = "UPDATE configuration SET `configuration`.`value`= 'false' WHERE `configuration`.`name` = 'backendRunning' ; ";
+		val = write(commandString);
+		if (val == 1) {
+			System.err.print("Telling DB about Shutdown.");
+		}else{
+			System.err.print("Failed To inform DB about shutdown.");
+		}
+	}
+	
+	/** Sets the DB's config.backendRunning to 'true'
+	 *  and updates the timestamp.
+	 */
+	public void startRunning() {
+		int val = 0;
+		long l_timeStamp = System.currentTimeMillis() / 1000L;
+		String s_timeStamp = String.valueOf(l_timeStamp);
+		String commandString = "UPDATE configuration SET `configuration`.`value` = 'true', `configuration`.`timeStamp` = '"+s_timeStamp+"' WHERE `configuration`.`name` = 'backendRunning' ; ";
+		val = write(commandString);
+		if (val == 1) {
+			System.out.print("Informed DB Backend is running.");
+		}else{
+			System.err.print("Failed To inform DB Backend is running.");
+		}
+	}
+	
+	/**
+	 * updating running is like start running, but we never change the value to true
+	 */
+	public void updateRunning(){
+		int val = 0;
+		long l_timeStamp = System.currentTimeMillis() / 1000L;
+		String s_timeStamp = String.valueOf(l_timeStamp);
+		String commandString = "UPDATE configuration SET `configuration`.`timeStamp` = '"+s_timeStamp+"' WHERE `configuration`.`name` = 'backendRunning' ; ";
+		val = write(commandString);
+		if (val == 1) {
+			System.out.print("Informed DB Backend is running.");
+		}else{
+			System.err.print("Failed To inform DB Backend is running.");
+		}
+	}
+	
+	/** Lets the main loop & threads know if it should continue running, or if it should exit */
+	public boolean shouldBackendContinueRunning(){
+		boolean returnVal = true; //default to true
+		String sqlQuery = "SELECT * FROM `configuration` WHERE `configuration`.`name` = 'backendRunning'";
+		ResultSet res = null;
+		// we need to read from db
+		try {
+			String s_value = "";
+			this.open();
+			Statement st;
+			st = conn.createStatement();
+			res = st.executeQuery(sqlQuery);
+			while(res.next()){
+				s_value = res.getString("value");
+	        }
+			//System.out.println(res.getRow());
+			this.close();
+			if(s_value.equals("true")){ // Db Shows backend as running.
+				returnVal = true;
+			}else{
+				returnVal = false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("shouldBackendContinueRunning: " + returnVal);
+		return returnVal;
+	}
+	
+	/**
+	 * Tells us if the backend is already running.
+	 * We check the configuration table to see if backendRunning
+	 * value is set to 'true' if it is, we check the timeStamp
+	 * to make sure it's not over a minute or so old.
+	 * @return True if backend is running, false otherwise.
+	 */
+	public boolean backendAlreadyRunning(){
+		boolean returnVal = false;
+		String sqlQuery = "SELECT * FROM `configuration` WHERE `configuration`.`name` = 'backendRunning'";
+		ResultSet res = null;
+		// we need to read from db
+		try {
+			String s_name = "";
+			String s_value = "";
+			String s_timeStamp = "";
+			long l_timeStamp;
+			long l_currentTime = System.currentTimeMillis() / 1000L;
+			this.open();
+			Statement st;
+			st = conn.createStatement();
+			res = st.executeQuery(sqlQuery);
+			while (res.next()) {
+				s_name = res.getString("name");
+				s_value = res.getString("value");
+				s_timeStamp = res.getString("timeStamp");
+	        }
+			//System.out.println(res.getRow());
+			this.close();
+			l_timeStamp = Long.valueOf(s_timeStamp);
+			if(s_value.equals("true")){ // Db Shows backend as running.
+				if(l_currentTime - l_timeStamp < 45){ // Less than a minute has passed.
+					returnVal = true;
+				}else{ // More than a minute has passed, backend isn't running.
+					returnVal = false;
+				}
+			}else{
+				returnVal = false;
+			}
+			System.out.println(l_currentTime);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return returnVal;
+	}
+	
 	/**
 	 * Records a HashMap<String, <HashMap<String, String>>> of records into the hour table
 	 * this hashmap has each record averaged
@@ -225,7 +350,7 @@ public class DataBase {
 	 * @return The ID's of our active devices, in our "special" format.
 	 */
 	public ArrayList<HashMap<String, String>> getActivePings() {
-		String command = "SELECT * FROM `Active_Devices`";
+		String command = "SELECT * FROM `active_devices`";
 		ArrayList<HashMap<String, String>> activePings = read(command);
 		//System.out.println("Active Device:" + activePings.size());
 		return activePings;
@@ -240,7 +365,7 @@ public class DataBase {
 		ArrayList<HashMap<String, String>> activePings = getActivePings();
 		ArrayList<String>newActiveIPs = new ArrayList<String>();
 		for(int i = 0; i < activePings.size(); i++){
-			String command = "SELECT * FROM `Devices` WHERE Devices.id="+activePings.get(i).get("id")+"";
+			String command = "SELECT * FROM `devices` WHERE devices.id="+activePings.get(i).get("id")+"";
 			//System.out.println(activePings.get(i).get("id"));
 			ArrayList<HashMap<String, String>> activeIPs = read(command);
 			if(!activeIPs.isEmpty())newActiveIPs.add(activeIPs.get(0).get("ip"));
@@ -469,6 +594,8 @@ public class DataBase {
 			System.out.println("Inserted Latest Pings Into Minute Table");
 		}
 		pingRecord.clear();
+		//Everytime a list of pings is recorded we want to refresh configuration.backEndrunning
+		updateRunning();
 	}
 	
 	/* Static Methods */
