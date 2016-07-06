@@ -31,7 +31,7 @@ if(isset($_GET['login'])){ //if login has just logged us in
 		$loggedIn = true;
 	}
 }
-$pageTitle = "Hostmon - ".$userName;
+$pageTitle = $adminLevel."Hostmon - ".$userName;
 $devices = getActiveDevices($userName); // returns the initial active devices
 $gridPositions = getGridPositions(count($devices)); // returns a 2d array with initial grid positions and sizes 
 ?>
@@ -44,8 +44,9 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 		<title><?php echo $pageTitle ?></title>
 		<link rel="stylesheet" type="text/css" href="css/gridster.css">
 		<link rel="stylesheet" type="text/css" href="css/styles.css">
-        <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
-		<a class="menu" href="#">
+		<link href="css/bootstrap-tour-standalone.css" rel="stylesheet">
+                <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+		<a class="menu" href="#" id="tour-menu">
 			<div class="bar"></div>
 			<div class="bar"></div>
 			<div class="bar"></div>
@@ -122,11 +123,35 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 <script src="js/menu.js"></script>
 <script src="js/hostmonChart.js"></script>
 <script type="text/javascript" src="js/jquery.gridster.min.js" charster="utf-8"></script>
+<script src="js/bootstrap-tour-standalone.min.js"></script>
 
 <script type="text/javascript">
 var gridster = 0;
 var dragged = 0; // Used to keep the device.php overlay from loading when a grid is being dragged.
 var gridGraphTimeOut; //Used to disable ajax updating of the page when device.php is overlayed.
+
+//setup the bootstrap tour
+// Instance the tour
+var tour = new Tour({
+ debug: true,
+  steps: [
+  {
+    element: "#tour-menu",
+    title: "Menu",
+    content: "You can change several options in the menu."
+  },
+  {
+    element: "#first",
+    title: "This is the first grid element.",
+    content: "This is the content of the tour."
+  }
+]});
+
+// Initialize the tour
+tour.init();
+
+// Start the tour
+tour.start();
 	
 //Initialize Gridster
 gridster = $("#frontGrid > ul").gridster({
