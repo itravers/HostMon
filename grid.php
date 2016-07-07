@@ -627,6 +627,25 @@ tour = new Tour({
 
 //Check if user is an admin, if they are then show them the admin tour of the menu.
 if(adminLevel == 10){
+
+//Since we already have some of the data we want encoded at the title attirbute of several
+//menu options, we are just going to grab that info straight from the DOM and display
+//it in our tour.
+var avgGoalTitle = $("#avgGoalTitle").attr("title");
+var startingThreadsTitle = $("#startingThreadsTitle").attr("title");
+var maxThreadsTitle = $("#maxThreadsTitle").attr("title");
+var tRemovalTitle = $("#tRemovalTitle").attr("title");
+var tAddTitle = $("#tAddTitle").attr("title");
+var runsPerThreadTitle = $("#runsPerThreadTitle").attr("title");
+var pingsDBTitle = $("#pingsDBTitle").attr("title");
+var minuteAgeTitle = $("#minuteAgeTitle").attr("title");
+var hourAgeTitle = $("#hourAgeTitle").attr("title");
+var dayAgeTitle = $("#dayAgeTitle").attr("title");
+var weekAgeTitle = $("#weekAgeTitle").attr("title");
+var pingMinuteTitle = $("#pingMinuteTitle").attr("title");
+var pingHourTitle = $("#pingHourTitle").attr("title");
+var pingDayTitle = $("#pingDayTitle").attr("title");
+var pingWeekTitle = $("#pingDayTitle").attr("title");
 	tour.addStep({
 		element: "#stopStartButton",
 		title: "Start/Stop the Backend.",
@@ -648,15 +667,119 @@ if(adminLevel == 10){
         });
 
 	tour.addStep({
-                element: ".averageGoalTime",
+                element: "#averageGoalButton",
                 title: "Average Goal Time Per Ping",
-                content: "<font color='red'>Admin Only Option.</font> <br> Text Here",
+                content: "<font color='red'>Admin Only Option.</font> <br> " + avgGoalTitle + " <br> A Minimum of 5000ms is recommended.",
                 placement: "bottom"
         });
 	
-
-
+	tour.addStep({
+                element: "#startingThreadsButton",
+                title: "Starting Threads",
+                content: "<font color='red'>Admin Only Option.</font> <br> " + startingThreadsTitle + " <br> The higher this value, the larger the memory requirements of the backend when initially ran.",
+                placement: "right"
+        });
+	
+	tour.addStep({
+                element: "#maxThreadsButton",
+                title: "The maximum amount of threads the backend can run at a single time.",
+                content: "<font color='red'>Admin Only Option.</font> <br> " + maxThreadsTitle + " <br> A Minimum of 10 and a maximum of 75 threads is recommended.",
+                placement: "right"
+        });
+	
+        tour.addStep({
+                element: "#tRemovalButton",
+                title: "Thread Removal Co-efficient",
+                content: "<font color='red'>Admin Only Option.</font> <br> " + tRemovalTitle,
+                placement: "right"
+        });
+	
+        tour.addStep({
+                element: "#tAddButton",
+                title: "Thread Adding Co-efficient",
+                content: "<font color='red'>Admin Only Option.</font> <br> " + tAddTitle,
+                placement: "right"
+        });
+	
+        tour.addStep({
+                element: "#runsPerThreadButton",
+                title: "Runs / Thread",
+                content: "<font color='red'>Admin Only Option.</font> <br> " + runsPerThreadTitle + " <br> A value of 5 seems normal.",
+                placement: "right"
+        });
+	
+        tour.addStep({
+                element: "#pingsDBButton",
+                title: "Pings / DB Call",
+                content: "<font color='red'>Admin Only Option.</font> <br> " + pingsDBTitle + " <br> A higher value means the DB gets written to less, and will be under less stress. However the time between updates on the front end will suffer accordingly.",
+                placement: "right"
+        });
+	
+        tour.addStep({
+                element: "#minuteAgeButton",
+                title: "Minute Graph Aging",
+                content: "<font color='red'>Admin Only Option.</font> <br> " + minuteAgeTitle + " <br> 9,000,000 ms is default.",
+                placement: "right"
+        });
+	
+        tour.addStep({
+                element: "#hourAgeButton",
+                title: "Hour Graph Aging",
+                content: "<font color='red'>Admin Only Option.</font> <br> " + hourAgeTitle + " <br> 14,400,000 is default.",
+                placement: "right"
+        });
+	
+        tour.addStep({
+                element: "#dayAgeButton",
+                title: "Day Graph Aging",
+                content: "<font color='red'>Admin Only Option.</font> <br> " + dayAgeTitle + " <br> 345,600,000 is default.",
+                placement: "right"
+        });
+	
+        tour.addStep({
+                element: "#weekAgeButton",
+                title: "Week Graph Aging",
+                content: "<font color='red'>Admin Only Option.</font> <br> " + weekAgeTitle + " <br> 2,419,200,000 is default.",
+                placement: "right"
+        });
+	
+        tour.addStep({
+                element: "#pingMinuteButton",
+                title: "Time Averaged in Hour Table",
+                content: "<font color='red'>Admin Only Option.</font> <br> " + pingMinuteTitle + " <br> 300,000 is default.",
+                placement: "right"
+        });
+	
+        tour.addStep({
+                element: "#pingHourButton",
+                title: "Time Averaged in Day Table",
+                content: "<font color='red'>Admin Only Option.</font> <br> " + pingHourTitle + " <br> 3,600,000 is default.",
+                placement: "right"
+        });
+	
+        tour.addStep({
+                element: "#pingDayButton",
+                title: "Time Averaged in Week Table",
+                content: "<font color='red'>Admin Only Option.</font> <br> " + pingDayTitle + " <br>  86,400,000 is default.",
+                placement: "right"
+        });
+	
+        tour.addStep({
+                element: "#pingWeekButton",
+                title: "Time Averaged in Year Table",
+                content: "<font color='red'>Admin Only Option.</font> <br> " + pingWeekTitle + " <br> 604,800,000 is default.",
+                placement: "right"
+        });
 }
+
+//Last Step of tour, used if user is an admin, or not
+tour.addStep({
+                element: "#logoutButton",
+                title: "Logout Here",
+                content: "Logout to keep those dirty good for nothings away from your precious hostmon.",
+                placement: "top"
+        });
+
 
 
 // Initialize the tour
