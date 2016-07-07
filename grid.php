@@ -349,7 +349,11 @@ $("li[rel]").overlay({
 				}
 			}
 		}).data('gridster');	
-	}// End onClose.
+	},// End onClose.
+	onLoad: function() {
+//	tour.redraw();
+		if(true) tour.next();
+	}
 }); // End overlay Event.
 		
 // Contructs and adds a new device dialog to the screen.
@@ -391,6 +395,10 @@ tour = new Tour({
     element: "#newDeviceOpener",
     title: "Adding A Device",
     content: "Click the + symbol to add a new device.",
+    onShow: function(){
+      //we want to close the $newDeviceDialog incaase its open from the next step of the tour
+      $("#newDeviceDialog").dialog("close");
+    }
   },
   {
     element: "#deviceName",
@@ -418,15 +426,65 @@ tour = new Tour({
   {
     element: '#first',
     title: "You first Device",
-    content: "This is your first device.",
+    content: "Each Device Box shows you the status of that device at a glance.",
     onShow: function(){
       $("#newDeviceDialog").dialog("close");
     }
+  },
+  {
+    element: '#first',
+    placement: "bottom",
+    title: "Resizing",
+    content: "Use the White arrows to resize the box. You can also drag and drop all boxes to different locations.",
+    onShow: function(){
+      $("#newDeviceDialog").dialog("close");
+    }
+  },
+  {
+    element: '#first',
+    title: "Click the Graph",
+    content: "This will bring up the device page. ",
+    
+    template: "<div class='popover tour'> \
+	      <div class='arrow'></div> \
+ 	      <h3 class='popover-title'></h3> \
+              <div class='popover-content'></div> \
+              <div class='popover-navigation'> \
+              <button class='btn btn-default' data-role='prev'>« Prev</button> \
+              <span data-role='separator'>|</span> \
+              <button class='btn btn-default' data-role='end'>End tour</button> \
+  		</div> \
+		</div>",
+  },
+  {
+    element: '#FiveMinuteLine',
+    title: "5 Minute Graph",
+    content: "The 5 Minute graph shows the last 5 minutes of history in 15 second increments.",
+  },
+  {
+    element: '#hourLineHandle',
+    title: "Hourly Graph",
+    content: "Click here to pull up the Hourly graph. The Hourly graph shows the last Hour of history in 5 minute increments.",
+     template: "<div class='popover tour'> \
+              <div class='arrow'></div> \
+              <h3 class='popover-title'></h3> \
+              <div class='popover-content'></div> \
+              <div class='popover-navigation'> \
+              <button class='btn btn-default' data-role='prev'>« Prev</button> \
+              <span data-role='separator'>|</span> \
+              <button class='btn btn-default' data-role='end'>End tour</button> \
+                </div> \
+                </div>",
+
+    placement: "bottom"
   }
+
+
 
   
 
 ]});
+
 
 // Initialize the tour
 tour.init();
