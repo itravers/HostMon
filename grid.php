@@ -88,7 +88,7 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 							<div id="statusmark"></div>
                         </div>
 					</li> -->
-					 <li data-row="7" data-col="12" data-sizex="1" data-sizey="1" id="newDeviceOpener">
+					 <li data-row="7" data-col="1" data-sizex="1" data-sizey="1" id="newDeviceOpener">
                     	<div id="addNewDeviceImageContainer">
                     		<img src="images/plus.png" id="addNewDeviceImage">
                         </div>
@@ -129,29 +129,8 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 var gridster = 0;
 var dragged = 0; // Used to keep the device.php overlay from loading when a grid is being dragged.
 var gridGraphTimeOut; //Used to disable ajax updating of the page when device.php is overlayed.
+var tour; //used to construct tours
 
-//setup the bootstrap tour
-// Instance the tour
-var tour = new Tour({
- debug: true,
-  steps: [
-  {
-    element: "#tour-menu",
-    title: "Menu",
-    content: "You can change several options in the menu."
-  },
-  {
-    element: "#first",
-    title: "This is the first grid element.",
-    content: "This is the content of the tour."
-  }
-]});
-
-// Initialize the tour
-tour.init();
-
-// Start the tour
-tour.start();
 	
 //Initialize Gridster
 gridster = $("#frontGrid > ul").gridster({
@@ -164,6 +143,7 @@ gridster = $("#frontGrid > ul").gridster({
 		}
 	} 
 }).data('gridster');	
+
 
 var onMouseWheel = function(e) {
 	var browser = $.browser;
@@ -192,6 +172,7 @@ for(i = 0; i < c.length; i++){
     colorCanvas(canvas, "#51bbff");
     drawGraph(canvas);
 }
+
 
 // Separates a string in ajax. Probably Used for adding a new device?		
 function getMessage(result){
@@ -382,13 +363,14 @@ $( "#newDeviceDialog" ).dialog({
 		effect: "explode",
 		duration: 1000
 	},
-	buttons: [ { text: "Add Device", click: function() { addNewDevice(this); } } ]
+	buttons: [ { text: "Add Device", id: "addDeviceButton", click: function() { addNewDevice(this); } } ]
 }); //End of newDeviceDialog.
 
 // Handles when a user clicks on the new Device Button.
 $( "#newDeviceOpener" ).click( function(event) {
 	//alert("newDeviceOpening");
 	$( "#newDeviceDialog" ).dialog( "open" ); // Opens the new device dialog.
+	tour.next();
 }); // End of newDeviceOpener click handler
 
 // Event Handler called when document is first loaded. Intializes the update of the grid graphs.
@@ -396,6 +378,62 @@ $(document).ready(function() {
 	setTimeout('updateGridGraphs()',10);
 	//alert("about to set menu config info");
 	setMenuConfigInfo(true); //we don't want it to start repeating
+
+tour = new Tour({
+ debug: true,
+  steps: [
+  {
+    element: "#tour-menu",
+    title: "Welcome To Hostmon!",
+    content: "You can use hostmon to continously monitor the latency to any device on the public internet."
+  },
+  {
+    element: "#newDeviceOpener",
+    title: "Adding A Device",
+    content: "Click the + symbol to add a new device.",
+  },
+  {
+    element: "#deviceName",
+    title: "Insert Device Name",
+    content: "This is the name you will be referring to this device by in Hostmon.",
+    onShow: function(){
+     $( "#newDeviceDialog" ).dialog( "open" ); // Opens the new device dialog.
+    }
+  },
+  {
+    element: '#deviceIP',
+    title: "Insert Ip / Hostname",
+    content: "This can be an IP, Hostname, or Domain name. Anything you can ping should work."
+  },
+  {
+    element: '#deviceNote',
+    title: "Make A Note About Device",
+    content: "Make a note to help yourself remember why you are adding this device. This note will show in the device page."
+  },
+  {
+    element: '#addDeviceButton',
+    title: "Click Add Device",
+    content: "The device you added will starting being monitored immediately."
+  },
+  {
+    element: '#first',
+    title: "You first Device",
+    content: "This is your first device.",
+    onShow: function(){
+      $("#newDeviceDialog").dialog("close");
+    }
+  }
+
+  
+
+]});
+
+// Initialize the tour
+tour.init();
+
+// Start the tour
+tour.start();
+
 });			 
 
 // Query the server and redraw a specific graphs data. 
