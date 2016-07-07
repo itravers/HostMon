@@ -462,7 +462,6 @@ tour = new Tour({
     content: "The 5 Minute graph shows the last 5 minutes of history in 15 second increments.",
   },
   {
-    element: '#hourLineHandle',
     title: "Hourly Graph",
     content: "Click here to pull up the Hourly graph. The Hourly graph shows the last Hour of history in 5 minute increments.",
      template: "<div class='popover tour'> \
@@ -477,8 +476,121 @@ tour = new Tour({
                 </div>",
 
     placement: "bottom"
-  }
+  },
+  {
+    element: '#dayLineHandle',
+    title: "Daily Graph",
+    content: "Click here to pull up the Daily Graph. The Daily Graph shows the last Day of History in Hourly increments.",
+    placement: "bottom",
+     template: "<div class='popover tour'> \
+              <div class='arrow'></div> \
+              <h3 class='popover-title'></h3> \
+              <div class='popover-content'></div> \
+              <div class='popover-navigation'> \
+              <button class='btn btn-default' data-role='prev'>« Prev</button> \
+              <span data-role='separator'>|</span> \
+              <button class='btn btn-default' data-role='end'>End tour</button> \
+                </div> \
+                </div>",
+  },
+  {
+    element: '#FiveMinutePolar',
+    title: "Five Minute Polar Chart",
+    content: "This chart gives quick reference so we can see the distribution of values at a glance.",
+    placement: "left"
+  },
+  {
+    element: '#hourPolarHandle',
+    title: "Click Hourly Polar Graph",
+    content: "The hourly Polar Graph gives us a quick reference so we can see the hourly distribution of values at a glance.",
+     template: "<div class='popover tour'> \
+              <div class='arrow'></div> \
+              <h3 class='popover-title'></h3> \
+              <div class='popover-content'></div> \
+              <div class='popover-navigation'> \
+              <button class='btn btn-default' data-role='prev'>« Prev</button> \
+              <span data-role='separator'>|</span> \
+              <button class='btn btn-default' data-role='end'>End tour</button> \
+                </div> \
+                </div>",
 
+    placement: "left"
+  },
+  {
+    element: '#dayPolarHandle',
+    title: "Click Day Polar Graph",
+    content: "The daily Polar Graph gives us a quick reference so we can see the daily distribution of values at a glance.",
+     template: "<div class='popover tour'> \
+              <div class='arrow'></div> \
+              <h3 class='popover-title'></h3> \
+              <div class='popover-content'></div> \
+              <div class='popover-navigation'> \
+              <button class='btn btn-default' data-role='prev'>« Prev</button> \
+              <span data-role='separator'>|</span> \
+              <button class='btn btn-default' data-role='end'>End tour</button> \
+                </div> \
+                </div>",
+
+    placement: "left"
+  },
+  {
+    element: '.plus',
+    title: "Click + to Add Notes",
+    content: "Adding notes is useful for tracking issues with a device. Notes can be left and reviewed for every use. Click the + button to start adding a new note now.",
+     template: "<div class='popover tour'> \
+              <div class='arrow'></div> \
+              <h3 class='popover-title'></h3> \
+              <div class='popover-content'></div> \
+              <div class='popover-navigation'> \
+              <button class='btn btn-default' data-role='prev'>« Prev</button> \
+              <span data-role='separator'>|</span> \
+              <button class='btn btn-default' data-role='end'>End tour</button> \
+                </div> \
+                </div>",
+
+    placement: "bottom"
+  },
+  {
+    element: '#noteInputText',
+    title: "Input Your Note Here",
+    content: "Input any notes or observations you have about this device here.",
+    placement: "left"
+  },
+  {
+    element: '#noteSubmitButton',
+    title: "Click Submit to submit note.",
+    content: "This note will be viewable by all other users.",
+     template: "<div class='popover tour'> \
+              <div class='arrow'></div> \
+              <h3 class='popover-title'></h3> \
+              <div class='popover-content'></div> \
+              <div class='popover-navigation'> \
+              <button class='btn btn-default' data-role='prev'>« Prev</button> \
+              <span data-role='separator'>|</span> \
+              <button class='btn btn-default' data-role='end'>End tour</button> \
+                </div> \
+                </div>",
+
+    placement: "bottom"
+  },
+  {
+    element: 'a.close',
+    title: "Click the X to close this device.",
+    content: "All devices are monitored in the background all the time. Click the X and you will be able to explore other devices.",
+     template: "<div class='popover tour'> \
+              <div class='arrow'></div> \
+              <h3 class='popover-title'></h3> \
+              <div class='popover-content'></div> \
+              <div class='popover-navigation'> \
+              <button class='btn btn-default' data-role='prev'>« Prev</button> \
+              <span data-role='separator'>|</span> \
+              <button class='btn btn-default' data-role='end'>End tour</button> \
+                </div> \
+                </div>",
+
+    placement: "left"
+  }
+ 
 
 
   

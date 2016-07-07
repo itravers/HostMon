@@ -122,6 +122,7 @@ function buildScripts($ip, $deviceID, $notes){
 	
 	//keeps track of the line chart that is currently updating.	  
 	function setLineChart(name){
+                if(name == 'HourLine' || name == 'DayLine') tour.next();
 		currentLineChart = name; 
 		quickUpdateGraph(); 
 	}
@@ -133,9 +134,11 @@ function buildScripts($ip, $deviceID, $notes){
 		if(currentPolarChart == 'MinutePolar'){
 			polarChart = minPolarChart; 
 		}else if(currentPolarChart == 'HourPolar'){
+			tour.next();
 			polarChart = hourPolarChart; 
 		}else if(currentPolarChart == 'DayPolar'){
 			polarChart = dayPolarChart;
+			tour.next();
 		}
 			quickUpdateGraph();
 	}
@@ -161,7 +164,7 @@ function buildScripts($ip, $deviceID, $notes){
 			<div class='pane' style='display:block'><button id='noteSubmitButton' onclick='clickNoteSubmitButton();'>Submit</button><textarea id='noteInputText'></textarea></div><div style='display:none'>".$millitime."</div> \";
 		divToAddTo.prepend(toPrepend);
 		toPrepend = '';
-		
+		tour.next();
 	}
 	
 	//triggered when document is loaded.
@@ -211,6 +214,7 @@ function buildScripts($ip, $deviceID, $notes){
 				alert(\"error\" + error);
 			}
 		});
+		tour.next();
 	}
 		
 	//sets the dragged variable to 0 when a device is loaded.  
@@ -326,11 +330,11 @@ function buildPolarChartGrid(){
 	$returnVal = " 
 		<li data-row='4' data-col='7' data-sizex='4' data-sizey='3'>
 			<div id='accordion2'>
-				<h2 class='current' onClick=\"setPolarChart('FiveMinutePolar')\">5 Minutes / 15 Seconds</h2>
+				<h2 class='current' id='minutePolarHandle' onClick=\"setPolarChart('FiveMinutePolar')\">5 Minutes / 15 Seconds</h2>
 				<div class='pane' style='display:block'><canvas id='FiveMinutePolar' width='440px' height='280px'></div>
-				<h2 onClick=\"setPolarChart('HourPolar')\">1 Hour / 5 Minutes</h2>
+				<h2 id='hourPolarHandle' onClick=\"setPolarChart('HourPolar')\">1 Hour / 5 Minutes</h2>
 				<div class='pane'><canvas id='HourPolar' width='430px' height='255px'></div>
-				<h2 onClick=\"setPolarChart('DayPolar')\">1 Day / 1 Hour</h2>
+				<h2 id='dayPolarHandle' onClick=\"setPolarChart('DayPolar')\">1 Day / 1 Hour</h2>
 				<div class='pane'><canvas id='DayPolar' width='420px' height='230px'></div>
 			</div>
 		</li> ";
