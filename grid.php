@@ -130,7 +130,8 @@ var gridster = 0;
 var dragged = 0; // Used to keep the device.php overlay from loading when a grid is being dragged.
 var gridGraphTimeOut; //Used to disable ajax updating of the page when device.php is overlayed.
 var tour; //used to construct tours
-
+var overlay; //Overlay used to display device.
+var adminLevel = <?php echo $adminLevel; ?>;
 	
 //Initialize Gridster
 gridster = $("#frontGrid > ul").gridster({
@@ -319,7 +320,7 @@ $('.shrink').on('click', function(event) {
 }); //End of Shrink event.
 
 // Event Called when user opens a device. This load's and overlays the device.php page over grid.php.			  
-$("li[rel]").overlay({
+overlay = $("li[rel]").overlay({
 	top:top,
 	mask: 'darkred',
 	effect: 'apple',
@@ -348,12 +349,14 @@ $("li[rel]").overlay({
 					dragged = 1;
 				}
 			}
-		}).data('gridster');	
+		}).data('gridster');
+		tour.next();	
 	},// End onClose.
 	onLoad: function() {
 //	tour.redraw();
 		if(true) tour.next();
-	}
+	},
+	api: true
 }); // End overlay Event.
 		
 // Contructs and adds a new device dialog to the screen.
@@ -588,14 +591,72 @@ tour = new Tour({
                 </div> \
                 </div>",
 
-    placement: "left"
+    placement: "left",
+  },
+  {
+    element: "#onlineDot",
+    title: "Backend Indicator",
+    content: "Indicator Light shows Green when the backend is running, and red when it is not.",
+    placement: "bottom"
+  },
+  {
+    element: '#tour-menu',
+    title: "Click the Menu Icon",
+    content: "The menu gives you the ability to adjust account and machine settings.",
+     template: "<div class='popover tour'> \
+              <div class='arrow'></div> \
+              <h3 class='popover-title'></h3> \
+              <div class='popover-content'></div> \
+              <div class='popover-navigation'> \
+              <button class='btn btn-default' data-role='prev'>« Prev</button> \
+              <span data-role='separator'>|</span> \
+              <button class='btn btn-default' data-role='end'>End tour</button> \
+                </div> \
+                </div>",
+
+    placement: "left",
+  },
+  {
+    element: ".changePassword2",
+    title: "Change Password",
+    content: "You can change your password here. Input your new password two times, and click the set button. The password field will blink blue if your password has been changed successfully, and it will blink red if not.",
+    placement: "bottom"
   }
- 
-
-
-  
 
 ]});
+
+//Check if user is an admin, if they are then show them the admin tour of the menu.
+if(adminLevel == 10){
+	tour.addStep({
+		element: "#stopStartButton",
+		title: "Start/Stop the Backend.",
+		content: "<font color='red'>Admin Only Option.</font> <br> Hit the start button and a command will be sent to the backend to start. <br> Hit the stop button and a command will be sent to the backend to stop. <br> If succussfully started the Message 'Backend Started' will flash in green letters. <br> If succussfully stopped the words 'Backend Stopped' will flash in red.",
+		placement: "right"
+	});
+	tour.addStep({
+                element: ".adminLvl",
+                title: "Add New User",
+                content: "<font color='red'>Admin Only Option.</font> <br> Set username and password. <br> <br> Admin LVL's: <br> 0: Unapproved sign up. - This user cannot yet login. <br> 1 - 9: Normal Users - Cannot access admin functions. <br> 10: Admin - Can do anything.",
+                placement: "bottom"
+        });
+
+	tour.addStep({
+                element: ".removeUserErrorOutput",
+                title: "Remove User",
+                content: "<font color='red'>Admin Only Option.</font> <br> Input user name and hit set to remove given user.",
+                placement: "bottom"
+        });
+
+	tour.addStep({
+                element: ".averageGoalTime",
+                title: "Average Goal Time Per Ping",
+                content: "<font color='red'>Admin Only Option.</font> <br> Text Here",
+                placement: "bottom"
+        });
+	
+
+
+}
 
 
 // Initialize the tour
