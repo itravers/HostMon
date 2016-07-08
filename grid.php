@@ -132,7 +132,8 @@ var gridGraphTimeOut; //Used to disable ajax updating of the page when device.ph
 var tour; //used to construct tours
 var overlay; //Overlay used to display device.
 var adminLevel = <?php echo $adminLevel; ?>;
-var audioElement; //used to play alarms with audioElement.play();
+var pagerAudioElement; //used to play alarms with audioElement.play();
+var bleepAudioElement; //used to play alarms with audioElement.play();
 
 
 //Initialize Gridster
@@ -388,25 +389,39 @@ $(document).ready(function() {
 	//alert("about to set menu config info");
 	setMenuConfigInfo(true); //we don't want it to start repeating
 
-//setup alarms
-audioElement = document.createElement('audio');
-        audioElement.setAttribute('src', 'alarms/firePager.mp3');
-        audioElement.setAttribute('preload', 'preload');
-        //audioElement.load()
+	//setup alarms
+	pagerAudioElement = document.createElement('audio');
+        pagerAudioElement.setAttribute('src', 'alarms/firePager.mp3');
+        pagerAudioElement.setAttribute('preload', 'preload');
+
+	bleepAudioElement = document.createElement('audio');
+	bleepAudioElement.setAttribute('src', 'alarms/bleep.mp3');
+	bleepAudioElement.setAttribute('preload', 'preload');
 
         $.get();
 
-        audioElement.addEventListener("load", function() {
-    //        audioElement.play();
+        pagerAudioElement.addEventListener("load", function() {
         }, true);
 
-        $('.play').click(function() {
-            audioElement.play();
+        $('.playPager').click(function() {
+            pagerAudioElement.play();
         });
 
-        $('.pause').click(function() {
-            audioElement.pause();
+        $('.pausePager').click(function() {
+            pagerAudioElement.pause();
         });
+
+	bleepAudioElement.addEventListener("load", function() {
+        }, true);
+
+        $('.playBleep').click(function() {
+            bleepAudioElement.play();
+        });
+
+        $('.pauseBleep').click(function() {
+            bleepAudioElement.pause();
+        });
+
 
 tour = new Tour({
  debug: true,
@@ -898,7 +913,7 @@ function updateGridColor(canvas, newPing){
 		//Play Audio Alarm, only when a change happens. If we already had red class then don't play it.
 		if(! $(grandParent).hasClass("red")){
 
-			audioElement.play();
+			pagerAudioElement.play();
 		}
 	}else if(newPing < blueLimit){
 		newClass = '';
@@ -907,7 +922,7 @@ function updateGridColor(canvas, newPing){
 		//Play Audio Alarm, only when a change happens. If we already had yellow class then don't play it.
 		if(! $(grandParent).hasClass("yellow")){
 
-                        audioElement.play();
+                        bleepAudioElement.play();
                 }
 
 	}
