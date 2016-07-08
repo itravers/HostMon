@@ -393,10 +393,12 @@ $(document).ready(function() {
 	pagerAudioElement = document.createElement('audio');
         pagerAudioElement.setAttribute('src', 'alarms/firePager.mp3');
         pagerAudioElement.setAttribute('preload', 'preload');
+	pagerAudioElement.setAttribute('id', 'pagerAudioElement');
 
 	bleepAudioElement = document.createElement('audio');
 	bleepAudioElement.setAttribute('src', 'alarms/bleep.mp3');
 	bleepAudioElement.setAttribute('preload', 'preload');
+	bleepAudioElement.setAttribute('id', 'bleepAudioElement');
 
         $.get();
 

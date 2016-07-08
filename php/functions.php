@@ -127,7 +127,19 @@ function Menu(){
 			';
 	
 	
-	$menu = $menu.'<h4 style="right:150px;"
+	$menu = $menu.'
+		<h4 style="right:150px;" title="Volume Section" id="volumeSection">
+			Volume
+		</h4><br>
+		<section id="volumeSection">
+			<span class="tooltip"></span>
+			<div id="slider"></div>
+			<span class="volume"></span>
+		</section>
+		<br><br>
+		
+
+			<h4 style="right:150px;"
 						title="Set a new password for your account."
 					>Change Password</h4>
 					<input text="NEW PASS" type="password" class="changePassword1" style="display:inline; width:90px;"
