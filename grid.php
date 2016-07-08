@@ -46,12 +46,13 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 		<link rel="stylesheet" type="text/css" href="css/styles.css">
 		<link href="css/bootstrap-tour-standalone.css" rel="stylesheet">
                 <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+		<link href="css/uploadfile.css" rel="stylesheet">
 		<a class="menu" href="#" id="tour-menu">
 			<div class="bar"></div>
 			<div class="bar"></div>
 			<div class="bar"></div>
 		</a>
-		<div id="onlineDot" class="dotUnknown play"></div>
+		<div id="onlineDot" class="dotUnknown playPager"></div>
 		<?php echo Menu();?>
 		<!-- This is the entire page, where the grid can roam. -->
 		<section class="grid">
@@ -124,6 +125,7 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 <script src="js/hostmonChart.js"></script>
 <script type="text/javascript" src="js/jquery.gridster.min.js" charster="utf-8"></script>
 <script src="js/bootstrap-tour-standalone.min.js"></script>
+<script src="js/uploadfile.min.js"></script>
 
 <script type="text/javascript">
 var gridster = 0;
@@ -339,7 +341,7 @@ overlay = $("li[rel]").overlay({
 		}
 	},
 	onClose: function() {
-		$('.menu').fadeIn(); // Fade the menu button back in when the overlay is closed.
+		$('./menu').fadeIn(); // Fade the menu button back in when the overlay is closed.
 		gridGraphTimeOut = setTimeout(updateGridGraphs, 5000); // Re-allow updating of main page when second page closes.
 		
 		// Are we re-initializing gridster here? Do we need to do this?
@@ -423,6 +425,51 @@ $(document).ready(function() {
         $('.pauseBleep').click(function() {
             bleepAudioElement.pause();
         });
+
+
+	$("#fileuploader").uploadFile({
+	url:"php/uploadFile.php",
+	acceptFiles: "audio/*",
+	fileName:"myfile",
+	onLoad:function(obj)
+{
+	//	$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Widget Loaded:");
+},
+onSubmit:function(files)
+{
+	//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
+	if (files.toString().toLowerCase().indexOf("mp3") >= 0){
+	}else{
+		
+	$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Error, wrong file format. .mp3 ONLY!");
+
+		return false;
+	}
+	//return false;
+},
+onSuccess:function(files,data,xhr,pd)
+{
+
+	alert(files);
+	$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+JSON.stringify(data));
+	alert(fileName);
+	
+},
+afterUploadAll:function(obj)
+{
+	$("#eventsmessage").html($("#eventsmessage").html()+"<br/>All files are uploaded");
+	
+
+},
+onError: function(files,status,errMsg,pd)
+{
+	$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Error for: "+JSON.stringify(errMsg));
+},
+onCancel:function(files,pd)
+{
+		$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Canceled  files: "+JSON.stringify(files));
+}
+	});
 
 
 tour = new Tour({

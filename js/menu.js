@@ -27,6 +27,8 @@ $(document).ready(function() {
 		clearTimeout(menuTimeout); // Remove the timer.
 		$('body').removeClass('menu-open');
 		$('nav').removeClass('open');
+		$(".ajax-file-upload-container").fadeOut(); //cause upload messages to disappear
+		$("#eventsmessage").fadeOut(); //cause upload messages to disappear
 	});
 	
 	//We need to check the class of id stopStartButton. and set the buttons text

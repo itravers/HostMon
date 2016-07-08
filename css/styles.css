@@ -1105,11 +1105,8 @@ div.apple_overlay.black {
 }
 
 #volumeSection{
-	/*width: 125px;*/
-	/*height: auto;*/
-	/*margin: 100px auto 0;*/
 	position: relative;
-	left: 100px;
+	left: 90px;
 }
 
 #slider{
@@ -1158,6 +1155,7 @@ div.apple_overlay.black {
     z-index: 2;
     width: 25px;
     height: 25px;
+    border: none !important;
     cursor: pointer;
     background: url('../images/handle.png') no-repeat 50% 50%;
     font-weight: bold;

@@ -71,3 +71,4 @@ Remove the Plus Add device square,
 Update the tour to do the add device part when we are in the menu.
 Remove shrink arrow when grid is smallest.
 Remove grow arrow when grid is largest.
+During Install need to check for 777 permissions for alarms/
