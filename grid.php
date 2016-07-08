@@ -51,7 +51,7 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 			<div class="bar"></div>
 			<div class="bar"></div>
 		</a>
-		<div id="onlineDot" class="dotUnknown"></div>
+		<div id="onlineDot" class="dotUnknown play"></div>
 		<?php echo Menu();?>
 		<!-- This is the entire page, where the grid can roam. -->
 		<section class="grid">
@@ -132,7 +132,9 @@ var gridGraphTimeOut; //Used to disable ajax updating of the page when device.ph
 var tour; //used to construct tours
 var overlay; //Overlay used to display device.
 var adminLevel = <?php echo $adminLevel; ?>;
-	
+var audioElement; //used to play alarms with audioElement.play();
+
+
 //Initialize Gridster
 gridster = $("#frontGrid > ul").gridster({
 	widget_margins: [5, 5],
@@ -385,6 +387,26 @@ $(document).ready(function() {
 	setTimeout('updateGridGraphs()',10);
 	//alert("about to set menu config info");
 	setMenuConfigInfo(true); //we don't want it to start repeating
+
+//setup alarms
+audioElement = document.createElement('audio');
+        audioElement.setAttribute('src', 'alarms/firePager.mp3');
+        audioElement.setAttribute('preload', 'preload');
+        //audioElement.load()
+
+        $.get();
+
+        audioElement.addEventListener("load", function() {
+    //        audioElement.play();
+        }, true);
+
+        $('.play').click(function() {
+            audioElement.play();
+        });
+
+        $('.pause').click(function() {
+            audioElement.pause();
+        });
 
 tour = new Tour({
  debug: true,
@@ -868,18 +890,29 @@ function updateMSDisplay(canvas, newPing){
 /** Updates the grid's color based on the latest data received. */
 function updateGridColor(canvas, newPing){
 	var blueLimit = 700; // The limit below which the widget will display blue. We will later retrieve these values from a db.
+	var grandParent = $(canvas).parent().parent();
 	var yellowLimit = 2000; // The limit below which the widget will display yellow. Above this it will display red.
 	var newClass; // The color we are adding to the widgets class.
 	if(newPing == 0 || newPing > yellowLimit){
 		newClass = 'red';
+		//Play Audio Alarm, only when a change happens. If we already had red class then don't play it.
+		if(! $(grandParent).hasClass("red")){
+
+			audioElement.play();
+		}
 	}else if(newPing < blueLimit){
 		newClass = '';
 	}else if(newPing <= yellowLimit){
 		newClass = 'yellow';
+		//Play Audio Alarm, only when a change happens. If we already had yellow class then don't play it.
+		if(! $(grandParent).hasClass("yellow")){
+
+                        audioElement.play();
+                }
+
 	}
 	
 	//Find the widget this canvas is in, and add the correct class to it, turning it the correct color.
-	var grandParent = $(canvas).parent().parent();
 	$(grandParent).removeClass("red");
 	$(grandParent).removeClass("yellow");
 	$(grandParent).addClass(newClass);
