@@ -352,11 +352,11 @@ overlay = $("li[rel]").overlay({
 				}
 			}
 		}).data('gridster');
-		tour.next();	
+		if(!tour.ended())tour.next();	
 	},// End onClose.
 	onLoad: function() {
 //	tour.redraw();
-		if(true) tour.next();
+		if(!tour.ended()) tour.next();
 	},
 	api: true
 }); // End overlay Event.
