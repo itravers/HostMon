@@ -341,7 +341,7 @@ overlay = $("li[rel]").overlay({
 		}
 	},
 	onClose: function() {
-		$('./menu').fadeIn(); // Fade the menu button back in when the overlay is closed.
+		$('.menu').fadeIn(); // Fade the menu button back in when the overlay is closed.
 		gridGraphTimeOut = setTimeout(updateGridGraphs, 5000); // Re-allow updating of main page when second page closes.
 		
 		// Are we re-initializing gridster here? Do we need to do this?

@@ -17,7 +17,7 @@ $(document).ready(function() {
 		$('body').addClass('menu-open');
 		
 		//If tour is running, have it advance when menu is open.
-		tour.next();
+		if(!tour.ended())tour.next();
 		return false;
 	});
 
