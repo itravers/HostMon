@@ -82,6 +82,7 @@ $("#yellowuploader").uploadFile({
         url:"php/uploadFile.php",
         acceptFiles: "audio/*",
         fileName:"myfile",
+	formData: {alarmType: "yellow"},
         onLoad:function(obj){
         },
         onSubmit:function(files){
@@ -112,6 +113,7 @@ $("#reduploader").uploadFile({
         url:"php/uploadFile.php",
         acceptFiles: "audio/*",
         fileName:"myfile",
+	formData: {alarmType: "red"},
         onLoad:function(obj){
         },
         onSubmit:function(files){

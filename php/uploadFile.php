@@ -1,7 +1,13 @@
 <?php
+//We need functions.php and db.php so we can set the alarm file in the db
+include_once("db.php");
+include_once("functions.php");
 $output_dir = "../alarms/";
 if(isset($_FILES["myfile"]))
 {
+	
+error_log("myfile: ".$_FILES["myfile"]["name"]);
+	//echo "myfile is set";
 	$ret = array();
 	
 //	This is for custom errors;	
@@ -17,6 +23,14 @@ if(isset($_FILES["myfile"]))
 	{
  	 	$fileName = $_FILES["myfile"]["name"];
  		move_uploaded_file($_FILES["myfile"]["tmp_name"],$output_dir.$fileName);
+		if(isset($_POST["alarmType"])){
+	//		echo "alarmType is set";
+			setAlarm($_POST["alarmType"], $fileName);
+			error_log("alarmType: ".$_POST["alarmType"]);
+		}else{
+			error_log("alarmType is not set");
+	//		echo "alarmType is not set";
+		}
     	$ret[]= $fileName;
 	}
 	else  //Multiple files, file[]
@@ -31,5 +45,8 @@ if(isset($_FILES["myfile"]))
 	
 	}
     echo json_encode($ret);
- }
+ }else{
+	error_log("myfile doesn't exist in fileupload.php");
+	//echo "myfile is not set";
+}
  ?>
