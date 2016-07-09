@@ -72,7 +72,7 @@ $(document).ready(function() {
 
                         stop: function(event,ui) {
                                 redtooltip.fadeOut('fast');
-                                pagerAudioElement.volume = (redslider.slider('value') / 100);
+                                redAudioElement.volume = (redslider.slider('value') / 100);
                                 console.log("Red Alarm Volume: " + redslider.slider('value'));
                         },
                 });
@@ -107,7 +107,7 @@ $(document).ready(function() {
  
 			stop: function(event,ui) {
 				yellowtooltip.fadeOut('fast');
-				bleepAudioElement.volume = (slider.slider('value') / 100);
+				yellowAudioElement.volume = (slider.slider('value') / 100);
 				console.log("Yellow Alarm Volume: " + slider.slider('value'));	
 			},
 		});

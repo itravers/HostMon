@@ -134,8 +134,8 @@ var gridGraphTimeOut; //Used to disable ajax updating of the page when device.ph
 var tour; //used to construct tours
 var overlay; //Overlay used to display device.
 var adminLevel = <?php echo $adminLevel; ?>;
-var pagerAudioElement; //used to play alarms with audioElement.play();
-var bleepAudioElement; //used to play alarms with audioElement.play();
+var redAudioElement; //used to play alarms with audioElement.play();
+var yellowAudioElement; //used to play alarms with audioElement.play();
 
 
 //Initialize Gridster
@@ -392,38 +392,38 @@ $(document).ready(function() {
 	setMenuConfigInfo(true); //we don't want it to start repeating
 
 	//setup alarms
-	pagerAudioElement = document.createElement('audio');
-        pagerAudioElement.setAttribute('src', 'alarms/firePager.mp3');
-        pagerAudioElement.setAttribute('preload', 'preload');
-	pagerAudioElement.setAttribute('id', 'pagerAudioElement');
+	redAudioElement = document.createElement('audio');
+        redAudioElement.setAttribute('src', 'alarms/firePager.mp3');
+        redAudioElement.setAttribute('preload', 'preload');
+	redAudioElement.setAttribute('id', 'redAudioElement');
 
-	bleepAudioElement = document.createElement('audio');
-	bleepAudioElement.setAttribute('src', 'alarms/bleep.mp3');
-	bleepAudioElement.setAttribute('preload', 'preload');
-	bleepAudioElement.setAttribute('id', 'bleepAudioElement');
+	yellowAudioElement = document.createElement('audio');
+	yellowAudioElement.setAttribute('src', 'alarms/bleep.mp3');
+	yellowAudioElement.setAttribute('preload', 'preload');
+	yellowAudioElement.setAttribute('id', 'yellowAudioElement');
 
         $.get();
 
-        pagerAudioElement.addEventListener("load", function() {
+        redAudioElement.addEventListener("load", function() {
         }, true);
 
         $('.playPager').click(function() {
-            pagerAudioElement.play();
+            redAudioElement.play();
         });
 
         $('.pausePager').click(function() {
-            pagerAudioElement.pause();
+            redAudioElement.pause();
         });
 
-	bleepAudioElement.addEventListener("load", function() {
+	yellowAudioElement.addEventListener("load", function() {
         }, true);
 
         $('.playBleep').click(function() {
-            bleepAudioElement.play();
+            yellowAudioElement.play();
         });
 
         $('.pauseBleep').click(function() {
-            bleepAudioElement.pause();
+            yellowAudioElement.pause();
         });
 
 
@@ -979,7 +979,7 @@ function updateGridColor(canvas, newPing){
 		//Play Audio Alarm, only when a change happens. If we already had red class then don't play it.
 		if(! $(grandParent).hasClass("red")){
 
-			pagerAudioElement.play();
+			redAudioElement.play();
 		}
 	}else if(newPing < blueLimit){
 		newClass = '';
@@ -988,7 +988,7 @@ function updateGridColor(canvas, newPing){
 		//Play Audio Alarm, only when a change happens. If we already had yellow class then don't play it.
 		if(! $(grandParent).hasClass("yellow")){
 
-                        bleepAudioElement.play();
+                        yellowAudioElement.play();
                 }
 
 	}
