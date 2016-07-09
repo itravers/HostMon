@@ -1229,3 +1229,15 @@ div.apple_overlay.black {
     opacity: 0.1;
     -webkit-transform: scaleY(0.8); } 
 }
+
+#redMute {
+	margin-top: 7px;
+	margin-right: 5px;
+	display: none;
+}
+
+#yellowMute {
+	margin-top: 7px;
+	margin-right: 5px;
+	display: none;
+}

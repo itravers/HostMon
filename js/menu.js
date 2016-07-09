@@ -5,6 +5,10 @@ var menuTimeout; // Will control if we are updating menu or not.
 var getBackendRunningTimeout;
 var focusedMenuItemName = 'none';
 var buttonLocked;
+var redMuted = false;
+var redslider;
+var yellowMuted = false;
+var slider;
 
 //Event Handler called when document is first loaded.
 $(document).ready(function() {
@@ -76,6 +80,37 @@ $(document).ready(function() {
             yellowAudioElement.pause();
         });
 
+	//When the volume icon is clicked it toggles that alarms mute
+	$(".redvolume").click(function() {
+		if(redMuted){
+			console.log("unmute red Volume");
+			redMuted = false;
+			redAudioElement.volume = (redslider.slider('value') / 100);
+			$("#redMute").hide();	
+		}else{
+			console.log("mute red volume");
+			redMuted = true;
+			redAudioElement.volume = 0;	
+			$("#redMute").show();
+		}		
+
+	});
+
+	 $(".yellowvolume").click(function() {
+                if(yellowMuted){
+                        console.log("unmute yellow Volume");
+                        yellowMuted = false;
+                        yellowAudioElement.volume = (slider.slider('value') / 100);
+                        $("#yellowMute").hide();
+                }else{
+                        console.log("mute yellow volume");
+                        yellowMuted = true;
+                        yellowAudioElement.volume = 0;
+                        $("#yellowMute").show();
+                }
+
+        });
+
 
 	
 $("#yellowuploader").uploadFile({
@@ -143,7 +178,7 @@ $("#reduploader").uploadFile({
 	//Setup the volume control functions
 	$(function() {
 
-		 var redslider = $('#redslider'),
+		redslider = $('#redslider'),
                 redtooltip = $('.redtooltip');
                 redtooltip.hide();
                 redslider.slider({
@@ -178,7 +213,7 @@ $("#reduploader").uploadFile({
                 });
 
 
-		var slider = $('#yellowslider'),
+		slider = $('#yellowslider'),
 		yellowtooltip = $('.yellowtooltip');
 		yellowtooltip.hide();
 		slider.slider({

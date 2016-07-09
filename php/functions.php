@@ -134,7 +134,12 @@ function Menu(){
 		<section id="volumeSection">
 			<span class="redtooltip"></span>
 			<div id="redslider"></div>
-			<span class="redvolume"></span>
+
+			<span class="redvolume">
+			<svg height="12" width="12" id="redMute">
+  				<circle cx="6" cy="6" r="5" stroke="red" stroke-width="2" fill="none" />
+				<line x1="2" y1="2" x2="10" y2="10" style="stroke:rgb(255,0,0);stroke-width:2" />
+			</svg></span>
 		</section><br>
 		<div id="reduploader">Upload</div>
 		
@@ -145,7 +150,12 @@ function Menu(){
 		<section id="volumeSection">
 			<span class="yellowtooltip"></span>
 			<div id="yellowslider"></div>
-			<span class="yellowvolume"></span>
+			<span class="yellowvolume">
+			 <svg height="12" width="12" id="yellowMute">
+                                <circle cx="6" cy="6" r="5" stroke="red" stroke-width="2" fill="none" />
+                                <line x1="2" y1="2" x2="10" y2="10" style="stroke:rgb(255,0,0);stroke-width:2" />
+                        </svg>
+			</span>
 		</section><br>	
 		<div id="yellowuploader">Upload</div>
                         <div id="eventsmessage"></div>
