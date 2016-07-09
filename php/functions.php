@@ -482,6 +482,44 @@ function buildNotesGrid($notes){
 	return $returnVal;
 }
 
+/** Returns a String with the name of the yellow alarm. */
+function getAlarm($type){
+	if($type == 'yellow'){
+		$id=19;
+	}else if($type == 'red'){
+		 $id=20;
+	}
+	$con = openDB();
+	mysqli_select_db($con,"hostmon");
+	$sql="SELECT value FROM `configuration` WHERE id = '".$id."'";
+	$result = mysqli_query($con,$sql);
+	$returnArray = Array();
+	while($row = mysqli_fetch_array($result)) {
+		array_push($returnArray, $row);
+	}
+	//echo $type." Alarm is: ".$returnArray[0][0];	
+	return $returnArray[0][0];
+}
+
+/** Sets the name of the alarm to be used in the database .*/
+function setAlarm($type, $name){
+	if($type == 'yellow'){
+		$id = 19;
+	}else if($type == 'red'){
+		$id = 20;
+	}
+	$con = openDB();
+	mysqli_select_db($con,"hostmon");
+	$sql="update configuration SET value='".$name."' WHERE id=".$id.";";
+	$result = mysqli_query($con,$sql);
+	$returnArray = Array();
+	while($row = mysqli_fetch_array($result)) {
+		array_push($returnArray, $row);
+	}
+	
+	echo $type." Alarm is: ".print_r($returnArray);	
+}
+
 /** Returns an Array of notes from the DB, based on deviceID. */
 function getNotes($deviceID){
 	$con = openDB();

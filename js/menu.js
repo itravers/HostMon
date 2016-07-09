@@ -40,6 +40,104 @@ $(document).ready(function() {
 	$("#stopStartLabel").text(newButtonText + " Backend");
 	$(".startBackendErrorOutput").text(newErrorText);
 
+
+	 /*setup alarms*/
+        redAudioElement = document.createElement('audio');
+        redAudioElement.setAttribute('src', 'alarms/'+redAlarm);
+        redAudioElement.setAttribute('preload', 'preload');
+        redAudioElement.setAttribute('id', 'redAudioElement');
+
+        yellowAudioElement = document.createElement('audio');
+        yellowAudioElement.setAttribute('src', 'alarms/'+yellowAlarm);
+        yellowAudioElement.setAttribute('preload', 'preload');
+        yellowAudioElement.setAttribute('id', 'yellowAudioElement');
+
+        $.get();
+
+        redAudioElement.addEventListener("load", function() {
+        }, true);
+
+        $('.playPager').click(function() {
+            redAudioElement.play();
+        });
+
+        $('.pausePager').click(function() {
+            redAudioElement.pause();
+        });
+
+        yellowAudioElement.addEventListener("load", function() {
+        }, true);
+
+        $('.playBleep').click(function() {
+            yellowAudioElement.play();
+        });
+
+        $('.pauseBleep').click(function() {
+            yellowAudioElement.pause();
+        });
+
+
+	
+$("#yellowuploader").uploadFile({
+        url:"php/uploadFile.php",
+        acceptFiles: "audio/*",
+        fileName:"myfile",
+        onLoad:function(obj){
+        },
+        onSubmit:function(files){
+                if (files.toString().toLowerCase().indexOf("mp3") >= 0){
+                }else{
+                        $("#eventsmessage").html($("#eventsmessage").html()+"<br/>Error, wrong file format. .mp3 ONLY!");
+                        return false;
+                }
+        },
+        onSuccess:function(files,data,xhr,pd){
+                $("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+JSON.stringify(data));
+		yellowAlarm = files.toString();
+        	yellowAudioElement.setAttribute('src', 'alarms/'+yellowAlarm);
+        },
+        afterUploadAll:function(obj){
+                $("#eventsmessage").html($("#eventsmessage").html()+"<br/>All files are uploaded");
+        },
+        onError: function(files,status,errMsg,pd){
+                $("#eventsmessage").html($("#eventsmessage").html()+"<br/>Error for: "+JSON.stringify(errMsg));
+        },
+        onCancel:function(files,pd){
+                $("#eventsmessage").html($("#eventsmessage").html()+"<br/>Canceled  files: "+JSON.stringify(files));
+        }
+});
+
+
+$("#reduploader").uploadFile({
+        url:"php/uploadFile.php",
+        acceptFiles: "audio/*",
+        fileName:"myfile",
+        onLoad:function(obj){
+        },
+        onSubmit:function(files){
+                if (files.toString().toLowerCase().indexOf("mp3") >= 0){
+                }else{
+                        $("#eventsmessage").html($("#eventsmessage").html()+"<br/>Error, wrong file format. .mp3 ONLY!");
+                        return false;
+                }
+        },
+        onSuccess:function(files,data,xhr,pd){
+                $("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+JSON.stringify(data));
+        	redAlarm = files.toString();
+		redAudioElement.setAttribute('src', 'alarms/'+redAlarm);
+	},
+        afterUploadAll:function(obj){
+                $("#eventsmessage").html($("#eventsmessage").html()+"<br/>All files are uploaded");
+        },
+        onError: function(files,status,errMsg,pd){
+                $("#eventsmessage").html($("#eventsmessage").html()+"<br/>Error for: "+JSON.stringify(errMsg));
+        },
+        onCancel:function(files,pd){
+                $("#eventsmessage").html($("#eventsmessage").html()+"<br/>Canceled  files: "+JSON.stringify(files));
+        }
+});
+
+
 	//Setup the volume control functions
 	$(function() {
 

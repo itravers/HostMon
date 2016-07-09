@@ -14,6 +14,8 @@ include_once("php/db.php");
 $userName = "Guest";
 $adminLevel;
 $loggedIn = false;
+$yellowAlarm = getAlarm('yellow');
+$redAlarm = getAlarm('red');
 if(!isset($_SESSION)) session_start();
 
 //this is really a bad idea to check if we are logged in with a get variable, 
@@ -136,7 +138,8 @@ var overlay; //Overlay used to display device.
 var adminLevel = <?php echo $adminLevel; ?>;
 var redAudioElement; //used to play alarms with audioElement.play();
 var yellowAudioElement; //used to play alarms with audioElement.play();
-
+var yellowAlarm = "<?php echo $yellowAlarm; ?>";
+var redAlarm = "<?php echo $redAlarm; ?>";
 
 //Initialize Gridster
 gridster = $("#frontGrid > ul").gridster({
@@ -391,7 +394,8 @@ $(document).ready(function() {
 	//alert("about to set menu config info");
 	setMenuConfigInfo(true); //we don't want it to start repeating
 
-	//setup alarms
+	/*setup alarms*/
+	/*
 	redAudioElement = document.createElement('audio');
         redAudioElement.setAttribute('src', 'alarms/firePager.mp3');
         redAudioElement.setAttribute('preload', 'preload');
@@ -425,19 +429,16 @@ $(document).ready(function() {
         $('.pauseBleep').click(function() {
             yellowAudioElement.pause();
         });
-
-
+*/
+/*
 $("#yellowuploader").uploadFile({
 	url:"php/uploadFile.php",
 	acceptFiles: "audio/*",
 	fileName:"myfile",
 	onLoad:function(obj){
-	//	$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Widget Loaded:");
 	},
 	onSubmit:function(files){
-		//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
 		if (files.toString().toLowerCase().indexOf("mp3") >= 0){
-			//upload is working
 		}else{
 			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Error, wrong file format. .mp3 ONLY!");
 			return false;
@@ -462,12 +463,9 @@ $("#reduploader").uploadFile({
         acceptFiles: "audio/*",
         fileName:"myfile",
         onLoad:function(obj){
-        //      $("#eventsmessage").html($("#eventsmessage").html()+"<br/>Widget Loaded:");
         },
         onSubmit:function(files){
-                //$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
                 if (files.toString().toLowerCase().indexOf("mp3") >= 0){
-                        //upload is working
                 }else{
                         $("#eventsmessage").html($("#eventsmessage").html()+"<br/>Error, wrong file format. .mp3 ONLY!");
                         return false;
@@ -487,7 +485,7 @@ $("#reduploader").uploadFile({
         }
 });
 
-
+*/
 
 tour = new Tour({
  debug: true,
