@@ -42,9 +42,45 @@ $(document).ready(function() {
 
 	//Setup the volume control functions
 	$(function() {
-		var slider = $('#slider'),
-		tooltip = $('.tooltip');
-		tooltip.hide();
+
+		 var redslider = $('#redslider'),
+                redtooltip = $('.redtooltip');
+                redtooltip.hide();
+                redslider.slider({
+                        range: "min",
+                        min: 0,
+                        max: 100,
+                        step: 1,
+                        value: 35,
+                        start: function(event,ui) {
+                                redtooltip.fadeIn('fast');
+                        },
+                        slide: function(event, ui) {
+                                var value = redslider.slider('value'),
+                                redvolume = $('.redvolume');
+                                redtooltip.css('left', value).text(ui.value);
+                                if(value <= 5) {
+                                        redvolume.css('background-position', '0 0');
+                                }else if (value <= 25) {
+                                        redvolume.css('background-position', '0 -25px');
+                                }else if (value <= 75) {
+                                        redvolume.css('background-position', '0 -50px');
+                                }else{
+                                       redvolume.css('background-position', '0 -75px');
+                                };
+                        },
+
+                        stop: function(event,ui) {
+                                redtooltip.fadeOut('fast');
+                                pagerAudioElement.volume = (redslider.slider('value') / 100);
+                                console.log("Red Alarm Volume: " + redslider.slider('value'));
+                        },
+                });
+
+
+		var slider = $('#yellowslider'),
+		yellowtooltip = $('.yellowtooltip');
+		yellowtooltip.hide();
 		slider.slider({
 			range: "min",
 			min: 0,
@@ -52,12 +88,12 @@ $(document).ready(function() {
 			step: 1,
 			value: 35,
 			start: function(event,ui) {
-				tooltip.fadeIn('fast');
+				yellowtooltip.fadeIn('fast');
 			},
  			slide: function(event, ui) {
 				var value = slider.slider('value'),
-				volume = $('.volume');
-				tooltip.css('left', value).text(ui.value);
+				volume = $('.yellowvolume');
+				yellowtooltip.css('left', value).text(ui.value);
 				if(value <= 5) { 
 					volume.css('background-position', '0 0');
 				}else if (value <= 25) {
@@ -70,11 +106,9 @@ $(document).ready(function() {
 			},
  
 			stop: function(event,ui) {
-				tooltip.fadeOut('fast');
+				yellowtooltip.fadeOut('fast');
 				bleepAudioElement.volume = (slider.slider('value') / 100);
-				pagerAudioElement.volume = (slider.slider('value') / 100);
-				//	$("#bleepAudioElement").volume = (slider.slider('value') / 100)
-				console.log(slider.slider('value'));	
+				console.log("Yellow Alarm Volume: " + slider.slider('value'));	
 			},
 		});
  

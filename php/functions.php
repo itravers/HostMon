@@ -129,14 +129,25 @@ function Menu(){
 	
 	$menu = $menu.'
 		<h4 style="right:150px;" title="Volume Section" id="volumeSection">
-			Yellow Alarm
+			Red Alarm
 		</h4><br>
 		<section id="volumeSection">
-			<span class="tooltip"></span>
-			<div id="slider"></div>
-			<span class="volume"></span>
+			<span class="redtooltip"></span>
+			<div id="redslider"></div>
+			<span class="redvolume"></span>
 		</section><br>
-			<div id="fileuploader">Upload</div>
+		<div id="reduploader">Upload</div>
+		
+		<h4 style="right:150px;" title="Volume Section" id="volumeSection">
+                        Yellow Alarm
+                </h4><br>
+	
+		<section id="volumeSection">
+			<span class="yellowtooltip"></span>
+			<div id="yellowslider"></div>
+			<span class="yellowvolume"></span>
+		</section><br>	
+		<div id="yellowuploader">Upload</div>
                         <div id="eventsmessage"></div>
 			<br>
 		

@@ -427,49 +427,66 @@ $(document).ready(function() {
         });
 
 
-	$("#fileuploader").uploadFile({
+$("#yellowuploader").uploadFile({
 	url:"php/uploadFile.php",
 	acceptFiles: "audio/*",
 	fileName:"myfile",
-	onLoad:function(obj)
-{
+	onLoad:function(obj){
 	//	$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Widget Loaded:");
-},
-onSubmit:function(files)
-{
-	//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-	if (files.toString().toLowerCase().indexOf("mp3") >= 0){
-	}else{
-		
-	$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Error, wrong file format. .mp3 ONLY!");
-
-		return false;
-	}
-	//return false;
-},
-onSuccess:function(files,data,xhr,pd)
-{
-
-	alert(files);
-	$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+JSON.stringify(data));
-	alert(fileName);
-	
-},
-afterUploadAll:function(obj)
-{
-	$("#eventsmessage").html($("#eventsmessage").html()+"<br/>All files are uploaded");
-	
-
-},
-onError: function(files,status,errMsg,pd)
-{
-	$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Error for: "+JSON.stringify(errMsg));
-},
-onCancel:function(files,pd)
-{
+	},
+	onSubmit:function(files){
+		//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
+		if (files.toString().toLowerCase().indexOf("mp3") >= 0){
+			//upload is working
+		}else{
+			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Error, wrong file format. .mp3 ONLY!");
+			return false;
+		}
+	},
+	onSuccess:function(files,data,xhr,pd){
+		$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+JSON.stringify(data));
+	},
+	afterUploadAll:function(obj){
+		$("#eventsmessage").html($("#eventsmessage").html()+"<br/>All files are uploaded");
+	},
+	onError: function(files,status,errMsg,pd){
+		$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Error for: "+JSON.stringify(errMsg));
+	},
+	onCancel:function(files,pd){
 		$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Canceled  files: "+JSON.stringify(files));
-}
-	});
+	}
+});
+
+$("#reduploader").uploadFile({
+        url:"php/uploadFile.php",
+        acceptFiles: "audio/*",
+        fileName:"myfile",
+        onLoad:function(obj){
+        //      $("#eventsmessage").html($("#eventsmessage").html()+"<br/>Widget Loaded:");
+        },
+        onSubmit:function(files){
+                //$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
+                if (files.toString().toLowerCase().indexOf("mp3") >= 0){
+                        //upload is working
+                }else{
+                        $("#eventsmessage").html($("#eventsmessage").html()+"<br/>Error, wrong file format. .mp3 ONLY!");
+                        return false;
+                }
+        },
+        onSuccess:function(files,data,xhr,pd){
+                $("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+JSON.stringify(data));
+        },
+        afterUploadAll:function(obj){
+                $("#eventsmessage").html($("#eventsmessage").html()+"<br/>All files are uploaded");
+        },
+        onError: function(files,status,errMsg,pd){
+                $("#eventsmessage").html($("#eventsmessage").html()+"<br/>Error for: "+JSON.stringify(errMsg));
+        },
+        onCancel:function(files,pd){
+                $("#eventsmessage").html($("#eventsmessage").html()+"<br/>Canceled  files: "+JSON.stringify(files));
+        }
+});
+
 
 
 tour = new Tour({
