@@ -13,7 +13,6 @@ var slider;
 //Event Handler called when document is first loaded.
 $(document).ready(function() {
 	
-
 	
 	//Event Handler when a user clicks on the menu. Opens the menu.
 	$('.menu').click(function() {
@@ -82,6 +81,12 @@ $(document).ready(function() {
         $('.pauseBleep').click(function() {
             yellowAudioElement.pause();
         });
+
+	 $('.version').click(function(){
+                tour.restart();
+                yellowAudioElement.play();
+        });
+
 
 	//When the volume icon is clicked it toggles that alarms mute
 	$(".redvolume").click(function() {
