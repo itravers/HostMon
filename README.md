@@ -14,18 +14,18 @@ Hostmon is designed to run on either a [LAMP Stack](https://www.digitalocean.com
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
+Hostmon has a special written install script to make installation as painless as possible. Just follow these simple steps:
 
-Stay what the step will be
-
-```
-Give the example
-```
-
-And repeat
+Type the following in your git terminal clone the repository into a folder on your web server.
 
 ```
-until finished
+git clone https://github.com/ChicoSystems/HostMon
+```
+
+Now Point your browser to the install/install.php file under HostMon.
+
+```
+http://localhost/hostmon/install/install.php
 ```
 
 End with an example of getting some data out of the system or using it for a little demo
