@@ -68,40 +68,40 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## Versioning
 
-+Version 0.7
-++Added alarm system. User can upload new alarm .mp3's to play instead of the defaults.
-++Fixed Various Bugs
+#### Version 0.7
++ Added alarm system. User can upload new alarm .mp3's to play instead of the defaults.
++ Fixed Various Bugs
 
-+Version 0.6 (7/7/16)
-++Added tour system for new users.
-++Fixed login bug. Enter button now works.
+#### Version 0.6 (7/7/16)
++ Added tour system for new users.
++ Fixed login bug. Enter button now works.
 
-Version 0.5
--Added backend online display dot to grid.php
--Added ability of admin to stop or start the backend via the front end.
--Made sure everything works on windows xampp and linux lamp.
+#### Version 0.5
++ Added backend online display dot to grid.php
++ Added ability of admin to stop or start the backend via the front end.
++ Made sure everything works on windows xampp and linux lamp.
 
-Version 0.4
--Added Installation System
--Got rid of menu access on device.php
+#### Version 0.4
++ Added Installation System
++ Got rid of menu access on device.php
 
-Version 0.3
--Fixed auto color updating bug in grid.php.
--Fixed graph NaNing out bug in device.php.
--Secured and finished login system.
--Added Version Display.
+#### Version 0.3
++ Fixed auto color updating bug in grid.php.
++ Fixed graph NaNing out bug in device.php.
++ Secured and finished login system.
++ Added Version Display.
 
-Version 0.2
--grid.php is now working.
--Added config/menu section.
--Backend successfully ran for 100 days, 16 million pings, no issues detected.
+#### Version 0.2
++ grid.php is now working.
++ Added config/menu section.
++ Backend successfully ran for 100 days, 16 million pings, no issues detected.
 
-Version 0.1
--Added ability to add new device. Not done yet.
+#### Version 0.1
++ Added ability to add new device. Not done yet.
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Isaac Assegail** - [ChicoSystems](https://github.com/ChicoSystems)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
