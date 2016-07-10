@@ -7,13 +7,10 @@ Hostmon can notify the Technician immediately if a devices latency becomes to hi
 
 These instructions will get you a copy of the project up and running on your server for both production and development purposes.
 
-### Prerequisities
+### Prerequisites
 
-What things you need to install the software and how to install them
+Hostmon is designed to run on either a [LAMP Stack](https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu) or a [WAMP Stack](https://www.apachefriends.org/index.html) Once one of these prerequisites is installed you can begin installing the application itself.
 
-```
-Give examples
-```
 
 ### Installing
 
