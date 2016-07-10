@@ -9,7 +9,20 @@ These instructions will get you a copy of the project up and running on your ser
 
 ### Prerequisites
 
-Hostmon is designed to run on either a [LAMP Stack](https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu) or a [WAMP Stack](https://www.apachefriends.org/index.html) Once one of these prerequisites is installed you can begin installing the application itself.
+Hostmon is designed to run on a [LAMP Stack](https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu) or a [WAMP Stack](https://www.apachefriends.org/index.html) 
+
+The Backend is run with Java, which can be installed on either Linux or Windows.
+On Ubuntu type the following in the command line to install Java:
+```
+sudo apt-get install openjdk-7-jre
+```
+
+On Windows you can install Java from the following website:
+```
+https://java.com/en/download/
+```
+
+Once both of these prerequisites are installed you can begin installing the application itself.
 
 
 ### Installing
@@ -99,7 +112,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## Authors
 
-* **Isaac Assegail** - [ChicoSystems](https://github.com/ChicoSystems)
+* **Isaac Assegai** - [ChicoSystems](https://github.com/ChicoSystems)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
