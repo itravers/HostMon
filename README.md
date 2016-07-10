@@ -1,6 +1,7 @@
 # Hostmon
 
-Hostmon is a latency monitoring web app designed for ISP Support Technicians. A Technician can monitor the latency to a practically unlimited amount of devices on the internet. Hostmon can notify the Technician immediately if a devices latency becomes to high. In addition the Technician can leave Hostmon running in the background and then come back and view the latency history at a later time. Hostmon allows the Technician to leave notes for each device to help him diagnose problems over a larger length of time.
+Hostmon is a latency monitoring web app designed for ISP Support Technicians. A Technician can monitor the latency to a practically unlimited amount of devices on the internet. ![alt text](https://raw.githubusercontent.com/itravers/HostMon/readmeWork/images/hostmon1.png "Logo Title Text 1")
+Hostmon can notify the Technician immediately if a devices latency becomes to high. In addition the Technician can leave Hostmon running in the background and then come back and view the latency history at a later time. ![alt text](https://raw.githubusercontent.com/itravers/HostMon/readmeWork/images/hostmon2.png "Logo Title Text 1") Hostmon allows the Technician to leave notes for each device to help him diagnose problems over a larger length of time.
 
 ## Getting Started
 
@@ -148,39 +149,6 @@ Manual Install Instructions
 --create user ;
 --give user permissions on db ;
 --edit db.cfg with known parameters ; 
-
-Version 0.7
--Added alarm system. User can upload new alarm .mp3's to play instead of the defaults.
--Fixed Various Bugs
-
-Version 0.6 (7/7/16)
--Added tour system for new users.
--Fixed login bug. Enter button now works.
-
-Version 0.5
--Added backend online display dot to grid.php
--Added ability of admin to stop or start the backend via the front end.
--Made sure everything works on windows xampp and linux lamp.
-
-Version 0.4
--Added Installation System
--Got rid of menu access on device.php
-
-Version 0.3
--Fixed auto color updating bug in grid.php.
--Fixed graph NaNing out bug in device.php.
--Secured and finished login system.
--Added Version Display.
-
-Version 0.2
--grid.php is now working.
--Added config/menu section.
--Backend successfully ran for 100 days, 16 million pings, no issues detected.
-
-Version 0.1
--Added ability to add new device. Not done yet.
-
-
 
 ToDo:
 DONE - Add ability to upload sounds for alarm system in the menu.
