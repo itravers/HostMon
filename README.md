@@ -30,6 +30,9 @@ Manual Install Instructions
 --give user permissions on db ;
 --edit db.cfg with known parameters ; 
 
+Version 0.7
+-Added alarm system. User can upload new alarm .mp3's to play instead of the defaults.
+-Fixed Various Bugs
 
 Version 0.6 (7/7/16)
 -Added tour system for new users.
@@ -66,10 +69,11 @@ DONE - Make a volume controller for sounds in the menu, Controlling each sound i
        the sound so we can hear how loud it is.
 Change limits that decide when the colors change updateGridColor() in grid.php
 DONE - Suddenly the hour and day graphs aren't showing anymore.
-Restyle the menu to fit in better with the theme.
+DONE - Restyle the menu to fit in better with the theme.
 Put Add device dialog in menu
 Remove the Plus Add device square,
 Update the tour to do the add device part when we are in the menu.
 Remove shrink arrow when grid is smallest.
 Remove grow arrow when grid is largest.
 During Install need to check for 777 permissions for alarms/
+Setup Readme to be viewable on github.

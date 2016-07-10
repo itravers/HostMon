@@ -12,6 +12,8 @@ var slider;
 
 //Event Handler called when document is first loaded.
 $(document).ready(function() {
+	
+	
 	//Event Handler when a user clicks on the menu. Opens the menu.
 	$('.menu').click(function() {
 		setMenuConfigInfo();
@@ -79,6 +81,12 @@ $(document).ready(function() {
         $('.pauseBleep').click(function() {
             yellowAudioElement.pause();
         });
+
+	 $('.version').click(function(){
+                tour.restart();
+                yellowAudioElement.play();
+        });
+
 
 	//When the volume icon is clicked it toggles that alarms mute
 	$(".redvolume").click(function() {
@@ -193,7 +201,7 @@ $("#reduploader").uploadFile({
                         slide: function(event, ui) {
                                 var value = redslider.slider('value'),
                                 redvolume = $('.redvolume');
-                                redtooltip.css('left', value).text(ui.value);
+                                redtooltip.css('left', value*3).text(ui.value);
                                 if(value <= 5) {
                                         redvolume.css('background-position', '0 0');
                                 }else if (value <= 25) {
@@ -228,7 +236,7 @@ $("#reduploader").uploadFile({
  			slide: function(event, ui) {
 				var value = slider.slider('value'),
 				volume = $('.yellowvolume');
-				yellowtooltip.css('left', value).text(ui.value);
+				yellowtooltip.css('left', value*3).text(ui.value);
 				if(value <= 5) { 
 					volume.css('background-position', '0 0');
 				}else if (value <= 25) {
