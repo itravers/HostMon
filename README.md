@@ -66,11 +66,18 @@ Give an example
 
 Add additional notes about how to deploy this on a live system
 
-## Built With
+## Built with
+Hostmon was built using the following technologies:
 
-* Dropwizard - Bla bla bla
-* Maven - Maybe
-* Atom - ergaerga
+* **HTML5** - [W3C](https://www.w3.org/TR/html5/)
+* **CSS3** - [W3schools](http://www.w3schools.com/css/css3_intro.asp)
+* **Javascript** - [W3schools](http://www.w3schools.com/Js/)
+* **JQuery** - [Official JQuery Site](https://jquery.com/)
+* **Bootstrap** - [Official Bootstrap Site](http://getbootstrap.com/)
+* **Gridster.js** - [Gridster.js Site](http://gridster.net/)
+* **PHP** - [PHP Site](http://php.net/)
+* **Java** - [Stanford Programming Class](https://www.youtube.com/watch?v=KkMDCCdjyW8)
+* **MySQL** - [MySQL Site](https://www.mysql.com/)
 
 ## Contributing
 
