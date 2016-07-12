@@ -9,6 +9,7 @@ var redMuted = false;
 var redslider;
 var yellowMuted = false;
 var slider;
+var menuOpen = false;
 
 //Event Handler called when document is first loaded.
 $(document).ready(function() {
@@ -21,7 +22,7 @@ $(document).ready(function() {
 		//menuTimeout = setTimeout(setMenuConfigInfo, 5000);
 		$('nav').addClass('open');
 		$('body').addClass('menu-open');
-		
+		menuOpen = true;
 		//If tour is running, have it advance when menu is open.
 		if(!tour.ended())tour.next();
 		return false;
@@ -29,12 +30,16 @@ $(document).ready(function() {
 
 	//Event Handler when a user clicks anywhere but the menu, when the menu is open. Closes the menu.
 	$(".grid").click(function() {
-		clearTimeout(getBackendRunningTimeout); // Remove the timer.
-		clearTimeout(menuTimeout); // Remove the timer.
-		$('body').removeClass('menu-open');
-		$('nav').removeClass('open');
-		$(".ajax-file-upload-container").fadeOut(); //cause upload messages to disappear
-		$("#eventsmessage").fadeOut(); //cause upload messages to disappear
+		if(menuOpen){
+			console.log("close menu");
+			clearTimeout(getBackendRunningTimeout); // Remove the timer.
+			clearTimeout(menuTimeout); // Remove the timer.
+			$('body').removeClass('menu-open');
+			$('nav').removeClass('open');
+			$(".ajax-file-upload-container").fadeOut(); //cause upload messages to disappear
+			$("#eventsmessage").fadeOut(); //cause upload messages to disappear
+			menuOpen = false;
+		}
 	});
 	
 	//We need to check the class of id stopStartButton. and set the buttons text

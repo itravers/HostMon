@@ -481,6 +481,20 @@ function getUserName($id){
 	return $name;
 }
 
+/** Query's the database for a users db id, from their name. */
+function getUserID($name){
+	$con = openDB();
+        mysqli_select_db($con,"hostmon");
+        $sql="SELECT id FROM `users` WHERE usr = '".$name."'";
+        $result = mysqli_query($con,$sql);
+        $id = '';
+        while($row = mysqli_fetch_array($result)) {
+                $id = $row['id'];
+        }
+        return $id;
+	
+}
+
 /** Returns a formatted date, based on a timestamp in millis. */
 function getFormattedDate($timestamp){
 	$returnVal = date("M d Y", ($timestamp/1000));
