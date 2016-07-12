@@ -222,13 +222,16 @@ function addNewDevice(){
 			}
 			var ps = getNewGridPositionAndSize(); //Finds where we are supposed to place the new grid.
 			var widget = gridster.add_widget( display, ps[0], ps[1], ps[2], ps[3]); //adds a new grid to gridster
+			//overlay.overlay(overlay.getConf());//re-register overlay listeners?
 			widget = widget.get(0);
 			var grow = $(widget).find(".grow");
+			location.reload(); //shortcut hack for adding new devices.
 		//	alert("message: " + message);
 		//	alert("display: " + display);
 		},
 		complete: function(result,status,xhr) {
 			//alert("complete: " + result);
+			 $("li[rel]").overlay(overlay.getConf());
 		},
 		error: function(xhr,status,error){
 			alert("Error in addNewDevice ajax call: " + error);
@@ -1090,6 +1093,7 @@ function updateGridGraphs(){
 	//update backendOnline.
 	updateBackendOnline();
 	var canvases = $("canvas");
+	console.log(canvases.length);
 	for(var i = 0; i< canvases.size(); i++){ //Loop through every canvas on the page.
 		var c = canvases.get(i);
 		var parent = c.parentElement;
