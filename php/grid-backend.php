@@ -24,7 +24,10 @@ if(isset($_POST['addNewDevice'])){ //This function is not completely done yet.
 	$ip = $_POST['deviceIP'];
 	$name = $_POST['deviceName'];
 	$note = $_POST['deviceNote'];
-		
+	$userName = $_POST['userName'];
+	$userID = getUserID($userName);
+	$timestamp = round(microtime(true) * 1000);
+	error_log("USR: ".$_SESSION['usr']);
 	// Demo Code
 	//$ip = "chicosystems.com";
 	//$name = "Chico Systems";
@@ -34,12 +37,15 @@ if(isset($_POST['addNewDevice'])){ //This function is not completely done yet.
 		$postResult = " DeviceExists |";
 		$id = getDeviceID($ip);
 		makeDeviceActive($id);
+		submitNote($id, $userID, $timestamp, $note);
 		$postResult = $postResult.renderDevice($id, $ip, $name);
 	}else{
 		$postResult = " AddedDevice | display";
 		addNewDevice($ip, $name, $note);
 		$id = getDeviceID($ip);
 		makeDeviceActive($id);
+		
+		submitNote($id, $userID, $timestamp, $note);
 		$postResult = $postResult.renderDevice($id, $ip, $name);
 	}
 }else if(isset($_POST['getGridGraphData'])){

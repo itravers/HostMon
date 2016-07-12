@@ -207,7 +207,9 @@ function addNewDevice(){
 		addNewDevice:'true',
 		deviceName:deviceName,
 		deviceIP:deviceIP,
-		deviceNote:deviceNote};
+		deviceNote:deviceNote,
+		userName:'<?php echo $userName; ?>'
+	};
 //	alert(JSON.stringify(postData));
 	$.ajax({
 		type:"POST",

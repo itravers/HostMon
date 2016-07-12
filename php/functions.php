@@ -507,6 +507,20 @@ function getFormattedTime($timestamp){
 	return $returnVal;	
 }
 
+/** Submits a new note to the database. */
+function submitNote($deviceID, $userID, $time, $noteContent){
+	error_log("submitting submitNote called devid:".$deviceID." userID:".$userID." time:".$time." content:".$noteContent);
+	$con = openDB();
+	$sanitizedContent = mysqli_real_escape_string($con, $noteContent);
+        //submit note to database
+        $resultList = Array(); //the structure we are reading latency results to.
+        mysqli_select_db($con,"hostmon");
+        $sql="INSERT INTO `hostmon`.`notes` (`id` ,`deviceID` ,`userID` ,`timestamp` ,`content`) VALUES (NULL , '".$deviceID."', '".$userID."', '".$time."', '".$sanitizedContent."');";
+      error_log($sql);
+	  $result2 = mysqli_query($con,$sql);
+
+}
+
 /** Build the Notes section grid. */
 function buildNotesGrid($notes){
 	$notesOpening = buildNotesOpening();
