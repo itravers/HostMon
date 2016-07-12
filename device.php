@@ -192,6 +192,7 @@ function buildScripts($ip, $deviceID, $notes){
 						noteContent:noteContent,
 						time:time,
 						deviceID:deviceID};
+		alert(JSON.stringify(postData));
 		$.ajax({
 			type:\"POST\",
 			data : postData,

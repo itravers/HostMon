@@ -336,11 +336,16 @@ overlay = $("li[rel]").overlay({
 	top: '1%',
 	onBeforeLoad: function() {
 		if(!dragged){
+			console.log("loading overlay menu Open: " + menuOpen);
+
+			
 			$('.menu').fadeOut(); // The menu button should fade out on the main page and appear on the second page.
 			clearTimeout(gridGraphTimeOut); // disable updating of the main page, when second page is open.
 			var wrap = this.getOverlay().find(".contentWrap"); // grab wrapper element inside content
 			console.log(wrap);
 			wrap.load(this.getTrigger().attr("href")); // load the page specified in the trigger (the device clicked) to the overlay		
+		
+			
 		}
 	},
 	onClose: function() {
