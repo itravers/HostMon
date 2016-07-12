@@ -101,7 +101,7 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 			</div>
 			<div class="close"></div>   
             
-           <div id="newDeviceDialog" title="Monitor New Device">
+           <div id="newDeviceDialog" title="Add New Device">
 			  <form id="newDeviceForm">
 				<fieldset>
 				  <input type="text" name="deviceName" id="deviceName" placeholder="Device Name" class="text ui-widget-content ui-corner-all">
@@ -206,6 +206,7 @@ function addNewDevice(newDeviceDialog){
 		deviceName:deviceName,
 		deviceIP:deviceIP,
 		deviceNote:deviceNote};
+//	alert(JSON.stringify(postData));
 	$.ajax({
 		type:"POST",
 		data : postData,
@@ -221,8 +222,8 @@ function addNewDevice(newDeviceDialog){
 			var widget = gridster.add_widget( display, ps[0], ps[1], ps[2], ps[3]); //adds a new grid to gridster
 			widget = widget.get(0);
 			var grow = $(widget).find(".grow");
-			alert("message: " + message);
-			alert("display: " + display);
+		//	alert("message: " + message);
+		//	alert("display: " + display);
 		},
 		complete: function(result,status,xhr) {
 			//alert("complete: " + result);
@@ -252,7 +253,8 @@ function loadDevice(id) {
 	}	// RESET DRAGGED SINCE CLICK EVENT IS FIRED AFTER drag stop
 	dragged = 0;
 }
-		
+	
+	
 // Resizes a grid when the user clicks on a "grow button".
 $('.grow').on('click', function(event) {
 	event.stopImmediatePropagation(); // this stops the overlay from popping up.
@@ -371,7 +373,9 @@ overlay = $("li[rel]").overlay({
 	},
 	api: true
 }); // End overlay Event.
-		
+	
+$("#newDeviceDialog").parents('div').css("border-color", "white");
+	
 // Contructs and adds a new device dialog to the screen.
 $( "#newDeviceDialog" ).dialog({
 	autoOpen: false,
@@ -390,7 +394,7 @@ $( "#newDeviceDialog" ).dialog({
 $( "#newDeviceOpener" ).click( function(event) {
 	//alert("newDeviceOpening");
 	$( "#newDeviceDialog" ).dialog( "open" ); // Opens the new device dialog.
-	tour.next();
+	if(!tour.ended())tour.next();
 }); // End of newDeviceOpener click handler
 
 // Event Handler called when document is first loaded. Intializes the update of the grid graphs.

@@ -516,6 +516,30 @@ function buildNotesGrid($notes){
 	return $returnVal;
 }
 
+/** Adds a new Device into the db, but does not activate it. */
+function addNewDevice($ip, $name, $note){
+	$con = openDB();
+        mysqli_select_db($con,"hostmon");
+        $sql="INSERT into `devices` (`ip`, `name`, `description`) VALUES ('".$ip."', '".$name."', '".$note."');";
+        $result = mysqli_query($con,$sql);
+        $returnArray = Array();
+        while($row = mysqli_fetch_array($result)) {
+                array_push($returnArray, $row);
+        }
+}
+
+/** Adds given id to active devices table in DB. */
+function makeDeviceActive($id){
+	$con = openDB();
+        mysqli_select_db($con,"hostmon");
+        $sql="INSERT into `active_devices` (`deviceId`) VALUES ('".$id."');";
+        $result = mysqli_query($con,$sql);
+        $returnArray = Array();
+        while($row = mysqli_fetch_array($result)) {
+                array_push($returnArray, $row);
+        }
+}
+
 /** Returns a String with the name of the yellow alarm. */
 function getAlarm($type){
 	if($type == 'yellow'){
