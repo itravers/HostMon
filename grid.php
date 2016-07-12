@@ -141,7 +141,7 @@ var yellowAudioElement; //used to play alarms with audioElement.play();
 var yellowAlarm = "<?php echo $yellowAlarm; ?>";
 var redAlarm = "<?php echo $redAlarm; ?>";
 var newDeviceDialog = $("#newDeviceDialog");
-
+var resizing = false; //Used to keep overlay from opening when pressed grow button.
 
 //Initialize Gridster
 gridster = $("#frontGrid > ul").gridster({
@@ -258,8 +258,12 @@ function loadDevice(id) {
 	
 	
 // Resizes a grid when the user clicks on a "grow button".
-$('.grow').on('click', function(event) {
+//$('.grow').on('click', function(event) {
+//COME BACK
+$(".gridlist").on('click', '.grow', function(event){
+	resizing = true;
 	event.stopImmediatePropagation(); // this stops the overlay from popping up.
+	//event.preventDefault(); // this stops the overlay from popping up.
 	var grid = gridster;
 	var widget = $(this).parent();
 	var xSize = widget.attr("data-sizex");
@@ -295,7 +299,7 @@ $('.grow').on('click', function(event) {
 }); // End of grow code.
 	
 // Resizes a grid widget whenever a user clicks it's "shrink button"	
-$('.shrink').on('click', function(event) {
+$('.gridlist').on('click', '.shrink', function(event) {
 	event.stopImmediatePropagation(); // Stop the device.php page from popping up when shrink button is clicked.
     var grid = gridster;
 	var widget = $(this).parent();
@@ -340,10 +344,29 @@ overlay = $("li[rel]").overlay({
 	top: '1%',
 	onBeforeLoad: function() {
 		if(!dragged){
+			var targ = event.target.className;
+			console.log("target: " + targ);
 			console.log("loading overlay menu Open: " + menuOpen);
+			if(menuOpen){
+				//The following code is repeaded here and in menu.js
+				console.log("close menu");
+                        	clearTimeout(getBackendRunningTimeout); // Remove the timer.
+                        	clearTimeout(menuTimeout); // Remove the timer.
+                        	$('body').removeClass('menu-open');
+                        	$('nav').removeClass('open');
+                        	$(".ajax-file-upload-container").fadeOut(); //cause upload messages to disappear
+                        	$("#eventsmessage").fadeOut(); //cause upload messages to disappear
+                        	menuOpen = false;
+				return false;
+			}
+					
+	
+			if(targ == "grow" || targ == "shrink"){
+				console.log("target was grow or shrink");
+				//return false;
+				this.getOverlay().close(); //prevent overlay from opening.
+			}
 
-			
-			$('.menu').fadeOut(); // The menu button should fade out on the main page and appear on the second page.
 			clearTimeout(gridGraphTimeOut); // disable updating of the main page, when second page is open.
 			var wrap = this.getOverlay().find(".contentWrap"); // grab wrapper element inside content
 			console.log(wrap);
