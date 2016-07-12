@@ -101,7 +101,7 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 			</div>
 			<div class="close"></div>   
             
-           <div id="newDeviceDialog" title="Monitor New Device">
+           <div id="newDeviceDialog" title="Add New Device">
 			  <form id="newDeviceForm">
 				<fieldset>
 				  <input type="text" name="deviceName" id="deviceName" placeholder="Device Name" class="text ui-widget-content ui-corner-all">
@@ -140,6 +140,8 @@ var redAudioElement; //used to play alarms with audioElement.play();
 var yellowAudioElement; //used to play alarms with audioElement.play();
 var yellowAlarm = "<?php echo $yellowAlarm; ?>";
 var redAlarm = "<?php echo $redAlarm; ?>";
+var newDeviceDialog = $("#newDeviceDialog");
+var resizing = false; //Used to keep overlay from opening when pressed grow button.
 
 //Initialize Gridster
 gridster = $("#frontGrid > ul").gridster({
@@ -196,7 +198,7 @@ function getDisplay(result){
 }
 
 //Sends an ajax call to the server to add a new device, then it displays it.	
-function addNewDevice(newDeviceDialog){
+function addNewDevice(){
 	var deviceName = $("#deviceName").val();
 	var deviceIP = $("#deviceIP").val();
 	var deviceNote = $("#deviceNote").val();			
@@ -205,7 +207,10 @@ function addNewDevice(newDeviceDialog){
 		addNewDevice:'true',
 		deviceName:deviceName,
 		deviceIP:deviceIP,
-		deviceNote:deviceNote};
+		deviceNote:deviceNote,
+		userName:'<?php echo $userName; ?>'
+	};
+//	alert(JSON.stringify(postData));
 	$.ajax({
 		type:"POST",
 		data : postData,
@@ -219,19 +224,22 @@ function addNewDevice(newDeviceDialog){
 			}
 			var ps = getNewGridPositionAndSize(); //Finds where we are supposed to place the new grid.
 			var widget = gridster.add_widget( display, ps[0], ps[1], ps[2], ps[3]); //adds a new grid to gridster
+			//overlay.overlay(overlay.getConf());//re-register overlay listeners?
 			widget = widget.get(0);
 			var grow = $(widget).find(".grow");
-			alert("message: " + message);
-			alert("display: " + display);
+			location.reload(); //shortcut hack for adding new devices.
+		//	alert("message: " + message);
+		//	alert("display: " + display);
 		},
 		complete: function(result,status,xhr) {
 			//alert("complete: " + result);
+			 $("li[rel]").overlay(overlay.getConf());
 		},
 		error: function(xhr,status,error){
 			alert("Error in addNewDevice ajax call: " + error);
 		}
 	});
-	$( newDeviceDialog ).dialog( "close" ); //closes the add new device dialog.
+	newDeviceDialog.dialog( "close" ); //closes the add new device dialog.
 }
 		
 // Finds the last grid position, and positions a device	at the position of the newDeviceOpener
@@ -252,10 +260,15 @@ function loadDevice(id) {
 	}	// RESET DRAGGED SINCE CLICK EVENT IS FIRED AFTER drag stop
 	dragged = 0;
 }
-		
+	
+	
 // Resizes a grid when the user clicks on a "grow button".
-$('.grow').on('click', function(event) {
+//$('.grow').on('click', function(event) {
+//COME BACK
+$(".gridlist").on('click', '.grow', function(event){
+	resizing = true;
 	event.stopImmediatePropagation(); // this stops the overlay from popping up.
+	//event.preventDefault(); // this stops the overlay from popping up.
 	var grid = gridster;
 	var widget = $(this).parent();
 	var xSize = widget.attr("data-sizex");
@@ -291,7 +304,7 @@ $('.grow').on('click', function(event) {
 }); // End of grow code.
 	
 // Resizes a grid widget whenever a user clicks it's "shrink button"	
-$('.shrink').on('click', function(event) {
+$('.gridlist').on('click', '.shrink', function(event) {
 	event.stopImmediatePropagation(); // Stop the device.php page from popping up when shrink button is clicked.
     var grid = gridster;
 	var widget = $(this).parent();
@@ -336,10 +349,29 @@ overlay = $("li[rel]").overlay({
 	top: '1%',
 	onBeforeLoad: function() {
 		if(!dragged){
+			var targ = event.target.className;
+			console.log("target: " + targ);
 			console.log("loading overlay menu Open: " + menuOpen);
+			if(menuOpen){
+				//The following code is repeaded here and in menu.js
+				console.log("close menu");
+                        	clearTimeout(getBackendRunningTimeout); // Remove the timer.
+                        	clearTimeout(menuTimeout); // Remove the timer.
+                        	$('body').removeClass('menu-open');
+                        	$('nav').removeClass('open');
+                        	$(".ajax-file-upload-container").fadeOut(); //cause upload messages to disappear
+                        	$("#eventsmessage").fadeOut(); //cause upload messages to disappear
+                        	menuOpen = false;
+				return false;
+			}
+					
+	
+			if(targ == "grow" || targ == "shrink"){
+				console.log("target was grow or shrink");
+				//return false;
+				this.getOverlay().close(); //prevent overlay from opening.
+			}
 
-			
-			$('.menu').fadeOut(); // The menu button should fade out on the main page and appear on the second page.
 			clearTimeout(gridGraphTimeOut); // disable updating of the main page, when second page is open.
 			var wrap = this.getOverlay().find(".contentWrap"); // grab wrapper element inside content
 			console.log(wrap);
@@ -371,9 +403,11 @@ overlay = $("li[rel]").overlay({
 	},
 	api: true
 }); // End overlay Event.
-		
+	
+//$("#newDeviceDialog").parents('div').css("border-color", "white");
+	
 // Contructs and adds a new device dialog to the screen.
-$( "#newDeviceDialog" ).dialog({
+newDeviceDialog.dialog({
 	autoOpen: false,
 	show: {
 		effect: "blind",
@@ -383,18 +417,20 @@ $( "#newDeviceDialog" ).dialog({
 		effect: "explode",
 		duration: 1000
 	},
-	buttons: [ { text: "Add Device", id: "addDeviceButton", click: function() { addNewDevice(this); } } ]
+	buttons: [ { text: "Add Device", id: "addDeviceButton", click: function() { addNewDevice(); } } ]
 }); //End of newDeviceDialog.
 
 // Handles when a user clicks on the new Device Button.
 $( "#newDeviceOpener" ).click( function(event) {
-	//alert("newDeviceOpening");
-	$( "#newDeviceDialog" ).dialog( "open" ); // Opens the new device dialog.
-	tour.next();
+//	alert("newDeviceOpening");
+	//$( "#newDeviceDialog" ).dialog( "open" ); // Opens the new device dialog.
+	newDeviceDialog.dialog( "open" ); // Opens the new device dialog.
+	if(!tour.ended())tour.next();
 }); // End of newDeviceOpener click handler
 
 // Event Handler called when document is first loaded. Intializes the update of the grid graphs.
 $(document).ready(function() {
+	newDeviceDialog = $("#newDeviceDialog");
 	setTimeout('updateGridGraphs()',10);
 	//alert("about to set menu config info");
 	setMenuConfigInfo(true); //we don't want it to start repeating
@@ -506,7 +542,8 @@ tour = new Tour({
     content: "Click the + symbol to add a new device.",
     onShow: function(){
       //we want to close the $newDeviceDialog incaase its open from the next step of the tour
-      $("#newDeviceDialog").dialog("close");
+      //$("#newDeviceDialog").dialog("close");
+      newDeviceDialog.dialog("close");
     }
   },
   {
@@ -514,7 +551,8 @@ tour = new Tour({
     title: "Insert Device Name",
     content: "This is the name you will be referring to this device by in Hostmon.",
     onShow: function(){
-     $( "#newDeviceDialog" ).dialog( "open" ); // Opens the new device dialog.
+     //$( "#newDeviceDialog" ).dialog( "open" ); // Opens the new device dialog.
+     newDeviceDialog.dialog( "open" ); // Opens the new device dialog.
     }
   },
   {
@@ -537,7 +575,8 @@ tour = new Tour({
     title: "You first Device",
     content: "Each Device Box shows you the status of that device at a glance.",
     onShow: function(){
-      $("#newDeviceDialog").dialog("close");
+      //$("#newDeviceDialog").dialog("close");
+      newDeviceDialog.dialog("close");
     }
   },
   {
@@ -546,7 +585,8 @@ tour = new Tour({
     title: "Resizing",
     content: "Use the White arrows to resize the box. You can also drag and drop all boxes to different locations.",
     onShow: function(){
-      $("#newDeviceDialog").dialog("close");
+      //$("#newDeviceDialog").dialog("close");
+      newDeviceDialog.dialog("close");
     }
   },
   {
@@ -1055,6 +1095,7 @@ function updateGridGraphs(){
 	//update backendOnline.
 	updateBackendOnline();
 	var canvases = $("canvas");
+	console.log(canvases.length);
 	for(var i = 0; i< canvases.size(); i++){ //Loop through every canvas on the page.
 		var c = canvases.get(i);
 		var parent = c.parentElement;

@@ -31,6 +31,7 @@ $(document).ready(function() {
 	//Event Handler when a user clicks anywhere but the menu, when the menu is open. Closes the menu.
 	$(".grid").click(function() {
 		if(menuOpen){
+			//the following code is repeated here and in grid.php
 			console.log("close menu");
 			clearTimeout(getBackendRunningTimeout); // Remove the timer.
 			clearTimeout(menuTimeout); // Remove the timer.
