@@ -106,7 +106,7 @@ if(isset($_POST['SubmitNote'])){
 	$time = $_POST['time'];
 	$noteName = $_POST['noteName'];
 	$noteContent = $_POST['noteContent'];
-	$userID = 1;
+	$userID = getUserID($noteName);
 	//mysqli_real_escape_string
 	$sanitizedContent = mysqli_real_escape_string($con, $noteContent);
 	//submit note to database

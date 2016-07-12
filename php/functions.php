@@ -128,6 +128,8 @@ function Menu(){
 	
 	
 	$menu = $menu.'
+	<button class="accordion">Volume</button>
+	<div class="panel"><br><br>
 		<h4 style="right:150px;" title="Volume Section" id="volumeSection">
 			Red Alarm
 		</h4><br>
@@ -160,13 +162,16 @@ function Menu(){
 		<div id="yellowuploader">Upload</div>
                         <div id="eventsmessage"></div>
 			<br>
-					
-			 <div class="menuscrollable vertical" id="menuscroller">
-
-			<h4 style="right:250px;"
-						title="Set a new password for your account."
-					>Change Password</h4>
-					<input text="NEW PASS" type="password" class="changePassword1" style="display:inline; width:185px;"
+			
+	</div>	
+		<!-- <br><br> <div class="menuscrollable vertical" id="menuscroller"> -->
+<br><br>
+		<button class="accordion">Password</button>
+<div class="panel"><br><br>
+			<h4 style="right:250px;" title="Set a new password for your account.">
+				Change Password
+			</h4>
+			<input text="NEW PASS" type="password" class="changePassword1" style="display:inline; width:185px;"
 							onClick="setMenuInputFocusIn(this);"
 							onfocus="setMenuInputFocusIn(this);" onblur="setMenuInputFocusOut(this);"
 							infocusin="setMenuInputFocusIn(this);" onfocusout="setMenuInputFocusOut(this);"><br>
@@ -176,12 +181,13 @@ function Menu(){
 							infocusin="setMenuInputFocusIn(this);" onfocusout="setMenuInputFocusOut(this);">
 					<button onClick="changePassword()">SET</button><br>
 					<h5 class="errorOutput" title="Shows the user an error message if change password is bad.">
-					-</h5>
-				
+		 </h5> 
+</div>				<br><br>
 			';
 	if($_SESSION['admin_level'] == '10'){
 		(backendRunning() ? $class = 'backendRunning' : $class = 'backendStopped'); //fancy if
-		$menu = $menu.'
+		$menu = $menu.'	<button class="accordion">Admin</button>
+				<div class="panel"><br><br>
 					<h4 style="right:250px;"
 						id="stopStartLabel"
 						title="Allows the admin to stop or start the java backend."
@@ -230,8 +236,9 @@ function Menu(){
 							infocusin="setMenuInputFocusIn(this);" onfocusout="setMenuInputFocusOut(this);">
 					<button onClick="removeUser();">SET</button><br>
 					<h5 class="removeUserErrorOutput" title="Shows the user an error message if change password is bad.">
-					-</h5>
-				
+					-</h5></div><br><br>
+					<button class="accordion">Fine Tuning</button>
+					<div class="panel"><br><br>	
 					<h4 style="right:250px;" id="avgGoalTitle"
 						title="The time, in milliseconds, that we are aiming to have each record updated in. This will have an effect on the number of threads running in backend."
 					>Avg. Goal Time</h4>
@@ -361,10 +368,10 @@ function Menu(){
 							onfocus="setMenuInputFocusIn(this);" onblur="setMenuInputFocusOut(this);"
 							infocusin="setMenuInputFocusIn(this);" onfocusout="setMenuInputFocusOut(this);">
 					<button id="pingWeekButton" onClick="setConfigValue(\'newestPingWeeks\');">SET</button><br>
-				';
+	</div>			';
 	}
 	$menu = $menu .'
-		</div> <!-- End Scrollable Div -->
+		<!--</div>  End Scrollable Div -->
 			</li>
         		<li id="logoutButton" style="height: 10%;"><a href="login.php?logout=true">Logout</a></li>
 			</ul>
@@ -386,7 +393,7 @@ function buildNotesOpening(){
 /** Builds the closing tags for the notes grid section. */
 function buildNotesClosing(){
 	$returnVal = "
-				</div>
+			</div>
 			</div>
 			<img src='images/up-arrow.png' class='prev'></img>
 			<img src='images/down-arrow.png' class='next'></img>
@@ -472,6 +479,20 @@ function getUserName($id){
 		$name = $row['usr'];
 	}
 	return $name;
+}
+
+/** Query's the database for a users db id, from their name. */
+function getUserID($name){
+	$con = openDB();
+        mysqli_select_db($con,"hostmon");
+        $sql="SELECT id FROM `users` WHERE usr = '".$name."'";
+        $result = mysqli_query($con,$sql);
+        $id = '';
+        while($row = mysqli_fetch_array($result)) {
+                $id = $row['id'];
+        }
+        return $id;
+	
 }
 
 /** Returns a formatted date, based on a timestamp in millis. */
