@@ -102,7 +102,7 @@ function getHourAverage($ip){
 /** Build the info to display a device. This isn't complete yet, using demo info. */
 function renderDevice($id, $ip, $name){
 	$returnVal ='	
-	<li href="device.php?ip='.$ip.'" rel="#overlay" data-row="5" data-col="8" data-sizex="1" data-sizey="1" onclick="loadDevice(\'0\');">
+	<li href="device.php?ip='.$ip.'" id="first" rel="#overlay" data-row="5" data-col="8" data-sizex="1" data-sizey="1" onclick="loadDevice(\'0\');">
        	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
 		<div class="device_record">
                <h1>'.$name.'</h1><h2>'.$ip.'</h2><h3>Xms</h3><canvas class="can1"></canvas><div id="statusmark"></div>

@@ -140,6 +140,8 @@ var redAudioElement; //used to play alarms with audioElement.play();
 var yellowAudioElement; //used to play alarms with audioElement.play();
 var yellowAlarm = "<?php echo $yellowAlarm; ?>";
 var redAlarm = "<?php echo $redAlarm; ?>";
+var newDeviceDialog = $("#newDeviceDialog");
+
 
 //Initialize Gridster
 gridster = $("#frontGrid > ul").gridster({
@@ -196,7 +198,7 @@ function getDisplay(result){
 }
 
 //Sends an ajax call to the server to add a new device, then it displays it.	
-function addNewDevice(newDeviceDialog){
+function addNewDevice(){
 	var deviceName = $("#deviceName").val();
 	var deviceIP = $("#deviceIP").val();
 	var deviceNote = $("#deviceNote").val();			
@@ -232,7 +234,7 @@ function addNewDevice(newDeviceDialog){
 			alert("Error in addNewDevice ajax call: " + error);
 		}
 	});
-	$( newDeviceDialog ).dialog( "close" ); //closes the add new device dialog.
+	newDeviceDialog.dialog( "close" ); //closes the add new device dialog.
 }
 		
 // Finds the last grid position, and positions a device	at the position of the newDeviceOpener
@@ -374,10 +376,10 @@ overlay = $("li[rel]").overlay({
 	api: true
 }); // End overlay Event.
 	
-$("#newDeviceDialog").parents('div').css("border-color", "white");
+//$("#newDeviceDialog").parents('div').css("border-color", "white");
 	
 // Contructs and adds a new device dialog to the screen.
-$( "#newDeviceDialog" ).dialog({
+newDeviceDialog.dialog({
 	autoOpen: false,
 	show: {
 		effect: "blind",
@@ -387,18 +389,20 @@ $( "#newDeviceDialog" ).dialog({
 		effect: "explode",
 		duration: 1000
 	},
-	buttons: [ { text: "Add Device", id: "addDeviceButton", click: function() { addNewDevice(this); } } ]
+	buttons: [ { text: "Add Device", id: "addDeviceButton", click: function() { addNewDevice(); } } ]
 }); //End of newDeviceDialog.
 
 // Handles when a user clicks on the new Device Button.
 $( "#newDeviceOpener" ).click( function(event) {
-	//alert("newDeviceOpening");
-	$( "#newDeviceDialog" ).dialog( "open" ); // Opens the new device dialog.
+//	alert("newDeviceOpening");
+	//$( "#newDeviceDialog" ).dialog( "open" ); // Opens the new device dialog.
+	newDeviceDialog.dialog( "open" ); // Opens the new device dialog.
 	if(!tour.ended())tour.next();
 }); // End of newDeviceOpener click handler
 
 // Event Handler called when document is first loaded. Intializes the update of the grid graphs.
 $(document).ready(function() {
+	newDeviceDialog = $("#newDeviceDialog");
 	setTimeout('updateGridGraphs()',10);
 	//alert("about to set menu config info");
 	setMenuConfigInfo(true); //we don't want it to start repeating
@@ -510,7 +514,8 @@ tour = new Tour({
     content: "Click the + symbol to add a new device.",
     onShow: function(){
       //we want to close the $newDeviceDialog incaase its open from the next step of the tour
-      $("#newDeviceDialog").dialog("close");
+      //$("#newDeviceDialog").dialog("close");
+      newDeviceDialog.dialog("close");
     }
   },
   {
@@ -518,7 +523,8 @@ tour = new Tour({
     title: "Insert Device Name",
     content: "This is the name you will be referring to this device by in Hostmon.",
     onShow: function(){
-     $( "#newDeviceDialog" ).dialog( "open" ); // Opens the new device dialog.
+     //$( "#newDeviceDialog" ).dialog( "open" ); // Opens the new device dialog.
+     newDeviceDialog.dialog( "open" ); // Opens the new device dialog.
     }
   },
   {
@@ -541,7 +547,8 @@ tour = new Tour({
     title: "You first Device",
     content: "Each Device Box shows you the status of that device at a glance.",
     onShow: function(){
-      $("#newDeviceDialog").dialog("close");
+      //$("#newDeviceDialog").dialog("close");
+      newDeviceDialog.dialog("close");
     }
   },
   {
@@ -550,7 +557,8 @@ tour = new Tour({
     title: "Resizing",
     content: "Use the White arrows to resize the box. You can also drag and drop all boxes to different locations.",
     onShow: function(){
-      $("#newDeviceDialog").dialog("close");
+      //$("#newDeviceDialog").dialog("close");
+      newDeviceDialog.dialog("close");
     }
   },
   {
