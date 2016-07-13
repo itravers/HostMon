@@ -85,6 +85,17 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## Versioning
 
+#### Version 0.8 (7/12/16)
++ Updated README.md to be much more github friendly.
++ Redesigned the layout of the menu. It now fits in with the overall theme.
++ Wired up the Version Number on the main page to play red alarm, and start tour.
++ Fixed bug with usernames not showing up correctly in notes.
++ Fixed bug with double the notes showing up on first note.
++ Finished Ability to Add a new Device through the interface.
++ Reworked event listeners to allow events to attach to dynamic elements.
++ Fixe bug with the device page popping up when dragging a device grid.
++ Finished Ability to Remove a Device.
+
 #### Version 0.7
 + Added alarm system. User can upload new alarm .mp3's to play instead of the defaults.
 + Fixed Various Bugs
