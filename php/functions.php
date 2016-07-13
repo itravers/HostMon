@@ -748,5 +748,32 @@ function getGridPositions($numGrids){
 		array_push($gridPositions, array("yp" => 7,"xp" => 9,"xs" => 4,"ys" => 2));
 	}
 	return $gridPositions;
+
 }
+
+
+function getPhpLabelFromVersion($v){
+        $returnLabel = '';
+        if(version_compare($v, '4.0.0', '<')){
+                $returnLabel = "install_red";
+        }else if(version_compare($v, '5.0.0', '<')){
+                $returnLabel = "install_yellow";
+        }else{
+                $returnLabel = "install_green";
+        }
+        return $returnLabel;
+}
+
+function getPhpTextFromVersion($v){
+        $returnText = '';
+        if(version_compare($v, '4.0.0', '<')){
+                $returnText = $v." is to low";
+        }else if(version_compare($v, '5.0.0', '<')){
+                $returnText = $v." is untested";
+        }else{
+                $returnText = $v." is GOOD";
+        }
+        return $returnText;
+}
+
 ?>

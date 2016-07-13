@@ -1,9 +1,9 @@
 <?php 
 	include_once("../php/db.php");
 	include_once("../php/functions.php");
-	if(isInstalledAlready()){ // forward user to login.php
-		header("Location: ../login.php"); die();
-	}else{
+	//if(isInstalledAlready()){ // forward user to login.php
+	//	header("Location: ../login.php"); die();
+	//}else{
 		$mysql = 'false';
 		$php = phpversion();
 		$apache = substr(apache_get_version(), 0, 10);
@@ -11,8 +11,13 @@
 		for($i = 0; $i < count($ext); $i++){
 			if($ext[$i] == 'mysqli')$mysql = 'true';
 		}
-	}
+
+		//setup labels based on prereqs
+		$phpLabel = getPhpLabelFromVersion($php);
+		$phpText = getPhpTextFromVersion($php);
+	//}
 	
+
 
 ?>
 <html>
@@ -27,7 +32,7 @@
 		<caption>Dependencies</caption>
 			<tr>
 				<td class='install_label'>PHP Version</td>
-				<td class='install_value' id='install_green'><?php echo $php?></td>
+				<td class='install_value' id=<?php echo $phpLabel?>><?php echo $phpText?></td>
 			</tr>
 			<tr>
 				<td class='install_label'>MySQLi Installed</td>

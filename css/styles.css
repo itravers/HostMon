@@ -71,15 +71,41 @@ body {
 }
 
 #install_red{
-	background-color: red;
+	background-color: #ff6d6f;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
+	border-color: white;
+        border-style:solid;
+        border-width: 3px;
+        font-family: Raavi;
+        font-size: 25px;
+        text-align: center;
+
+}
+
+#install_yellow{
+	background-color: #ffdb6d;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	border-color: white;
+	border-style:solid;
+	border-width: 3px;
+	font-family: Raavi;
+	font-size: 25px;
+	text-align: center;
 }
 
 #install_green{
-	background-color: green;
+	background-color: #51bbff;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
+	border-color: white;
+        border-style:solid;
+        border-width: 3px;
+        font-family: Raavi;
+        font-size: 25px;
+        text-align: center;
+
 }
 
 .install_value{
