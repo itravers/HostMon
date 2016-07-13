@@ -42,6 +42,26 @@ body {
 #installButton{
 	margin-left:148px;
 	border-radius:5px;
+	height: 45px;
+	width: 90px;
+	color: white;
+	background-color: #51bbff;
+	border-style: solid;
+	border-width: 3px;
+	font-family: Raavi;
+	font-size: 24px;
+	text-align: center;
+	vertical-align: middle;
+
+}
+
+#installButton:hover{
+	background-color:#51a1ff;
+}
+
+#installButton:active{
+	border-width:1px;
+	background-color: #5fa1ff;
 }
 
 .install_table{
@@ -112,6 +132,31 @@ body {
 	color:white;
 	font-family: Raavi;
 	text-align: right
+}
+
+.installError{
+	display: none;
+	position: absolute;
+	margin-left: 1px !important;
+	margin-top: -27px;
+	
+}
+
+.installInput{
+	height: 100%;
+	border-radius: 5px;
+	background-color: #51bbff;
+	border-style: solid;
+	border-color: white;
+	border-width: 3px;
+	font-family: Raavi;
+	color:white;
+	font-size: 18px;
+	text-align: center;
+}
+
+.installInput:hover{
+	background-color: #51a1ff;
 }
  
  .gridster .version{

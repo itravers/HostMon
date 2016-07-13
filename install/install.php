@@ -56,31 +56,40 @@
 		<caption>MySQL Settings</caption>
 			<tr>
 				<td class='install_label'>Address</td>
-				<td class='install_value'><input class="dbAddress" type="text"></td>
+				<td class='install_value'><input class="dbAddress installInput" type="text">
+				<div class="error installError" id="addressError">Error: This address is not valid.</div>
+				</td>
 			</tr>
 			<tr>
 				<td class='install_label'>DB Name</td>
-				<td class='install_value'><input class="dbName" type="text"></td>
+				<td class='install_value'><input class="dbName installInput" type="text">
+				<div class="error installError" id="nameError">Error: This DB Name is not Valid.</div>
+				</td>
 			</tr>
 			<tr>
 				<td class='install_label'>DB User</td>
-				<td class='install_value'><input class="dbUser" type="text"></td>
+				<td class='install_value'><input class="dbUser installInput" type="text">
+				<div class="error installError" id="userError">Error: This DB Username is not valid.</div>
+				</td>
 			</tr>
 			<tr>
 				<td class='install_label'>DB User's Password</td>
-				<td class='install_value'><input class="dbPass" type="text"></td>
+				<td class='install_value'><input class="dbPass installInput" type="text">
+				<div class="error installError" id="passwordError">Error: This DB Password is not valid.</div>
+				</td>
 			</tr>
 		</table>
+		<button id="installButton" onclick="checkDB();">Check</button>
 		<br>
 		<table class='install_table'>
 		<caption>New Admin Settings</caption>
 			<tr>
 				<td class='install_label'>Admin Username</td>
-				<td class='install_value'><input class="adminUsername" type="text"></td>
+				<td class='install_value'><input class="adminUsername installInput" type="text">
 			</tr>
 			<tr>
 				<td class='install_label'>Password</td>
-				<td class='install_value'><input class="adminPassword" type="password"></td>
+				<td class='install_value'><input class="adminPassword installInput" type="password"></td>
 			</tr>
 		</table>
 		<button id="installButton" onclick="install();">Install</button>
