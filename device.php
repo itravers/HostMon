@@ -89,7 +89,7 @@ function buildScripts($ip, $deviceID, $notes){
 <script src='js/Chart.min.js'></script>
 <script type='text/javascript'>
 	var gridster;
-	var dragged = 0; // Used to let us know if the grid is being dragged or not.
+	var dragged = false; // Used to let us know if the grid is being dragged or not.
 	
 	var demoData = getMinuteDemoData(); //demo data for the line chart.
 	var mainDeviceChart = getMainDeviceChart('FiveMinuteLine', '#51bbff', demoData);
@@ -232,11 +232,11 @@ function buildScripts($ip, $deviceID, $notes){
 		
 	//sets the dragged variable to 0 when a device is loaded.  
 	function loadDevice(id) {
-		if(!dragged){
+		//if(!dragged){
 			//alert('loadDevice ' + id);
-		}	
+	//	}	
 		// RESET DRAGGED SINCE CLICK EVENT IS FIRED AFTER drag stop
-			dragged = 0;
+	//		dragged = 0;
 	}
 	
 	//user clicks the plus sign to add new note
@@ -294,7 +294,7 @@ function buildScripts($ip, $deviceID, $notes){
 			draggable: {
 				start: function(event, ui) {
 					//Set dragged, to keep windows from opening when dragging.
-					dragged = 1;
+					dragged = true;
 				}
 			}	 
 		}).data('gridster');
