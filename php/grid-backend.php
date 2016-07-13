@@ -11,7 +11,11 @@ include_once("db.php");
 $postResult = "";
 
 /** User is trying to add a new device to the system. */
-if(isset($_POST['addNewDevice'])){ //This function is not completely done yet.
+
+if(isset($_POST['removeDevice'])){
+	$postResult = removeDevice($_POST['removeDevice']); //removeDevice is the ID of the device
+
+}else if(isset($_POST['addNewDevice'])){ //This function is not completely done yet.
 	//$postResult = $postResult.$_POST['addNewDevice'];
 	/*first we check the db to see if a device of this ip has already been added
 	if it has, then we pull the info for that device from the db,

@@ -64,10 +64,8 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 				<ul class='gridlist'>
 					<!-- each grid is parsed from the devices array, each grid is placed using the gridPositions array. -->
 					<?php for($i=0;$i<count($devices);$i++) : ?>
-					<li href="device.php?ip=<?php echo $devices[$i]['ip'];?>"  id="first" rel="#overlay" 
-							data-row="<?php echo $gridPositions[$i]['yp'] ?>" data-col="<?php echo $gridPositions[$i]['xp'] ?>"
-							data-sizex="<?php echo $gridPositions[$i]['xs'] ?>" data-sizey="<?php echo $gridPositions[$i]['ys'] ?>" onclick="loadDevice('0');">
-							
+					<li href="device.php?ip=<?php echo $devices[$i]['ip'];?>"  id="first" rel="#overlay" data-row="<?php echo $gridPositions[$i]['yp'] ?>" data-col="<?php echo $gridPositions[$i]['xp'] ?>" data-sizex="<?php echo $gridPositions[$i]['xs'] ?>" data-sizey="<?php echo $gridPositions[$i]['ys'] ?>" onclick="loadDevice('0');">
+			<button onClick="removeDevice('<?php echo $devices[$i]['id'];?>', '<?php echo $devices[$i]['ip']; ?>');" id="removeButton">Remove</button>				
                     	<img src="images/up-arrow.png" class="grow"><img src="images/down-arrow.png" class="shrink">
                   		<div class="device_record" >
                         	<h1><?php echo $devices[$i]['name']; ?></h1>
@@ -200,6 +198,41 @@ function getMessage(result){
 function getDisplay(result){
 	var display = result.substring(result.indexOf("|")+1, result.length);
 	return display;	
+}
+
+//sends ajax call to server to remove device with $id from active_devices table
+function removeDevice(id, ip){
+	console.log("removeDevice("+id+");");
+	var postData = {
+		removeDevice:id
+	};
+
+	$.ajax({
+                type:"POST",
+                data : postData,
+                url: 'php/grid-backend.php',
+                success: function(result,status,xhr) {
+                        var message = getMessage(result);
+                        var display = getDisplay(result);
+			console.log("removeDevice success: " + message);
+                        if(message.indexOf("DeviceExists") != -1){
+                                //$(".ui-dialog-title").html("holy crap")
+                                //alert();
+                        }
+			//quick and dirty hack, reload the page
+			location.reload();			
+	
+                //      alert("message: " + message);
+                //      alert("display: " + display);
+                },
+                complete: function(result,status,xhr) {
+                        //alert("complete: " + result);
+                },
+                error: function(xhr,status,error){
+                        alert("Error in addNewDevice ajax call: " + error);
+                }
+        });
+
 }
 
 //Sends an ajax call to the server to add a new device, then it displays it.	
