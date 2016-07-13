@@ -131,7 +131,7 @@ $gridPositions = getGridPositions(count($devices)); // returns a 2d array with i
 
 <script type="text/javascript">
 var gridster = 0;
-var dragged = 0; // Used to keep the device.php overlay from loading when a grid is being dragged.
+var dragged = false; // Used to keep the device.php overlay from loading when a grid is being dragged.
 var gridGraphTimeOut; //Used to disable ajax updating of the page when device.php is overlayed.
 var tour; //used to construct tours
 var overlay; //Overlay used to display device.
@@ -150,7 +150,12 @@ gridster = $("#frontGrid > ul").gridster({
 	min_cols: 8,
 	draggable: {
 		start: function(event, ui) {
-			dragged = 1; //keeps overlay from loading while we are dragging.
+			console.log("dragged");
+			dragged = true; //keeps overlay from loading while we are dragging.
+		},
+		stop: function(event, ui) {
+			console.log("stopped dragging");
+		//	dragged = false;
 		}
 	} 
 }).data('gridster');	
@@ -254,11 +259,11 @@ function getNewGridPositionAndSize(){
 
 // Used to be used to load the device, now it only makes sure that when a device is loaded, drag resets. 
 function loadDevice(id) {
-	if(!dragged){
+	//if(!dragged){
 		//loading the device now happens when user clicks the li[rel]
 		//this function only resets the dragged variable now.
-	}	// RESET DRAGGED SINCE CLICK EVENT IS FIRED AFTER drag stop
-	dragged = 0;
+	//}	// RESET DRAGGED SINCE CLICK EVENT IS FIRED AFTER drag stop
+	//dragged = 0;
 }
 	
 	
@@ -348,7 +353,14 @@ overlay = $("li[rel]").overlay({
 	fixed: false,
 	top: '1%',
 	onBeforeLoad: function() {
-		if(!dragged){
+			if(dragged){
+				console.log("yes dragged");
+				dragged = false;
+				return false; //when dragging, don't popup.
+			}else{
+				console.log("no dragged");
+			}
+
 			var targ = event.target.className;
 			console.log("target: " + targ);
 			console.log("loading overlay menu Open: " + menuOpen);
@@ -377,8 +389,6 @@ overlay = $("li[rel]").overlay({
 			console.log(wrap);
 			wrap.load(this.getTrigger().attr("href")); // load the page specified in the trigger (the device clicked) to the overlay		
 		
-			
-		}
 	},
 	onClose: function() {
 		$('.menu').fadeIn(); // Fade the menu button back in when the overlay is closed.
@@ -391,7 +401,7 @@ overlay = $("li[rel]").overlay({
 			min_cols: 8,
 			draggable: {
 				start: function(event, ui) {
-					dragged = 1;
+					dragged = true;
 				}
 			}
 		}).data('gridster');
@@ -422,9 +432,13 @@ newDeviceDialog.dialog({
 
 // Handles when a user clicks on the new Device Button.
 $( "#newDeviceOpener" ).click( function(event) {
-//	alert("newDeviceOpening");
-	//$( "#newDeviceDialog" ).dialog( "open" ); // Opens the new device dialog.
-	newDeviceDialog.dialog( "open" ); // Opens the new device dialog.
+	if(!dragged){
+		if(!menuOpen) //only want to open dialog if the menu is not open
+			 newDeviceDialog.dialog( "open" ); // Opens the new device dialog.
+	}else{
+		//Don't do anything, but set dragged to false.
+		dragged = false;
+	}
 	if(!tour.ended())tour.next();
 }); // End of newDeviceOpener click handler
 
