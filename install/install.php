@@ -6,15 +6,23 @@
 	//}else{
 		$mysql = 'false';
 		$php = phpversion();
-		$apache = substr(apache_get_version(), 0, 10);
+		$apache = substr(apache_get_version(), 7, 5);
+		//pacheVersion = substr($apache,
 		$ext = get_loaded_extensions();
 		for($i = 0; $i < count($ext); $i++){
 			if($ext[$i] == 'mysqli')$mysql = 'true';
 		}
 
-		//setup labels based on prereqs
+		$mysqlVersion = getMySQLVersion();
+		
+
+			//setup labels based on prereqs
 		$phpLabel = getPhpLabelFromVersion($php);
 		$phpText = getPhpTextFromVersion($php);
+		$mySQLText = getMySQLTextFromVersion($mysqlVersion);
+		$mySQLLabel = getMySQLLabelFromVersion($mysqlVersion);
+		$apacheText = getApacheTextFromVersion($apache);
+		$apacheLabel = getApacheLabelFromVersion($apache);
 	//}
 	
 
@@ -36,11 +44,11 @@
 			</tr>
 			<tr>
 				<td class='install_label'>MySQLi Installed</td>
-				<td class='install_value' id='install_green'><?php echo $mysql?></td>
+				<td class='install_value' id=<?php echo $mySQLLabel ?>><?php echo $mySQLText?></td>
 			</tr>
 			<tr>
 				<td class='install_label'>Apache Version</td>
-				<td class='install_value' id='install_green'><?php echo $apache?></td>
+				<td class='install_value' id=<?php echo $apacheLabel ?>><?php echo $apacheText ?></td>
 			</tr>
 		</table>
 		<br>

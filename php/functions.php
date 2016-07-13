@@ -751,7 +751,9 @@ function getGridPositions($numGrids){
 
 }
 
-
+/** Returns a label used as an ID in the install page
+  * Based on what version of php we are using.
+  */
 function getPhpLabelFromVersion($v){
         $returnLabel = '';
         if(version_compare($v, '4.0.0', '<')){
@@ -764,6 +766,9 @@ function getPhpLabelFromVersion($v){
         return $returnLabel;
 }
 
+/** Returns Verification text used on the install page
+  * Based on whaat version of php we are using.
+  */
 function getPhpTextFromVersion($v){
         $returnText = '';
         if(version_compare($v, '4.0.0', '<')){
@@ -775,5 +780,60 @@ function getPhpTextFromVersion($v){
         }
         return $returnText;
 }
+
+function getMySQLVersion() { 
+  $output = shell_exec('mysql -V'); 
+  preg_match('@[0-9]+\.[0-9]+\.[0-9]+@', $output, $version); 
+  return $version[0]; 
+}
+
+function getMySQLTextFromVersion($v){
+	$returnText = '';
+        if(version_compare($v, '4.0.0', '<')){
+                $returnText = $v." is to low";
+        }else if(version_compare($v, '5.0.0', '<')){
+                $returnText = $v." is untested";
+        }else{
+                $returnText = $v." is GOOD";
+        }
+        return $returnText;
+}
+
+function getMySQLLabelFromVersion($v){
+        $returnLabel = '';
+        if(version_compare($v, '4.0.0', '<')){
+                $returnLabel = "install_red";
+        }else if(version_compare($v, '5.0.0', '<')){
+                $returnLabel = "install_yellow";
+        }else{
+                $returnLabel = "install_green";
+        }
+        return $returnLabel;
+}
+
+function getApacheTextFromVersion($v){
+        $returnText = '';
+        if(version_compare($v, '2.0.0', '<')){
+                $returnText = $v." is to low";
+        }else if(version_compare($v, '2.2.0', '<')){
+                $returnText = $v." is untested";
+        }else{
+                $returnText = $v." is GOOD";
+        }
+        return $returnText;
+}
+
+function getApacheLabelFromVersion($v){
+        $returnLabel = '';
+        if(version_compare($v, '2.0.0', '<')){
+                $returnLabel = "install_red";
+        }else if(version_compare($v, '2.2.0', '<')){
+                $returnLabel = "install_yellow";
+        }else{
+                $returnLabel = "install_green";
+        }
+        return $returnLabel;
+}
+
 
 ?>
