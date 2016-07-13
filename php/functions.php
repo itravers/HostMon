@@ -836,4 +836,41 @@ function getApacheLabelFromVersion($v){
 }
 
 
+function getMySQLErrorMessageFromNum($n){
+	$errorMsg = '';
+	if($n == 0){
+		$errorMsg = 'MySQL Settings Are Correct.';
+	}else if($n == 1044){
+		$errorMsg = 'The DB Name Is Not Correct.';
+	}else if($n == 1045){
+		$errorMsg = 'Username And Or Password Is Not Correct.';
+	}else if($n == 2013 || $n == 2003){
+		$errorMsg = 'The DB Address Is Not Correct.';
+	}else{
+		$errorMsg = 'Error Num Occured: '.$n;
+	}
+	return $errorMsg;
+}
+
+/**
+  * Sql ErrorType will be used as id's in the frontend
+  * after it is sent there via ajax.
+  */
+function getMySQLErrorTypeFromNum($n){
+	 $errorMsg = '';
+        if($n == 0){
+                $errorMsg = 'addressError';
+        }else if($n == 1044){
+                $errorMsg = 'nameError';
+        }else if($n == 1045){
+                $errorMsg = 'userError';
+        }else if($n == 2013 || $n == 2003){
+                $errorMsg = 'addressError';
+        }else{
+                $errorMsg = 'addressError';
+        }
+        return $errorMsg;
+
+}
+
 ?>

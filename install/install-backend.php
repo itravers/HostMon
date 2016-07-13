@@ -1,6 +1,37 @@
 <?php 
+//echo getcwd();
+
 include_once("../php/db.php");
-if(isset($_POST['install'])){
+include_once("../php/functions.php");
+
+error_reporting(0);
+
+/*
+$_POST['checkDB'] = true;
+$_POST['dbName'] = 'hostmon';
+$_POST['dbAddress'] = '127.0.0.1';
+$_POST['dbUsername'] = 'HostMonUser2';
+$_POST['dbPassword'] = 'Micheal1';
+*/
+
+if(isset($_POST['checkDB'])){
+	$ajaxReturnVal = array();
+	$errorNum = install_testDB();
+	$errorMsg = getMySQLErrorMessageFromNum($errorNum);
+	
+	//echo ":".$errorNum.":";
+	if($errorNum == 0){
+		$ajaxReturnVal['success'] = true;
+	}else{
+		$ajaxReturnVal['success'] = false;
+	}
+
+	$ajaxReturnVal['errorType'] = getMySQLErrorTypeFromNum($errorNum);
+	$ajaxReturnVal['errorMessage'] = $errorMsg;
+	$ajaxReturnVal = json_encode($ajaxReturnVal);
+
+	echo $ajaxReturnVal;
+}else if(isset($_POST['install'])){
 	$ajaxReturnVal = array();
 	if(install_testDB()){
 		recordDBSettings();
@@ -87,6 +118,7 @@ function recordDBSettings(){
 function configureFilePermissions(){
 	$currentUser = get_current_user();
 	$chmodSuccess;
+	$chmodSuccess=chmod("../alarms/", 0777);
 	$chmodSuccess=chmod("../css/", 0755);
 	$chmodSuccess=chmod("../images/", 0755);
 	$chmodSuccess=chmod("../backend/", 0755);
@@ -98,16 +130,19 @@ function configureFilePermissions(){
 	return true;
 }
 
-/** Tests if the db is installed and available with the supplied credentials. */
+/** Tests if the db is installed and available with the supplied credentials.
+  * if it works it returns 0, if it fails it returns the errornumber. */
 function install_testDB(){
-	$returnVal = false;
 	$con = mysqli_connect($_POST['dbAddress'], $_POST['dbUsername'], $_POST['dbPassword'], $_POST['dbName']);
 	if (!$con) {
 		$returnVal = false;
 	}else{
 		$returnVal = true;
 	}
-	
-	return $returnVal;
+	$errorNum = 0;
+	if(mysqli_connect_errno()) $errorNum = mysqli_connect_errno();
+
+	//echo "errorNum: ".$errorNum;	
+	return $errorNum;
 }
 ?>
