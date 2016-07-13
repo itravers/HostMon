@@ -1319,3 +1319,26 @@ div.panel.show {
 	border-right: none;
 	border-left: none;
 }
+
+#removeButton{
+	position: absolute;
+	width:55px;
+	height: 30px;
+	background-color:inherit;
+	right: 3px;
+	top: 3px;
+	border-style:solid;
+	border-color:white;
+	border-width:2px;
+	border-radius:5px;
+	font-family: Raavi;
+	color: white;
+	text-align: center;
+	vertical-align: middle;
+	font-size:small;
+	
+}
+
+#remoteButton:hover{
+	background-color:red;
+}

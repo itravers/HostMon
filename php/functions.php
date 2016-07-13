@@ -530,6 +530,19 @@ function buildNotesGrid($notes){
 	return $returnVal;
 }
 
+/** Removes a deviceID from the active_devices table. */
+function removeDevice($id){
+	$con = openDB();
+	mysqli_select_db($con, "hostmon");
+	$sql="delete from active_devices WHERE deviceId =".$id.";";
+	$result = mysqli_query($con, $sql);
+	$returnArray = Array();
+	while($row = mysqli_fetch_array($result)) {
+		array_push($returnArray, $row);
+	}
+	return $returnArray;
+}
+
 /** Adds a new Device into the db, but does not activate it. */
 function addNewDevice($ip, $name, $note){
 	$con = openDB();
@@ -639,7 +652,8 @@ function getActiveDevices($username){
 		if(!empty($dev)){
 			$array = array( // will represent a device in grid.php
 				"name" => $dev[0]["name"],
-				"ip" => $dev[0]["ip"]
+				"ip" => $dev[0]["ip"],
+				"id" => $dev[0]["id"]
 			);
 		array_push($activeDevices, $array); // push this device to the list of active Devices.
 		}
