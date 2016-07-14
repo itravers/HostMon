@@ -839,13 +839,17 @@ function getApacheLabelFromVersion($v){
 function getMySQLErrorMessageFromNum($n){
 	$errorMsg = '';
 	if($n == 0){
-		$errorMsg = 'MySQL Settings Are Correct.';
+		$errorMsg = '0: MySQL Settings Are Correct.';
 	}else if($n == 1044){
-		$errorMsg = 'The DB Name Is Not Correct.';
+		$errorMsg = '1044: The DB Name Is Not Correct.';
 	}else if($n == 1045){
-		$errorMsg = 'Username And Or Password Is Not Correct.';
+		$errorMsg = '1045: Username And Or Password Is Not Correct.';
 	}else if($n == 2013 || $n == 2003){
-		$errorMsg = 'The DB Address Is Not Correct.';
+		$errorMsg = '2013: The DB Address Is Not Correct.';
+	}else if($n == 666){
+		$errorMsg = '666: This user is not a MySQL Admin';
+	}else if($n == 1){
+		$errorMsg = '1: User is an Admin!';
 	}else{
 		$errorMsg = 'Error Num Occured: '.$n;
 	}
@@ -866,7 +870,9 @@ function getMySQLErrorTypeFromNum($n){
                 $errorMsg = 'userError';
         }else if($n == 2013 || $n == 2003){
                 $errorMsg = 'addressError';
-        }else{
+        }else if($n == 666 || $n == 1){
+		$errorMsg = 'adminUsernameError';
+	}else{
                 $errorMsg = 'addressError';
         }
         return $errorMsg;

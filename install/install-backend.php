@@ -14,7 +14,32 @@ $_POST['dbUsername'] = 'HostMonUser2';
 $_POST['dbPassword'] = 'Micheal1';
 */
 
-if(isset($_POST['checkDB'])){
+/*
+$_POST['adminUsername'] = 'root';
+$_POST['adminPassword'] = 'Micheal1123581';
+$_POST['checkAdminDB'] = true;
+*/
+
+if(isset($_POST['checkAdminDB'])){
+	$ajaxReturnVal = array();
+	$errorNum = install_testAdminDB();
+        $errorMsg = getMySQLErrorMessageFromNum($errorNum);
+
+        //echo ":".$errorNum.":";
+        if($errorNum == 0 || $errorNum == 1){
+                $ajaxReturnVal['success'] = true;
+        }else{
+                $ajaxReturnVal['success'] = false;
+        }
+
+        $ajaxReturnVal['errorType'] = getMySQLErrorTypeFromNum($errorNum);
+        $ajaxReturnVal['errorMessage'] = $errorMsg;
+	$ajaxReturnVal['errorNum'] = $errorNum;
+        $ajaxReturnVal = json_encode($ajaxReturnVal);
+
+        echo $ajaxReturnVal;
+
+}else if(isset($_POST['checkDB'])){
 	$ajaxReturnVal = array();
 	$errorNum = install_testDB();
 	$errorMsg = getMySQLErrorMessageFromNum($errorNum);
@@ -145,4 +170,38 @@ function install_testDB(){
 	//echo "errorNum: ".$errorNum;	
 	return $errorNum;
 }
+
+function install_testAdminDB(){
+	$errorNum = 0;
+        $con = new mysqli('127.0.0.1', $_POST['adminUsername'], $_POST['adminPassword']);
+	if (!$con) {
+                $returnVal = false;
+        }else{
+/*		$array_result = Array();
+                $returnVal = true;
+		$sql = 'SHOW GRANTS FOR CURRENT_USER';
+		$result = mysqli_query($con,$sql);
+       		 while($row = mysqli_fetch_array($result)) {
+                	array_push($array_result, $row);
+		}
+		echo 'grants: '.print_r($array_result);
+*/  
+		$result = mysqli_query($con, 'CREATE DATABASE hostmonTest');
+		if(!$result){
+			//failed to creaate db
+			//echo "failed to create db";
+			$errorNum = 666;
+		}else{
+			//echo "created db";
+			$errorNum = 1;
+			mysqli_query($con, 'DROP DATABASE hostmonTest');
+		}
+       }
+
+        if(mysqli_connect_errno()) $errorNum = mysqli_connect_errno();
+
+        //echo "errorNum: ".$errorNum;
+        return $errorNum;
+}
+
 ?>
