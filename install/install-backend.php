@@ -11,12 +11,12 @@ $_POST['checkDB'] = true;
 $_POST['dbName'] = 'hostmon';
 $_POST['dbAddress'] = '127.0.0.1';
 $_POST['dbUsername'] = 'HostMonUser2';
-$_POST['dbPassword'] = 'Micheal1';
+$_POST['dbPassword'] = 'testpass';
 */
 
 /*
 $_POST['adminUsername'] = 'root';
-$_POST['adminPassword'] = 'Micheal1123581';
+$_POST['adminPassword'] = 'testpass';
 $_POST['checkAdminDB'] = true;
 */
 
