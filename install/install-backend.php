@@ -106,9 +106,11 @@ if(isset($_POST['checkAdminDB'])){
 			//echo " createdNewDB: ".$errorNum;
 			$newUsername = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6);
 			$newPass = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6);
-			$errorNum = createNewSQLUser($address, $newUsername, $newPass, $sqlAdmin, $sqlPass);
+			$errorNum = createNewSQLUser($address, $dbName, $newUsername, $newPass, $sqlAdmin, $sqlPass);
 			echo "error: ".$errorNum;
 			
+			$errorNum = givePrivilegesToSQLUser($address, $dbName, $newUsername, $newPass, $sqlAdmin, $sqlPass);
+
 			//We don't set ajax return values here, because it will fall through
 			//and be set in the user part.
 		}else{
@@ -361,15 +363,43 @@ function install_testAdminDB($address, $sqlAdmin, $sqlPass){
         return $errorNum;
 }
 
-function createNewSQLUser($address, $user, $pass, $sqlAdmin, $sqlPass){
+function givePrivilegesToSQLUser($address, $dbName, $user, $pass, $sqlAdmin, $sqlPass){
+	 $errorNum = 0;
+        $con = new mysqli($address, $sqlAdmin, $sqlPass);
+        if(!$con){
+                $errorNum = false;
+        }else{
+              $sql = "GRANT ALL PRIVILEGES ON ".$dbName." TO '".$user."'@'localhost'";
+              $result = mysqli_query($con, $sql);
+              echo 'result2: '.$sql;
+                if(!$result){
+                        //failed to creaate db
+                        //echo "failed to create db";
+                        $errorNum = 666;
+                }else{
+                        //echo "created db";
+                        $errorNum = 1;
+                }
+
+        }
+        if(mysqli_connect_errno()) $errorNum = mysqli_connect_errno();
+        return $errorNum;
+
+}
+
+function createNewSQLUser($address, $dbName, $user, $pass, $sqlAdmin, $sqlPass){
 	 echo " creating new sql user: ".$address." ".$user." ".$pass;
         $errorNum = 0;
         $con = new mysqli($address, $sqlAdmin, $sqlPass);
         if(!$con){
-                $errorNum = 666;
+                $errorNum = false;
         }else{
-		$sql = "CREATE USER '".$user."'@'localhost'";
-                $result = mysqli_query($con, "CREATE USER '".$user."'@'localhost'");
+		$sql = "CREATE USER '".$user."'@'localhost' IDENTIFIED BY '".$pass."'";
+                $result = mysqli_query($con, $sql);
+		echo 'result1: '.$result;
+//		$sql = "GRANT ALL PRIVILEGES ON ".$dbName." TO '".$user."'@'localhost'";
+  //              $result = mysqli_query($con, $sql);
+//		echo 'result2: '.$sql;
                 if(!$result){
                         //failed to creaate db
                         //echo "failed to create db";
