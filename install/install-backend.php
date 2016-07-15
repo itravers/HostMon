@@ -92,12 +92,29 @@ if(isset($_POST['checkAdminDB'])){
 
 	//Code executed for admin mode, before user mode.
 	if($_POST['type'] == 'admin'){
-		echo "admin Mode";
+		//echo "admin Mode";
 		$address = $_POST['SQLaddress'];
 		$dbName = $_POST['adminDBName'];
 		$sqlAdmin = $_POST['SQLadminUsername'];
 		$sqlPass = $_POST['SQLadminPassword'];
-		createNewDB($address, $dbName, $sqlAdmin, $sqlPass);
+
+		$errorNum = install_testAdminDB($address, $sqlAdmin, $sqlPass);
+		//echo " testAdminDB: ".$errorNum;
+
+		if($errorNum == 1){//DB is creatable with these creds.
+			$errorNum = createNewDB($address, $dbName, $sqlAdmin, $sqlPass);
+			//echo " createdNewDB: ".$errorNum;
+			$newUsername = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6);
+			$newPass = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6);
+			$errorNum = createNewSQLUser($address, $newUsername, $newPass, $sqlAdmin, $sqlPass);
+			echo "error: ".$errorNum;
+			
+			//We don't set ajax return values here, because it will fall through
+			//and be set in the user part.
+		}else{
+			$ajaxReturnVal['success'] = 'false';
+			$ajaxReturnVal['errorMessage'] = 'Could not Create New DB.';
+		}
 	}
 /*
 	//Code executed for both admin and user mode
@@ -320,11 +337,11 @@ function install_testDB(){
 	return $errorNum;
 }
 
-function install_testAdminDB(){
+function install_testAdminDB($address, $sqlAdmin, $sqlPass){
 	$errorNum = 0;
-        $con = new mysqli('127.0.0.1', $_POST['SQLadminUsername'], $_POST['SQLadminPassword']);
+        $con = new mysqli($address, $sqlAdmin, $sqlPass);
 	if (!$con) {
-                $returnVal = false;
+                $errorNum = 666;
         }else{
 		$result = mysqli_query($con, 'CREATE DATABASE hostmonTest');
 		if(!$result){
@@ -344,7 +361,48 @@ function install_testAdminDB(){
         return $errorNum;
 }
 
-function createNewDB($address, $dbName, $sqlAdmin, $sqlPass){
+function createNewSQLUser($address, $user, $pass, $sqlAdmin, $sqlPass){
+	 echo " creating new sql user: ".$address." ".$user." ".$pass;
+        $errorNum = 0;
+        $con = new mysqli($address, $sqlAdmin, $sqlPass);
+        if(!$con){
+                $errorNum = 666;
+        }else{
+		$sql = "CREATE USER '".$user."'@'localhost'";
+                $result = mysqli_query($con, "CREATE USER '".$user."'@'localhost'");
+                if(!$result){
+                        //failed to creaate db
+                        //echo "failed to create db";
+                        $errorNum = 666;
+                }else{
+                        //echo "created db";
+                        $errorNum = 1;
+                }
 
+        }
+        if(mysqli_connect_errno()) $errorNum = mysqli_connect_errno();
+        return $errorNum;
+
+}
+
+function createNewDB($address, $dbName, $sqlAdmin, $sqlPass){
+	$errorNum = 0;
+	$con = new mysqli($address, $sqlAdmin, $sqlPass);
+	if(!$con){
+		$errorNum = 666;
+	}else{
+		$result = mysqli_query($con, 'CREATE DATABASE '.$dbName);
+                if(!$result){
+                        //failed to creaate db
+                        //echo "failed to create db";
+                        $errorNum = 666;
+                }else{
+                        //echo "created db";
+                        $errorNum = 1;
+                }
+	
+	}
+        if(mysqli_connect_errno()) $errorNum = mysqli_connect_errno();
+	return $errorNum;	
 }
 ?>
