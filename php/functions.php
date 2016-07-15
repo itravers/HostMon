@@ -34,6 +34,7 @@ echo "os is ".$os;
 	
 }
 
+
 function getOS(){
 	$os = php_uname('s');
 	$os = substr($os, 0, 3);
@@ -105,9 +106,11 @@ function isInstalledAlready(){
 	$result = false;
 	$array_result = array();
 	$con = openDB();
+	if(!$con)return false;
 	$dbOptions = getDBOptions();mysqli_select_db($con, $dbOptions["DB"]);
 	$sql = "SELECT * FROM `configuration` WHERE `configuration`.`name` = 'installed';";
 	$result = mysqli_query($con,$sql);
+	//echo "result: ".$result;
 	while($row = mysqli_fetch_array($result)) {
 		array_push($array_result, $row);
 	}

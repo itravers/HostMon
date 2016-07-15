@@ -11,8 +11,9 @@ function openDB(){
 	$dbOptions = getDBOptions();
 	$con = mysqli_connect($dbOptions["IP"], $dbOptions["USER"], $dbOptions["PASS"], $dbOptions["DB"]);
 	if (!$con) {
-		echo getCWD();
-		die(' Could not connect: ' . mysqli_error($con));
+		return false;
+		//echo getCWD();
+		//die(' Could not connect to db: ' . mysqli_error($con));
 	}
 	mysqli_select_db($con,"hostmon");
 	return $con;

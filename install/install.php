@@ -1,9 +1,10 @@
 <?php 
+	
 	include_once("../php/db.php");
 	include_once("../php/functions.php");
-	//if(isInstalledAlready()){ // forward user to login.php
-	//	header("Location: ../login.php"); die();
-	//}else{
+	if(isInstalledAlready()){ // forward user to login.php
+		header("Location: ../login.php"); die();
+	}else{
 		$mysql = 'false';
 		$php = phpversion();
 		$apache = substr(apache_get_version(), 7, 5);
@@ -23,7 +24,7 @@
 		$mySQLLabel = getMySQLLabelFromVersion($mysqlVersion);
 		$apacheText = getApacheTextFromVersion($apache);
 		$apacheLabel = getApacheLabelFromVersion($apache);
-	//}
+	}
 	
 
 
@@ -53,25 +54,40 @@
 		</table>
 		<br>
 		<form>
-		<input type="radio" class="installRadio radioLeft" name="admin" id="adminRadio" onclick="clickAdmin();"><label for="adminRadio">Use Admin Credentials</label>
-		<label for="noAdminRadio" class="radioRight">User DB Credentials</label><input checked onclick="clickNoAdmin();" type="radio" class="installRadio" name="noAdmin" id="noAdminRadio">
+		<input type="radio" class="installRadio radioLeft" name="admin" id="adminRadio" onclick="clickAdmin();"><label for="adminRadio">Create New DB</label>
+		<label for="noAdminRadio" class="radioRight">Use Existing DB</label><input checked onclick="clickNoAdmin();" type="radio" class="installRadio" name="noAdmin" id="noAdminRadio">
 		</form>
 		<div class="db_yes_admin">
                 <table class='install_table'>
                 <caption>MySQL Admin Settings</caption>
 			<p class="db_instruction">Input Admin Settings and your Database will be automatically installed.</p>
                         <tr>
-                                <td class='install_label'>Admin Username</td>
-                                <td class='install_value'><input class="adminUsername installInput" type="text">
+                                <td class='install_label'>SQL Admin Username</td>
+                                <td class='install_value'><input class="SQLadminUsername installInput" type="text">
                                 <div class="error installError hidden" id="adminUsernameError">Error: This address is not valid.</div>
                                 </td>
                         </tr>
                         <tr>
-                                <td class='install_label'>Admin Password</td>
-                                <td class='install_value'><input class="adminPassword installInput" type="text">
+                                <td class='install_label'>SQL Admin Password</td>
+                                <td class='install_value'><input class="SQLadminPassword installInput" type="text">
                                 <div class="error installError hidden" id="adminPasswordError">Error: This DB Name is not Valid.</div>
                                 </td>
                         </tr>
+			
+			<tr>
+                                <td class='install_label'>SQL Server Address</td>
+                                <td class='install_value'><input class="SQLaddress installInput" type="text">
+                                <div class="error installError hidden" id="adminAddressError">Error: This address is not valid.</div>
+                                </td>
+                        </tr>
+
+			 <tr>
+                                <td class='install_label'>Create DB Name</td>
+                                <td class='install_value'><input class="adminDBName installInput" type="text">
+                                <div class="error installError hidden" id="nameError">Error: This DB Name is not Valid.</div>
+                                </td>
+                        </tr>
+
                 </table>
                 </div>
 
@@ -127,7 +143,7 @@
 <script type='text/javascript' src="../js/jquery.tools.min.js"></script>
 <script src="../js/jquery.md5.js"></script>
 <script>
-var useAdminCreds = false;
+var useAdminCreds = false; //User chooses Admin Creds, or DB Creds.
 
 /**
   * Gets called when user clicks "use Admin Creds" radio button
@@ -180,13 +196,13 @@ function checkDB(){
 					dbUsername:dbUsername,	
 					dbPassword:dbPassword};
 	}else{
-		var adminUsername = $('.adminUsername').val();
-                var adminPassword = $('.adminPassword').val();
+		var SQLadminUsername = $('.SQLadminUsername').val();
+                var SQLadminPassword = $('.SQLadminPassword').val();
 
                 //Here we make the Ajax Call to the backend
                         postData = {checkAdminDB:true,
-                                        adminUsername:adminUsername,
-                                        adminPassword:adminPassword};
+                                        SQLadminUsername:SQLadminUsername,
+                                        SQLadminPassword:SQLadminPassword};
 	}
 
 	(function worker() {	
@@ -216,7 +232,7 @@ function checkDB(){
 
                         },
                         error: function(xhr,status,error){
-                                $("#addressError").setText("Error2: " + JSON.stringify(error));
+                                $("#addressError").text("Error2: " + JSON.stringify(error));
                         }
                 }); // End of ajax call.
 
@@ -224,24 +240,65 @@ function checkDB(){
 	})();
 }
 
+/**
+  * Gathers desired installation info from input fields
+  * and sends it to the backend, where the DB will be
+  * modified. 
+  * 1. If the user chooses "Use Admin Credentials
+  * we will use the admin info to sign into
+  * the SQL server and create the new database. We
+  * will save the new DB info to db.cfg. The Backend
+  * will record into the DB that we are installed.
+  * 2. If the user chooses "User DB Credentials" 
+  * we assume that the DB has already been created
+  * and populated with hostmon.sql via some other
+  * means. We will save the new DB info to db.cfg.
+  * The backend will notify the DB that we are instaalled.
+  */
 function install(){
-	var dbAddress = $('.dbAddress').val();
-	var dbName = $('.dbName').val();
-	var dbUsername = $('.dbUser').val();
-	var dbPassword = $('.dbPass').val();
-	var adminUsername = $('.adminUsername').val();
-	var adminPassword = $('.adminPassword').val();
-	adminPassword = $.md5(adminPassword);
-	(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
+
+	if(useAdminCreds){//If the user choose "Use Admin Creds"
+		var type = 'admin'; //We ARE using admin creds
+		var SQLadminUsername = $('.SQLadminUsername').val(); //Previous SQL admin
+		var SQLadminPassword = $('.SQLadminPassword').val();
+		var SQLaddress = $('.SQLaddress').val();
+		var adminDBName = $('.adminDBName').val();
+		var adminUsername = $('.adminUsername').val(); //New Hostmon Username	
+		var adminPassword = $('.adminPassword').val();
+		adminPassword = $.md5(adminPassword);
+
 		postData = {install:true,
-					dbName:dbName,
-					dbAddress:dbAddress,
-					dbUsername:dbUsername,
-					dbPassword:dbPassword,
-					adminUsername:adminUsername,
-					adminPassword:adminPassword};
-		 // Send the request to the server.
-		 //alert("preping ajax");
+			type:type,
+			SQLadminUsername:SQLadminUsername,
+			SQLadminPassword:SQLadminPassword,
+			SQLaddress:SQLaddress,
+			adminDBName:adminDBName,
+			adminUsername:adminUsername,
+			adminPassword:adminPassword};	
+
+	}else{
+		var type = 'user'; //We aren't using admin creds
+		var dbAddress = $('.dbAddress').val();
+		var dbName = $('.dbName').val();
+		var dbUsername = $('.dbUser').val();
+		var dbPassword = $('.dbPass').val();
+		var adminUsername = $('.adminUsername').val();
+		var adminPassword = $('.adminPassword').val();
+		adminPassword = $.md5(adminPassword);
+			
+		postData = {install:true,
+			type:type,
+			dbName:dbName,
+			dbAddress:dbAddress,
+			dbUsername:dbUsername,
+			dbPassword:dbPassword,
+			adminUsername:adminUsername,
+			adminPassword:adminPassword};
+	}
+
+	console.log(JSON.stringify(postData));
+	
+	(function worker() { // Start a worker thread to grab the data so we don't freeze anything on our page.
 		 $.ajax({
 			type:"POST",
 			data : postData,
@@ -264,7 +321,7 @@ function install(){
 				
 			},
 			error: function(xhr,status,error){
-				$("#installErrorOutput").setText("Error With Install");
+				$("#installErrorOutput").text("Error With Install " + error + " " + xhr);
 			}
 		}); // End of ajax call.
 	})(); //End of worker thread.
