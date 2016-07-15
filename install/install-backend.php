@@ -24,6 +24,17 @@ $_POST['adminPassword'] = 'testpass';
 $_POST['checkAdminDB'] = true;
 */
 
+
+$_POST['install'] = true;
+$_POST['type'] = 'admin';
+$_POST['SQLadminUsername'] = 'root';
+$_POST['SQLadminPassword'] = 'Micheal1123581';
+$_POST['SQLaddress'] = '127.0.0.1';
+$_POST['adminDBName'] = 'Hostmon2';
+$_POST['adminUsername'] = 'qwer';
+$_POST['adminPassword'] = '962012d09b8170d912f0669f6d7d9d07';
+
+
 if(isset($_POST['checkAdminDB'])){
 	$ajaxReturnVal = array();
 	$errorNum = install_testAdminDB();
@@ -77,9 +88,19 @@ if(isset($_POST['checkAdminDB'])){
 	  * 3. Populate DB tables using new DB user.
 	  * 4. Then we must do everything in the usermod 1-4.
 	  */	
-	
-
 	$ajaxReturnVal = array();
+
+	//Code executed for admin mode, before user mode.
+	if($_POST['type'] == 'admin'){
+		echo "admin Mode";
+		$address = $_POST['SQLaddress'];
+		$dbName = $_POST['adminDBName'];
+		$sqlAdmin = $_POST['SQLadminUsername'];
+		$sqlPass = $_POST['SQLadminPassword'];
+		createNewDB($address, $dbName, $sqlAdmin, $sqlPass);
+	}
+/*
+	//Code executed for both admin and user mode
 	$errorNum = install_testDB();
 	$errorMsg = getMySQLErrorMessageFromNum($errorNum);
 	if($errorNum == 0){//if there is no problem.
@@ -102,6 +123,8 @@ if(isset($_POST['checkAdminDB'])){
 		$ajaxReturnVal['success'] = 'false';
 		$ajaxReturnVal['errorMessage'] = $errorMsg;
 	}
+*/
+
 	$ajaxReturnVal = json_encode($ajaxReturnVal);
 	echo $ajaxReturnVal;
 
@@ -321,4 +344,7 @@ function install_testAdminDB(){
         return $errorNum;
 }
 
+function createNewDB($address, $dbName, $sqlAdmin, $sqlPass){
+
+}
 ?>
