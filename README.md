@@ -139,6 +139,7 @@ This projects licence is forthcoming.
 
 ## Acknowledgments
 
+* Special Thanks to Micheal Earl for the original mockup of The Grid.
 * Hat tip to anyone who's code was used
 * Inspiration
 * etc
