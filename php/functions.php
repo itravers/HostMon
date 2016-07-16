@@ -66,7 +66,8 @@ function getJavaDir(){
  */
 function stopBackend(){
 	$con = openDB();
-	mysqli_select_db($con,"HostMon");
+	$dbOptions = getDBOptions();
+	mysqli_select_db($con,$dbOptions["DB"]);
 	$sql = "UPDATE `configuration` SET `configuration`.`value` = 'false' WHERE `configuration`.`name` = 'backendRunning'";
 	$result = mysqli_query($con,$sql);
 }
@@ -75,7 +76,8 @@ function stopBackend(){
 function backendRunning(){
 	$returnVal = false;
 	$con = openDB();
-	mysqli_select_db($con,"hostmon");
+	$dbOptions = getDBOptions();
+	mysqli_select_db($con,$dbOptions["DB"]);
 	$sql = "SELECT * FROM `configuration` WHERE `configuration`.`name` = 'backendRunning'";
 	$result = mysqli_query($con,$sql);
 	$array_result = array();
@@ -449,7 +451,8 @@ function buildNoteItems($notes){
 /** Fetches the Device ID from the database, uses the ip. */
 function getDeviceID($ip){
 	$con = openDB();
-	mysqli_select_db($con,"hostmon");
+	$dbOptions = getDBOptions();
+	mysqli_select_db($con,$dbOptions["DB"]);
 	$sql="SELECT id FROM `devices` WHERE ip = '".$ip."'";
 	$result = mysqli_query($con,$sql);
 	$id = '';
@@ -462,7 +465,8 @@ function getDeviceID($ip){
 /** Query's the database for the devices name, using the ID. */
 function getDeviceName($deviceID){
 	$con = openDB();
-	mysqli_select_db($con,"hostmon");
+	$dbOptions = getDBOptions();
+	mysqli_select_db($con, $dbOptions["DB"]);
 	$sql="SELECT name FROM `devices` WHERE id = '".$deviceID."'";
 	$result = mysqli_query($con,$sql);
 	$name = '';
@@ -475,7 +479,8 @@ function getDeviceName($deviceID){
 /** Query's the database for a users name, from their ID. */
 function getUserName($id){
 	$con = openDB();
-	mysqli_select_db($con,"hostmon");
+	$dbOptions = getDBOptions();
+	mysqli_select_db($con,$dbOptions["DB"]);
 	$sql="SELECT usr FROM `users` WHERE id = '".$id."'";
 	$result = mysqli_query($con,$sql);
 	$name = '';
@@ -488,7 +493,8 @@ function getUserName($id){
 /** Query's the database for a users db id, from their name. */
 function getUserID($name){
 	$con = openDB();
-        mysqli_select_db($con,"hostmon");
+	$dbOptions = getDBOptions();
+        mysqli_select_db($con,$dbOptions["DB"]);
         $sql="SELECT id FROM `users` WHERE usr = '".$name."'";
         $result = mysqli_query($con,$sql);
         $id = '';
@@ -515,11 +521,12 @@ function getFormattedTime($timestamp){
 function submitNote($deviceID, $userID, $time, $noteContent){
 	error_log("submitting submitNote called devid:".$deviceID." userID:".$userID." time:".$time." content:".$noteContent);
 	$con = openDB();
+	$dbOptions = getDBOptions();
 	$sanitizedContent = mysqli_real_escape_string($con, $noteContent);
         //submit note to database
         $resultList = Array(); //the structure we are reading latency results to.
-        mysqli_select_db($con,"hostmon");
-        $sql="INSERT INTO `hostmon`.`notes` (`id` ,`deviceID` ,`userID` ,`timestamp` ,`content`) VALUES (NULL , '".$deviceID."', '".$userID."', '".$time."', '".$sanitizedContent."');";
+        mysqli_select_db($con,$dbOptions['DB']);
+        $sql="INSERT INTO `".$dbOptions['DB']."`.`notes` (`id` ,`deviceID` ,`userID` ,`timestamp` ,`content`) VALUES (NULL , '".$deviceID."', '".$userID."', '".$time."', '".$sanitizedContent."');";
       error_log($sql);
 	  $result2 = mysqli_query($con,$sql);
 
@@ -537,7 +544,8 @@ function buildNotesGrid($notes){
 /** Removes a deviceID from the active_devices table. */
 function removeDevice($id){
 	$con = openDB();
-	mysqli_select_db($con, "hostmon");
+	$dbOptions = getDBOptions();
+	mysqli_select_db($con, $dbOptions['DB']);
 	$sql="delete from active_devices WHERE deviceId =".$id.";";
 	$result = mysqli_query($con, $sql);
 	$returnArray = Array();
@@ -550,7 +558,8 @@ function removeDevice($id){
 /** Adds a new Device into the db, but does not activate it. */
 function addNewDevice($ip, $name, $note){
 	$con = openDB();
-        mysqli_select_db($con,"hostmon");
+	$dbOptions = getDBOptions();
+        mysqli_select_db($con,$dbOptions['DB']);
         $sql="INSERT into `devices` (`ip`, `name`, `description`) VALUES ('".$ip."', '".$name."', '".$note."');";
         $result = mysqli_query($con,$sql);
         $returnArray = Array();
@@ -562,7 +571,8 @@ function addNewDevice($ip, $name, $note){
 /** Adds given id to active devices table in DB. */
 function makeDeviceActive($id){
 	$con = openDB();
-        mysqli_select_db($con,"hostmon");
+	$dbOptions = getDBOptions();
+        mysqli_select_db($con,$dbOptions['DB']);
         $sql="INSERT into `active_devices` (`deviceId`) VALUES ('".$id."');";
         $result = mysqli_query($con,$sql);
         $returnArray = Array();
@@ -579,7 +589,8 @@ function getAlarm($type){
 		 $id=20;
 	}
 	$con = openDB();
-	mysqli_select_db($con,"hostmon");
+	$dbOptions = getDBOptions();
+	mysqli_select_db($con,$dbOptions['DB']);
 	$sql="SELECT value FROM `configuration` WHERE id = '".$id."'";
 	$result = mysqli_query($con,$sql);
 	$returnArray = Array();
@@ -598,7 +609,8 @@ function setAlarm($type, $name){
 		$id = 20;
 	}
 	$con = openDB();
-	mysqli_select_db($con,"hostmon");
+	$dbOptions = getDBOptions();
+	mysqli_select_db($con,$dbOptions['DB']);
 	$sql="update configuration SET value='".$name."' WHERE id=".$id.";";
 	$result = mysqli_query($con,$sql);
 	$returnArray = Array();
@@ -612,7 +624,8 @@ function setAlarm($type, $name){
 /** Returns an Array of notes from the DB, based on deviceID. */
 function getNotes($deviceID){
 	$con = openDB();
-	mysqli_select_db($con,"hostmon");
+	$dbOptions = getDBOptions();
+	mysqli_select_db($con,$dbOptions['DB']);
 	$sql="SELECT * FROM `notes` WHERE deviceID = '".$deviceID."'";
 	$result = mysqli_query($con,$sql);
 	$returnArray = Array();
@@ -634,7 +647,8 @@ function getNotes($deviceID){
 /* Will Return an array of active devices for the specified username. */
 function getActiveDevices($username){
 	$con = openDB();
-	mysqli_select_db($con,"hostmon");
+	$dbOptions = getDBOptions();
+	mysqli_select_db($con, $dbOptions['DB']);
 	$sql="SELECT * FROM `active_devices`";
 	$result = mysqli_query($con,$sql);
 	$activeDeviceNumbers = Array(); // a 2d array where the first d is different devices, and the 2nd d has the number at 0
