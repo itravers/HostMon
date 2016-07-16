@@ -385,7 +385,7 @@ overlay = $("li[rel]").overlay({
 	effect: 'apple',
 	fixed: false,
 	top: '1%',
-	onBeforeLoad: function() {
+	onBeforeLoad: function(event) {
 			if(dragged){
 				console.log("yes dragged");
 				dragged = false;

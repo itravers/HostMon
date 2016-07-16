@@ -2,7 +2,8 @@
 	
 	include_once("../php/db.php");
 	include_once("../php/functions.php");
-	if(isInstalledAlready()){ // forward user to login.php
+	$installedAlready = isInstalledAlready();
+	if($installedAlready){ // forward user to login.php
 		header("Location: ../login.php"); die();
 	}else{
 		$mysql = 'false';

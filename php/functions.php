@@ -19,7 +19,7 @@ function getCurrentVersion(){
 /** Checks if we are on linux or windows and starts the backend accordingly*/
 function startBackend(){
 	$os = getOS();
-	$javaDir = getJavaDir($os);
+	$javaDir ='';//= getJavaDir($os);
 	$backendDir = getBackendDir($os);
 echo "os is ".$os;
 	if($os == 'Win'){ // start backend on windows
@@ -108,9 +108,10 @@ function isInstalledAlready(){
 	$con = openDB();
 	if(!$con)return false;
 	$dbOptions = getDBOptions();mysqli_select_db($con, $dbOptions["DB"]);
-	$sql = "SELECT * FROM `configuration` WHERE `configuration`.`name` = 'installed';";
+	$sql = "SELECT * FROM `configuration` WHERE `configuration`.`name` = 'installed'";
 	$result = mysqli_query($con,$sql);
 	//echo "result: ".$result;
+	error_log("installed?: ".json_encode($result));
 	while($row = mysqli_fetch_array($result)) {
 		array_push($array_result, $row);
 	}

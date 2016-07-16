@@ -9,7 +9,8 @@
 /** Create and return the DB connection. */	
 function openDB(){
 	$dbOptions = getDBOptions();
-	$con = mysqli_connect($dbOptions["IP"], $dbOptions["USER"], $dbOptions["PASS"], $dbOptions["DB"]);
+	//$con = mysqli_connect($dbOptions["IP"], $dbOptions["USER"], $dbOptions["PASS"], $dbOptions["DB"]);
+	$con = new mysqli($dbOptions["IP"], $dbOptions["USER"], $dbOptions["PASS"]);
 	if (!$con) {
 		return false;
 		//echo getCWD();
