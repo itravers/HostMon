@@ -119,12 +119,23 @@ if(isset($_POST['checkAdminDB'])){
 			$ajaxReturnVal['errorMessage'] = 'Could not Create New DB.';
 		}
 	}
-/*
+
+	if($_POST['type'] == 'admin'){
+		$addr = $address;
+		$user = $newUsername;
+		$pass = $newPass;
+		$dName = $dbName;
+	}else{
+		$addr = $_POST['dbAddress'];
+		$user = $_POST['dbUsername'];
+		$pass = $_POST['dbPassword'];
+		$dName = $_POST['dbName'];
+	}
 	//Code executed for both admin and user mode
-	$errorNum = install_testDB();
+	$errorNum = install_testDB($addr, $user, $pass, $dName);
 	$errorMsg = getMySQLErrorMessageFromNum($errorNum);
 	if($errorNum == 0){//if there is no problem.
-		recordDBSettings();
+		recordDBSettings($dName, $user, $pass, $addr);
 		if(setupAdminAccount()){
 			error_log("admin Account Is SETUP");
 			if(configureFilePermissions()){
@@ -143,7 +154,7 @@ if(isset($_POST['checkAdminDB'])){
 		$ajaxReturnVal['success'] = 'false';
 		$ajaxReturnVal['errorMessage'] = $errorMsg;
 	}
-*/
+
 
 	$ajaxReturnVal = json_encode($ajaxReturnVal);
 	echo $ajaxReturnVal;
@@ -158,7 +169,7 @@ if(isset($_POST['checkAdminDB'])){
  * @param String $user
  * @param String $pass
  */
-function populateNewDB($addess, $dbName, $user, $pass){
+function populateNewDB($address, $dbName, $user, $pass){
 	$errorNum = 0;
 	$con = new mysqli($address, $user, $pass);
 	if (!$con) {
@@ -230,21 +241,21 @@ function setupAdminAccount(){
 }
 
 /** Will record the db settings into cfg/db.cfg */
-function recordDBSettings(){
+function recordDBSettings($dName, $user, $pass, $addr){
         $ajaxReturnVal['errorMessage'] = "Unable to open cfg/db.cfg, problem with permission?";
         $ajaxReturnVal = json_encode($ajaxReturnVal);
 
 	$myfile = fopen("../cfg/db.cfg", "w") or die($ajaxReturnVal);
-	$txt = "DB:".$_POST['dbName'].";\n";
+	$txt = "DB:".$dName.";\n";
 	fwrite($myfile, $txt);
 	
-	$txt = "USER:".$_POST['dbUsername'].";\n";
+	$txt = "USER:".$user.";\n";
 	fwrite($myfile, $txt);
 	
-	$txt = "PASS:".$_POST['dbPassword'].";\n";
+	$txt = "PASS:".$pass.";\n";
 	fwrite($myfile, $txt);
 	
-	$txt = "IP:".$_POST['dbAddress'].";\n";
+	$txt = "IP:".$addr.";\n";
 	fwrite($myfile, $txt);
 	
 	fclose($myfile);
@@ -273,19 +284,19 @@ function configureFilePermissions(){
 	*/
 
 	error_log("configureFilePermissions() 2");
-	chchange("../alarms/", 0770, 'asterisk');
+	chchange("../alarms/", 0770, $currentUser);
 	error_log("configureFilePermissions() 3");
-	chchange("../css/", 0540, 'asterisk');
+	chchange("../css/", 0540, $currentUser);
 	error_log("configureFilePermissions() 4");
-	chchange("../images/", 0540, 'asterisk');
+	chchange("../images/", 0540, $currentUser);
 	error_log("configureFilePermissions() 5");
-	chchange("../backend/", 0540, 'asterisk');
+	chchange("../backend/", 0540, $currentUser);
 	error_log("configureFilePermissions() 6");
-	chchange("../js/", 0540, 'asterisk');
+	chchange("../js/", 0540, $currentUser);
 	error_log("configureFilePermissions() 7");
-	chchange("../php/", 0540, 'asterisk');
+	chchange("../php/", 0540, $currentUser);
 	error_log("configureFilePermissions() 8");
-	chchange("../cfg/", 0500, 'asterisk');
+	chchange("../cfg/", 0500, $currentUser);
 	error_log("configureFilePermissions() 9");
 
 	chmod_r("../install/", 0000);
@@ -302,8 +313,9 @@ function configureFilePermissions(){
   * every file and folder under this path.
   */
 function chchange($path, $val, $name){
-	chmod_r($path, $val);
+	
 	chown_r($path, $name);
+	chmod_r($path, $val);
 	chgrp_r($path, $name);
 }
 
@@ -330,6 +342,8 @@ function chgrp_r($path, $name){
 function chown_r($path, $name){
 	$dir = new DirectoryIterator($path);
 	foreach($dir as $item){
+		//console.log("chown: ".$item->getPathname(), 1);
+		$n = $item->getPathname();
 		chown($item->getPathname(), $name);
 		if($item->isDir() && !$item->isDot()){
 			chown_r($item->getPathname(), $name);
@@ -356,10 +370,10 @@ function chmod_r($path, $val) {
 
 /** Tests if the db is installed and available with the supplied credentials.
   * if it works it returns 0, if it fails it returns the errornumber. */
-function install_testDB(){
+function install_testDB($dbAddress, $dbUser, $dbPass, $dbName){
 	//echo "install_testDB(): ".$_POST['dbAddress']." ".$_POST['dbUsername']." ".$_POST['dbPassword']." ".$_POST['dbName'];
 /** checks to see if the admin account is already set up, otherwise sets it up. */
-	$con = mysqli_connect($_POST['dbAddress'], $_POST['dbUsername'], $_POST['dbPassword'], $_POST['dbName']);
+	$con = mysqli_connect($dbAddress, $dbUser, $dbPass, $dbName);
 	if (!$con) {
 		//echo "failed";
 		$returnVal = false;
@@ -406,7 +420,7 @@ function givePrivilegesToSQLUser($address, $dbName, $user, $pass, $sqlAdmin, $sq
         }else{
               $sql = "GRANT ALL PRIVILEGES ON ".$dbName.".* TO '".$user."'@'localhost'";
               $result = mysqli_query($con, $sql);
-              echo 'result2: '.$sql;
+              //echo 'result2: '.$sql;
                 if(!$result){
                         //failed to creaate db
                         //echo "failed to create db";
@@ -423,7 +437,7 @@ function givePrivilegesToSQLUser($address, $dbName, $user, $pass, $sqlAdmin, $sq
 }
 
 function createNewSQLUser($address, $dbName, $user, $pass, $sqlAdmin, $sqlPass){
-	 echo " creating new sql user: ".$address." ".$user." ".$pass;
+	// echo " creating new sql user: ".$address." ".$user." ".$pass;
         $errorNum = 0;
         $con = new mysqli($address, $sqlAdmin, $sqlPass);
         if(!$con){
@@ -431,7 +445,7 @@ function createNewSQLUser($address, $dbName, $user, $pass, $sqlAdmin, $sqlPass){
         }else{
 		$sql = "CREATE USER '".$user."'@'localhost' IDENTIFIED BY '".$pass."'";
                 $result = mysqli_query($con, $sql);
-		echo 'result1: '.$result;
+		//echo 'result1: '.$result;
 //		$sql = "GRANT ALL PRIVILEGES ON ".$dbName." TO '".$user."'@'localhost'";
   //              $result = mysqli_query($con, $sql);
 //		echo 'result2: '.$sql;
