@@ -30,6 +30,7 @@ echo "os is ".$os;
 		$cmd = $javaDir.'java -Djava.awt.headless=true -cp "../backend/:../backend/mysql-connector-java-5.1.31-bin.jar" Hostmon	> /dev/null 2>&1 &';
 		error_log("trying to start java with: " + $cmd);
 		exec($cmd, $output);
+		error_log($output);
 	}
 	
 	
