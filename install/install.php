@@ -25,6 +25,7 @@
 		$mySQLLabel = getMySQLLabelFromVersion($mysqlVersion);
 		$apacheText = getApacheTextFromVersion($apache);
 		$apacheLabel = getApacheLabelFromVersion($apache);
+		$os = getOS();
 	}
 	
 
@@ -51,6 +52,20 @@
 			<tr>
 				<td class='install_label'>Apache Version</td>
 				<td class='install_value' id=<?php echo $apacheLabel ?>><?php echo $apacheText ?></td>
+			</tr>
+			<tr>
+				<td class='install_label'>cfg/db.cfg writable?</td>
+				<?php 
+					if (is_writable('../cfg/db.cfg')){
+						echo "<td class='install_value' id='install_green'>File is Writable</td>";
+					}else{
+						echo "<td class='install_value' id='install_red'>File NOT Writable</td>";
+						if($os == "Lin"){
+							echo "<br><td class='install_label'>Run 'chmod 777 cfg/db.cfg' and try again</td>";
+						}
+					}
+				
+				?>
 			</tr>
 		</table>
 		<br>
@@ -197,11 +212,13 @@ function checkDB(){
 					dbUsername:dbUsername,	
 					dbPassword:dbPassword};
 	}else{
+		var SQLaddress = $('.SQLaddress').val();
 		var SQLadminUsername = $('.SQLadminUsername').val();
                 var SQLadminPassword = $('.SQLadminPassword').val();
 
                 //Here we make the Ajax Call to the backend
                         postData = {checkAdminDB:true,
+                                		SQLaddress:SQLaddress,
                                         SQLadminUsername:SQLadminUsername,
                                         SQLadminPassword:SQLadminPassword};
 	}

@@ -37,7 +37,7 @@ $_POST['adminPassword'] = '962012d09b8170d912f0669f6d7d9d07';
 
 if(isset($_POST['checkAdminDB'])){
 	$ajaxReturnVal = array();
-	$errorNum = install_testAdminDB();
+	$errorNum = install_testAdminDB($_POST['SQLaddress'], $_POST['SQLadminUsername'], $_POST['SQLadminPassword']);
         $errorMsg = getMySQLErrorMessageFromNum($errorNum);
 
         //echo ":".$errorNum.":";
@@ -244,8 +244,9 @@ function setupAdminAccount(){
 function recordDBSettings($dName, $user, $pass, $addr){
         $ajaxReturnVal['errorMessage'] = "Unable to open cfg/db.cfg, problem with permission?";
         $ajaxReturnVal = json_encode($ajaxReturnVal);
-
-	$myfile = fopen("../cfg/db.cfg", "w") or die($ajaxReturnVal);
+    $cwd = getcwd();
+	//$myfile = fopen("../cfg/db.cfg", "w") or die($ajaxReturnVal);
+    $myfile = fopen("../cfg/db.cfg", "w");
 	$txt = "DB:".$dName.";\n";
 	fwrite($myfile, $txt);
 	
