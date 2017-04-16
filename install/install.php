@@ -69,7 +69,7 @@
 			</tr>
 		</table>
 		<br>
-		<form>
+		<form style="width: 500px;">
 		<input type="radio" class="installRadio radioLeft" name="admin" id="adminRadio" onclick="clickAdmin();"><label for="adminRadio">Create New DB</label>
 		<label for="noAdminRadio" class="radioRight">Use Existing DB</label><input checked onclick="clickNoAdmin();" type="radio" class="installRadio" name="noAdmin" id="noAdminRadio">
 		</form>
@@ -97,10 +97,22 @@
                                 </td>
                         </tr>
 
-			 <tr>
+			 			<tr>
                                 <td class='install_label'>Create DB Name</td>
                                 <td class='install_value'><input class="adminDBName installInput" type="text">
                                 <div class="error installError hidden" id="nameError">Error: This DB Name is not Valid.</div>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td class='install_label'>Create New DB Username</td>
+                                <td class='install_value'><input class="dbUser installInput" type="text">
+                                <div class="error installError hidden" id="nameError">Error: This DB User Name is not Valid.</div>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td class='install_label'>Create New DB User Password</td>
+                                <td class='install_value'><input class="dbPass installInput" type="text">
+                                <div class="error installError hidden" id="nameError">Error: This User Pass is not Valid.</div>
                                 </td>
                         </tr>
 
@@ -283,6 +295,9 @@ function install(){
 		var adminDBName = $('.adminDBName').val();
 		var adminUsername = $('.adminUsername').val(); //New Hostmon Username	
 		var adminPassword = $('.adminPassword').val();
+		var dbUser = $('.dbUser').val(); //new db user to create
+		var dbPass = $('.dbPass').val(); //new db users password
+		
 		adminPassword = $.md5(adminPassword);
 
 		postData = {install:true,
@@ -292,7 +307,9 @@ function install(){
 			SQLaddress:SQLaddress,
 			adminDBName:adminDBName,
 			adminUsername:adminUsername,
-			adminPassword:adminPassword};	
+			adminPassword:adminPassword,
+			dbUser:dbUser,
+			dbPass:dbPass};	
 
 	}else{
 		var type = 'user'; //We aren't using admin creds
