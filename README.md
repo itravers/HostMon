@@ -1,4 +1,4 @@
-# Hostmon [demo](chicosystems.com/hostmon)
+# Hostmon [demo](http://chicosystems.com/hostmon)
 ###### Username: demo
 ###### Password: demo
 
